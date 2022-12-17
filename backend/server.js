@@ -1,19 +1,20 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+//Routes
+const managersRoutes = require("./routes/managers");
+const tenantsRoutes = require("./routes/tenants");
 
 const port = 4000;
 
-//logger
+//debug logger
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
 
-// Dummy Hello world
-app.get("/", (req, res) => {
-  res.status(200).json({ msg: "Hello World" });
-});
+app.use("/api/managers", managersRoutes);
+app.use("/api/tenants", tenantsRoutes);
 
 // Run the server
 app.listen(port, () => {
