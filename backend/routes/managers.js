@@ -3,11 +3,26 @@ const express = require("express");
 const router = express.Router();
 
 // http://localhost:4000/api/managers/
+const Association = require("../models/hoaModel");
 
 //* HOA details
 //Create a hoa (signup)
-router.post("/signup", (req, res) => {
-  res.json({ description: "Sign up and Create a new HOA" });
+router.post("/signup", async (req, res) => {
+  // res.json({ description: "Sign up and Create a new HOA" });
+  //! This is just for testing
+  const testData = {
+    firstName: "John",
+    lastName: "Smith",
+    managerEmail: "test@data.com",
+    password: "abc",
+    membersMonthlyFee: "200",
+  };
+  try {
+    const newHoa = await Association.create({hoaDetails:testData});
+    res.status(200).json(newHoa,{state:"test only"})
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 //login as hoa manager
 router.post("/login", (req, res) => {
