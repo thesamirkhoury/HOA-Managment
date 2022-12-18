@@ -2,57 +2,34 @@ const express = require("express");
 
 const router = express.Router();
 
+// Controllers
+const {
+  signupManager,
+  loginManager,
+  closeAccount,
+  getFullDetails,
+  editDetails,
+} = require("../controllers/detailsController");
+const { newTenant, getTenants } = require("../controllers/tenantsController");
 // http://localhost:4000/api/managers/
-const Association = require("../models/hoaModel");
 
 //* HOA details
 //Create a hoa (signup)
-router.post("/signup", async (req, res) => {
-  // res.json({ description: "Sign up and Create a new HOA" });
-  //! This is just for testing
-  const { firstName, lastName, managerEmail, password, membersMonthlyFee } =
-    req.body;
-  try {
-    const newHoa = await Association.create({
-      hoaDetails: {
-        firstName,
-        lastName,
-        managerEmail,
-        password,
-        membersMonthlyFee,
-      },
-    });
-    res.status(200).json(newHoa);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+router.post("/signup", signupManager);
 //login as hoa manager
-router.post("/login", (req, res) => {
-  res.json({ description: "login as hoa manager" });
-});
+router.post("/login", loginManager);
 //Delete the HOA and close the account
-router.delete("/delete", (req, res) => {
-  res.json({ description: "Delete the HOA and close the account" });
-});
+router.delete("/delete", closeAccount);
 //Get the hoa info
-router.get("/hoa", (req, res) => {
-  res.json({ description: "Get the hoa info" });
-});
+router.get("/hoa", getFullDetails);
 //Edit the HOA info
-router.patch("/hoa", (req, res) => {
-  res.json({ description: "Edit the HOA info" });
-});
+router.patch("/hoa", editDetails);
 
 //* Tenants
 //Create a new tenant
-router.post("/tenants", (req, res) => {
-  res.json({ description: "Create a new tenant" });
-});
+router.post("/tenants", newTenant);
 //Get all tenants of an HOA
-router.get("/tenants", (req, res) => {
-  res.json({ description: "Get all tenants of a HOA" });
-});
+router.get("/tenants", getTenants);
 //Get one tenant by _id
 router.get("/tenants/:id", (req, res) => {
   res.json({ description: "Get one tenant by _id" });

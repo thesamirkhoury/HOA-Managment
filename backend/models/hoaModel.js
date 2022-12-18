@@ -22,9 +22,9 @@ const associationSchema = new Schema(
         type: String,
         required: true,
       },
-      address:{
+      address: {
         type: String,
-        required:true,
+        required: true,
       },
       membersMonthlyFee: {
         type: String,
@@ -64,6 +64,10 @@ const associationSchema = new Schema(
           type: String,
         },
         tenantType: {
+          type: String,
+          required: true,
+        },
+        ownerFirstName: {
           type: String,
           required: true,
         },
