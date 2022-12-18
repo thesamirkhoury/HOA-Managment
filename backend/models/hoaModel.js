@@ -22,6 +22,10 @@ const associationSchema = new Schema(
         type: String,
         required: true,
       },
+      address: {
+        type: String,
+        required: true,
+      },
       membersMonthlyFee: {
         type: String,
       },
@@ -60,6 +64,10 @@ const associationSchema = new Schema(
           type: String,
         },
         tenantType: {
+          type: String,
+          required: true,
+        },
+        ownerFirstName: {
           type: String,
           required: true,
         },
@@ -136,7 +144,6 @@ const associationSchema = new Schema(
         refNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         tenant: {
           type: String,
@@ -168,7 +175,6 @@ const associationSchema = new Schema(
         refNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         tenant: {
           type: String,
@@ -196,7 +202,6 @@ const associationSchema = new Schema(
         invoiceNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         tenant: {
           type: String,
@@ -232,7 +237,6 @@ const associationSchema = new Schema(
         refNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         payableTo: {
           type: String,

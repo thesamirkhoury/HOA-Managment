@@ -2,13 +2,14 @@ const express = require("express");
 
 const router = express.Router();
 
+// Controllers
+const { getDetails } = require("../controllers/detailsController");
+
 // http://localhost:4000/api/tenants/
 
 //* HOA details
 //Get the hoa info
-router.get("/hoa", (req, res) => {
-  res.json({ description: "Get the hoa info" });
-});
+router.get("/hoa", getDetails);
 
 //* Tenants
 //login as a tenant
