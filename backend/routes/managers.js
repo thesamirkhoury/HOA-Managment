@@ -10,7 +10,12 @@ const {
   getFullDetails,
   editDetails,
 } = require("../controllers/detailsController");
-const { newTenant, getTenants } = require("../controllers/tenantsController");
+const {
+  newTenant,
+  getTenants,
+  getTenant,
+  updateTenant,
+} = require("../controllers/tenantsController");
 // http://localhost:4000/api/managers/
 
 //* HOA details
@@ -31,13 +36,9 @@ router.post("/tenants", newTenant);
 //Get all tenants of an HOA
 router.get("/tenants", getTenants);
 //Get one tenant by _id
-router.get("/tenants/:id", (req, res) => {
-  res.json({ description: "Get one tenant by _id" });
-});
+router.get("/tenants/:id", getTenant);
 //Edit a tenant by _id
-router.patch("/tenants/:id", (req, res) => {
-  res.json({ description: "Edit a tenant by _id" });
-});
+router.patch("/tenants/:id", updateTenant);
 //Delete a tenant by _id
 router.delete("/tenants/:id", (req, res) => {
   res.json({ description: "Delete a tenant by _id" });
