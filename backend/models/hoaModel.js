@@ -136,7 +136,6 @@ const associationSchema = new Schema(
         refNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         tenant: {
           type: String,
@@ -168,7 +167,6 @@ const associationSchema = new Schema(
         refNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         tenant: {
           type: String,
@@ -196,7 +194,6 @@ const associationSchema = new Schema(
         invoiceNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         tenant: {
           type: String,
@@ -232,7 +229,6 @@ const associationSchema = new Schema(
         refNumber: {
           type: Number,
           required: true,
-          unique: true,
         },
         payableTo: {
           type: String,

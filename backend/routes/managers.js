@@ -10,16 +10,19 @@ const Association = require("../models/hoaModel");
 router.post("/signup", async (req, res) => {
   // res.json({ description: "Sign up and Create a new HOA" });
   //! This is just for testing
-  const testData = {
-    firstName: "John",
-    lastName: "Smith",
-    managerEmail: "test@data.com",
-    password: "abc",
-    membersMonthlyFee: "200",
-  };
+  const { firstName, lastName, managerEmail, password, membersMonthlyFee } =
+    req.body;
   try {
-    const newHoa = await Association.create({hoaDetails:testData});
-    res.status(200).json(newHoa,{state:"test only"})
+    const newHoa = await Association.create({
+      hoaDetails: {
+        firstName,
+        lastName,
+        managerEmail,
+        password,
+        membersMonthlyFee,
+      },
+    });
+    res.status(200).json(newHoa);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
