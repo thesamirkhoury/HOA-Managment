@@ -22,6 +22,10 @@ const associationSchema = new Schema(
         type: String,
         required: true,
       },
+      address:{
+        type: String,
+        required:true,
+      },
       membersMonthlyFee: {
         type: String,
       },
