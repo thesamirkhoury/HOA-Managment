@@ -1,6 +1,5 @@
 const HOA = require("../models/hoa");
 const mongoose = require("mongoose");
-const hoa = require("../models/hoa");
 
 //* Managers
 //
