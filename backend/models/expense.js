@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const expenseSchema = new Schema(
   {
+    HOA: {
+      type: String,
+      required: true,
+    },
     refNumber: {
       type: Number,
       required: true,

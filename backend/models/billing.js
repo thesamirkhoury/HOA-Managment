@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const billingSchema = new Schema(
   {
+    HOA: {
+      type: String,
+      required: true,
+    },
     invoiceNumber: {
       type: Number,
       required: true,

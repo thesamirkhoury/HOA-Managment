@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const supplierSchema = new Schema(
   {
+    HOA: {
+      type: String,
+      required: true,
+    },
     supplierName: {
       type: String,
       required: true,

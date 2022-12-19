@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const reminderSchema = new Schema(
   {
+    HOA: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,

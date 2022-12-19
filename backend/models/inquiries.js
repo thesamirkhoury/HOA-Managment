@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const inquirySchema = new Schema(
   {
+    HOA: {
+      type: String,
+      required: true,
+    },
     refNumber: {
       type: Number,
       required: true,

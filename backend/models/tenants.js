@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const tenantSchema = new Schema(
   {
+    HOA: {
+      type: String,
+      required: true,
+    },
     firstName: {
       type: String,
       required: true,
@@ -16,7 +20,7 @@ const tenantSchema = new Schema(
       type: String,
       required: true,
     },
-    houseNumber: {
+    apartmentNumber: {
       type: String,
       required: true,
     },
