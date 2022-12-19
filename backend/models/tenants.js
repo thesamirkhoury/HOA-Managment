@@ -34,6 +34,7 @@ const tenantSchema = new Schema(
     tenantEmail: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       //TODO: later make it filled by a tenant on first login
