@@ -2,7 +2,7 @@ const HOA = require("../models/hoa");
 const mongoose = require("mongoose");
 
 //* Managers
-//
+//Create a new HOA
 //! For testing purposes only, turn into static method
 async function signup(req, res) {
   const {
@@ -28,7 +28,7 @@ async function signup(req, res) {
   }
 }
 
-//
+//Login a user
 //! implement using static method
 async function login(req, res) {
   res.json({ description: "login as hoa manager" });
