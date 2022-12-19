@@ -1,15 +1,20 @@
 const express = require("express");
+// controller functions
+const {
+  login,
+  getTenant,
+  editTenant,
+} = require("../../controllers/tenantControllers");
 
 const router = express.Router();
 
 //login as a tenant
-router.post("/login", (req, res) => {
-  res.json({ description: "login as a tenant" });
-});
+router.post("/login", login);
+
+//Get tenant details
+router.get("/", getTenant);
 
 //Edit the info of the tenant
-router.patch("/:id", (req, res) => {
-  res.json({ description: "Edit the info of the tenant" });
-});
+router.patch("/", editTenant);
 
 module.exports = router;
