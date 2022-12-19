@@ -41,7 +41,7 @@ async function getAllDetails(req, res) {
 
   // check if id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "No such workout" });
+    return res.status(404).json({ error: "HOA Not Found" });
   }
 
   const hoa = await HOA.findById(hoaID);
@@ -66,7 +66,7 @@ async function editHoa(req, res) {
 
   // check if id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "No such workout" });
+    return res.status(404).json({ error: "HOA Not Found" });
   }
 
   const updated = {
@@ -92,7 +92,7 @@ async function deleteHoa(req, res) {
 
   // check if id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "No such workout" });
+    return res.status(404).json({ error: "HOA Not Found" });
   }
 
   const hoa = await HOA.findByIdAndDelete(hoaID);
@@ -110,7 +110,7 @@ async function getInfo(req, res) {
 
   // check if id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "No such workout" });
+    return res.status(404).json({ error: "HOA Not Found" });
   }
 
   const hoa = await HOA.findById(hoaID).select(
