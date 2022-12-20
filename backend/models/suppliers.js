@@ -11,6 +11,7 @@ const supplierSchema = new Schema(
     supplierName: {
       type: String,
       required: true,
+      unique: true,
     },
     supplierType: {
       type: String,
