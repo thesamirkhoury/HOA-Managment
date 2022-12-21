@@ -24,4 +24,4 @@ const announcementSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Announcements", announcementSchema);
+module.exports = mongoose.model("Announcement", announcementSchema);

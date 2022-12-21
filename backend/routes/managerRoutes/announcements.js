@@ -1,25 +1,24 @@
 const express = require("express");
+// controller functions
+const {
+  createAnnouncement,
+  getAnnouncements,
+  editAnnouncement,
+  deleteAnnouncement,
+} = require("../../controllers/announcementControllers");
 
 const router = express.Router();
 
 //Create a new announcement
-router.post("/",(req,res)=>{
-  res.json({ description: "Create a new announcement" });
-});
+router.post("/", createAnnouncement);
 
 //Get all announcements
-router.get("/",(req,res)=>{
-  res.json({ description: "Get all announcements" });
-});
+router.get("/", getAnnouncements);
 
 //Edit an announcement by _id
-router.patch("/:id",(req,res)=>{
-  res.json({ description: "Edit an announcement by _id" });
-});
+router.patch("/:id", editAnnouncement);
 
 //Delete an announcement by _id
-router.delete("/:id",(req,res)=>{
-  res.json({ description: "Delete an announcement by _id" });
-});
+router.delete("/:id", deleteAnnouncement);
 
 module.exports = router;
