@@ -8,10 +8,10 @@ const requestSchema = new Schema(
       type: String,
       required: true,
     },
-    refNumber: {
-      type: Number,
-      required: true,
-    },
+    // refNumber: {
+    //   type: Number,
+    //   required: true,
+    // },
     tenant: {
       type: String,
       required: true,
