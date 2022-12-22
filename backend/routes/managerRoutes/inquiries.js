@@ -1,20 +1,19 @@
 const express = require("express");
-
+//controller functions
+const {
+  getInquiries,
+  getInquiry,
+  addResponse,
+} = require("../../controllers/inquiryControllers");
 const router = express.Router();
 
 //Get all inquiries
-router.get("/", (req, res) => {
-  res.json({ description: "Get all inquiries" });
-});
+router.get("/", getInquiries);
 
 //Get a single inquiry by _id
-router.get("/:id", (req, res) => {
-  res.json({ description: "Get a single inquiry by _id" });
-});
+router.get("/:id", getInquiry);
 
 //Add a response to an inquiry by _id
-router.patch("/:id/response", (req, res) => {
-  res.json({ description: "Add a response to an inquiry by _id" });
-});
+router.patch("/:id/response", addResponse);
 
 module.exports = router;
