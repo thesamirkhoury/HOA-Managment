@@ -37,6 +37,7 @@ async function getRequest(req, res) {
 }
 
 //Add a response to a maintenance requests by _id
+//TODO: send a mail notifying User of a new response
 async function addResponse(req, res) {
   const { id } = req.params;
   const { response } = req.body;
@@ -47,7 +48,7 @@ async function addResponse(req, res) {
 
   const request = await MaintenanceRequest.findByIdAndUpdate(
     id,
-    { response: response },
+    { response: response, status: "סגור" },
     { new: true }
   );
   if (!request) {
