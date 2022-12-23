@@ -16,12 +16,12 @@ const documentSchema = new Schema(
       type: String,
       required: true,
     },
-    uploadDate: {
-      type: Date,
-      required: true,
-    },
+    // uploadDate: {
+    //   type: Date,
+    //   required: true,
+    // },
     file: {
-      //TODO: Refine in the next stage.
+      //TODO: Refine in the files handling stage.
       type: Buffer,
       required: true,
     },
