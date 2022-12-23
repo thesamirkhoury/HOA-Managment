@@ -8,16 +8,20 @@ const billingSchema = new Schema(
       type: String,
       required: true,
     },
-    invoiceNumber: {
-      type: Number,
-      required: true,
-    },
+    // invoiceNumber: {
+    //   type: Number,
+    //   required: true,
+    // },
     tenant: {
       type: String,
       required: true,
     },
     amount: {
       type: Number,
+      required: true,
+    },
+    description: { 
+      type: String,
       required: true,
     },
     paymentType: {
@@ -28,10 +32,10 @@ const billingSchema = new Schema(
       type: Date,
       required: true,
     },
-    issueDate: {
-      type: Date,
-      required: true,
-    },
+    // issueDate: { //replaced by timestamps CreatedAt
+    //   type: Date,
+    //   required: true,
+    // },
     paymentStatus: {
       type: String,
       required: true,
@@ -39,6 +43,9 @@ const billingSchema = new Schema(
     paymentDetails: {
       type: Object,
     },
+    paymentDate:{
+      type:Date,
+    }
   },
   { timestamps: true }
 );

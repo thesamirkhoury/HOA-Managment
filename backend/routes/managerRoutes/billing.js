@@ -1,38 +1,32 @@
 const express = require("express");
-
+//controller functions
+const {
+  createBill,
+  getBills,
+  getSumMonths,
+  editBill,
+  deleteBill,
+  recordPayment,
+} = require("../../controllers/billingControllers");
 const router = express.Router();
 
 //Create a new bill and send by mail
-router.post("/", (req, res) => {
-  res.json({ description: "Create a new bill and send by mail" });
-});
+router.post("/", createBill);
 
 //Get all bills
-router.get("/", (req, res) => {
-  res.json({ description: "Get all bills" });
-});
+router.get("/", getBills);
 
-//Get the sum of all paid bills by a specific month
-router.get("/sum/:month", (req, res) => {
-  res.json({
-    description: "Get the sum of all paid bills by a specific month",
-  });
-});
+//Get the sum of all paid bills by a specific time period
+router.get("/sum", getSumMonths);
 
 //Edit a bill by _id
-router.patch("/:id", (req, res) => {
-  res.json({ description: "Edit a bill by _id" });
-});
+router.patch("/:id", editBill);
 
 //Delete a bill by _id
-router.delete("/:id", (req, res) => {
-  res.json({ description: "Delete a bill by _id" });
-});
+router.delete("/:id", deleteBill);
 
 //Add a payment record to an existing bill by _id
-router.patch("/:id/payment", (req, res) => {
-  res.json({ description: "Add a payment record to an existing bill by _id" });
-});
+router.patch("/:id/payment", recordPayment);
 
 //Send email reminder by mail to pay the bill by _id
 router.post("/:id/reminder", (req, res) => {
