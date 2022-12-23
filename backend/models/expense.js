@@ -8,10 +8,10 @@ const expenseSchema = new Schema(
       type: String,
       required: true,
     },
-    refNumber: {
-      type: Number,
-      required: true,
-    },
+    // refNumber: {
+    //   type: Number,
+    //   required: true,
+    // },
     payableTo: {
       type: String,
       required: true,
