@@ -6,19 +6,19 @@ const reminderSchema = new Schema(
   {
     HOA: {
       type: String,
-      required: true,
+      required: [true, "HOA is required"],
     },
     title: {
       type: String,
-      required: true,
+      required: [true, "Reminder Title is required"],
     },
     body: {
       type: String,
-      required: true,
+      required: [true, "Reminder Body is required"],
     },
     dateAndTime: {
       type: Date,
-      required: true,
+      required: [true, "Reminder Date and Time is required"],
     },
   },
   { timestamps: true }

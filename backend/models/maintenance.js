@@ -6,27 +6,23 @@ const requestSchema = new Schema(
   {
     HOA: {
       type: String,
-      required: true,
+      required: [true, "HOA is required"],
     },
-    // refNumber: {
-    //   type: Number,
-    //   required: true,
-    // },
     tenant: {
       type: String,
-      required: true,
+      required: [true, "Tenant ID is required"],
     },
     subject: {
       type: String,
-      required: true,
+      required: [true, "Maintenance Request Subject is required"],
     },
     description: {
       type: String,
-      required: true,
+      required: [true, "Maintenance Request Description is required"],
     },
     status: {
       type: String,
-      required: true,
+      required: [true, "Maintenance Request Status is required"],
     },
     pictures: {
       //TODO: Refine in the next stage.

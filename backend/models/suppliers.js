@@ -6,20 +6,20 @@ const supplierSchema = new Schema(
   {
     HOA: {
       type: String,
-      required: true,
+      required: [true, "HOA is required"],
     },
     supplierName: {
       type: String,
-      required: true,
+      required: [true, "Supplier Name is required"],
       unique: true,
     },
-    supplierType: {
+    supplierType: { // Type is either a "Company" OR an "Independent Contractor"
       type: String,
-      required: true,
+      required: [true, "Supplier Type is required"],
     },
     supplierCategory: {
       type: String,
-      required: true,
+      required: [true,"Supplier Type is required"],
     },
     email: {
       type: String,

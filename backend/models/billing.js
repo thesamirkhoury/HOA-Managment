@@ -6,46 +6,36 @@ const billingSchema = new Schema(
   {
     HOA: {
       type: String,
-      required: true,
+      required: [true, "HOA is required"],
     },
-    // invoiceNumber: {
-    //   type: Number,
-    //   required: true,
-    // },
     tenant: {
       type: String,
-      required: true,
+      required: [true, "Tenant ID is required"],
     },
     amount: {
       type: Number,
-      required: true,
+      required: [true, "Bill Amount is required"],
     },
-    description: { 
+    description: {
       type: String,
-      required: true,
+      required: [true, "Item Description is required"],
     },
     paymentType: {
       type: String,
-      required: true,
+      required: [true, "Payment Time is required"],
     },
     dueDate: {
       type: Date,
-      required: true,
+      required: [true, "Due Date is required"],
     },
-    // issueDate: { //replaced by timestamps CreatedAt
-    //   type: Date,
-    //   required: true,
-    // },
     paymentStatus: {
       type: String,
-      required: true,
+      required: [true, "Payment Status is required"],
     },
     paymentDetails: {
+      // records the payment method details (for Credit card, it stores 4 digits and EXP.), and "paymentDate" field.
       type: Object,
     },
-    paymentDate:{
-      type:Date,
-    }
   },
   { timestamps: true }
 );

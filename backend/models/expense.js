@@ -6,35 +6,31 @@ const expenseSchema = new Schema(
   {
     HOA: {
       type: String,
-      required: true,
+      required: [true, "HOA is required"],
     },
-    // refNumber: {
-    //   type: Number,
-    //   required: true,
-    // },
     payableTo: {
       type: String,
-      required: true,
+      required: [true, "Supplier ID is required"],
     },
     amount: {
       type: Number,
-      required: true,
+      required: [true, "Expense Amount is required"],
     },
     paymentType: {
       type: String,
-      required: true,
+      required: [true, "Payment Time is required"],
     },
     details: {
       type: String,
-      required: true,
+      required: [true, "Payment Details are required"],
     },
     paymentCategory: {
       type: String,
-      required: true,
+      required: [true, "Payment Category is required"],
     },
     paymentMethod: {
       type: String,
-      required: true,
+      required: [true, "Payment Method is required"],
     },
   },
   { timestamps: true }

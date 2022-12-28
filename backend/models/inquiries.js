@@ -6,27 +6,23 @@ const inquirySchema = new Schema(
   {
     HOA: {
       type: String,
-      required: true,
+      required: [true, "HOA is required"],
     },
-    // refNumber: {
-    //   type: Number,
-    //   required: true,
-    // },
     tenant: {
       type: String,
-      required: true,
+      required: [true, "Tenant ID is required"],
     },
     subject: {
       type: String,
-      required: true,
+      required: [true, "Inquiry Subject is required"],
     },
     body: {
       type: String,
-      required: true,
+      required: [true, "Inquiry Body is required"],
     },
     status: {
       type: String,
-      required: true,
+      required: [true, "Inquiry Status is required"],
     },
     response: {
       type: String,

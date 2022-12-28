@@ -6,28 +6,28 @@ const hoaSchema = new Schema(
   {
     firstName: {
       type: String,
-      required: true,
+      required: [true, "Manager First Name is required"],
     },
     lastName: {
       type: String,
-      required: true,
+      required: [true, "Manager Last Name is required"],
     },
     managerEmail: {
       type: String,
-      required: true,
+      required: [true, "Manager's Email is required"],
       unique: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
     },
     address: {
       type: String,
-      required: true,
+      required: [true, "HOA Address is required"],
     },
     membersMonthlyFee: {
       type: String,
-      required: true,
+      required: [true, "HOA Monthly Fee is required"],
     },
   },
   { timestamps: true }
