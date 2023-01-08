@@ -1,25 +1,22 @@
 const express = require("express");
-
+const {
+  createReminder,
+  getReminders,
+  editReminder,
+  deleteReminder,
+} = require("../../controllers/reminderControllers");
 const router = express.Router();
 
 //Create a new reminder
-router.post("/", (req, res) => {
-  res.json({ description: "Create a new reminder" });
-});
+router.post("/", createReminder);
 
 //Get all reminders
-router.get("/", (req, res) => {
-  res.json({ description: "Get all reminders" });
-});
+router.get("/",getReminders);
 
 //Edit a reminder by _id
-router.patch("/:id", (req, res) => {
-  res.json({ description: "Edit a reminder by _id" });
-});
+router.patch("/:id", editReminder);
 
 //Delete a reminder by _id
-router.delete("/:id", (req, res) => {
-  res.json({ description: "Delete a reminder by _id" });
-});
+router.delete("/:id",deleteReminder);
 
 module.exports = router;

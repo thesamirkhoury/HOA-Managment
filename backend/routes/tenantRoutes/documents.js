@@ -1,10 +1,9 @@
 const express = require("express");
-
+//controller functions
+const { getUserDocuments } = require("../../controllers/documentController");
 const router = express.Router();
 
-//Get all documents
-router.get("/", (req, res) => {
-  res.json({ description: "Get all documents" });
-});
+//Get all documents of a user
+router.get("/", getUserDocuments);
 
 module.exports = router;

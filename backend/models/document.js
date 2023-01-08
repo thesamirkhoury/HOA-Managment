@@ -6,24 +6,20 @@ const documentSchema = new Schema(
   {
     HOA: {
       type: String,
-      required: true,
+      required: [true, "HOA is required"],
     },
     fileName: {
       type: String,
-      required: true,
+      required: [true, "File Name is required"],
     },
     fileDescription: {
       type: String,
-      required: true,
-    },
-    uploadDate: {
-      type: Date,
-      required: true,
+      required: [true, "File Description is required"],
     },
     file: {
-      //TODO: Refine in the next stage.
+      //TODO: Refine in the files handling stage.
       type: Buffer,
-      required: true,
+      required: [true, "The File is required"],
     },
   },
   { timestamps: true }
