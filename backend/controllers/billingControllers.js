@@ -143,6 +143,7 @@ async function recordPayment(req, res) {
     return res.status(404).json({ error: "Bill Not Found" });
   }
 
+  // payment details, and "paymentDate" field.
   const { paymentRecord } = req.body;
 
   const bill = await Billing.findByIdAndUpdate(
@@ -150,7 +151,6 @@ async function recordPayment(req, res) {
     {
       paymentStatus: "Paid",
       paymentDetails: paymentRecord,
-      paymentDate: new Date(),
     },
     { new: true }
   );

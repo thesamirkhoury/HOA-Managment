@@ -14,7 +14,7 @@ router.get("/", getRequests);
 router.get("/:id", getRequest);
 
 //Add a response to a maintenance requests by _id
-router.patch("/:id/response", addResponse);
+router.post("/:id/response", addResponse);
 
 //Forward request by _id to a supplier by email
 router.post("/:id/forward/:email", (req, res) => {

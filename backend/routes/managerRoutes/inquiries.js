@@ -14,6 +14,6 @@ router.get("/", getInquiries);
 router.get("/:id", getInquiry);
 
 //Add a response to an inquiry by _id
-router.patch("/:id/response", addResponse);
+router.post("/:id/response", addResponse);
 
 module.exports = router;

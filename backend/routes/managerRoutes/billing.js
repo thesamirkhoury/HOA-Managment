@@ -26,9 +26,9 @@ router.patch("/:id", editBill);
 router.delete("/:id", deleteBill);
 
 //Add a payment record to an existing bill by _id
-router.patch("/:id/payment", recordPayment);
+router.post("/:id/payment", recordPayment);
 
-//Send email reminder by mail to pay the bill by _id
+//Send email reminder to pay the bill by _id
 router.post("/:id/reminder", (req, res) => {
   res.json({
     description: "Send email reminder by mail to pay the bill by _id",
