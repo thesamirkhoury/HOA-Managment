@@ -3,7 +3,7 @@ import React from "react";
 function Billing() {
   return (
     <div>
-      <h1></h1>Billing
+      <h1>Billing</h1>
     </div>
   );
 }
