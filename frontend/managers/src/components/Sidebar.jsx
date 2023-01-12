@@ -5,16 +5,19 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 
+// import assets
+import Logo from "../assets/LogoBlack.svg"
+
 import { useLocation } from "react-router-dom";
 
 function Sidebar({show, setShow}) {
-  // used to get the current pathname
+  // used to get the current pathname, and highlight it in the Sidebar
   const location = useLocation();
 
   return (
     <Offcanvas
       show={show}
-      onHide={()=>{
+      onHide={() => {
         setShow(false);
       }}
       backdrop={true}
@@ -23,7 +26,10 @@ function Sidebar({show, setShow}) {
     >
       {/* Offcanvas Title */}
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>בחר</Offcanvas.Title>
+        <Offcanvas.Title>
+          <img src={Logo} alt="logo" width="50" className="logo" />
+          {/* בחר */}
+        </Offcanvas.Title>
       </Offcanvas.Header>
       {/* Offcanvas body, houses the sideBar to be collapsed on smaller displays */}
       <Offcanvas.Body>
@@ -107,7 +113,7 @@ function Sidebar({show, setShow}) {
             הגדרות
           </Nav.Link>
           <Button
-            variant="outline-primary"
+            variant="outline-secondary"
             onClick={() => {
               //TODO: Log out user
             }}
@@ -122,4 +128,3 @@ function Sidebar({show, setShow}) {
 }
 
 export default Sidebar;
-
