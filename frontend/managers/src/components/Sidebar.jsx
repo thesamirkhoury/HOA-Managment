@@ -13,7 +13,7 @@ function Sidebar() {
 
   return (
     <Offcanvas
-      show="true"
+      show={false}
       // show={show}
       // onHide={handleClose}
       backdrop={true}
