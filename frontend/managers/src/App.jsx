@@ -2,7 +2,7 @@
 function App() {
   return (
     <div className="App">
-      <h1>Hello React</h1>
+      <h1 className="primary">שלום ריאקט</h1>
     </div>
   );
 }
