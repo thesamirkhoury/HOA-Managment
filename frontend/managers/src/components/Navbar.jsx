@@ -11,13 +11,13 @@ function VerticalNav() {
   return (
     <Navbar bg="dark" variant="dark" expand="sm" className="topNav">
       <Container fluid>
-        {/* TODO: connect with sidebar, show only when logged in */}
+        {/* //TODO: connect with sidebar, show only when logged in */}
         {/* Sidebar expand button, on smaller screen */}
         <Navbar.Toggle aria-controls="expand Sidebar" onClick={() => {}} />
         <Navbar.Brand href="/">
           <img src={Logo} alt="logo" width="50" className="logo" />
         </Navbar.Brand>
-        {/* TODO: implement dynamic hook, show only when logged in */}
+        {/* //TODO: implement dynamic hook, show only when logged in */}
         {/* Dynamically updated Wifi status */}
         <div className="d-flex ">
           <i className="bi bi-wifi-off fs-5 fw-bold text-danger me-1"></i>
