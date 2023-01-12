@@ -1,9 +1,13 @@
+import React from "react";
+
+//Pages and Components
+import Navbar from "../src/components/Navbar";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="primary">שלום ריאקט</h1>
-    </div>
+  <div className="App">
+    <Navbar/>
+  </div>
   );
 }
 
