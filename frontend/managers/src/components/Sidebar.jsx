@@ -7,15 +7,16 @@ import Button from "react-bootstrap/Button";
 
 import { useLocation } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({show, setShow}) {
   // used to get the current pathname
   const location = useLocation();
 
   return (
     <Offcanvas
-      show={false}
-      // show={show}
-      // onHide={handleClose}
+      show={show}
+      onHide={()=>{
+        setShow(false);
+      }}
       backdrop={true}
       responsive="lg"
       placement="start"

@@ -7,13 +7,15 @@ import Container from "react-bootstrap/Container";
 // import assets
 import Logo from "../assets/Logo.svg"
 
-function VerticalNav() {
+function VerticalNav({ setShow }) {
   return (
     <Navbar bg="dark" variant="dark" expand="sm" className="topNav">
       <Container fluid>
         {/* //TODO: connect with sidebar, show only when logged in */}
         {/* Sidebar expand button, on smaller screen */}
-        <Navbar.Toggle aria-controls="expand Sidebar" onClick={() => {}} />
+        <Navbar.Toggle aria-controls="expand Sidebar" onClick={() => {
+          setShow(true);
+        }} />
         <Navbar.Brand href="/">
           <img src={Logo} alt="logo" width="50" className="logo" />
         </Navbar.Brand>

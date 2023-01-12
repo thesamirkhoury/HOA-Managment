@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -21,14 +21,16 @@ import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
 function App() {
+  const [show, setShow] = useState(false);
+
   return (
     <div className="App">
-      <Navbar />
+      <Navbar setShow={setShow} />
       {/* Flex box container */}
       <div className="container">
         {/* Sidebar */}
         <div className="sidebar">
-          <Sidebar />
+          <Sidebar show={show} setShow={setShow} />
         </div>
         {/* Content */}
         <div className="content ps-2">
