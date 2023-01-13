@@ -23,5 +23,9 @@
 
 .content {
   flex: 1 1 0;
-  padding: 2rem;
+  // padding: 2rem; 
+}
+
+input[type="search"] {
+  -webkit-appearance: textfield;
 }
