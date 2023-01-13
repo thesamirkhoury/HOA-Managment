@@ -6,7 +6,8 @@
 }
 
 .sidebar {
-  @media (min-width: 1025px) {
+  // screens smaller than 992 pixels wide, will have the hamburger menu, Screen larger than 992 will have a sidebar styled.
+  @media (min-width: 992px) {
     flex: 1 1 0;
     max-width: 14vw;
     background-color: #f7f7f7;
@@ -24,8 +25,4 @@
 .content {
   flex: 1 1 0;
   // padding: 2rem; 
-}
-
-input[type="search"] {
-  -webkit-appearance: textfield;
 }
