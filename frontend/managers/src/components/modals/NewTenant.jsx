@@ -5,7 +5,6 @@ import { useModalsContext } from "../../hooks/useModalsContext";
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
