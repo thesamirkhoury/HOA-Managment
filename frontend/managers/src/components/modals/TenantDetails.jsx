@@ -34,7 +34,7 @@ function TenantDetails({ tenantData }) {
           <span>{tenantData ? tenantData.buildingNumber : ""}</span>
         </p>
         <p>
-          מספר בית:
+          מספר דיירה:
           <span>{tenantData ? tenantData.apartmentNumber : ""}</span>
         </p>
         <p>

@@ -9,6 +9,7 @@ import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
+import NewTenant from "../components/modals/NewTenant";
 import TenantDetails from "../components/modals/TenantDetails";
 
 function Tenants() {
@@ -31,7 +32,14 @@ function Tenants() {
           </Form>
         </Col>
         <Col xs={5} md={4} lg={3}>
-          <Button className="ms-4 ms-md-5">+ דייר חדש</Button>
+          <Button
+            className="ms-4 ms-md-5"
+            onClick={() => {
+              dispatch({ type: "NEW_TENANT", payload: true });
+            }}
+          >
+            <i className="bi bi-plus-lg"> </i>דייר חדש
+          </Button>
         </Col>
       </Row>
       {/* Table */}
@@ -41,7 +49,7 @@ function Tenants() {
             <th>שם דייר</th>
             <th>מספר בניין</th>
             <th>מספר בית</th>
-            <th>סוג דייר</th>
+            <th>סוג דירה</th>
             <th>טלפון</th>
             <th>פעולות</th>
           </tr>
@@ -81,6 +89,7 @@ function Tenants() {
       </Table>
 
       {/* //* Modals */}
+      <NewTenant />
       <TenantDetails tenantData={tenantData} />
     </>
   );

@@ -4,6 +4,11 @@ export const ModalsContext = createContext();
 
 export function modalsReducer(state, action) {
   switch (action.type) {
+    case "NEW_TENANT":
+      return {
+        ...state,
+        newTenant: action.payload,
+      };
     case "TENANT_DETAILS":
       return {
         ...state,
@@ -17,6 +22,7 @@ export function modalsReducer(state, action) {
 export const ModalsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(modalsReducer, {
     tenantDetails: false,
+    newTenant:true,
   });
 
   return (
