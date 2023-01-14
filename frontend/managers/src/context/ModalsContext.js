@@ -29,6 +29,11 @@ export function modalsReducer(state, action) {
         ...state,
         editSupplier: action.payload,
       };
+    case "NEW_REMINDER":
+      return {
+        ...state,
+        newReminder: action.payload,
+      };
     case "DELETE_CONFIRMATION":
       return {
         ...state,
@@ -46,6 +51,7 @@ export const ModalsContextProvider = ({ children }) => {
     editTenant: false,
     newSupplier: false,
     editSupplier: false,
+    newReminder: false,
     deleteConfirmation: false,
   });
 

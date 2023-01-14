@@ -9,6 +9,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
+import NewReminder from "../components/modals/NewReminder";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 
@@ -36,7 +37,7 @@ function Reminders() {
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
-              dispatch({ type: "NEW_SUPPLIER", payload: true });
+              dispatch({ type: "NEW_REMINDER", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>תזכורת חדשה
@@ -72,6 +73,7 @@ function Reminders() {
         ))}
       </Row>
       {/* //* Modals */}
+      <NewReminder/>
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
