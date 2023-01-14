@@ -10,11 +10,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewReminder from "../components/modals/NewReminder";
+import EditReminder from "../components/modals/EditReminder";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
-
 
 function Reminders() {
   const { dispatch } = useModalsContext();
+  const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   const placeholderReminders = Array.from({ length: 10 });
@@ -53,18 +54,29 @@ function Reminders() {
                 <Card.Title>טיפול במעליות</Card.Title>
                 <Card.Subtitle>18/05/2023 - 10:30</Card.Subtitle>
                 <Card.Text>טיפול שוטף במעליות, כולל החלפת חלקים.</Card.Text>
-                <Button variant="warning" className="me-1">
+                <Button
+                  variant="warning"
+                  className="me-1"
+                  onClick={() => {
+                    setEditData({
+                      name: "טיפול במעליות",
+                    });
+                    dispatch({ type: "EDIT_REMINDER", payload: true });
+                  }}
+                >
                   עדכן
                 </Button>
-                <Button variant="outline-danger" onClick={() => {
-                  setDeleteData({
-                    id: "1234",
-                    displayName: "טיפול במעליות",
-                    db: "reminders",
-                  });
-                  dispatch({ type: "DELETE_CONFIRMATION", payload: true });
-
-                }}>
+                <Button
+                  variant="outline-danger"
+                  onClick={() => {
+                    setDeleteData({
+                      id: "1234",
+                      displayName: "טיפול במעליות",
+                      db: "reminders",
+                    });
+                    dispatch({ type: "DELETE_CONFIRMATION", payload: true });
+                  }}
+                >
                   מחק
                 </Button>
               </Card.Body>
@@ -73,7 +85,8 @@ function Reminders() {
         ))}
       </Row>
       {/* //* Modals */}
-      <NewReminder/>
+      <NewReminder />
+      <EditReminder editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
