@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -7,8 +8,13 @@ import Table from "react-bootstrap/Table";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//modals
+import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
+  const { dispatch } = useModalsContext();
+  const [deleteData, setDeleteData] = useState();
+
   return (
     <>
       {/* Page Name */}
@@ -75,13 +81,28 @@ function Suppliers() {
                 עדכן פרטים
               </Button>
 
-              <Button variant="outline-danger" onClick={() => {}}>
+              <Button
+                variant="outline-danger"
+                onClick={() => {
+                  setDeleteData({
+                    id: "1234",
+                    displayName: "מעליות בעמ",
+                    db: "suppliers",
+                  });
+                  dispatch({
+                    type: "DELETE_CONFIRMATION",
+                    payload: true,
+                  });
+                }}
+              >
                 מחק
               </Button>
             </td>
           </tr>
         </tbody>
       </Table>
+      {/* //* Modals */}
+      <DeleteConfirmation deleteData={deleteData} />
     </>
   );
 }
