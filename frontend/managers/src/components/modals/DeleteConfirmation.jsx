@@ -12,8 +12,6 @@ function DeleteConfirmation({ deleteData }) {
   return (
     <Modal
       show={deleteConfirmation}
-      fullscreen="lg-down"
-      size="lg"
       onHide={() => {
         dispatch({ type: "DELETE_CONFIRMATION", payload: false });
       }}
