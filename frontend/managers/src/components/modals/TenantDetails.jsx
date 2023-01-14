@@ -5,7 +5,7 @@ import { useModalsContext } from "../../hooks/useModalsContext";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-function TenantDetails({ tenantData }) {
+function TenantDetails({ editData }) {
   const { tenantDetails, dispatch } = useModalsContext();
   return (
     <Modal
@@ -20,38 +20,38 @@ function TenantDetails({ tenantData }) {
       <Modal.Body>
         <div>
           <p>
-            שם פרטי: <span>{tenantData ? tenantData.firstName : ""}</span>
+            שם פרטי: <span>{editData ? editData.firstName : ""}</span>
           </p>
           <p>
-            שם משפחה: <span>{tenantData ? tenantData.lastName : ""}</span>
+            שם משפחה: <span>{editData ? editData.lastName : ""}</span>
           </p>
           <p>
             סוג דייר:
-            <span>{tenantData ? tenantData.tenantType : ""}</span>
+            <span>{editData ? editData.tenantType : ""}</span>
           </p>
           <br />
           <p>
             מספר בניין:
-            <span>{tenantData ? tenantData.buildingNumber : ""}</span>
+            <span>{editData ? editData.buildingNumber : ""}</span>
           </p>
           <p>
             מספר דיירה:
-            <span>{tenantData ? tenantData.apartmentNumber : ""}</span>
+            <span>{editData ? editData.apartmentNumber : ""}</span>
           </p>
           <p>
             מספר חנייה:
-            <span>{tenantData ? tenantData.parkingSpot : ""}</span>
+            <span>{editData ? editData.parkingSpot : ""}</span>
           </p>
           <br />
           <p>
             מספר טלפון:
             <span>
-              {tenantData ? (
+              {editData ? (
                 <a
-                  href={`tel:+972${tenantData.tenantPhoneNumber}`}
+                  href={`tel:+972${editData.tenantPhoneNumber}`}
                   className="text-decoration-none"
                 >
-                  {tenantData.tenantPhoneNumber}
+                  {editData.tenantPhoneNumber}
                 </a>
               ) : (
                 ""
@@ -61,12 +61,12 @@ function TenantDetails({ tenantData }) {
           <p>
             מייל:
             <span>
-              {tenantData ? (
+              {editData ? (
                 <a
-                  href={`mailto:${tenantData.tenantEmail}`}
+                  href={`mailto:${editData.tenantEmail}`}
                   className="text-decoration-none"
                 >
-                  {tenantData.tenantEmail}
+                  {editData.tenantEmail}
                 </a>
               ) : (
                 ""
@@ -75,14 +75,14 @@ function TenantDetails({ tenantData }) {
           </p>
           <br />
           {/* only if the tenant is a renter display the owner's info */}
-          {tenantData
-            ? tenantData.tenantType === "שכירות" && (
+          {editData
+            ? editData.tenantType === "שכירות" && (
                 <>
                   <p>
                     שם בעל הבית:
                     <span>
-                      {tenantData
-                        ? `${tenantData.ownerFirstName} ${tenantData.ownerLastName}`
+                      {editData
+                        ? `${editData.ownerFirstName} ${editData.ownerLastName}`
                         : ""}
                     </span>
                   </p>
@@ -90,12 +90,12 @@ function TenantDetails({ tenantData }) {
                   <p>
                     מספר טלפון בעל הבית:
                     <span>
-                      {tenantData ? (
+                      {editData ? (
                         <a
-                          href={`tel:+972${tenantData.ownerPhoneNumber}`}
+                          href={`tel:+972${editData.ownerPhoneNumber}`}
                           className="text-decoration-none"
                         >
-                          {tenantData.ownerPhoneNumber}
+                          {editData.ownerPhoneNumber}
                         </a>
                       ) : (
                         ""
@@ -105,12 +105,12 @@ function TenantDetails({ tenantData }) {
                   <p>
                     מייל בעל הבית:
                     <span>
-                      {tenantData ? (
+                      {editData ? (
                         <a
-                          href={`mailto:${tenantData.ownerEmail}`}
+                          href={`mailto:${editData.ownerEmail}`}
                           className="text-decoration-none"
                         >
-                          {tenantData.ownerEmail}
+                          {editData.ownerEmail}
                         </a>
                       ) : (
                         ""

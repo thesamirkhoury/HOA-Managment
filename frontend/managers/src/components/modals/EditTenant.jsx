@@ -24,7 +24,7 @@ function EditTenant() {
       }}
     >
       <Modal.Header closeButton>
-        <Modal.Title>עדכון פרטי דייר </Modal.Title>
+        <Modal.Title>עדכון פרטי דייר</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

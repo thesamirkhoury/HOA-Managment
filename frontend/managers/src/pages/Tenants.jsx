@@ -16,7 +16,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Tenants() {
   const { dispatch } = useModalsContext();
-  const [tenantData, setTenantData] = useState();
+  const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   return (
@@ -74,7 +74,7 @@ function Tenants() {
                 variant="outline-primary"
                 className="me-md-1 mb-1 mb-md-0"
                 onClick={() => {
-                  setTenantData({
+                  setEditData({
                     firstName: "ישראל",
                     lastName: "ישראלי",
                     tenantType: "שכירות",
@@ -104,7 +104,7 @@ function Tenants() {
       </Table>
       {/* //* Modals */}
       <NewTenant />
-      <TenantDetails tenantData={tenantData} />
+      <TenantDetails editData={editData} />
       <EditTenant />
       <DeleteConfirmation deleteData={deleteData} />
     </>
