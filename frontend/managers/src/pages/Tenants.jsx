@@ -12,10 +12,12 @@ import Col from "react-bootstrap/Col";
 import NewTenant from "../components/modals/NewTenant";
 import TenantDetails from "../components/modals/TenantDetails";
 import EditTenant from "../components/modals/EditTenant";
+import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Tenants() {
   const { dispatch } = useModalsContext();
   const [tenantData, setTenantData] = useState();
+  const [deleteData, setDeleteData] = useState();
 
   return (
     <>
@@ -83,7 +85,14 @@ function Tenants() {
               >
                 פרטיים
               </Button>
-              <Button variant="outline-danger">מחק</Button>
+              <Button variant="outline-danger" onClick={()=>{
+                setDeleteData({
+                  id:"1234",
+                  displayName:"ישראל ישראלי",
+                  db:"tenants"
+                })
+                dispatch({ type: "DELETE_CONFIRMATION", payload: true });
+              }}>מחק</Button>
             </td>
           </tr>
         </tbody>
@@ -91,7 +100,8 @@ function Tenants() {
       {/* //* Modals */}
       <NewTenant />
       <TenantDetails tenantData={tenantData} />
-      <EditTenant/>
+      <EditTenant />
+      <DeleteConfirmation deleteData={deleteData}/>
     </>
   );
 }
