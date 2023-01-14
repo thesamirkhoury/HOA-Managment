@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -11,6 +12,9 @@ import Col from "react-bootstrap/Col";
 import TenantDetails from "../components/modals/TenantDetails";
 
 function Tenants() {
+  const { dispatch } = useModalsContext();
+  const [tenantData, setTenantData] = useState();
+
   return (
     <>
       {/* Page Name */}
@@ -58,6 +62,15 @@ function Tenants() {
               <Button
                 variant="outline-primary"
                 className="me-md-1 mb-1 mb-md-0"
+                onClick={() => {
+                  setTenantData({
+                    firstName: "ישראל",
+                    lastName: "ישראלי",
+                    tenantType: "שכירות",
+                    parkingSpot: "2",
+                  });
+                  dispatch({ type: "TENANT_DETAILS", payload: true });
+                }}
               >
                 פרטיים
               </Button>
@@ -66,6 +79,9 @@ function Tenants() {
           </tr>
         </tbody>
       </Table>
+
+      {/* //* Modals */}
+      <TenantDetails tenantData={tenantData} />
     </>
   );
 }
