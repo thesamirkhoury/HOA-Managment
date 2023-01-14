@@ -47,8 +47,8 @@ function Reminders() {
       </Row>
 
       <Row xs={1} md={4} lg={8} className="g-4 mt-1">
-        {placeholderReminders.map(() => (
-          <Col>
+        {placeholderReminders.map((_, id) => (
+          <Col key={id}>
             <Card>
               <Card.Body>
                 <Card.Title>טיפול במעליות</Card.Title>
