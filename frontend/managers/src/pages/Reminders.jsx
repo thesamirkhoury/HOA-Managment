@@ -52,15 +52,27 @@ function Reminders() {
                 <Card.Title>טיפול במעליות</Card.Title>
                 <Card.Subtitle>18/05/2023 - 10:30</Card.Subtitle>
                 <Card.Text>טיפול שוטף במעליות, כולל החלפת חלקים.</Card.Text>
-                <Button variant="warning" className="me-1">עדכן</Button>
-                <Button variant="outline-danger" onClick={()=>{
-                  
-                }}>מחק</Button>
+                <Button variant="warning" className="me-1">
+                  עדכן
+                </Button>
+                <Button variant="outline-danger" onClick={() => {
+                  setDeleteData({
+                    id: "1234",
+                    displayName: "טיפול במעליות",
+                    db: "reminders",
+                  });
+                  dispatch({ type: "DELETE_CONFIRMATION", payload: true });
+
+                }}>
+                  מחק
+                </Button>
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
+      {/* //* Modals */}
+      <DeleteConfirmation deleteData={deleteData} />
     </>
   );
 }
