@@ -9,6 +9,7 @@ import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
+import NewSupplier from "../components/modals/NewSupplier";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
@@ -34,7 +35,7 @@ function Suppliers() {
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
-              // dispatch({ type: "NEW_TENANT", payload: true });
+              dispatch({ type: "NEW_SUPPLIER", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>ספק חדש
@@ -102,6 +103,7 @@ function Suppliers() {
         </tbody>
       </Table>
       {/* //* Modals */}
+      <NewSupplier />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
