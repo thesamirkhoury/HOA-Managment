@@ -1,6 +1,10 @@
-.container {
-  display: flex;
+.container{
+  // remove flex box on smaller devices
+  @media (min-width: 992px) {
+    display: flex;
+  }
   min-height: 100vh;
+  min-width: 100vw;
   padding: 0;
   margin: 0;
 }
@@ -24,5 +28,5 @@
 
 .content {
   flex: 1 1 0;
-  // padding: 2rem; 
+  padding: 0 2rem 2rem 2rem; 
 }
