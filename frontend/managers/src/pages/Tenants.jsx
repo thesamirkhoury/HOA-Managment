@@ -85,14 +85,19 @@ function Tenants() {
               >
                 פרטיים
               </Button>
-              <Button variant="outline-danger" onClick={()=>{
-                setDeleteData({
-                  id:"1234",
-                  displayName:"ישראל ישראלי",
-                  db:"tenants"
-                })
-                dispatch({ type: "DELETE_CONFIRMATION", payload: true });
-              }}>מחק</Button>
+              <Button
+                variant="outline-danger"
+                onClick={() => {
+                  setDeleteData({
+                    id: "1234",
+                    displayName: "ישראל ישראלי",
+                    db: "tenants",
+                  });
+                  dispatch({ type: "DELETE_CONFIRMATION", payload: true });
+                }}
+              >
+                מחק
+              </Button>
             </td>
           </tr>
         </tbody>
@@ -101,7 +106,7 @@ function Tenants() {
       <NewTenant />
       <TenantDetails tenantData={tenantData} />
       <EditTenant />
-      <DeleteConfirmation deleteData={deleteData}/>
+      <DeleteConfirmation deleteData={deleteData} />
     </>
   );
 }
