@@ -65,7 +65,7 @@ function NewSupplier() {
             variant="outline-secondary"
             className="ms-2"
             onClick={() => {
-              dispatch({ type: "NEW_TENANT", payload: false });
+              dispatch({ type: "NEW_SUPPLIER", payload: false });
             }}
           >
             <i className="bi bi-x-square"> </i>סגור חלון
