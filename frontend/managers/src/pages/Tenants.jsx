@@ -11,6 +11,7 @@ import Col from "react-bootstrap/Col";
 //modals
 import NewTenant from "../components/modals/NewTenant";
 import TenantDetails from "../components/modals/TenantDetails";
+import EditTenant from "../components/modals/EditTenant";
 
 function Tenants() {
   const { dispatch } = useModalsContext();
@@ -22,7 +23,7 @@ function Tenants() {
       <h1 className="display-1">ניהול דיירים</h1>
       {/* Search Bar */}
       <Row className="ms-md-2">
-        <Col xs={7} md={6} lg={8} xxl={15}>
+        <Col xs={6} md={6} lg={8} xxl={15}>
           <Form>
             <Form.Control
               type="search"
@@ -31,7 +32,7 @@ function Tenants() {
             ></Form.Control>
           </Form>
         </Col>
-        <Col xs={5} md={4} lg={3}>
+        <Col xs={6} md={4} lg={3}>
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
@@ -87,10 +88,10 @@ function Tenants() {
           </tr>
         </tbody>
       </Table>
-
       {/* //* Modals */}
       <NewTenant />
       <TenantDetails tenantData={tenantData} />
+      <EditTenant/>
     </>
   );
 }
