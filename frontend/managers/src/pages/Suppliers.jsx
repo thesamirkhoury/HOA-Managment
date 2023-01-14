@@ -80,6 +80,9 @@ function Suppliers() {
                 variant="outline-warning"
                 className="me-md-1 mb-1 mb-md-0"
                 onClick={() => {
+                  setEditData({
+                    name:"מעליות"
+                  });
                   dispatch({ type: "EDIT_SUPPLIER", payload: true });
                 }}
               >
@@ -108,7 +111,7 @@ function Suppliers() {
       </Table>
       {/* //* Modals */}
       <NewSupplier />
-      <EditSupplier />
+      <EditSupplier editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
