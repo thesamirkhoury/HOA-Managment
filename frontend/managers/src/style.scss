@@ -1,12 +1,17 @@
-.container {
-  display: flex;
+.container{
+  // remove flex box on smaller devices
+  @media (min-width: 992px) {
+    display: flex;
+  }
   min-height: 100vh;
+  min-width: 100vw;
   padding: 0;
   margin: 0;
 }
 
 .sidebar {
-  @media (min-width: 1025px) {
+  // screens smaller than 992 pixels wide, will have the hamburger menu, Screen larger than 992 will have a sidebar styled.
+  @media (min-width: 992px) {
     flex: 1 1 0;
     max-width: 14vw;
     background-color: #f7f7f7;
@@ -23,5 +28,5 @@
 
 .content {
   flex: 1 1 0;
-  padding: 2rem;
+  padding: 0 2rem 2rem 2rem; 
 }

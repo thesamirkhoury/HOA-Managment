@@ -9,7 +9,7 @@ import Logo from "../assets/Logo.svg"
 
 function VerticalNav({ setShow }) {
   return (
-    <Navbar bg="dark" variant="dark" expand="sm" className="topNav">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
         {/* //TODO: connect with sidebar, show only when logged in */}
         {/* Sidebar expand button, on smaller screen */}
