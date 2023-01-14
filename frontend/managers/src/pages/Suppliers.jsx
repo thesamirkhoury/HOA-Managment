@@ -10,10 +10,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewSupplier from "../components/modals/NewSupplier";
+import EditSupplier from "../components/modals/EditSupplier";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
   const { dispatch } = useModalsContext();
+  const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   return (
@@ -77,7 +79,9 @@ function Suppliers() {
               <Button
                 variant="outline-warning"
                 className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch({ type: "EDIT_SUPPLIER", payload: true });
+                }}
               >
                 עדכן פרטים
               </Button>
@@ -104,6 +108,7 @@ function Suppliers() {
       </Table>
       {/* //* Modals */}
       <NewSupplier />
+      <EditSupplier />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
