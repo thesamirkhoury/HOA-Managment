@@ -12,14 +12,14 @@ import Logo from "../assets/LogoBlack.svg";
 import { useLocation } from "react-router-dom";
 
 function Sidebar() {
-  const { showOffcanvass, dispatch } = useModalsContext();
+  const { showOffcanvas, dispatch } = useModalsContext();
   const location = useLocation(); // used to get the current pathname, and highlight it in the Sidebar
 
   // When clicking on any link scroll to the top of the page.
   function scrollToTop() {
     window.scrollTo(0, 0);
     // hide Offcanvas menu on smaller screens once a link is clicked
-    if (showOffcanvass) {
+    if (showOffcanvas) {
       dispatch({ type: "OFFCANVAS", payload: false });
     }
   }
