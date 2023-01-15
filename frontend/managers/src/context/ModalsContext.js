@@ -59,6 +59,11 @@ export function modalsReducer(state, action) {
         ...state,
         inquiryReply: action.payload,
       };
+    case "INQUIRY_VIEW":
+      return {
+        ...state,
+        inquiryView: action.payload,
+      };
     case "DELETE_CONFIRMATION":
       return {
         ...state,
@@ -82,6 +87,7 @@ export const ModalsContextProvider = ({ children }) => {
     newAnnouncement: false,
     editAnnouncement: false,
     inquiryReply: false,
+    inquiryView: false,
     deleteConfirmation: false,
   });
 

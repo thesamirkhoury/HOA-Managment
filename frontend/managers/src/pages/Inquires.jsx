@@ -10,6 +10,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import InquiryReply from "../components/modals/InquiryReply";
+import InquiryDetails from "../components/modals/InquiryDetails";
+
 function Inquires() {
   const { dispatch } = useModalsContext();
 
@@ -97,7 +99,9 @@ function Inquires() {
               <Button
                 variant="outline-primary"
                 className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch({ type: "INQUIRY_VIEW", payload: true });
+                }}
               >
                 פרטים
               </Button>
@@ -107,6 +111,7 @@ function Inquires() {
       </Table>
       {/* //* Modals */}
       <InquiryReply />
+      <InquiryDetails />
     </>
   );
 }
