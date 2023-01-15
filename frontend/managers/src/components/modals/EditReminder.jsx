@@ -47,7 +47,7 @@ function EditReminder() {
               value={"2023-01-21T09:50"}
             ></Form.Control>
           </Form.Group>
-          <div className="mt-2">
+          <div className="mt-3 float-end">
             <Button variant="success" type="submit">
               <i className="bi bi-pen"> </i>עדכן תזכורת
             </Button>

@@ -121,24 +121,26 @@ function TenantDetails({ editData }) {
               )
             : ""}
         </div>
-        <Button
-          variant="warning"
-          onClick={() => {
-            dispatch({ type: "EDIT_TENANT", payload: true });
-            dispatch({ type: "TENANT_DETAILS", payload: false });
-          }}
-        >
-          <i className="bi bi-pen"> </i> עדכן פרטי הדייר
-        </Button>
-        <Button
-          variant="outline-secondary"
-          className="ms-2"
-          onClick={() => {
-            dispatch({ type: "TENANT_DETAILS", payload: false });
-          }}
-        >
-          <i className="bi bi-x-square"> </i>סגור חלון
-        </Button>
+        <div className="mt-3 float-end">
+          <Button
+            variant="warning"
+            onClick={() => {
+              dispatch({ type: "EDIT_TENANT", payload: true });
+              dispatch({ type: "TENANT_DETAILS", payload: false });
+            }}
+          >
+            <i className="bi bi-pen"> </i> עדכן פרטי הדייר
+          </Button>
+          <Button
+            variant="outline-secondary"
+            className="ms-2"
+            onClick={() => {
+              dispatch({ type: "TENANT_DETAILS", payload: false });
+            }}
+          >
+            <i className="bi bi-x-square"> </i>סגור חלון
+          </Button>
+        </div>
       </Modal.Body>
     </Modal>
   );
