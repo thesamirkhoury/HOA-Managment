@@ -21,16 +21,14 @@ import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
 function App() {
-  const [show, setShow] = useState(false);
-
   return (
     <div className="App">
-      <Navbar setShow={setShow} />
+      <Navbar />
       {/* Flex box container */}
       <div className="container">
         {/* Sidebar */}
         <div className="sidebar">
-          <Sidebar show={show} setShow={setShow} />
+          <Sidebar />
         </div>
         {/* Content */}
         <div className="content ps-2">

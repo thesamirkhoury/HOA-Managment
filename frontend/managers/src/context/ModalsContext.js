@@ -4,6 +4,11 @@ export const ModalsContext = createContext();
 
 export function modalsReducer(state, action) {
   switch (action.type) {
+    case "OFFCANVAS":
+      return {
+        ...state,
+        showOffcanvass: action.payload,
+      };
     case "NEW_TENANT":
       return {
         ...state,
@@ -51,6 +56,7 @@ export function modalsReducer(state, action) {
 
 export const ModalsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(modalsReducer, {
+    showOffcanvass: false,
     tenantDetails: false,
     newTenant: false,
     editTenant: false,
