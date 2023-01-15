@@ -8,7 +8,7 @@ import Sidebar from "./components/Sidebar";
 import Tenants from "./pages/Tenants";
 import Suppliers from "./pages/Suppliers";
 import Reminders from "./pages/Reminders";
-import Notifications from "./pages/Notifications";
+import Announcements from "./pages/Announcements";
 import Maintenance from "./pages/Maintenance";
 import Inquires from "./pages/Inquires";
 import Billing from "./pages/Billing";
@@ -39,7 +39,7 @@ function App() {
             <Route path="tenants" element={<Tenants />} exact />
             <Route path="suppliers" element={<Suppliers />} exact />
             <Route path="reminders" element={<Reminders />} exact />
-            <Route path="notifications" element={<Notifications />} exact />
+            <Route path="announcements" element={<Announcements />} exact />
             <Route path="maintenance" element={<Maintenance />} exact />
             <Route path="inquires" element={<Inquires />} exact />
             <Route path="billings" element={<Billing />} exact />
