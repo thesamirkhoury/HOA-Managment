@@ -4,15 +4,15 @@ import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
-
+//import Router Nav Link
+import { LinkContainer } from "react-router-bootstrap";
 // import assets
-import Logo from "../assets/LogoBlack.svg"
+import Logo from "../assets/LogoBlack.svg";
 
 import { useLocation } from "react-router-dom";
 
-function Sidebar({show, setShow}) {
-  // used to get the current pathname, and highlight it in the Sidebar
-  const location = useLocation();
+function Sidebar({ show, setShow }) {
+  const location = useLocation(); // used to get the current pathname, and highlight it in the Sidebar
 
   return (
     <Offcanvas
@@ -35,74 +35,90 @@ function Sidebar({show, setShow}) {
       <Offcanvas.Body>
         {/* Sidebar */}
         <Nav
-          // used to highlight current tab in bootstrap primary color.
-          activeKey={location.pathname}
+          activeKey={location.pathname} // used to highlight current tab in bootstrap primary color.
           className="flex-column ms-1 sidebar"
           variant="pills"
         >
           <br />
-          {/* Catagories Title */}
+
+          {/* Administrative -  Catagories Title */}
           <Nav.Item>ניהול מנהלי</Nav.Item>
-          {/* Category link */}
-          <Nav.Link href="/tenants">
-            <i className="bi bi-buildings-fill me-1"></i>
-            ניהול דיירים
-          </Nav.Link>
-          <Nav.Link href="/supplier">
-            <i className="bi bi-people-fill me-1"></i>
-            ניהול ספקים
-          </Nav.Link>
-          <Nav.Link href="/reminders">
-            <i className="bi bi-alarm-fill me-1"></i>
-            תזכורות אחזקה
-          </Nav.Link>
-
+          {/* Category links */}
+          <LinkContainer to="/tenants">
+            <Nav.Link>
+              <i className="bi bi-buildings-fill me-1"></i>
+              ניהול דיירים
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/suppliers">
+            <Nav.Link>
+              <i className="bi bi-people-fill me-1"></i>
+              ניהול ספקים
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/reminders">
+            <Nav.Link>
+              <i className="bi bi-alarm-fill me-1"></i>
+              תזכורות אחזקה
+            </Nav.Link>
+          </LinkContainer>
           <hr />
 
-          {/* Catagories Title */}
+          {/* Communication - Catagories Title */}
           <Nav.Item>תקשורת</Nav.Item>
-          {/* Category link */}
-          <Nav.Link href="/notifications">
-            <i className="bi bi-megaphone-fill me-1"></i>
-            הודעות
-          </Nav.Link>
-          <Nav.Link href="/maintenance">
-            <i className="bi bi-wrench me-1"></i>
-            קריאות שירות
-          </Nav.Link>
-          <Nav.Link href="/inquires">
-            <i className="bi bi-chat-left-fill me-1"></i>
-            פניות דיירים
-          </Nav.Link>
-
+          {/* Category links */}
+          <LinkContainer to="/notifications">
+            <Nav.Link>
+              <i className="bi bi-megaphone-fill me-1"></i>
+              הודעות
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/maintenance">
+            <Nav.Link>
+              <i className="bi bi-wrench me-1"></i>
+              קריאות שירות
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/inquires">
+            <Nav.Link>
+              <i className="bi bi-chat-left-fill me-1"></i>
+              פניות דיירים
+            </Nav.Link>
+          </LinkContainer>
           <hr />
 
-          {/* Catagories Title */}
+          {/* Financial - Catagories Title */}
           <Nav.Item>ניהול פיננסי</Nav.Item>
-          {/* Category link */}
-          <Nav.Link href="/billing">
-            <i className="bi bi-cash-stack me-1"></i>
-            ניהול חיובים
-          </Nav.Link>
-          <Nav.Link href="/expenses">
-            <i className="bi bi-receipt me-1"></i>
-            ניהול הוצאות
-          </Nav.Link>
-          <Nav.Link href="/financial">
-            <i className="bi bi-bar-chart-line-fill me-1"></i>
-            דאשבורד פיננסי
-          </Nav.Link>
-
+          {/* Category links */}
+          <LinkContainer to="/billings">
+            <Nav.Link>
+              <i className="bi bi-cash-stack me-1"></i>
+              ניהול חיובים
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/expenses">
+            <Nav.Link>
+              <i className="bi bi-receipt me-1"></i>
+              ניהול הוצאות
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/financial">
+            <Nav.Link>
+              <i className="bi bi-bar-chart-line-fill me-1"></i>
+              דאשבורד פיננסי
+            </Nav.Link>
+          </LinkContainer>
           <hr />
 
-          {/* Catagories Title */}
+          {/* Documents - Catagories Title */}
           <Nav.Item>ניהול מסמכים</Nav.Item>
           {/* Category link */}
-          <Nav.Link href="/documents">
-            <i className="bi bi-file-earmark-fill me-1"></i>
-            מרכז מסמכים
-          </Nav.Link>
-
+          <LinkContainer to="/documents">
+            <Nav.Link>
+              <i className="bi bi-file-earmark-fill me-1"></i>
+              מרכז מסמכים
+            </Nav.Link>
+          </LinkContainer>
           <hr />
 
           {/* Catagories Title */}
@@ -113,7 +129,7 @@ function Sidebar({show, setShow}) {
             הגדרות
           </Nav.Link>
           <Button
-            variant="outline-secondary"
+            variant="outline-dark"
             onClick={() => {
               //TODO: Log out user
             }}

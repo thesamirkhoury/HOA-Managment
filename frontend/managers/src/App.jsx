@@ -39,12 +39,12 @@ function App() {
             <Route path="/" element={<Navigate to="tenants" />} exact />
             {/* Dashboard pages */}
             <Route path="tenants" element={<Tenants />} exact />
-            <Route path="supplier" element={<Suppliers />} exact />
+            <Route path="suppliers" element={<Suppliers />} exact />
             <Route path="reminders" element={<Reminders />} exact />
             <Route path="notifications" element={<Notifications />} exact />
             <Route path="maintenance" element={<Maintenance />} exact />
             <Route path="inquires" element={<Inquires />} exact />
-            <Route path="billing" element={<Billing />} exact />
+            <Route path="billings" element={<Billing />} exact />
             <Route path="expenses" element={<Expenses />} exact />
             <Route path="financial" element={<Financial />} exact />
             <Route path="documents" element={<Documents />} exact />
