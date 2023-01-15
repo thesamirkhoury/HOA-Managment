@@ -48,7 +48,7 @@ function NewSupplier() {
               </Form.Select>
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          <Row>
             <Form.Group as={Col} md="6">
               <Form.Label>מספר טלפון</Form.Label>
               <Form.Control required type="tel" placeholder=""></Form.Control>
@@ -58,18 +58,20 @@ function NewSupplier() {
               <Form.Control required type="email" placeholder=""></Form.Control>
             </Form.Group>
           </Row>
-          <Button variant="success" type="submit">
-            <i className="bi bi-plus-square"> </i>הוספת ספק
-          </Button>
-          <Button
-            variant="outline-secondary"
-            className="ms-2"
-            onClick={() => {
-              dispatch({ type: "NEW_SUPPLIER", payload: false });
-            }}
-          >
-            <i className="bi bi-x-square"> </i>סגור חלון
-          </Button>
+          <div className="mt-3 float-end">
+            <Button variant="success" type="submit">
+              <i className="bi bi-plus-square"> </i>הוספת ספק
+            </Button>
+            <Button
+              variant="outline-secondary"
+              className="ms-2"
+              onClick={() => {
+                dispatch({ type: "NEW_SUPPLIER", payload: false });
+              }}
+            >
+              <i className="bi bi-x-square"> </i>סגור חלון
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

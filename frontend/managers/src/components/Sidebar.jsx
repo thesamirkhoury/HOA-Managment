@@ -77,7 +77,7 @@ function Sidebar() {
           {/* Communication - Catagories Title */}
           <Nav.Item>תקשורת</Nav.Item>
           {/* Category links */}
-          <LinkContainer to="/notifications" onClick={scrollToTop}>
+          <LinkContainer to="/announcements" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-megaphone-fill me-1"></i>
               הודעות

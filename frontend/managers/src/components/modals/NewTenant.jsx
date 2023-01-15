@@ -107,7 +107,7 @@ function NewTenant() {
               ></Form.Control>
             </Form.Group>
           </Row>
-          <Row className={`mb-3 ${isOwner ? "d-none" : ""}`}>
+          <Row className={`${isOwner ? "d-none" : ""}`}>
             <Form.Group as={Col} md="6">
               <Form.Label>מספר טלפון של בעל הדירה</Form.Label>
               <Form.Control
@@ -125,19 +125,20 @@ function NewTenant() {
               ></Form.Control>
             </Form.Group>
           </Row>
-
-          <Button variant="success" type="submit">
-            <i className="bi bi-plus-square"> </i>הוספת דייר
-          </Button>
-          <Button
-            variant="outline-secondary"
-            className="ms-2"
-            onClick={() => {
-              dispatch({ type: "NEW_TENANT", payload: false });
-            }}
-          >
-            <i className="bi bi-x-square"> </i>סגור חלון
-          </Button>
+          <div className="mt-3 float-end">
+            <Button variant="success" type="submit">
+              <i className="bi bi-plus-square"> </i>הוספת דייר
+            </Button>
+            <Button
+              variant="outline-secondary"
+              className="ms-2"
+              onClick={() => {
+                dispatch({ type: "NEW_TENANT", payload: false });
+              }}
+            >
+              <i className="bi bi-x-square"> </i>סגור חלון
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

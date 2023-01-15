@@ -50,7 +50,7 @@ function EditSupplier() {
               </Form.Select>
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          <Row>
             <Form.Group as={Col} md="6">
               <Form.Label>מספר טלפון</Form.Label>
               <Form.Control required type="tel" value={""}></Form.Control>
@@ -60,18 +60,20 @@ function EditSupplier() {
               <Form.Control required type="email" value={""}></Form.Control>
             </Form.Group>
           </Row>
-          <Button variant="success" type="submit">
-            <i className="bi bi-pen"> </i>עדכן פרטי ספק
-          </Button>
-          <Button
-            variant="outline-secondary"
-            className="ms-2"
-            onClick={() => {
-              dispatch({ type: "EDIT_SUPPLIER", payload: false });
-            }}
-          >
-            <i className="bi bi-x-square"> </i>סגור חלון
-          </Button>
+          <div className="mt-3 float-end">
+            <Button variant="success" type="submit">
+              <i className="bi bi-pen"> </i>עדכן פרטי ספק
+            </Button>
+            <Button
+              variant="outline-secondary"
+              className="ms-2"
+              onClick={() => {
+                dispatch({ type: "EDIT_SUPPLIER", payload: false });
+              }}
+            >
+              <i className="bi bi-x-square"> </i>סגור חלון
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>
