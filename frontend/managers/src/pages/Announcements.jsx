@@ -10,6 +10,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
+import NewAnnouncement from "../components/modals/NewAnnouncement";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Announcements() {
@@ -87,7 +88,9 @@ function Announcements() {
           </Form>
         </Col>
         <Col xs={6} md={4} lg={3}>
-          <Button className="ms-4 ms-md-5" onClick={() => {}}>
+          <Button className="ms-4 ms-md-5" onClick={() => {
+            dispatch({ type: "NEW_ANNOUNCEMENT", payload: true });
+          }}>
             <i className="bi bi-plus-lg"> </i>הודעה חדשה
           </Button>
         </Col>
@@ -149,6 +152,7 @@ function Announcements() {
         ))}
       </Accordion>
       {/* //* Modals */}
+      <NewAnnouncement/>
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
