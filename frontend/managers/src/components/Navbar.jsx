@@ -4,7 +4,8 @@ import { useModalsContext } from "../hooks/useModalsContext";
 //bootstrap components
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
-
+//import Router Nav Link
+import { LinkContainer } from "react-router-bootstrap";
 // import assets
 import Logo from "../assets/Logo.svg";
 
@@ -21,9 +22,11 @@ function VerticalNav() {
             dispatch({ type: "OFFCANVAS", payload: true });
           }}
         />
-        <Navbar.Brand href="/">
-          <img src={Logo} alt="logo" width="50" className="logo" />
-        </Navbar.Brand>
+        <LinkContainer to="/">
+          <Navbar.Brand>
+            <img src={Logo} alt="logo" width="50" className="logo" />
+          </Navbar.Brand>
+        </LinkContainer>
         {/* //TODO: implement dynamic hook, show only when logged in */}
         {/* Dynamically updated Wifi status */}
         <div className="d-flex ">
