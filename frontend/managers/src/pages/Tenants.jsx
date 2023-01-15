@@ -46,8 +46,8 @@ function Tenants() {
         </Col>
       </Row>
       {/* Table */}
-      <Table responsive hover>
-        <thead className="text-center">
+      <Table responsive hover className="text-center">
+        <thead>
           <tr>
             <th>שם דייר</th>
             <th>מספר בניין</th>

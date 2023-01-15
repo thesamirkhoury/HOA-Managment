@@ -45,8 +45,8 @@ function Suppliers() {
         </Col>
       </Row>
       {/* Table */}
-      <Table responsive hover>
-        <thead className="text-center">
+      <Table responsive hover className="text-center">
+        <thead>
           <tr>
             <th>שם ספק</th>
             <th>תחום התמחות</th>
@@ -81,7 +81,7 @@ function Suppliers() {
                 className="me-md-1 mb-1 mb-md-0"
                 onClick={() => {
                   setEditData({
-                    name:"מעליות"
+                    name: "מעליות",
                   });
                   dispatch({ type: "EDIT_SUPPLIER", payload: true });
                 }}
