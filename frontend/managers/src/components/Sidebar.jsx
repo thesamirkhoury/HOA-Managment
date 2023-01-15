@@ -17,6 +17,10 @@ function Sidebar({ show, setShow }) {
   // When clicking on any link scroll to the top of the page.
   function scrollToTop() {
     window.scrollTo(0, 0);
+    // hide Offcanvas menu on smaller screens once a link is clicked
+    if (show) {
+      setShow(false);
+    }
   }
 
   return (
