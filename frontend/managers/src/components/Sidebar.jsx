@@ -14,6 +14,11 @@ import { useLocation } from "react-router-dom";
 function Sidebar({ show, setShow }) {
   const location = useLocation(); // used to get the current pathname, and highlight it in the Sidebar
 
+  // When clicking on any link scroll to the top of the page.
+  function scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
   return (
     <Offcanvas
       show={show}
@@ -44,19 +49,19 @@ function Sidebar({ show, setShow }) {
           {/* Administrative -  Catagories Title */}
           <Nav.Item>ניהול מנהלי</Nav.Item>
           {/* Category links */}
-          <LinkContainer to="/tenants">
+          <LinkContainer to="/tenants" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-buildings-fill me-1"></i>
               ניהול דיירים
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/suppliers">
+          <LinkContainer to="/suppliers" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-people-fill me-1"></i>
               ניהול ספקים
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/reminders">
+          <LinkContainer to="/reminders" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-alarm-fill me-1"></i>
               תזכורות אחזקה
@@ -67,19 +72,19 @@ function Sidebar({ show, setShow }) {
           {/* Communication - Catagories Title */}
           <Nav.Item>תקשורת</Nav.Item>
           {/* Category links */}
-          <LinkContainer to="/notifications">
+          <LinkContainer to="/notifications" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-megaphone-fill me-1"></i>
               הודעות
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/maintenance">
+          <LinkContainer to="/maintenance" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-wrench me-1"></i>
               קריאות שירות
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/inquires">
+          <LinkContainer to="/inquires" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-chat-left-fill me-1"></i>
               פניות דיירים
@@ -90,19 +95,19 @@ function Sidebar({ show, setShow }) {
           {/* Financial - Catagories Title */}
           <Nav.Item>ניהול פיננסי</Nav.Item>
           {/* Category links */}
-          <LinkContainer to="/billings">
+          <LinkContainer to="/billings" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-cash-stack me-1"></i>
               ניהול חיובים
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/expenses">
+          <LinkContainer to="/expenses" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-receipt me-1"></i>
               ניהול הוצאות
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/financial">
+          <LinkContainer to="/financial" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-bar-chart-line-fill me-1"></i>
               דאשבורד פיננסי
@@ -113,7 +118,7 @@ function Sidebar({ show, setShow }) {
           {/* Documents - Catagories Title */}
           <Nav.Item>ניהול מסמכים</Nav.Item>
           {/* Category link */}
-          <LinkContainer to="/documents">
+          <LinkContainer to="/documents" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-file-earmark-fill me-1"></i>
               מרכז מסמכים
@@ -124,7 +129,7 @@ function Sidebar({ show, setShow }) {
           {/* Settings - Catagories Title */}
           <Nav.Item>הגדרות</Nav.Item>
           {/* Category link */}
-          <LinkContainer to="/settings">
+          <LinkContainer to="/settings" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-gear-fill me-1"></i>
               הגדרות
