@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -8,8 +9,14 @@ import Card from "react-bootstrap/Card";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//modals
+import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Announcements() {
+  const { dispatch } = useModalsContext();
+  const [editData, setEditData] = useState();
+  const [deleteData, setDeleteData] = useState();
+
   const placeholderMsgs = [
     {
       HOA: "63a0674e2aa7479524d3f594",
@@ -110,14 +117,22 @@ function Announcements() {
                                 <Button
                                   variant="warning"
                                   className="me-1"
-                                  onClick={() => {
-                                  }}
+                                  onClick={() => {}}
                                 >
                                   עדכן
                                 </Button>
                                 <Button
                                   variant="outline-danger"
                                   onClick={() => {
+                                    setDeleteData({
+                                      id: "1234",
+                                      displayName: "ניתק חשמלי כללי",
+                                      db: "announcements",
+                                    });
+                                    dispatch({
+                                      type: "DELETE_CONFIRMATION",
+                                      payload: true,
+                                    });
                                   }}
                                 >
                                   מחק
@@ -133,6 +148,8 @@ function Announcements() {
           </Accordion.Item>
         ))}
       </Accordion>
+      {/* //* Modals */}
+      <DeleteConfirmation deleteData={deleteData} />
     </>
   );
 }
