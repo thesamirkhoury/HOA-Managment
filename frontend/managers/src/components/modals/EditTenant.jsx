@@ -10,7 +10,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function EditTenant() {
+function EditTenant({ editData }) {
   const { editTenant, dispatch } = useModalsContext();
   const [isOwner, setIsOwner] = useState(true);
   return (

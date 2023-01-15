@@ -83,7 +83,7 @@ function Tenants() {
                   dispatch({ type: "TENANT_DETAILS", payload: true });
                 }}
               >
-                פרטיים
+                פרטים
               </Button>
               <Button
                 variant="outline-danger"
@@ -105,7 +105,7 @@ function Tenants() {
       {/* //* Modals */}
       <NewTenant />
       <TenantDetails editData={editData} />
-      <EditTenant />
+      <EditTenant editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
