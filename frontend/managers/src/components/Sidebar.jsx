@@ -121,15 +121,18 @@ function Sidebar({ show, setShow }) {
           </LinkContainer>
           <hr />
 
-          {/* Catagories Title */}
+          {/* Settings - Catagories Title */}
           <Nav.Item>הגדרות</Nav.Item>
           {/* Category link */}
-          <Nav.Link href="/settings" className="mb-1">
-            <i className="bi bi-gear-fill me-1"></i>
-            הגדרות
-          </Nav.Link>
+          <LinkContainer to="/settings">
+            <Nav.Link>
+              <i className="bi bi-gear-fill me-1"></i>
+              הגדרות
+            </Nav.Link>
+          </LinkContainer>
           <Button
             variant="outline-dark"
+            className="mt-1"
             onClick={() => {
               //TODO: Log out user
             }}
