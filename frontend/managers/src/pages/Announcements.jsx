@@ -35,21 +35,21 @@ function Announcements() {
       buildingNumber: "2",
     },
     {
-      _id: "63a329c7ad4e7a94b176a773",
+      _id: "63a329c7ad4e7a94b176a774",
       HOA: "63a0674e2aa7479524d3f594",
       title: "ניתוק חשמל כללי",
       body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
       buildingNumber: "2",
     },
     {
-      _id: "63a329c7ad4e7a94b176a773",
+      _id: "63a329c7ad4e7a94b176a775",
       HOA: "63a0674e2aa7479524d3f594",
       title: "ניתוק חשמל כללי",
       body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
       buildingNumber: "2",
     },
     {
-      _id: "63a329c7ad4e7a94b176a773",
+      _id: "63a329c7ad4e7a94b176a776",
       HOA: "63a0674e2aa7479524d3f594",
       title: "ניתוק חשמל כללי",
       body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
@@ -79,7 +79,7 @@ function Announcements() {
       <h1 className="display-1">הודעות לדיירים</h1>
       {/* Search Bar */}
       <Row className="ms-md-2 mb-2">
-        <Col xs={6} md={6} lg={8} xxl={15}>
+        <Col xs={6} md={6} lg={8} xxl={12}>
           <Form>
             <Form.Control
               type="search"
@@ -102,7 +102,7 @@ function Announcements() {
       {/* Message Accordian */}
       <Accordion alwaysOpen>
         {[...Array(placeholderBuildingsCount + 1)].map((_, id) => (
-          <Accordion.Item eventKey={id}>
+          <Accordion.Item eventKey={id} key={id}>
             <Accordion.Header>
               {id === 0 ? "הודעות כלליות" : `בניין ${id}`}
             </Accordion.Header>
@@ -112,7 +112,7 @@ function Announcements() {
                   placeholderMsgs.map(
                     (msg) =>
                       parseInt(msg.buildingNumber) === id && (
-                        <Col key={id}>
+                        <Col key={msg._id}>
                           <Card>
                             <Card.Body>
                               <Card.Title>{msg.title}</Card.Title>
