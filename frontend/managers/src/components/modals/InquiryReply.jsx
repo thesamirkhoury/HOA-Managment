@@ -124,7 +124,7 @@ function InquiryReply() {
                 variant="outline-secondary"
                 className="ms-2"
                 onClick={() => {
-                  dispatch({ type: "NEW_REMINDER", payload: false });
+                  dispatch({ type: "INQUIRY_REPLY", payload: false });
                 }}
               >
                 <i className="bi bi-x-square"> </i>סגור חלון
