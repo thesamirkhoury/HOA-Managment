@@ -49,7 +49,7 @@ function NewAnnouncement() {
               <option value="0">כל הבנינים - כללי</option>
               {/* <option value="valueID">OptionName> </option> */}
               {[...Array(placeholderBuildingsCount)].map((_, id) => (
-                <option value={id + 1}>{`בניין ${id + 1}`}</option>
+                <option value={id + 1} key={id+1}>{`בניין ${id + 1}`}</option>
               ))}
             </Form.Select>
           </Form.Group>
