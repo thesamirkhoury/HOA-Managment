@@ -26,7 +26,7 @@ function Sidebar() {
 
   return (
     <Offcanvas
-      show={showOffcanvass}
+      show={showOffcanvas}
       onHide={() => {
         dispatch({ type: "OFFCANVAS", payload: false });
       }}
