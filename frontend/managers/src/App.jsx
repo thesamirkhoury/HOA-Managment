@@ -21,16 +21,14 @@ import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
 function App() {
-  const [show, setShow] = useState(false);
-
   return (
     <div className="App">
-      <Navbar setShow={setShow} />
+      <Navbar />
       {/* Flex box container */}
       <div className="container">
         {/* Sidebar */}
         <div className="sidebar">
-          <Sidebar show={show} setShow={setShow} />
+          <Sidebar />
         </div>
         {/* Content */}
         <div className="content ps-2">
@@ -39,12 +37,12 @@ function App() {
             <Route path="/" element={<Navigate to="tenants" />} exact />
             {/* Dashboard pages */}
             <Route path="tenants" element={<Tenants />} exact />
-            <Route path="supplier" element={<Suppliers />} exact />
+            <Route path="suppliers" element={<Suppliers />} exact />
             <Route path="reminders" element={<Reminders />} exact />
             <Route path="notifications" element={<Notifications />} exact />
             <Route path="maintenance" element={<Maintenance />} exact />
             <Route path="inquires" element={<Inquires />} exact />
-            <Route path="billing" element={<Billing />} exact />
+            <Route path="billings" element={<Billing />} exact />
             <Route path="expenses" element={<Expenses />} exact />
             <Route path="financial" element={<Financial />} exact />
             <Route path="documents" element={<Documents />} exact />
