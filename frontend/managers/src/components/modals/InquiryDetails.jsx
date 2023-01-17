@@ -65,6 +65,16 @@ function InquiryDetails() {
               </Col>
             </Row>
           </div>
+          <Button
+            variant="outline-primary"
+            className={`ms-2 col-12 ${showDetails ? "d-none" : "d-block"}`}
+            onClick={() => {
+              // API CALL
+              setShowDetails(true);
+            }}
+          >
+            <i className="bi bi-file-person"> </i> הצג פרטי הדייר המלאים
+          </Button>
         </div>
         <hr />
         {/* Inquiry Details */}
@@ -88,17 +98,6 @@ function InquiryDetails() {
         </div>
         {/* Buttons */}
         <div className="mt-3 float-end">
-          <Button
-            variant="outline-primary"
-            className="ms-2"
-            onClick={() => {
-              // API CALL
-              setShowDetails(true);
-            }}
-          >
-            <i className="bi bi-file-person"> </i> הצג פרטי הדייר
-          </Button>
-
           <Button
             variant="outline-secondary"
             className="ms-2"

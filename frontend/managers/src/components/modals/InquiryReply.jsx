@@ -67,6 +67,16 @@ function InquiryReply() {
               </Col>
             </Row>
           </div>
+          <Button
+            variant="outline-primary"
+            className={`ms-2 col-12 ${showDetails ? "d-none" : "d-block"}`}
+            onClick={() => {
+              // API CALL
+              setShowDetails(true);
+            }}
+          >
+            <i className="bi bi-file-person"> </i> הצג פרטי הדייר המלאים
+          </Button>
         </div>
         <hr />
 
@@ -101,36 +111,19 @@ function InquiryReply() {
         </div>
         {/* Buttons */}
         <div className="mt-3 float-end">
-          <Row>
-            <Col>
-              <Button variant="success" type="submit">
-                <i className="bi bi-send"> </i>שלח תשובה
-              </Button>
-            </Col>
-            <Col xs="4" sm="4" md="5" lg="4">
-              <Button
-                variant="outline-primary"
-                className="ms-2"
-                onClick={() => {
-                  // API CALL
-                  setShowDetails(true);
-                }}
-              >
-                <i className="bi bi-file-person"> </i> הצג פרטי הדייר
-              </Button>
-            </Col>
-            <Col xs="4" sm="4" md="3" lg="4">
-              <Button
-                variant="outline-secondary"
-                className="ms-2"
-                onClick={() => {
-                  dispatch({ type: "INQUIRY_REPLY", payload: false });
-                }}
-              >
-                <i className="bi bi-x-square"> </i>סגור חלון
-              </Button>
-            </Col>
-          </Row>
+          <Button variant="success" type="submit">
+            <i className="bi bi-send"> </i>שלח תשובה
+          </Button>
+
+          <Button
+            variant="outline-secondary"
+            className="ms-2"
+            onClick={() => {
+              dispatch({ type: "INQUIRY_REPLY", payload: false });
+            }}
+          >
+            <i className="bi bi-x-square"> </i>סגור חלון
+          </Button>
         </div>
       </Modal.Body>
     </Modal>
