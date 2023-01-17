@@ -1,4 +1,5 @@
 import React from "react";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -7,8 +8,12 @@ import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//modals
+import MaintenanceManagement from "../components/modals/MaintenanceManagement";
 
 function Maintenance() {
+  const { dispatch } = useModalsContext();
+
   return (
     <>
       {/* Page Name */}
@@ -50,7 +55,9 @@ function Maintenance() {
               <Button
                 variant="outline-primary"
                 className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch({ type: "MAINTENANCE_MANAGEMENT", payload: true });
+                }}
               >
                 פרטים ולהשיב
               </Button>
@@ -101,6 +108,8 @@ function Maintenance() {
           </tr>
         </tbody>
       </Table>
+      {/* //* Modals */}
+      <MaintenanceManagement />
     </>
   );
 }
