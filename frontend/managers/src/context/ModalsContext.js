@@ -69,6 +69,11 @@ export function modalsReducer(state, action) {
         ...state,
         maintenanceManagement: action.payload,
       };
+    case "MAINTENANCE_VIEW":
+      return {
+        ...state,
+        maintenanceView: action.payload,
+      };
     case "DELETE_CONFIRMATION":
       return {
         ...state,
@@ -93,7 +98,8 @@ export const ModalsContextProvider = ({ children }) => {
     editAnnouncement: false,
     inquiryReply: false,
     inquiryView: false,
-    maintenanceManagement:false,
+    maintenanceManagement: false,
+    maintenanceView: false,
     deleteConfirmation: false,
   });
 

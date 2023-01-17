@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import MaintenanceManagement from "../components/modals/MaintenanceManagement";
+import MaintenanceDetails from "../components/modals/MaintenanceDetails";
 
 function Maintenance() {
   const { dispatch } = useModalsContext();
@@ -50,7 +51,7 @@ function Maintenance() {
             <td>ישראל ישראלי</td>
             <td>החלפת נורות במעלית</td>
             <td>1/1/2023</td>
-            <td>נקלט במערכת</td>
+            <td>פתוח</td>
             <td>
               <Button
                 variant="outline-primary"
@@ -100,7 +101,9 @@ function Maintenance() {
               <Button
                 variant="outline-primary"
                 className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch({ type: "MAINTENANCE_VIEW", payload: true });
+                }}
               >
                 פרטים
               </Button>
@@ -110,6 +113,7 @@ function Maintenance() {
       </Table>
       {/* //* Modals */}
       <MaintenanceManagement />
+      <MaintenanceDetails />
     </>
   );
 }
