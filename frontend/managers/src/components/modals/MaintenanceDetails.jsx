@@ -4,11 +4,7 @@ import { useModalsContext } from "../../hooks/useModalsContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
-import Badge from "react-bootstrap/Badge";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-bootstrap/Dropdown";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
