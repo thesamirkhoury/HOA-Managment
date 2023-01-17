@@ -4,23 +4,27 @@ import { useModalsContext } from "../../hooks/useModalsContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
+import Badge from "react-bootstrap/Badge";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function InquiryDetails() {
-  const { inquiryView, dispatch } = useModalsContext();
+function MaintenanceDetails() {
+  const { maintenanceView, dispatch } = useModalsContext();
   const [showDetails, setShowDetails] = useState(false);
   return (
     <Modal
-      show={inquiryView}
+      show={maintenanceView}
       fullscreen="lg-down"
       size="lg"
-      onHide={() => dispatch({ type: "INQUIRY_VIEW", payload: false })}
+      onHide={() => dispatch({ type: "MAINTENANCE_VIEW", payload: false })}
     >
       <Modal.Header closeButton>
-        <Modal.Title>פרטי הפניה</Modal.Title>
+        <Modal.Title>פרטי קריאת השירות</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Tenant Details */}
@@ -77,23 +81,24 @@ function InquiryDetails() {
           </Button>
         </div>
         <hr />
-        {/* Inquiry Details */}
+        {/* Request Details */}
         <div>
-          <p className="fs-4">פרטי הפנייה</p>
+          <p className="fs-4">פרטי קריאת השירות</p>
           <p>
-            נושא הפנייה: <span>{"דחיית תשלום דמי הועד"}</span>
+            נושא קריאת השירות: <span>{"החלפת נורות במעלית"}</span>
           </p>
           <p>
-            תוכן הפנייה:{" "}
-            <span>{"האם ניתן לדחות את תשלום הועד לחודש הבא?"}</span>
+            תוכן קריאת השירות:
+            <span> {"החלפת נורות במעלית"}</span>
           </p>
-        </div>
-        <hr />
-        {/* Response */}
-        <div>
-          <p className="fs-4">התשובה</p>
+          <p>תיעוד:</p>
           <p>
-            תשובת הוועד: <span>{"אושר באופן חד פעמי."}</span>
+            תאריך פתיחת קריאת השירות:
+            <span> {"1/1/2023"}</span>
+          </p>
+          <p>
+            תאריך סגירת קריאת השירות:
+            <span> {"1/1/2023"}</span>
           </p>
         </div>
         {/* Buttons */}
@@ -102,7 +107,7 @@ function InquiryDetails() {
             variant="outline-secondary"
             className="ms-2"
             onClick={() => {
-              dispatch({ type: "INQUIRY_VIEW", payload: false });
+              dispatch({ type: "MAINTENANCE_VIEW", payload: false });
             }}
           >
             <i className="bi bi-x-square"> </i>סגור חלון
@@ -113,4 +118,4 @@ function InquiryDetails() {
   );
 }
 
-export default InquiryDetails;
+export default MaintenanceDetails;

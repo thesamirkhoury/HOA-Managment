@@ -34,7 +34,7 @@ function Inquires() {
           </Form>
         </Col>
       </Row>
-      {/* Inquires Table */}
+      {/* Open Inquires Table */}
       <Table responsive hover className="text-center">
         <thead>
           <tr>
@@ -79,7 +79,7 @@ function Inquires() {
           </Form>
         </Col>
       </Row>
-      {/* Inquires Table */}
+      {/* Closed Inquires Table */}
       <Table responsive hover className="text-center">
         <thead>
           <tr>

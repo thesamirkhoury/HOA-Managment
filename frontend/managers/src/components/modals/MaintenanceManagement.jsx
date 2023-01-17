@@ -4,23 +4,30 @@ import { useModalsContext } from "../../hooks/useModalsContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
+import Badge from "react-bootstrap/Badge";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function InquiryDetails() {
-  const { inquiryView, dispatch } = useModalsContext();
+function MaintenanceManagement() {
+  const { maintenanceManagement, dispatch } = useModalsContext();
   const [showDetails, setShowDetails] = useState(false);
+
   return (
     <Modal
-      show={inquiryView}
+      show={maintenanceManagement}
       fullscreen="lg-down"
       size="lg"
-      onHide={() => dispatch({ type: "INQUIRY_VIEW", payload: false })}
+      onHide={() =>
+        dispatch({ type: "MAINTENANCE_MANAGEMENT", payload: false })
+      }
     >
       <Modal.Header closeButton>
-        <Modal.Title>פרטי הפניה</Modal.Title>
+        <Modal.Title>פרטי קריאת השירות</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Tenant Details */}
@@ -77,35 +84,41 @@ function InquiryDetails() {
           </Button>
         </div>
         <hr />
-        {/* Inquiry Details */}
+
+        {/* Request Details */}
         <div>
-          <p className="fs-4">פרטי הפנייה</p>
+          <p className="fs-4">פרטי קריאת השירות</p>
           <p>
-            נושא הפנייה: <span>{"דחיית תשלום דמי הועד"}</span>
+            נושא קריאת השירות: <span>{"החלפת נורות במעלית"}</span>
           </p>
           <p>
-            תוכן הפנייה:{" "}
-            <span>{"האם ניתן לדחות את תשלום הועד לחודש הבא?"}</span>
+            תוכן קריאת השירות:
+            <span> {"החלפת נורות במעלית"}</span>
+          </p>
+          <p>תיעוד:</p>
+          <p>
+            הסטטוס:
+            <Badge bg="danger" className="fs-6 ms-1">
+              {"פתוח"}
+            </Badge>
+          </p>
+          <p>
+            תאריך פתיחת קריאת השירות:
+            <span> {"1/1/2023"}</span>
           </p>
         </div>
-        <hr />
-        {/* Response */}
-        <div>
-          <p className="fs-4">התשובה</p>
-          <p>
-            תשובת הוועד: <span>{"אושר באופן חד פעמי."}</span>
-          </p>
-        </div>
+
         {/* Buttons */}
         <div className="mt-3 float-end">
-          <Button
-            variant="outline-secondary"
-            className="ms-2"
-            onClick={() => {
-              dispatch({ type: "INQUIRY_VIEW", payload: false });
-            }}
-          >
-            <i className="bi bi-x-square"> </i>סגור חלון
+          <ButtonGroup className="me-1">
+            <DropdownButton title="שנה סטטוס">
+              <Dropdown.Item eventKey="בטיפול">בטיפול</Dropdown.Item>
+              <Dropdown.Item eventKey="סגורה">סגורה</Dropdown.Item>
+            </DropdownButton>
+          </ButtonGroup>
+
+          <Button variant="success" type="submit">
+            <i className="bi bi-envelope"> </i>העבר לספק
           </Button>
         </div>
       </Modal.Body>
@@ -113,4 +126,4 @@ function InquiryDetails() {
   );
 }
 
-export default InquiryDetails;
+export default MaintenanceManagement;
