@@ -89,18 +89,22 @@ function MaintenanceManagement() {
         <div>
           <p className="fs-4">פרטי קריאת השירות</p>
           <p>
-            נושא קריאת השירות: <span>{"דחיית תשלום דמי הועד"}</span>
+            נושא קריאת השירות: <span>{"החלפת נורות במעלית"}</span>
           </p>
           <p>
             תוכן קריאת השירות:
-            <span> {"האם ניתן לדחות את תשלום הועד לחודש הבא?"}</span>
+            <span> {"החלפת נורות במעלית"}</span>
           </p>
           <p>תיעוד:</p>
           <p>
-            הסטטוס:{" "}
-            <Badge bg="danger" className="fs-6">
+            הסטטוס:
+            <Badge bg="danger" className="fs-6 ms-1">
               {"פתוח"}
             </Badge>
+          </p>
+          <p>
+            תאריך פתיחת קריאת השירות:
+            <span> {"1/1/2023"}</span>
           </p>
         </div>
 
