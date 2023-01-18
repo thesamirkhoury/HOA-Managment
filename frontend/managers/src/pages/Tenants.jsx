@@ -25,7 +25,7 @@ function Tenants() {
       <h1 className="display-1">ניהול דיירים</h1>
       {/* Search Bar */}
       <Row className="ms-md-2">
-        <Col xs={6} md={6} lg={8} xxl={12}>
+        <Col xs={6} md={6} lg={8}>
           <Form>
             <Form.Control
               type="search"
