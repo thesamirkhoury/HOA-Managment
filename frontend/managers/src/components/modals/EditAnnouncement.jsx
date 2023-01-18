@@ -42,7 +42,7 @@ function EditAnnouncement() {
           <Form.Group>
             <Form.Label>מספר בניין</Form.Label>
             <Form.Select
-              aria-label="Supplier type select"
+              aria-label="Building Number select"
               value={0}
               onChange={(e) => {
                 // console.log(e.target.value);

@@ -40,7 +40,7 @@ function NewAnnouncement() {
           <Form.Group>
             <Form.Label>מספר בניין</Form.Label>
             <Form.Select
-              aria-label="Supplier type select"
+              aria-label="Building Number select"
               onChange={(e) => {
                 // console.log(e.target.value);
               }}
