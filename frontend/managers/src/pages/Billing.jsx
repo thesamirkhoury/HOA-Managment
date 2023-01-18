@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewBill from "../components/modals/NewBill";
+import RecordPayment from "../components/modals/RecordPayment";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Billing() {
@@ -68,7 +69,9 @@ function Billing() {
               <Button
                 variant="outline-primary"
                 className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch({ type: "PAYMENT_RECORD", payload: true });
+                }}
               >
                 תיעוד תשלום
               </Button>
@@ -109,6 +112,7 @@ function Billing() {
       </Table>
       {/* //* Modals */}
       <NewBill />
+      <RecordPayment />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );

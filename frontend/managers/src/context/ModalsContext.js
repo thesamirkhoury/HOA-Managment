@@ -79,6 +79,11 @@ export function modalsReducer(state, action) {
         ...state,
         newBill: action.payload,
       };
+    case "PAYMENT_RECORD":
+      return {
+        ...state,
+        recordPayment: action.payload,
+      };
     case "DELETE_CONFIRMATION":
       return {
         ...state,
@@ -106,6 +111,7 @@ export const ModalsContextProvider = ({ children }) => {
     maintenanceManagement: false,
     maintenanceView: false,
     newBill: false,
+    recordPayment: false,
     deleteConfirmation: false,
   });
 
