@@ -11,10 +11,12 @@ import Col from "react-bootstrap/Col";
 //modals
 import NewBill from "../components/modals/NewBill";
 import RecordPayment from "../components/modals/RecordPayment";
+import EditBill from "../components/modals/EditBill";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Billing() {
   const { dispatch } = useModalsContext();
+  const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   return (
@@ -85,7 +87,12 @@ function Billing() {
               <Button
                 variant="outline-warning"
                 className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {}}
+                onClick={() => {
+                  setEditData({
+                    subject: "דמי ועד הבית החודשי",
+                  });
+                  dispatch({ type: "EDIT_BILL", payload: true });
+                }}
               >
                 עדכן
               </Button>
@@ -113,6 +120,7 @@ function Billing() {
       {/* //* Modals */}
       <NewBill />
       <RecordPayment />
+      <EditBill />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
