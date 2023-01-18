@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
+import NewBill from "../components/modals/NewBill";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Billing() {
@@ -31,7 +32,12 @@ function Billing() {
           </Form>
         </Col>
         <Col xs={6} md={4} lg={3}>
-          <Button className="ms-4 ms-md-5" onClick={() => {}}>
+          <Button
+            className="ms-4 ms-md-5"
+            onClick={() => {
+              dispatch({ type: "NEW_BILL", payload: true });
+            }}
+          >
             <i className="bi bi-plus-lg"> </i>חיוב חדש
           </Button>
         </Col>
@@ -102,6 +108,7 @@ function Billing() {
         </tbody>
       </Table>
       {/* //* Modals */}
+      <NewBill />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
