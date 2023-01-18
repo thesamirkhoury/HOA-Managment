@@ -120,7 +120,7 @@ function Billing() {
       {/* //* Modals */}
       <NewBill />
       <RecordPayment />
-      <EditBill />
+      <EditBill editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
