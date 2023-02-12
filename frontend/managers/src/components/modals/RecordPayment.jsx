@@ -108,6 +108,7 @@ function RecordPayment() {
                 ></Form.Control>
               </Form.Group>
               <Form.Group as={Col} md="6">
+                {/* //TODO: Round the change to look like XX.XX */}
                 <Form.Label>עודף</Form.Label>
                 <Form.Control
                   disabled
