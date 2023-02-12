@@ -94,6 +94,11 @@ export function modalsReducer(state, action) {
         ...state,
         newExpense: action.payload,
       };
+    case "EDIT_EXPENSE":
+      return {
+        ...state,
+        editExpense: action.payload,
+      };
     case "DELETE_CONFIRMATION":
       return {
         ...state,
@@ -124,6 +129,7 @@ export const ModalsContextProvider = ({ children }) => {
     recordPayment: false,
     editBill: false,
     newExpense: false,
+    editExpense: false,
     deleteConfirmation: false,
   });
 

@@ -9,11 +9,13 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
-import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 import NewExpense from "../components/modals/NewExpense";
+import EditExpense from "../components/modals/EditExpense";
+import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Expenses() {
   const { dispatch } = useModalsContext();
+  const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   return (
@@ -32,10 +34,12 @@ function Expenses() {
           </Form>
         </Col>
         <Col xs={6} md={4} lg={3}>
-          <Button className="ms-4 ms-md-5" onClick={() => {
+          <Button
+            className="ms-4 ms-md-5"
+            onClick={() => {
               dispatch({ type: "NEW_EXPENSE", payload: true });
-
-          }}>
+            }}
+          >
             <i className="bi bi-plus-lg"> </i>הוצאה חדשה
           </Button>
         </Col>
@@ -70,7 +74,12 @@ function Expenses() {
               <Button
                 variant="outline-warning"
                 className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {}}
+                onClick={() => {
+                  setEditData({
+                    subject: "טיפול מעליות",
+                  });
+                  dispatch({ type: "EDIT_EXPENSE", payload: true });
+                }}
               >
                 עדכן
               </Button>
@@ -96,7 +105,8 @@ function Expenses() {
         </tbody>
       </Table>
       {/* //* Modals */}]
-      <NewExpense/>
+      <NewExpense />
+      <EditExpense editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
