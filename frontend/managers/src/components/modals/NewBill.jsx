@@ -41,7 +41,13 @@ function NewBill() {
           <Row>
             <Form.Group as={Col} md="6">
               <Form.Label>סכום נדרש</Form.Label>
-              <Form.Control required type="tel" placeholder=""></Form.Control>
+              <Form.Control
+                required
+                type="number"
+                inputMode="numeric"
+                min="1"
+                placeholder=""
+              ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6">
               <Form.Label>סוג התשלום</Form.Label>

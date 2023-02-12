@@ -62,7 +62,7 @@ function NewExpense() {
               </datalist>
             </Col> */}
             <Form.Group as={Col} md="6">
-              <Form.Label>סכום נדרש</Form.Label>
+              <Form.Label>סכום</Form.Label>
               <Form.Control
                 required
                 type="number"
