@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
+import NewExpense from "../components/modals/NewExpense";
 
 function Expenses() {
   const { dispatch } = useModalsContext();
@@ -31,7 +32,10 @@ function Expenses() {
           </Form>
         </Col>
         <Col xs={6} md={4} lg={3}>
-          <Button className="ms-4 ms-md-5" onClick={() => {}}>
+          <Button className="ms-4 ms-md-5" onClick={() => {
+              dispatch({ type: "NEW_EXPENSE", payload: true });
+
+          }}>
             <i className="bi bi-plus-lg"> </i>הוצאה חדשה
           </Button>
         </Col>
@@ -91,7 +95,8 @@ function Expenses() {
           </tr>
         </tbody>
       </Table>
-      {/* //* Modals */}
+      {/* //* Modals */}]
+      <NewExpense/>
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
