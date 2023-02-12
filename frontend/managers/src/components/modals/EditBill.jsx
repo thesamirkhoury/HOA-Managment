@@ -43,7 +43,13 @@ function EditBill() {
           <Row>
             <Form.Group as={Col} md="6">
               <Form.Label>סכום נדרש</Form.Label>
-              <Form.Control required type="tel" value={""}></Form.Control>
+              <Form.Control
+                required
+                type="number"
+                inputMode="numeric"
+                min="1"
+                value={""}
+              ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6">
               <Form.Label>סוג התשלום</Form.Label>
