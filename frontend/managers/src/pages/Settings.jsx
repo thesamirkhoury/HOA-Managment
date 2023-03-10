@@ -1,12 +1,16 @@
 import React from "react";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
+//modals
+import EditPassword from "../components/modals/EditPassword";
 function Settings() {
+  const { dispatch } = useModalsContext();
+
   return (
     <>
       {/* Page Name */}
@@ -60,10 +64,18 @@ function Settings() {
         <Button variant="info" className="ms-2 mb-2 mb-md-0">
           עדכון פרטיים אישיים
         </Button>
-        <Button variant="outline-info" className="ms-2">
-          עדכון סיסמה
+        <Button
+          variant="outline-info"
+          className="ms-2"
+          onClick={() => {
+            dispatch({ type: "EDIT_PASSWORD", payload: true });
+          }}
+        >
+          החלפת סיסמה
         </Button>
       </Row>
+      {/* //* Modals */}
+      <EditPassword />
     </>
   );
 }
