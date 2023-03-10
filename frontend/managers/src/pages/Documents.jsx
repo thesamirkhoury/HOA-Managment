@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
@@ -10,9 +10,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewDocument from "../components/modals/NewDocument";
+import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Documents() {
   const { dispatch } = useModalsContext();
+  const [deleteData, setDeleteData] = useState();
 
   return (
     <>
@@ -54,7 +56,7 @@ function Documents() {
           {/* //! Placeholder text */}
           <tr>
             <td>חוזה אחזקת מעליות</td>
-            <td>חוזה פורט לאחזקת עליות - שנתי 2023</td>
+            <td>חוזה מפורט לאחזקת מעליות - שנתי 2023</td>
             <td>1/1/2023</td>
             <td>
               <Button
@@ -73,15 +75,15 @@ function Documents() {
               <Button
                 variant="outline-danger"
                 onClick={() => {
-                  // setDeleteData({
-                  //   id: "1234",
-                  //   displayName: "ההוצאה",
-                  //   db: "expense",
-                  // });
-                  // dispatch({
-                  //   type: "DELETE_CONFIRMATION",
-                  //   payload: true,
-                  // });
+                  setDeleteData({
+                    id: "1234",
+                    displayName: "הקובץ",
+                    db: "documents",
+                  });
+                  dispatch({
+                    type: "DELETE_CONFIRMATION",
+                    payload: true,
+                  });
                 }}
               >
                 מחק
@@ -92,6 +94,7 @@ function Documents() {
       </Table>
       {/* //* Modals */}
       <NewDocument />
+      <DeleteConfirmation deleteData={deleteData} />
     </>
   );
 }
