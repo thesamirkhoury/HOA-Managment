@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewDocument from "../components/modals/NewDocument";
+import EditDocument from "../components/modals/EditDocument";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Documents() {
@@ -66,7 +67,7 @@ function Documents() {
                   // setEditData({
                   //   subject: "טיפול מעליות",
                   // });
-                  // dispatch({ type: "EDIT_EXPENSE", payload: true });
+                  dispatch({ type: "EDIT_DOCUMENT", payload: true });
                 }}
               >
                 עדכן
@@ -94,6 +95,7 @@ function Documents() {
       </Table>
       {/* //* Modals */}
       <NewDocument />
+      <EditDocument />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
