@@ -53,9 +53,9 @@ async function getBills(req, res) {
   res.status(200).json(bills);
 }
 
-//Get the sum of all paid bills by a specific time period
+//Get sum of expenses by a specified time period
 //TODO: get hoa id from auth instead of body
-async function getSumMonths(req, res) {
+async function getSum(req, res) {
   // get hoa id from user auth
   const { hoaID } = req.body; //change to auth id
   // check if id is a valid mongoose id
@@ -67,37 +67,68 @@ async function getSumMonths(req, res) {
 
   //create date from request body
   const startDate = new Date(from);
-  const endDate = new Date(to);
+  let endDate = new Date(to);
+  endDate.setMonth(endDate.getMonth()+1); //add 1 month to the date created to get the correct time period
 
-  // find the relevant documents, and sum the amount
-  const bills = await Billing.aggregate([
+  // search for all the bills,created by th HOA ID grouped by updated at month, (with the status of paid)
+  const existingIncomes = await Billing.aggregate([
     {
       $match: {
-        // find paid documents from start date to end date
-        paymentDate: {
+        // find paid documents from start date to end date, created by th HOA ID
+        HOA: hoaID,
+        updatedAt: {
           $gte: startDate,
           $lte: endDate,
         },
+        paymentStatus: "Paid",
       },
     },
     {
       $group: {
         // sum the amount
-        _id: null,
+        _id: { month: { $month: "$updatedAt" }, year: { $year: "$updatedAt" } },
         sum: { $sum: "$amount" },
+      },
+    },
+    {
+      $sort: {
+        "_id.year": 1,
+        "_id.month": 1,
       },
     },
   ]);
 
-  if (!bills) {
-    return res.status(404).json({ error: "No Bills Found" });
+  let incomes = [];
+  let currMonth = startDate;
+  //iterate over the provided time period, if the month is available append it to the incomes array, if it is not available append a sum of zero
+  while (currMonth < endDate) {
+    //search for the month in the aggregated results from the DB
+    const existingIncome = existingIncomes.find(
+      (income) => income._id.month === currMonth.getMonth() + 1
+    );
+
+    // check if the month is NOT available in the DB, to append a sum of zero for that month.
+    if (!existingIncome) {
+      incomes.push({
+        date: `${currMonth.getFullYear()}-${currMonth.getMonth() + 1}`,
+        sum: 0,
+      });
+    }
+    // if the month is available in the DB, append the sum from the aggregation array.
+    else {
+      incomes.push({
+        date: `${existingIncome._id.year}-${existingIncome._id.month}`,
+        sum: existingIncome.sum,
+      });
+    }
+
+    // increase the months by one
+    currMonth.setMonth(currMonth.getMonth() + 1);
   }
-  res.status(200).json({
-    startDate,
-    endDate,
-    sum: bills[0].sum,
-  });
+
+  res.status(200).json({ incomes });
 }
+
 
 //Edit a bill by _id
 async function editBill(req, res) {
@@ -175,7 +206,9 @@ async function getUserBills(req, res) {
     return res.status(404).json({ error: "Tenant Not Found" });
   }
 
-  const bills = await Billing.find({ HOA: hoaID, tenant: tenantID }).sort({createdAt: -1});
+  const bills = await Billing.find({ HOA: hoaID, tenant: tenantID }).sort({
+    createdAt: -1,
+  });
   if (!bills) {
     return res.status(404).json({ error: "No Bills Found" });
   }
@@ -185,7 +218,7 @@ async function getUserBills(req, res) {
 module.exports = {
   createBill,
   getBills,
-  getSumMonths,
+  getSum,
   editBill,
   deleteBill,
   recordPayment,
