@@ -15,6 +15,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Documents() {
   const { dispatch } = useModalsContext();
+  const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   return (
@@ -64,9 +65,10 @@ function Documents() {
                 variant="outline-warning"
                 className="me-md-1 mb-1 mb-md-0"
                 onClick={() => {
-                  // setEditData({
-                  //   subject: "טיפול מעליות",
-                  // });
+                  setEditData({
+                    fileName: "טיפול מעליות",
+                    fileDescription: "תיאור",
+                  });
                   dispatch({ type: "EDIT_DOCUMENT", payload: true });
                 }}
               >
@@ -95,7 +97,7 @@ function Documents() {
       </Table>
       {/* //* Modals */}
       <NewDocument />
-      <EditDocument />
+      <EditDocument editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );
