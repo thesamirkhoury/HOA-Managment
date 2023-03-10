@@ -26,17 +26,21 @@ function EditPassword() {
         <Form>
           <Form.Group className="mb-2">
             <Form.Label>סיסמה נוחכית</Form.Label>
-            <Form.Control type="password" placeholder="סיסמה נוחכית" />
+            <Form.Control required type="password" placeholder="סיסמה נוחכית" />
           </Form.Group>
 
           <Form.Group className="mb-2">
             <Form.Label>סיסמה חדשה</Form.Label>
-            <Form.Control type="password" placeholder="סיסמה חדשה" />
+            <Form.Control required type="password" placeholder="סיסמה חדשה" />
           </Form.Group>
 
           <Form.Group className="mb-2">
             <Form.Label>אימות סיסמה חדשה</Form.Label>
-            <Form.Control type="password" placeholder="אימות סיסמה חדשה" />
+            <Form.Control
+              required
+              type="password"
+              placeholder="אימות סיסמה חדשה"
+            />
           </Form.Group>
 
           <div className="mt-3 float-end">
