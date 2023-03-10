@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
+import EditPersonalDetails from "../components/modals/EditPersonalDetails";
 import EditPassword from "../components/modals/EditPassword";
 function Settings() {
   const { dispatch } = useModalsContext();
@@ -61,8 +62,14 @@ function Settings() {
         </p>
       </div>
       <Row xs={7} md={6}>
-        <Button variant="info" className="ms-2 mb-2 mb-md-0">
-          עדכון פרטיים אישיים
+        <Button
+          variant="info"
+          className="ms-2 mb-2 mb-md-0"
+          onClick={() => {
+            dispatch({ type: "EDIT_PERSONAL", payload: true });
+          }}
+        >
+          עדכון פרטים אישיים
         </Button>
         <Button
           variant="outline-info"
@@ -75,6 +82,7 @@ function Settings() {
         </Button>
       </Row>
       {/* //* Modals */}
+      <EditPersonalDetails />
       <EditPassword />
     </>
   );
