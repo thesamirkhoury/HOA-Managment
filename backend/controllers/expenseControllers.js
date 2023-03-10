@@ -59,7 +59,7 @@ async function getExpenses(req, res) {
 
 //Get sum of expenses by a specified time period
 //TODO: get hoa id from auth instead of body
-async function getSumMonths(req, res) {
+async function getSum(req, res) {
   // get hoa id from user auth
   const { hoaID } = req.body; //change to auth id
   // check if id is a valid mongoose id
@@ -71,13 +71,14 @@ async function getSumMonths(req, res) {
 
   //create date from request body
   const startDate = new Date(from);
-  const endDate = new Date(to);
+  let endDate = new Date(to);
 
-  // find the relevant documents, and sum the amount
-  const expenses = await Expense.aggregate([
+  // search for all the expenses,created by th HOA ID grouped by created month
+  const existingExpenses = await Expense.aggregate([
     {
       $match: {
-        // find paid documents from start date to end date
+        // find paid documents from start date to end date, created by th HOA ID
+        HOA: hoaID,
         createdAt: {
           $gte: startDate,
           $lte: endDate,
@@ -87,20 +88,47 @@ async function getSumMonths(req, res) {
     {
       $group: {
         // sum the amount
-        _id: null,
+        _id: { month: { $month: "$createdAt" }, year: { $year: "$createdAt" } },
         sum: { $sum: "$amount" },
+      },
+    },
+    {
+      $sort: {
+        "_id.year": 1,
+        "_id.month": 1,
       },
     },
   ]);
 
-  if (!expenses) {
-    return res.status(404).json({ error: "No Expenses Found" });
+  let expenses = [];
+  let currMonth = startDate;
+  //iterate over the provided time period, if the month is available append it to the expenses array, if it is not available append a sum of zero
+  while (currMonth <= endDate) {
+    //search for the month in the aggregated results from the DB
+    const existingExpense = existingExpenses.find(
+      (expense) => expense._id.month === currMonth.getMonth() + 1
+    );
+
+    // check if the month is NOT available in the DB, to append a sum of zero for that month.
+    if (!existingExpense) {
+      expenses.push({
+        date: `${currMonth.getFullYear()}-${currMonth.getMonth() + 1}`,
+        sum: 0,
+      });
+    }
+    // if the month is available in the DB, append the sum from the aggregation array.
+    else {
+      expenses.push({
+        date: `${existingExpense._id.year}-${existingExpense._id.month}`,
+        sum: existingExpense.sum,
+      });
+    }
+
+    // increase the months by one
+    currMonth.setMonth(currMonth.getMonth() + 1);
   }
-  res.status(200).json({
-    startDate,
-    endDate,
-    sum: expenses[0].sum,
-  });
+
+  res.status(200).json({ expenses });
 }
 
 //Edit an expense by _id
@@ -111,13 +139,8 @@ async function editExpense(req, res) {
     return res.status(404).json({ error: "Expense Not Found" });
   }
 
-  const {
-    amount,
-    paymentType,
-    details,
-    paymentCategory,
-    paymentMethod,
-  } = req.body;
+  const { amount, paymentType, details, paymentCategory, paymentMethod } =
+    req.body;
 
   const expense = await Expense.findByIdAndUpdate(
     id,
@@ -148,7 +171,7 @@ async function deleteBill(req, res) {
 module.exports = {
   createExpense,
   getExpenses,
-  getSumMonths,
+  getSum,
   editExpense,
   deleteBill,
 };
