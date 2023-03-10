@@ -1,4 +1,4 @@
-.container{
+.container {
   // remove flex box on smaller devices
   @media (min-width: 992px) {
     display: flex;
@@ -28,5 +28,11 @@
 
 .content {
   flex: 1 1 0;
-  padding: 0 2rem 2rem 2rem; 
+  padding: 0 2rem 2rem 2rem;
+}
+
+.loader-spinner .modal-content {
+  // Removing modal background and border
+  background-color: rgba(0, 0, 0, 0);
+  border: 0ch;
 }
