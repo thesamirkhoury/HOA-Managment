@@ -124,6 +124,11 @@ export function modalsReducer(state, action) {
         ...state,
         editPassword: action.payload,
       };
+    case "LOADING":
+      return {
+        ...state,
+        loading: action.payload,
+      };
     case "DELETE_CONFIRMATION":
       return {
         ...state,
@@ -157,9 +162,10 @@ export const ModalsContextProvider = ({ children }) => {
     editExpense: false,
     newDocument: false,
     editDocument: false,
-    editHOA:false,
-    editPersonal:false,
-    editPassword:false,
+    editHOA: false,
+    editPersonal: false,
+    editPassword: false,
+    loading: false,
     deleteConfirmation: false,
   });
 
