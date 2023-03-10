@@ -104,7 +104,7 @@ function Expenses() {
           </tr>
         </tbody>
       </Table>
-      {/* //* Modals */}]
+      {/* //* Modals */}
       <NewExpense />
       <EditExpense editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
