@@ -7,8 +7,10 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
+import EditHOADetails from "../components/modals/EditHOADetails";
 import EditPersonalDetails from "../components/modals/EditPersonalDetails";
 import EditPassword from "../components/modals/EditPassword";
+
 function Settings() {
   const { dispatch } = useModalsContext();
 
@@ -42,7 +44,13 @@ function Settings() {
         </p>
       </div>
       <Row xs={7} md={6}>
-        <Button variant="outline-info" className="ms-2">
+        <Button
+          variant="outline-info"
+          className="ms-2"
+          onClick={() => {
+            dispatch({ type: "EDIT_HOA", payload: true });
+          }}
+        >
           עדכן פרטים
         </Button>
       </Row>
@@ -82,6 +90,7 @@ function Settings() {
         </Button>
       </Row>
       {/* //* Modals */}
+      <EditHOADetails />
       <EditPersonalDetails />
       <EditPassword />
     </>
