@@ -6,9 +6,6 @@ import { useModalsContext } from "../../hooks/useModalsContext";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-//bootstrap spacing
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 function NewDocument() {
   const { newDocument, dispatch } = useModalsContext();
