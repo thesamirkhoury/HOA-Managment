@@ -72,7 +72,6 @@ async function getSum(req, res) {
   //create date from request body
   const startDate = new Date(from);
   let endDate = new Date(to);
-  endDate.setMonth(endDate.getMonth() + 1); //add 1 month to the date created to get the correct time period
 
   // search for all the expenses,created by th HOA ID grouped by created month
   const existingExpenses = await Expense.aggregate([
@@ -104,7 +103,7 @@ async function getSum(req, res) {
   let expenses = [];
   let currMonth = startDate;
   //iterate over the provided time period, if the month is available append it to the expenses array, if it is not available append a sum of zero
-  while (currMonth < endDate) {
+  while (currMonth <= endDate) {
     //search for the month in the aggregated results from the DB
     const existingExpense = existingExpenses.find(
       (expense) => expense._id.month === currMonth.getMonth() + 1
