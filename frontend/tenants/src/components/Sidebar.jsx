@@ -1,4 +1,6 @@
 import React from "react";
+import { useModalsContext } from "../hook/useModalsContext";
+
 //bootstrap components
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Nav from "react-bootstrap/Nav";
@@ -11,15 +13,28 @@ import Logo from "../assets/LogoBlack.svg";
 import { useLocation } from "react-router-dom";
 
 function Sidebar() {
+  const { showOffcanvas, dispatch } = useModalsContext();
   const location = useLocation(); // used to get the current pathname, and highlight it in the Sidebar
 
   // When clicking on any link scroll to the top of the page.
   function scrollToTop() {
     window.scrollTo(0, 0);
+    // hide Offcanvas menu on smaller screens once a link is clicked
+    if (showOffcanvas) {
+      dispatch({ type: "OFFCANVAS", payload: false });
+    }
   }
 
   return (
-    <Offcanvas show={true} backdrop={true} responsive="lg" placement="start">
+    <Offcanvas
+      show={showOffcanvas}
+      onHide={() => {
+        dispatch({ type: "OFFCANVAS", payload: false });
+      }}
+      backdrop={true}
+      responsive="lg"
+      placement="start"
+    >
       {/* Offcanvas Title */}
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>

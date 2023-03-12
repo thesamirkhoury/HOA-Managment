@@ -1,4 +1,5 @@
 import React from "react";
+import { useModalsContext } from "../hook/useModalsContext";
 
 //bootstrap components
 import Navbar from "react-bootstrap/Navbar";
@@ -9,18 +10,22 @@ import { LinkContainer } from "react-router-bootstrap";
 import Logo from "../assets/Logo.svg";
 
 function VerticalNav() {
+  const { dispatch } = useModalsContext();
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
         {/* //TODO: connect with sidebar, show only when logged in */}
         {/* Sidebar expand button, on smaller screen */}
-         <Navbar.Toggle
+        <Navbar.Toggle
           aria-controls="expand Sidebar"
+          onClick={() => {
+            dispatch({ type: "OFFCANVAS", payload: true });
+          }}
         />
         <LinkContainer to="/">
-          <Navbar.Brand> 
+          <Navbar.Brand>
             <img src={Logo} alt="logo" width="50" className="logo" />
-           </Navbar.Brand>
+          </Navbar.Brand>
         </LinkContainer>
         {/* //TODO: implement dynamic hook, show only when logged in */}
         {/* Dynamically updated Wifi status */}
