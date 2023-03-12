@@ -5,7 +5,6 @@ import { useModalsContext } from "../hooks/useModalsContext";
 import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 //modals
 import EditHOADetails from "../components/modals/EditHOADetails";
 import EditPersonalDetails from "../components/modals/EditPersonalDetails";
