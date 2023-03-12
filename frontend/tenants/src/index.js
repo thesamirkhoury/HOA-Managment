@@ -8,6 +8,8 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 // RTL Bootstrap
 import "bootstrap/dist/css/bootstrap.rtl.min.css";
+// styling
+import "./style.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

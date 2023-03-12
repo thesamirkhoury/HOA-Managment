@@ -19,23 +19,34 @@ import NotFound from "./pages/NotFound";
 function App() {
   return (
     <div className="App">
-      <Routes>
-        {/* Main Page - Redirect to the first page in the dashboard */}
-        <Route path="/" element={<Navigate to="announcements" />} exact />
-        {/* Dashboard pages */}
-        <Route path="announcements" element={<Announcements />} exact />
-        <Route path="maintenance" element={<Maintenance />} exact />
-        <Route path="inquires" element={<Inquires />} exact />
-        <Route path="billings" element={<Billing />} exact />
-        <Route path="financial" element={<Financial />} exact />
-        <Route path="documents" element={<Documents />} exact />
-        <Route path="hoa-details" element={<HOADetails />} exact />
-        <Route path="settings" element={<Settings />} exact />
-        {/* Auth pages */}
-        <Route path="login" element={<Login />} exact />
-        {/* 404 Page for non-existing pages */}
-        <Route path="*" element={<NotFound />} exact />
-      </Routes>
+      <Navbar />
+      {/* Flex box container */}
+      <div className="container">
+        {/* Sidebar */}
+        <div className="sidebar">
+          <Sidebar />
+        </div>
+        {/* Content */}
+        <div className="content ps-2">
+          <Routes>
+            {/* Main Page - Redirect to the first page in the dashboard */}
+            <Route path="/" element={<Navigate to="announcements" />} exact />
+            {/* Dashboard pages */}
+            <Route path="announcements" element={<Announcements />} exact />
+            <Route path="maintenance" element={<Maintenance />} exact />
+            <Route path="inquires" element={<Inquires />} exact />
+            <Route path="billings" element={<Billing />} exact />
+            <Route path="financial" element={<Financial />} exact />
+            <Route path="documents" element={<Documents />} exact />
+            <Route path="hoa-details" element={<HOADetails />} exact />
+            <Route path="settings" element={<Settings />} exact />
+            {/* Auth pages */}
+            <Route path="login" element={<Login />} exact />
+            {/* 404 Page for non-existing pages */}
+            <Route path="*" element={<NotFound />} exact />
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 }
