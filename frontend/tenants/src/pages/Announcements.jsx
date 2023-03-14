@@ -15,7 +15,7 @@ function Announcements() {
       <h1 className="display-1">הודעות הועד</h1>
       {/* Search Bar */}
       <Row className="ms-md-2 mb-2">
-        <Col xs={6} md={6} lg={8}>
+        <Col xs={12} md={6} lg={8}>
           <Form>
             <Form.Control
               type="search"
