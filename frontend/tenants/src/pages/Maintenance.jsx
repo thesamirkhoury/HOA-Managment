@@ -1,4 +1,5 @@
 import React from "react";
+import { useModalsContext } from "../hook/useModalsContext";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -8,8 +9,12 @@ import Badge from "react-bootstrap/Badge";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//modals
+import NewMaintenance from "../components/modals/NewMaintenance";
 
 function Maintenance() {
+  const { newMaintenance, dispatch } = useModalsContext();
+
   return (
     <>
       {/* Page Name */}
@@ -26,7 +31,12 @@ function Maintenance() {
           </Form>
         </Col>
         <Col xs={6} md={4} lg={3}>
-          <Button className="ms-4 ms-md-5">
+          <Button
+            className="ms-4 ms-md-5"
+            onClick={() => {
+              dispatch({ type: "NEW_MAINTENANCE", payload: true });
+            }}
+          >
             <i className="bi bi-plus-lg"> </i>קריאה חדשה
           </Button>
         </Col>
@@ -64,6 +74,9 @@ function Maintenance() {
           </Card>
         </Col>
       </Row>
+
+      {/* //* Modals */}
+      <NewMaintenance />
     </>
   );
 }
