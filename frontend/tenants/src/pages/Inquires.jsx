@@ -11,6 +11,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewInquiry from "../components/modals/NewInquiry";
+import InquiryDetails from "../components/modals/InquiryDetails";
 
 function Inquires() {
   const { newInquiry, dispatch } = useModalsContext();
@@ -30,9 +31,12 @@ function Inquires() {
           </Form>
         </Col>
         <Col xs={6} md={4} lg={3}>
-          <Button className="ms-4 ms-md-5" onClick={() => {
-            dispatch({ type: "NEW_INQUIRY", payload: true });
-          }}>
+          <Button
+            className="ms-4 ms-md-5"
+            onClick={() => {
+              dispatch({ type: "NEW_INQUIRY", payload: true });
+            }}
+          >
             <i className="bi bi-plus-lg"> </i>פנייה חדשה
           </Button>
         </Col>
@@ -53,7 +57,13 @@ function Inquires() {
               </Card.Subtitle>
               <Card.Text>החלפת נורות במעלית</Card.Text>
               <div className="float-end">
-                <Button variant="outline-primary" className="me-1">
+                <Button
+                  variant="outline-primary"
+                  className="me-1"
+                  onClick={() => {
+                    dispatch({ type: "INQUIRY_DETAILS", payload: true });
+                  }}
+                >
                   פרטיים
                 </Button>
               </div>
@@ -73,7 +83,13 @@ function Inquires() {
               </Card.Subtitle>
               <Card.Text>החלפת נורות במעלית</Card.Text>
               <div className="float-end">
-                <Button variant="outline-primary" className="me-1">
+                <Button
+                  variant="outline-primary"
+                  className="me-1"
+                  onClick={() => {
+                    dispatch({ type: "INQUIRY_DETAILS", payload: true });
+                  }}
+                >
                   פרטיים
                 </Button>
               </div>
@@ -84,6 +100,7 @@ function Inquires() {
 
       {/* //* Modals */}
       <NewInquiry />
+      <InquiryDetails />
     </>
   );
 }

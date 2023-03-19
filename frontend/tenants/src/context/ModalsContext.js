@@ -19,6 +19,11 @@ export function modalsReducer(state, action) {
         ...state,
         newInquiry: action.payload,
       };
+    case "INQUIRY_DETAILS":
+      return {
+        ...state,
+        inquiryDetails: action.payload,
+      };
     default:
       return state;
   }
@@ -28,7 +33,8 @@ export const ModalsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(modalsReducer, {
     showOffcanvas: false,
     newMaintenance: false,
-    newInquiry:false,
+    newInquiry: false,
+    inquiryDetails: false,
   });
 
   return (
