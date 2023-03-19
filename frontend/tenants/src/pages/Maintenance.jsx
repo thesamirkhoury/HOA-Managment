@@ -50,11 +50,11 @@ function Maintenance() {
               <Card.Title>החלפת נורות במעלית</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 לפני שעתיים
+                <Badge bg="danger" className="fs-6 ms-2">
+                  {"פתוח"}
+                </Badge>
               </Card.Subtitle>
               <Card.Text>החלפת נורות במעלית</Card.Text>
-              <Badge bg="danger" className="fs-6 ms-1">
-                {"פתוח"}
-              </Badge>
             </Card.Body>
           </Card>
         </Col>
@@ -65,11 +65,11 @@ function Maintenance() {
               <Card.Title>החלפת נורות במעלית</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 לפני יומיים
+                <Badge bg="success" className="fs-6 ms-2">
+                  {"סגור"}
+                </Badge>
               </Card.Subtitle>
               <Card.Text>החלפת נורות במעלית</Card.Text>
-              <Badge bg="success" className="fs-6 ms-1">
-                {"סגור"}
-              </Badge>
             </Card.Body>
           </Card>
         </Col>
