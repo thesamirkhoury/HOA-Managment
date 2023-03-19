@@ -1,4 +1,5 @@
 import React from "react";
+import { useModalsContext } from "../hook/useModalsContext";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -8,8 +9,11 @@ import Badge from "react-bootstrap/Badge";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//modals
+import NewInquiry from "../components/modals/NewInquiry";
 
 function Inquires() {
+  const { newInquiry, dispatch } = useModalsContext();
   return (
     <>
       {/* Page Name */}
@@ -26,11 +30,9 @@ function Inquires() {
           </Form>
         </Col>
         <Col xs={6} md={4} lg={3}>
-          <Button
-            className="ms-4 ms-md-5"
-            onClick={() => {
-            }}
-          >
+          <Button className="ms-4 ms-md-5" onClick={() => {
+            dispatch({ type: "NEW_INQUIRY", payload: true });
+          }}>
             <i className="bi bi-plus-lg"> </i>פנייה חדשה
           </Button>
         </Col>
@@ -79,6 +81,9 @@ function Inquires() {
           </Card>
         </Col>
       </Row>
+
+      {/* //* Modals */}
+      <NewInquiry />
     </>
   );
 }
