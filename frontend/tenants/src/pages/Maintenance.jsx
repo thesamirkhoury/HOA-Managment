@@ -13,7 +13,7 @@ import Col from "react-bootstrap/Col";
 import NewMaintenance from "../components/modals/NewMaintenance";
 
 function Maintenance() {
-  const { newMaintenance, dispatch } = useModalsContext();
+  const { dispatch } = useModalsContext();
 
   return (
     <>
