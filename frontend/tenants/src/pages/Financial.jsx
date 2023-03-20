@@ -1,7 +1,7 @@
 import React from "react";
 
 // ChartJS Bar chart Component
-import { Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2"; // eslint-disable-next-line
 import { Chart as ChartJS } from "chart.js/auto";
 //bootstrap components
 import Form from "react-bootstrap/Form";
