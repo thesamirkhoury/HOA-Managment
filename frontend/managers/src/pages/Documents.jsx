@@ -62,6 +62,13 @@ function Documents() {
             <td>1/1/2023</td>
             <td>
               <Button
+                variant="outline-primary"
+                className="me-md-1 mb-1 mb-md-0"
+              >
+                הורדה
+              </Button>
+
+              <Button
                 variant="outline-warning"
                 className="me-md-1 mb-1 mb-md-0"
                 onClick={() => {
