@@ -14,7 +14,7 @@ import NewInquiry from "../components/modals/NewInquiry";
 import InquiryDetails from "../components/modals/InquiryDetails";
 
 function Inquires() {
-  const { newInquiry, dispatch } = useModalsContext();
+  const { dispatch } = useModalsContext();
   return (
     <>
       {/* Page Name */}
