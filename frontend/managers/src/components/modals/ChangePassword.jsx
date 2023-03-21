@@ -7,16 +7,16 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-function EditPassword() {
-  const { editPassword, dispatch } = useModalsContext();
+function ChangePassword() {
+  const { changePassword, dispatch } = useModalsContext();
 
   return (
     <Modal
-      show={editPassword}
+      show={changePassword}
       fullscreen="lg-down"
       size="lg"
       onHide={() => {
-        dispatch({ type: "EDIT_PASSWORD", payload: false });
+        dispatch({ type: "CHANGE_PASSWORD", payload: false });
       }}
     >
       <Modal.Header closeButton>
@@ -51,7 +51,7 @@ function EditPassword() {
               variant="outline-secondary"
               className="ms-2"
               onClick={() => {
-                dispatch({ type: "EDIT_PASSWORD", payload: false });
+                dispatch({ type: "CHANGE_PASSWORD", payload: false });
               }}
             >
               <i className="bi bi-x-square"> </i>סגור חלון
@@ -63,4 +63,4 @@ function EditPassword() {
   );
 }
 
-export default EditPassword;
+export default ChangePassword;
