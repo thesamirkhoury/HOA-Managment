@@ -11,7 +11,6 @@ function HOADetails() {
       <h1 className="display-1">אודות הועד</h1>
       {/* Details Card */}
       <Card>
-        <Card.Text>
           <Form className="m-2">
             <Form.Group>
               <Form.Label className="fs-2">כתובת הבניין</Form.Label>
@@ -49,7 +48,6 @@ function HOADetails() {
               ></Form.Control>
             </Form.Group>
           </Form>
-        </Card.Text>
       </Card>
     </>
   );
