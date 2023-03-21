@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 //Pages and Components
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import Loader from "./components/Loader";
 import Announcements from "./pages/Announcements";
 import Maintenance from "./pages/Maintenance";
 import Inquires from "./pages/Inquires";
@@ -47,6 +48,8 @@ function App() {
           </Routes>
         </div>
       </div>
+      {/* //*Loader Modal */}
+      <Loader />
     </div>
   );
 }
