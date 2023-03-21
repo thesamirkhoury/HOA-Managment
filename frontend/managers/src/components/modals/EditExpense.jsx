@@ -99,7 +99,7 @@ function EditExpense() {
               variant="outline-secondary"
               className="ms-2"
               onClick={() => {
-                dispatch({ type: "NEW_EXPENSE", payload: false });
+                dispatch({ type: "EDIT_EXPENSE", payload: false });
               }}
             >
               <i className="bi bi-x-square"> </i>סגור חלון

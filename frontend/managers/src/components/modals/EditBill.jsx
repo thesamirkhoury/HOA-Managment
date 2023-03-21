@@ -92,7 +92,7 @@ function EditBill() {
               variant="outline-secondary"
               className="ms-2"
               onClick={() => {
-                dispatch({ type: "EDIT_REMINDER", payload: false });
+                dispatch({ type: "EDIT_BILL", payload: false });
               }}
             >
               <i className="bi bi-x-square"> </i>סגור חלון

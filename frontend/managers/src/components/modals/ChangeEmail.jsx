@@ -50,7 +50,7 @@ function ChangeEmail() {
               variant="outline-secondary"
               className="ms-2"
               onClick={() => {
-                dispatch({ type: "INQUIRY_DETAILS", payload: false });
+                dispatch({ type: "CHANGE_EMAIL", payload: false });
               }}
             >
               <i className="bi bi-x-square"> </i>סגור חלון
