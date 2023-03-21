@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import ChangeEmail from "../components/modals/ChangeEmail";
+import ChangePassword from "../components/modals/ChangePassword";
 
 function Settings() {
   const { dispatch } = useModalsContext();
@@ -141,7 +142,13 @@ function Settings() {
                   </Button>
                 </Col>
                 <Col>
-                  <Button variant="outline-primary" className="w-100">
+                  <Button
+                    variant="outline-primary"
+                    className="w-100"
+                    onClick={() => {
+                      dispatch({ type: "CHANGE_PASSWORD", payload: true });
+                    }}
+                  >
                     החלפת סיסמה
                   </Button>
                 </Col>
@@ -174,6 +181,7 @@ function Settings() {
       </Card>
       {/* //* Modals */}
       <ChangeEmail />
+      <ChangePassword />
     </>
   );
 }
