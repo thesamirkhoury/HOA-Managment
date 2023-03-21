@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useModalsContext } from "../hook/useModalsContext";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";
@@ -7,9 +8,12 @@ import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
+//modals
+import ChangeEmail from "../components/modals/ChangeEmail";
 
 function Settings() {
+  const { dispatch } = useModalsContext();
+
   const [isEditable, SetIsEditable] = useState(false);
 
   return (
@@ -126,8 +130,14 @@ function Settings() {
                 </Col>
 
                 <Col>
-                  <Button variant="outline-primary" className="w-100">
-                    עדכן מייל
+                  <Button
+                    variant="outline-primary"
+                    className="w-100"
+                    onClick={() => {
+                      dispatch({ type: "CHANGE_EMAIL", payload: true });
+                    }}
+                  >
+                    החלפת מייל
                   </Button>
                 </Col>
                 <Col>
@@ -137,7 +147,7 @@ function Settings() {
                 </Col>
                 <Card.Subtitle className="m-2 text-muted">
                   לא ניתן לעדכן חלק מהפרטיים האשיים, אם יש מידע שגוי נא לפנות
-                  לוועד
+                  לועד.
                 </Card.Subtitle>
               </Row>
             )}
@@ -162,6 +172,8 @@ function Settings() {
           </Form>
         </Card.Body>
       </Card>
+      {/* //* Modals */}
+      <ChangeEmail />
     </>
   );
 }
