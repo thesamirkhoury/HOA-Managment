@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSignup } from "../hooks/useSignup";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";
@@ -14,12 +15,22 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
-  const [fee, setFee] = useState("");
+  const [membersMonthlyFee, setMembersMonthlyFee] = useState("");
   const [buildingCount, setBuildingCount] = useState("");
+
+  const { signup, error } = useSignup();
 
   async function handleSignup(e) {
     e.preventDefault();
-
+    await signup(
+      firstName,
+      lastName,
+      email,
+      password,
+      address,
+      membersMonthlyFee,
+      buildingCount
+    );
   }
 
   return (
@@ -142,9 +153,9 @@ function Signup() {
                     min="1"
                     step="any"
                     required
-                    value={fee}
+                    value={membersMonthlyFee}
                     onChange={(e) => {
-                      setFee(e.target.value);
+                      setMembersMonthlyFee(e.target.value);
                     }}
                   ></Form.Control>
                 </Form.Group>
@@ -153,9 +164,13 @@ function Signup() {
 
             <Row>
               <Col md={{ span: 5, offset: 3 }} className="">
-                <Button className="w-100">הירשם</Button>
+                <Button type="submit" className="w-100">
+                  הירשם
+                </Button>
               </Col>
             </Row>
+
+            {error && <div className="error">{error}</div>}
           </Form>
         </Card.Body>
       </Card>
