@@ -32,7 +32,11 @@ const port = 4000;
 //middleware
 //CORS
 const corsOptions = {
-  origin: ["http://localhost:3000", process.env.LCL_IP], //for the meantime only accept from localhost
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    process.env.LCL_IP,
+  ], //for the meantime only accept from localhost
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
