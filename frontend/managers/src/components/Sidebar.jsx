@@ -1,5 +1,6 @@
 import React from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useLogout } from "../hooks/useLogout";
 //bootstrap components
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Nav from "react-bootstrap/Nav";
@@ -13,6 +14,7 @@ import { useLocation } from "react-router-dom";
 
 function Sidebar() {
   const { showOffcanvas, dispatch } = useModalsContext();
+  const { logout } = useLogout();
   const location = useLocation(); // used to get the current pathname, and highlight it in the Sidebar
 
   // When clicking on any link scroll to the top of the page.
@@ -144,7 +146,7 @@ function Sidebar() {
             variant="outline-dark"
             className="mt-1"
             onClick={() => {
-              //TODO: Log out user
+              logout();
             }}
           >
             <i className="bi bi-box-arrow-left me-1"></i>
