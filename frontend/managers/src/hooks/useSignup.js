@@ -4,7 +4,7 @@ import { useModalsContext } from "./useModalsContext";
 
 export function useSignup() {
   const { dispatch } = useAuthContext();
-  const { dispatch: dispatchLoading } = useModalsContext();
+  const { dispatch: modalsDispatch } = useModalsContext();
 
   const [error, setError] = useState(null);
 
@@ -17,7 +17,7 @@ export function useSignup() {
     membersMonthlyFee,
     buildingCount
   ) {
-    dispatchLoading({ type: "LOADING", payload: true });
+    modalsDispatch({ type: "LOADING", payload: true });
     setError(null);
 
     const response = await fetch("http://localhost:4000/api/managers/signup", {
@@ -36,7 +36,7 @@ export function useSignup() {
     const json = await response.json();
 
     if (!response.ok) {
-      dispatchLoading({ type: "LOADING", payload: false });
+      modalsDispatch({ type: "LOADING", payload: false });
 
       setError(json.error);
     }
@@ -45,7 +45,7 @@ export function useSignup() {
       localStorage.setItem("board", JSON.stringify(json));
       //update the AUTH Context
       dispatch({ type: "LOGIN", payload: json });
-      dispatchLoading({ type: "LOADING", payload: false });
+      modalsDispatch({ type: "LOADING", payload: false });
     }
   }
   return { signup, error };
