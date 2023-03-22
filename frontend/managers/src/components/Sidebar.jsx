@@ -147,6 +147,7 @@ function Sidebar() {
             className="mt-1"
             onClick={() => {
               logout();
+              dispatch({ type: "OFFCANVAS", payload: false });
             }}
           >
             <i className="bi bi-box-arrow-left me-1"></i>
