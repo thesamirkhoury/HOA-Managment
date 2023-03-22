@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLogin } from "../hooks/useLogin";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";
@@ -12,17 +13,19 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { login, error } = useLogin();
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    await login(email, password);
+  }
+
   return (
     <div className="mt-1 mt-md-5 ms-2">
       <Card>
         <Card.Body>
           <h1 className="display-1 text-center">התחבר</h1>
-          <Form
-            className="m-2"
-            onSubmit={() => {
-              console.log("here");
-            }}
-          >
+          <Form className="m-2" onSubmit={handleLogin}>
             <Form.Group className="mb-2">
               <Form.Label>מייל</Form.Label>
               <Form.Control
@@ -54,6 +57,8 @@ function Login() {
                 </Button>
               </Col>
             </Row>
+
+            {error && <div className="error">{error}</div>}
           </Form>
         </Card.Body>
       </Card>
