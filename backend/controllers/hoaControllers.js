@@ -1,38 +1,47 @@
 const HOA = require("../models/hoa");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+
+// JWT Create Token Function
+function createToken(_id) {
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
+}
 
 //* Managers
 //Create a new HOA user - (Signup)
 async function signup(req, res) {
-  const {
-    firstName,
-    lastName,
-    managerEmail,
-    password,
-    address,
-    membersMonthlyFee,
-  } = req.body;
+  const { firstName, lastName, email, password, address, membersMonthlyFee } =
+    req.body;
 
   // sign up user
   try {
     const newHoa = await HOA.signup(
       firstName,
       lastName,
-      managerEmail,
+      email,
       password,
       address,
       membersMonthlyFee
     );
-    res.status(200).json(newHoa);
+    // create JWT
+    const token = createToken(newHoa._id);
+    res.status(200).json({ token: token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
 
-//Login a user
-//! implement using static method
+//Login a HOA user
 async function login(req, res) {
-  res.json({ description: "login as hoa manager" });
+  const { email, password } = req.body;
+  try {
+    const user = await HOA.login(email, password);
+    // create JWT
+    const token = createToken(user._id);
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 }
 
 //Returns the Full HOA data

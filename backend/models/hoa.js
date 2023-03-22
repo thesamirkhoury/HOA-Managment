@@ -82,4 +82,27 @@ hoaSchema.statics.signup = async function (
   return user;
 };
 
+//static login method
+//TODO: Change Error messages to hebrew
+//? check error message for possibility of generic messages
+hoaSchema.statics.login = async function (email, password) {
+  // validation
+  if (!email || !password) {
+    throw Error("All fields must be filled");
+  }
+
+  // check if email exists
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw Error("Incorrect Email");
+  }
+
+  // check if the plain-text password matches the hashed password
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    throw Error("Incorrect Password");
+  }
+  return user;
+};
+
 module.exports = mongoose.model("HOA", hoaSchema);
