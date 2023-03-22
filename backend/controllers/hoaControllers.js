@@ -2,8 +2,7 @@ const HOA = require("../models/hoa");
 const mongoose = require("mongoose");
 
 //* Managers
-//Create a new HOA
-//! For testing purposes only, turn into static method
+//Create a new HOA user - (Signup)
 async function signup(req, res) {
   const {
     firstName,
@@ -13,15 +12,17 @@ async function signup(req, res) {
     address,
     membersMonthlyFee,
   } = req.body;
+
+  // sign up user
   try {
-    const newHoa = await HOA.create({
+    const newHoa = await HOA.signup(
       firstName,
       lastName,
       managerEmail,
       password,
       address,
-      membersMonthlyFee,
-    });
+      membersMonthlyFee
+    );
     res.status(200).json(newHoa);
   } catch (error) {
     res.status(400).json({ error: error.message });

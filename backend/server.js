@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 
 //routes
 //* Managers
-app.use("/api/managers/hoa", hoaRoutesManager); //? review endpoint link
+app.use("/api/managers", hoaRoutesManager);
 app.use("/api/managers/tenants", tenantRoutesManager);
 app.use("/api/managers/suppliers", supplierRoutesManager);
 app.use("/api/managers/reminders", reminderRoutesManager);
