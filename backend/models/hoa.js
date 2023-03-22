@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const validator = require("validator");
 
 const Schema = mongoose.Schema;
 
@@ -35,6 +36,7 @@ const hoaSchema = new Schema(
 );
 
 // static signup method
+//TODO: Change Error messages to hebrew
 hoaSchema.statics.signup = async function (
   firstName,
   lastName,
@@ -43,6 +45,21 @@ hoaSchema.statics.signup = async function (
   address,
   membersMonthlyFee
 ) {
+  // validation
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !password ||
+    !address ||
+    !membersMonthlyFee
+  ) {
+    throw Error("All fields must be filled");
+  }
+  if (!validator.isEmail(email)) {
+    throw Error("Email is not Valid");
+  }
+
   // check if the email already exists
   const exists = await this.findOne({ email });
   if (exists) {
