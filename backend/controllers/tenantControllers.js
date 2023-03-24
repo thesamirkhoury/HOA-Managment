@@ -6,8 +6,7 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Create a new Tenant
-//! For testing purposes only, turn into static method
-//TODO: get hoa id from auth instead of body
+//TODO: get hoa id from auth instead of body, and create a set password function
 async function signup(req, res) {
   // request body
   const {
@@ -17,7 +16,7 @@ async function signup(req, res) {
     apartmentNumber,
     parkingSpot,
     tenantPhoneNumber,
-    tenantEmail,
+    email,
     password,
     tenantType,
     ownerFirstName,
@@ -28,30 +27,28 @@ async function signup(req, res) {
 
   // get hoa id from user auth
   const { hoaID } = req.body; //change to auth id
-
   // check if id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(hoaID)) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
 
   try {
-    const tenant = await Tenant.create({
-      HOA: hoaID,
+    const newTenant = await Tenant.signup(
       firstName,
       lastName,
       buildingNumber,
       apartmentNumber,
       parkingSpot,
       tenantPhoneNumber,
-      tenantEmail,
+      email,
       password,
       tenantType,
       ownerFirstName,
       ownerLastName,
       ownerPhoneNumber,
-      ownerEmail,
-    });
-    res.status(200).json(tenant);
+      ownerEmail
+    );
+    res.status(200).json(newTenant);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

@@ -1,6 +1,7 @@
 const express = require("express");
 // controller functions
 const {
+  signup: signupTenant,
   getTenants,
   editTenant,
   deleteTenant,
