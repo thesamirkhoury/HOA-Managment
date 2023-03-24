@@ -29,7 +29,7 @@ const tenantSchema = new Schema(
     parkingSpot: {
       type: String,
     },
-    tenantPhoneNumber: {
+    phoneNumber: {
       type: String,
       required: [true, "Tenant Phone Number is required"],
     },
@@ -76,7 +76,7 @@ tenantSchema.statics.signup = async function (
   buildingNumber,
   apartmentNumber,
   parkingSpot,
-  tenantPhoneNumber,
+  phoneNumber,
   email,
   password,
   tenantType,
@@ -94,8 +94,7 @@ tenantSchema.statics.signup = async function (
     !lastName ||
     !buildingNumber ||
     !apartmentNumber ||
-    !parkingSpot ||
-    !tenantPhoneNumber ||
+    !phoneNumber ||
     !email ||
     !password ||
     !tenantType ||
@@ -124,7 +123,7 @@ tenantSchema.statics.signup = async function (
     buildingNumber,
     apartmentNumber,
     parkingSpot,
-    tenantPhoneNumber,
+    phoneNumber,
     email,
     password: hash,
     tenantType,
@@ -133,6 +132,29 @@ tenantSchema.statics.signup = async function (
     ownerPhoneNumber,
     ownerEmail,
   });
+  return user;
+};
+
+//static login method
+//TODO: Change Error messages to hebrew
+//? check error message for possibility of generic messages
+tenantSchema.statics.login = async function (email, password) {
+  // validation
+  if (!email || !password) {
+    throw Error("All fields must be filled");
+  }
+
+  // check if email exists
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw Error("Incorrect Email");
+  }
+
+  // check if the plain-text password matches the hashed password
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    throw Error("Incorrect Password");
+  }
   return user;
 };
 

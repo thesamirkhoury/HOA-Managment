@@ -1,7 +1,11 @@
 const Tenant = require("../models/tenants");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
-//TODO: Improve this function once Auth is implemented
+// JWT Create Token Function
+function createToken(_id) {
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
+}
 
 //* Managers
 
@@ -15,7 +19,7 @@ async function signup(req, res) {
     buildingNumber,
     apartmentNumber,
     parkingSpot,
-    tenantPhoneNumber,
+    phoneNumber,
     email,
     password,
     tenantType,
@@ -24,22 +28,22 @@ async function signup(req, res) {
     ownerPhoneNumber,
     ownerEmail,
   } = req.body;
-
   // get hoa id from user auth
   const { hoaID } = req.body; //change to auth id
   // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(hoaID)) {
+  //   return res.status(404).json({ error: "HOA Not Found" });
+  // }
 
   try {
     const newTenant = await Tenant.signup(
+      hoaID,
       firstName,
       lastName,
       buildingNumber,
       apartmentNumber,
       parkingSpot,
-      tenantPhoneNumber,
+      phoneNumber,
       email,
       password,
       tenantType,
@@ -149,9 +153,16 @@ async function deleteTenant(req, res) {
 //* Tenants
 
 //Login as a tenant
-//! implement using static method
 async function login(req, res) {
-  res.json({ description: "login as a tenant" });
+  const { email, password } = req.body;
+  try {
+    const user = await Tenant.login(email, password);
+    // create JWT
+    const token = createToken(user._id);
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 }
 
 //Get tenant details
