@@ -21,8 +21,6 @@ router.post("/managers/signup", signupBoard);
 router.post("/managers/login", loginBoard);
 
 //* Tenants
-//Create a new tenant (signup)
-router.post("/tenants/signup", signupTenant);
 //login as tenant
 router.post("/tenants/login", loginTenant);
 
