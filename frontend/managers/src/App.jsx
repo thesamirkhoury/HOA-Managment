@@ -29,7 +29,7 @@ function App() {
       <Navbar />
       {/* Flex box container */}
       <div className="container">
-        {/* Sidebar */}
+        {/* Sidebar- shown oly when logged in */}
         {user && (
           <div className="sidebar">
             <Sidebar />
@@ -38,23 +38,81 @@ function App() {
         {/* Content */}
         <div className="content ps-2">
           <Routes>
-            {/* Main Page - Redirect to the first page in the dashboard */}
-            <Route path="/" element={<Navigate to="tenants" />} exact />
-            {/* Dashboard pages */}
-            <Route path="tenants" element={<Tenants />} exact />
-            <Route path="suppliers" element={<Suppliers />} exact />
-            <Route path="reminders" element={<Reminders />} exact />
-            <Route path="announcements" element={<Announcements />} exact />
-            <Route path="maintenance" element={<Maintenance />} exact />
-            <Route path="inquires" element={<Inquires />} exact />
-            <Route path="billings" element={<Billing />} exact />
-            <Route path="expenses" element={<Expenses />} exact />
-            <Route path="financial" element={<Financial />} exact />
-            <Route path="documents" element={<Documents />} exact />
-            <Route path="settings" element={<Settings />} exact />
-            {/* Auth pages */}
-            <Route path="login" element={<Login />} exact />
-            <Route path="signup" element={<Signup />} exact />
+            {/* Main Page - Redirect to the first page in the dashboard if user is logged in, else redirect to login page */}
+            <Route
+              path="/"
+              element={
+                user ? <Navigate to="/tenants" /> : <Navigate to="/login" />
+              }
+              exact
+            />
+            {/* Dashboard pages - show only when user is logged in */}
+            <Route
+              path="tenants"
+              element={user ? <Tenants /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="suppliers"
+              element={user ? <Suppliers /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="reminders"
+              element={user ? <Reminders /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="announcements"
+              element={user ? <Announcements /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="maintenance"
+              element={user ? <Maintenance /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="inquires"
+              element={user ? <Inquires /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="billings"
+              element={user ? <Billing /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="expenses"
+              element={user ? <Expenses /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="financial"
+              element={user ? <Financial /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="documents"
+              element={user ? <Documents /> : <Navigate to="/login" />}
+              exact
+            />
+            <Route
+              path="settings"
+              element={user ? <Settings /> : <Navigate to="/login" />}
+              exact
+            />
+            {/* Auth pages - show only when user is logged out */}
+            <Route
+              path="login"
+              element={!user ? <Login /> : <Navigate to="/" />}
+              exact
+            />
+            <Route
+              path="signup"
+              element={!user ? <Signup /> : <Navigate to="/" />}
+              exact
+            />
             {/* 404 Page for non-existing pages */}
             <Route path="*" element={<NotFound />} exact />{" "}
           </Routes>
