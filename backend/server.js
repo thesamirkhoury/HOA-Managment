@@ -38,7 +38,8 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://localhost:3001",
-    process.env.LCL_IP,
+    process.env.LCL_IP_PORT1,
+    process.env.LCL_IP_PORT2,
   ], //for the meantime only accept from localhost
   optionsSuccessStatus: 200,
 };
@@ -82,7 +83,7 @@ app.use("/api/tenants/documents", documentRoutesTenant);
 
 //*API Details
 app.get("/api/ver", (req, res) => {
-  res.status(200).json({ version: "0.1.1" });
+  res.status(200).json({ version: "0.2" });
 });
 
 // Make the Queries Strict and Remove Deprecation Warning
