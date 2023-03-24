@@ -153,9 +153,16 @@ async function deleteTenant(req, res) {
 //* Tenants
 
 //Login as a tenant
-//! implement using static method
 async function login(req, res) {
-  res.json({ description: "login as a tenant" });
+  const { email, password } = req.body;
+  try {
+    const user = await Tenant.login(email, password);
+    // create JWT
+    const token = createToken(user._id);
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 }
 
 //Get tenant details
