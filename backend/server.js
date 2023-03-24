@@ -74,7 +74,7 @@ app.use("/api/managers/documents", documentRoutesManager);
 //* Tenants
 // app.use("/api/managers", authenticationManager);
 app.use("/api/tenants/hoa", hoaRoutesTenant);
-app.use("/api/tenants/tenants", tenantRoutesTenant); //? review endpoint link
+app.use("/api/tenants/details", tenantRoutesTenant); //? review endpoint link
 app.use("/api/tenants/announcements", announcementRoutesTenant);
 app.use("/api/tenants/maintenance", maintenanceRoutesTenant);
 app.use("/api/tenants/inquiries", inquiriesRoutesTenant);
