@@ -29,7 +29,7 @@ const tenantSchema = new Schema(
     parkingSpot: {
       type: String,
     },
-    tenantPhoneNumber: {
+    phoneNumber: {
       type: String,
       required: [true, "Tenant Phone Number is required"],
     },
@@ -76,7 +76,7 @@ tenantSchema.statics.signup = async function (
   buildingNumber,
   apartmentNumber,
   parkingSpot,
-  tenantPhoneNumber,
+  phoneNumber,
   email,
   password,
   tenantType,
@@ -94,8 +94,7 @@ tenantSchema.statics.signup = async function (
     !lastName ||
     !buildingNumber ||
     !apartmentNumber ||
-    !parkingSpot ||
-    !tenantPhoneNumber ||
+    !phoneNumber ||
     !email ||
     !password ||
     !tenantType ||
@@ -124,7 +123,7 @@ tenantSchema.statics.signup = async function (
     buildingNumber,
     apartmentNumber,
     parkingSpot,
-    tenantPhoneNumber,
+    phoneNumber,
     email,
     password: hash,
     tenantType,
