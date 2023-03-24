@@ -5,8 +5,13 @@ const {
   editTenant,
   deleteTenant,
 } = require("../../controllers/tenantControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
 
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 //Get all tenants of an HOA
 router.get("/", getTenants);
 

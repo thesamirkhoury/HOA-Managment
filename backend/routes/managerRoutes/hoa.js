@@ -6,8 +6,13 @@ const {
   editHoa,
   deleteHoa,
 } = require("../../controllers/hoaControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
 
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Get the hoa info
 router.get("/", getAllDetails);

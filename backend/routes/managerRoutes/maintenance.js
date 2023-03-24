@@ -5,7 +5,13 @@ const {
   getRequest,
   addResponse,
 } = require("../../controllers/maintenanceControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Get all maintenance requests
 router.get("/", getRequests);

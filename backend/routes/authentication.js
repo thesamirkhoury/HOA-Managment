@@ -14,13 +14,13 @@ const {
 
 const router = express.Router();
 
-//* Manager
+//* Managers
 //Create a hoa (signup)
 router.post("/managers/signup", signupBoard);
 //login as hoa manager
 router.post("/managers/login", loginBoard);
 
-//* Tenant
+//* Tenants
 //Create a new tenant (signup)
 router.post("/tenants/signup", signupTenant);
 //login as tenant

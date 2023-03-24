@@ -7,7 +7,13 @@ const {
   editExpense,
   deleteBill,
 } = require("../../controllers/expenseControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Create a new expense
 router.post("/", createExpense);

@@ -8,8 +8,13 @@ const {
   editSupplier,
   deleteSupplier,
 } = require("../../controllers/supplierControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
 
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Create a new supplier
 router.post("/", createSupplier);

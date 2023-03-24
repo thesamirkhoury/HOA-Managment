@@ -8,7 +8,13 @@ const {
   deleteBill,
   recordPayment,
 } = require("../../controllers/billingControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Create a new bill and send by mail
 router.post("/", createBill);
