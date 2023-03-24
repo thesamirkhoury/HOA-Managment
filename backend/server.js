@@ -4,7 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 //Import Routes
-//* Managers
+//* Authentication route
+const authentication = require("./routes/authentication");
+
+//* Manager routes
 const hoaRoutesManager = require("./routes/managerRoutes/hoa");
 const tenantRoutesManager = require("./routes/managerRoutes/tenants");
 const supplierRoutesManager = require("./routes/managerRoutes/suppliers");
@@ -16,7 +19,7 @@ const billingRoutesManager = require("./routes/managerRoutes/billing");
 const expenseRoutesManager = require("./routes/managerRoutes/expenses");
 const documentRoutesManager = require("./routes/managerRoutes/documents");
 
-//* Tenants
+//* Tenant routes
 const hoaRoutesTenant = require("./routes/TenantRoutes/hoa");
 const tenantRoutesTenant = require("./routes/TenantRoutes/tenants");
 const announcementRoutesTenant = require("./routes/TenantRoutes/announcements");
@@ -51,8 +54,12 @@ app.use((req, res, next) => {
 });
 
 //routes
+
+//* Authentication
+app.use("/api", authentication);
+
 //* Managers
-app.use("/api/managers", hoaRoutesManager);
+app.use("/api/managers/details", hoaRoutesManager);
 app.use("/api/managers/tenants", tenantRoutesManager);
 app.use("/api/managers/suppliers", supplierRoutesManager);
 app.use("/api/managers/reminders", reminderRoutesManager);
@@ -64,6 +71,7 @@ app.use("/api/managers/expenses", expenseRoutesManager);
 app.use("/api/managers/documents", documentRoutesManager);
 
 //* Tenants
+// app.use("/api/managers", authenticationManager);
 app.use("/api/tenants/hoa", hoaRoutesTenant);
 app.use("/api/tenants/tenants", tenantRoutesTenant); //? review endpoint link
 app.use("/api/tenants/announcements", announcementRoutesTenant);

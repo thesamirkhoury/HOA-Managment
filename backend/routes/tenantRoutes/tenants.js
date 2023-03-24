@@ -8,9 +8,6 @@ const {
 
 const router = express.Router();
 
-//login as a tenant
-router.post("/login", login);
-
 //Get tenant details
 router.get("/", getTenant);
 

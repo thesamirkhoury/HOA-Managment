@@ -1,15 +1,11 @@
 const express = require("express");
 // controller functions
 const {
-  signup,
   getTenants,
   editTenant,
   deleteTenant,
 } = require("../../controllers/tenantControllers");
 const router = express.Router();
-
-//Create a new tenant
-router.post("/", signup);
 
 //Get all tenants of an HOA
 router.get("/", getTenants);
