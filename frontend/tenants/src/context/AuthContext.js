@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("board"));
+    const user = JSON.parse(localStorage.getItem("tenant"));
     if (user) {
       dispatch({ type: "LOGIN", payload: user });
     }
