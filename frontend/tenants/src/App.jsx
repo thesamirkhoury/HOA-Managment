@@ -1,6 +1,6 @@
 import React from "react";
-
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuthContext } from "./hook/useAuthContext";
 
 //Pages and Components
 import Navbar from "./components/Navbar";
@@ -18,15 +18,19 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 function App() {
+  const { user } = useAuthContext();
+
   return (
     <div className="App">
       <Navbar />
       {/* Flex box container */}
       <div className="container">
-        {/* Sidebar */}
-        <div className="sidebar">
-          <Sidebar />
-        </div>
+        {/* Sidebar - shown oly when logged in*/}
+        {user && (
+          <div className="sidebar">
+            <Sidebar />
+          </div>
+        )}
         {/* Content */}
         <div className="content ps-2">
           <Routes>
