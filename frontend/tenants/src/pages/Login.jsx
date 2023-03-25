@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLogin } from "../hook/useLogin";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";
@@ -12,8 +13,11 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { login, error } = useLogin();
+
   async function handleLogin(e) {
     e.preventDefault();
+    await login(email, password);
   }
 
   return (
@@ -53,6 +57,8 @@ function Login() {
                 </Button>
               </Col>
             </Row>
+
+            {error && <div className="error">{error}</div>}
           </Form>
         </Card.Body>
       </Card>
