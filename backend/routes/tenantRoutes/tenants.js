@@ -5,8 +5,13 @@ const {
   getTenant,
   editTenant,
 } = require("../../controllers/tenantControllers");
+//auth middleware
+const requireAuthTenant = require("../../middleware/requireAuthTenant");
 
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthTenant);
 
 //Get tenant details
 router.get("/", getTenant);
