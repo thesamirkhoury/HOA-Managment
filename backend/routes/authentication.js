@@ -8,14 +8,14 @@ const {
 
 // tenant controller functions
 const {
-  signup: signupTenant,
   login: loginTenant,
+  setPassword,
 } = require("../controllers/tenantControllers");
 
 const router = express.Router();
 
 //* Managers
-//Create a hoa (signup)
+//create a hoa (signup)
 router.post("/managers/signup", signupBoard);
 //login as hoa manager
 router.post("/managers/login", loginBoard);
@@ -23,5 +23,7 @@ router.post("/managers/login", loginBoard);
 //* Tenants
 //login as tenant
 router.post("/tenants/login", loginTenant);
+//create password as tenant
+router.put("/tenants/password/:resetToken", setPassword);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const crypto = require("crypto");
 
 const Schema = mongoose.Schema;
 
@@ -67,6 +68,12 @@ const tenantSchema = new Schema(
       type: String,
       required: [true, "Owner Email is required"],
     },
+    token: {
+      type: String,
+    },
+    tokenExpire: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
@@ -120,7 +127,11 @@ tenantSchema.statics.signup = async function (
     throw Error("Tenant already added to HOA");
   }
 
-  //TODO: add a token and send via email to set a password by tenant
+  //create a random token
+  const token = crypto.randomBytes(20).toString("hex");
+  //hashing the token
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(token, salt);
 
   // signup the new user
   const user = await this.create({
@@ -139,7 +150,14 @@ tenantSchema.statics.signup = async function (
     ownerLastName,
     ownerPhoneNumber,
     ownerEmail,
+    token: hash,
+    tokenExpire: Date.now() + 10 * (60 * 1000), //10 minutes
   });
+
+  //email the signup link
+  //TODO: use the emil util to email a signup link with the token, temp log the token in console
+  console.log(token);
+
   return user;
 };
 
@@ -163,6 +181,40 @@ tenantSchema.statics.login = async function (username, password) {
   if (!match) {
     throw Error("Incorrect Password");
   }
+  return user;
+};
+
+// static change password according to token method
+// TODO: Change Error messages to hebrew
+tenantSchema.statics.setPassword = async function (resetToken, password) {
+  // validation
+  if (!resetToken || !password) {
+    throw Error("All fields must be filled");
+  }
+
+  //hash salt
+  const salt = await bcrypt.genSalt(10);
+
+  // hash the token and compare to the DB
+  const tokenHash = await bcrypt.hash(resetToken, salt);
+  const user = await this.findOne({
+    tokenHash,
+    tokenExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw Error("Invalid Token");
+  }
+
+  // hash the password
+  const hash = await bcrypt.hash(password, salt);
+
+  // update the password and revoke the token
+  user.password = hash;
+  user.token = undefined;
+  user.tokenExpire = undefined;
+  await user.save();
+
   return user;
 };
 

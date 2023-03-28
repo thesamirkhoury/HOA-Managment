@@ -27,7 +27,7 @@ async function signup(req, res) {
     ownerPhoneNumber,
     ownerEmail,
   } = req.body;
-  
+
   //TODO: get hoa id from user auth
   const { hoaID } = req.body; //change to auth id
   // check if id is a valid mongoose id
@@ -167,6 +167,20 @@ async function login(req, res) {
   }
 }
 
+// Create First Password as a tenant
+async function setPassword(req, res) {
+  const { resetToken } = req.params;
+  const { password } = req.body;
+  try {
+    const user = await Tenant.setPassword(resetToken, password);
+    // create JWT
+    const token = createToken(user._id);
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 //Get tenant details
 //TODO: get tenant id from auth instead of body
 async function getTenant(req, res) {
@@ -233,4 +247,5 @@ module.exports = {
   login,
   getTenant,
   editTenant,
+  setPassword,
 };
