@@ -6,9 +6,9 @@ const Schema = mongoose.Schema;
 
 const tenantSchema = new Schema(
   {
-    HOA: {
+    hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "HOA ID is required"],
     },
     firstName: {
       type: String,
@@ -33,7 +33,11 @@ const tenantSchema = new Schema(
       type: String,
       required: [true, "Tenant Phone Number is required"],
     },
-    email: {
+    tenantEmail: {
+      type: String,
+      required: [true, "Tenant Email is required"],
+    },
+    username: {
       type: String,
       required: [true, "Tenant Email is required"],
       unique: true,
@@ -70,15 +74,15 @@ const tenantSchema = new Schema(
 // static signup method
 //TODO: Change Error messages to hebrew
 tenantSchema.statics.signup = async function (
-  HOA,
+  hoa_id,
   firstName,
   lastName,
   buildingNumber,
   apartmentNumber,
   parkingSpot,
   phoneNumber,
-  email,
-  password,
+  tenantEmail,
+  username,
   tenantType,
   ownerFirstName,
   ownerLastName,
@@ -86,17 +90,18 @@ tenantSchema.statics.signup = async function (
   ownerEmail
 ) {
   // validation
-  if (!HOA) {
+  if (!hoa_id) {
     throw Error("Tenant must be associated with a HOA");
   }
+  //check if all required values are passed
   if (
     !firstName ||
     !lastName ||
     !buildingNumber ||
     !apartmentNumber ||
     !phoneNumber ||
-    !email ||
-    !password ||
+    !tenantEmail ||
+    !username ||
     !tenantType ||
     !ownerFirstName ||
     !ownerLastName ||
@@ -105,27 +110,30 @@ tenantSchema.statics.signup = async function (
   ) {
     throw Error("All fields must be filled");
   }
-  if (!validator.isEmail(email) || !validator.isEmail(ownerEmail)) {
+  if (!validator.isEmail(tenantEmail) || !validator.isEmail(ownerEmail)) {
     throw Error("Email is not Valid");
   }
-  //TODO: check if user exists, and handle logic
 
-  // hash the password
-  //TODO: change this to a token and send to set a password via email
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
+  // check if the email already exists
+  const exists = await this.findOne({ username });
+  if (exists) {
+    throw Error("Tenant already added to HOA");
+  }
+
+  //TODO: add a token and send via email to set a password by tenant
 
   // signup the new user
   const user = await this.create({
-    HOA,
+    hoa_id,
     firstName,
     lastName,
     buildingNumber,
     apartmentNumber,
     parkingSpot,
     phoneNumber,
-    email,
-    password: hash,
+    tenantEmail,
+    username,
+    password: undefined, // put an undefined value for the password, to later be created by the tenant
     tenantType,
     ownerFirstName,
     ownerLastName,
@@ -138,16 +146,16 @@ tenantSchema.statics.signup = async function (
 //static login method
 //TODO: Change Error messages to hebrew
 //? check error message for possibility of generic messages
-tenantSchema.statics.login = async function (email, password) {
+tenantSchema.statics.login = async function (username, password) {
   // validation
-  if (!email || !password) {
+  if (!username || !password) {
     throw Error("All fields must be filled");
   }
 
   // check if email exists
-  const user = await this.findOne({ email });
+  const user = await this.findOne({ username });
   if (!user) {
-    throw Error("Incorrect Email");
+    throw Error("Incorrect username");
   }
 
   // check if the plain-text password matches the hashed password

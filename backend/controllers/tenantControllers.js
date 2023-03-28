@@ -20,32 +20,34 @@ async function signup(req, res) {
     apartmentNumber,
     parkingSpot,
     phoneNumber,
-    email,
-    password,
+    tenantEmail,
     tenantType,
     ownerFirstName,
     ownerLastName,
     ownerPhoneNumber,
     ownerEmail,
   } = req.body;
-  // get hoa id from user auth
+  
+  //TODO: get hoa id from user auth
   const { hoaID } = req.body; //change to auth id
   // check if id is a valid mongoose id
   // if (!mongoose.Types.ObjectId.isValid(hoaID)) {
   //   return res.status(404).json({ error: "HOA Not Found" });
   // }
 
+  const hoa_id = req.user._id;
+  let username = `${tenantEmail.split("@")[0]}@${req.user.fileNumber}`;
   try {
     const newTenant = await Tenant.signup(
-      hoaID,
+      hoa_id,
       firstName,
       lastName,
       buildingNumber,
       apartmentNumber,
       parkingSpot,
       phoneNumber,
-      email,
-      password,
+      tenantEmail,
+      username,
       tenantType,
       ownerFirstName,
       ownerLastName,
