@@ -168,7 +168,7 @@ async function login(req, res) {
 }
 
 // Create First Password as a tenant
-async function setPassword(req, res) {
+async function createPassword(req, res) {
   const { resetToken } = req.params;
   const { password } = req.body;
   try {
@@ -245,7 +245,7 @@ module.exports = {
   editTenant,
   deleteTenant,
   login,
+  createPassword,
   getTenant,
   editTenant,
-  setPassword,
 };

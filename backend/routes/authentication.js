@@ -9,7 +9,7 @@ const {
 // tenant controller functions
 const {
   login: loginTenant,
-  setPassword,
+  createPassword,
 } = require("../controllers/tenantControllers");
 
 const router = express.Router();
@@ -24,6 +24,6 @@ router.post("/managers/login", loginBoard);
 //login as tenant
 router.post("/tenants/login", loginTenant);
 //create password as tenant
-router.put("/tenants/password/:resetToken", setPassword);
+router.put("/tenants/password/:resetToken", createPassword);
 
 module.exports = router;
