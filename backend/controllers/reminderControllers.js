@@ -4,19 +4,14 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Create a new reminder
-//TODO: get hoa id from auth instead of body
 async function createReminder(req, res) {
   const { title, body, dateAndTime } = req.body;
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   try {
     const reminder = await Reminder.create({
-      HOA: hoaID,
+      hoa_id,
       title,
       body,
       dateAndTime,
@@ -28,17 +23,11 @@ async function createReminder(req, res) {
 }
 
 //Get all reminders
-//TODO: get hoa id from auth instead of body
 async function getReminders(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  const reminders = await Reminder.find({ HOA: hoaID });
-
+  const reminders = await Reminder.find({ hoa_id });
   if (!reminders) {
     return res.status(404).json({ error: "No Reminders Found" });
   }
@@ -46,25 +35,16 @@ async function getReminders(req, res) {
 }
 
 //Edit a reminder by _id
-//TODO: get hoa id from auth instead of body
 async function editReminder(req, res) {
   const { id } = req.params;
   // check if supplier id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Reminder Not Found" });
   }
-
   const { title, body, dateAndTime } = req.body;
 
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if hoa id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const reminder = await Reminder.findOneAndUpdate(
-    { HOA: hoaID, _id: id },
+  const reminder = await Reminder.findByIdAndUpdate(
+    id,
     {
       HOA: hoaID,
       title,
@@ -81,7 +61,6 @@ async function editReminder(req, res) {
 }
 
 //Delete a supplier by _id
-//TODO: get hoa id from auth instead of body
 async function deleteReminder(req, res) {
   const { id } = req.params;
   // check if supplier id is a valid mongoose id
@@ -89,14 +68,7 @@ async function deleteReminder(req, res) {
     return res.status(404).json({ error: "Reminder Not Found" });
   }
 
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if hoa id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const reminder = await Reminder.findOneAndDelete({ HOA: hoaID, _id: id });
+  const reminder = await Reminder.findByIdAndDelete(id);
   if (!reminder) {
     return res.status(404).json({ error: "Supplier Not Found" });
   }

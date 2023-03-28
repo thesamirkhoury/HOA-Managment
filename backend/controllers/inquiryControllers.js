@@ -4,16 +4,11 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Get all inquiries
-//TODO: get hoa id from auth instead of body
 async function getInquiries(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  const inquiry = await Inquirie.find({ HOA: hoaID });
+  const inquiry = await Inquirie.find({ hoa_id });
   if (!inquiry) {
     return res.status(404).json({ error: "No Inquiries Found" });
   }
@@ -29,7 +24,7 @@ async function getInquiry(req, res) {
     return res.status(404).json({ error: "Inquiries Not Found" });
   }
 
-  const request = await Inquirie.find({ _id: id });
+  const request = await Inquirie.findById(id);
   if (!request) {
     return res.status(404).json({ error: "No Inquiry Found" });
   }
@@ -60,25 +55,17 @@ async function addResponse(req, res) {
 //* Tenants
 
 //Create a new inquiry
-//TODO: get tenant id, hoa id from auth instead of body
 async function createInquiry(req, res) {
   const { subject, body } = req.body;
-
-  // get hoa id from user auth
-  const { hoaID, tenantID } = req.body; //change to auth id
-
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-  if (!mongoose.Types.ObjectId.isValid(tenantID)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user.hoa_id;
+  // tenant id from auth
+  const tenant_id = req.user._id;
 
   try {
     const inquiry = await Inquirie.create({
-      HOA: hoaID,
-      tenant: tenantID,
+      hoa_id,
+      tenant_id,
       subject,
       body,
       status: "פתוח",
@@ -91,22 +78,12 @@ async function createInquiry(req, res) {
 }
 
 //Get all inquires for a user
-//TODO: get tenant id, hoa id from auth instead of body
 async function getUserInquiries(req, res) {
-  // get hoa id from user auth
-  const { hoaID, tenantID } = req.body; //change to auth id
-
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-  if (!mongoose.Types.ObjectId.isValid(tenantID)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
-  }
+  // tenant id from auth
+  const tenant_id = req.user._id;
 
   const inquiries = await Inquirie.find({
-    HOA: hoaID,
-    tenant: tenantID,
+    tenant_id,
   }).sort({ createdAt: -1 });
 
   if (!inquiries) {

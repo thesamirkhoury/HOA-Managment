@@ -13,7 +13,9 @@ async function requireAuthManager(req, res, next) {
   //verify token.
   try {
     const { _id } = jwt.verify(token, process.env.SECRET);
-    req.user = await Tenant.findOne({ _id }).select("_id");
+    req.user = await Tenant.findOne({ _id }).select(
+      "_id hoa_id buildingNumber"
+    );
     next();
   } catch (error) {
     res.status(401).json({ error: "Request is not authorized" });

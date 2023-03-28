@@ -4,30 +4,26 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Create a new expense
-//TODO: get hoa id from auth instead of body
 async function createExpense(req, res) {
   const {
-    payableTo,
+    supplier_id,
     amount,
     paymentType,
     details,
     paymentCategory,
     paymentMethod,
   } = req.body;
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
   //check of tenant id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(payableTo)) {
+  if (!mongoose.Types.ObjectId.isValid(supplier_id)) {
     return res.status(404).json({ error: "Supplier Not Found" });
   }
+  // hoa id from auth
+  const hoa_id = req.user._id;
+
   try {
     const expense = await Expense.create({
-      HOA: hoaID,
-      payableTo,
+      hoa_id,
+      supplier_id,
       amount,
       paymentType,
       details,
@@ -41,16 +37,11 @@ async function createExpense(req, res) {
 }
 
 //Get all expenses
-//TODO: get hoa id from auth instead of body
 async function getExpenses(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  const expenses = await Expense.find({ HOA: hoaID }).sort({ createdAt: -1 });
+  const expenses = await Expense.find({ hoa_id }).sort({ createdAt: -1 });
   if (!expenses) {
     return res.status(404).json({ error: "No Expenses Found" });
   }
@@ -58,16 +49,10 @@ async function getExpenses(req, res) {
 }
 
 //Get sum of expenses by a specified time period
-//TODO: get hoa id from auth instead of body
 async function getSum(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
   const { from, to } = req.body;
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   //create date from request body
   const startDate = new Date(from);
@@ -78,7 +63,7 @@ async function getSum(req, res) {
     {
       $match: {
         // find paid documents from start date to end date, created by th HOA ID
-        HOA: hoaID,
+        hoa_id,
         createdAt: {
           $gte: startDate,
           $lte: endDate,
@@ -133,17 +118,13 @@ async function getSum(req, res) {
 
 //Edit an expense by _id
 async function editExpense(req, res) {
-  const { id } = req.params;
-  // check if bill id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Expense Not Found" });
-  }
-
   const { amount, paymentType, details, paymentCategory, paymentMethod } =
     req.body;
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   const expense = await Expense.findByIdAndUpdate(
-    id,
+    hoa_id,
     { amount, paymentType, details, paymentCategory, paymentMethod },
     { new: true }
   );

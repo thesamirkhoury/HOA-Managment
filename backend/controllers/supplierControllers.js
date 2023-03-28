@@ -4,20 +4,15 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Create a new supplier
-//TODO: get hoa id from auth instead of body
 async function createSupplier(req, res) {
   const { supplierName, supplierType, supplierCategory, email, phoneNumber } =
     req.body;
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   try {
     const supplier = await Supplier.create({
-      HOA: hoaID,
+      hoa_id,
       supplierName,
       supplierType,
       supplierCategory,
@@ -31,17 +26,11 @@ async function createSupplier(req, res) {
 }
 
 //Get all suppliers
-//TODO: get hoa id from auth instead of body
 async function getSuppliers(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  const suppliers = await Supplier.find({ HOA: hoaID });
-
+  const suppliers = await Supplier.find({ hoa_id });
   if (!suppliers) {
     return res.status(404).json({ error: "No Suppliers Found" });
   }
@@ -49,23 +38,13 @@ async function getSuppliers(req, res) {
 }
 
 //Get a single supplier by _id
-//TODO: get hoa id from auth instead of body
 async function getSupplier(req, res) {
   const { id } = req.params;
   // check if supplier id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Supplier Not Found" });
   }
-
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if hoa id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const supplier = await Supplier.find({ HOA: hoaID, _id: id });
-
+  const supplier = await Supplier.findById(id);
   if (!supplier) {
     return res.status(404).json({ error: "No Suppliers Found" });
   }
@@ -73,26 +52,17 @@ async function getSupplier(req, res) {
 }
 
 //Edit a supplier by _id
-//TODO: get hoa id from auth instead of body
 async function editSupplier(req, res) {
   const { id } = req.params;
   // check if supplier id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Supplier Not Found" });
   }
-
   const { supplierName, supplierType, supplierCategory, email, phoneNumber } =
     req.body;
 
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if hoa id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const supplier = await Supplier.findOneAndUpdate(
-    { HOA: hoaID, _id: id },
+  const supplier = await Supplier.findByIdAndUpdate(
+    id,
     {
       HOA: hoaID,
       supplierName,
@@ -111,26 +81,17 @@ async function editSupplier(req, res) {
 }
 
 //Delete a supplier by _id
-//TODO: get hoa id from auth instead of body
 async function deleteSupplier(req, res) {
   const { id } = req.params;
   // check if supplier id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Supplier Not Found" });
   }
-
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if hoa id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
+  const supplier = await Supplier.findByIdAndDelete(id);
+  if (!supplier) {
+    return res.status(404).json({ error: "Supplier Not Found" });
   }
-
-  const supplier = await Supplier.findOneAndDelete({HOA:hoaID, _id:id});
-    if (!supplier) {
-      return res.status(404).json({ error: "Supplier Not Found" });
-    }
-    res.status(200).json(supplier);
+  res.status(200).json(supplier);
 }
 
 module.exports = {

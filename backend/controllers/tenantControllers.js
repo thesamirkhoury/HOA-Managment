@@ -10,7 +10,6 @@ function createToken(_id) {
 //* Managers
 
 //Create a new Tenant
-//TODO: get hoa id from auth instead of body, and create a set password function
 async function signup(req, res) {
   // request body
   const {
@@ -27,15 +26,9 @@ async function signup(req, res) {
     ownerPhoneNumber,
     ownerEmail,
   } = req.body;
-
-  //TODO: get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  // if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-  //   return res.status(404).json({ error: "HOA Not Found" });
-  // }
-
+  // hoa id from auth
   const hoa_id = req.user._id;
+
   let username = `${tenantEmail.split("@")[0]}@${req.user.fileNumber}`;
   try {
     const newTenant = await Tenant.signup(
@@ -61,17 +54,16 @@ async function signup(req, res) {
 }
 
 //get all tenants
-//TODO: get hoa id from auth instead of body
 async function getTenants(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
+  if (!mongoose.Types.ObjectId.isValid(hoa_id)) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
 
-  const tenants = await Tenant.find({ HOA: hoaID });
+  const tenants = await Tenant.find({ hoa_id });
   if (!tenants) {
     return res.status(404).json({ error: "No tenant Found" });
   }
@@ -79,9 +71,8 @@ async function getTenants(req, res) {
 }
 
 //Edit a tenant by _id
-//TODO: get hoa id from auth instead of body
+//!check update method, check params -- deleted
 async function editTenant(req, res) {
-  const { id } = req.params;
   // request body
   const {
     firstName,
@@ -98,19 +89,18 @@ async function editTenant(req, res) {
     ownerPhoneNumber,
     ownerEmail,
   } = req.body;
-
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
+  if (!mongoose.Types.ObjectId.isValid(hoa_id)) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
 
-  const tenant = await Tenant.findOneAndUpdate(
-    { _id: id, HOA: hoaID },
+  const tenant = await Tenant.findByIdAndUpdate(
+    id,
     {
-      HOA: hoaID,
+      hoa_id,
       firstName,
       lastName,
       buildingNumber,
@@ -133,19 +123,11 @@ async function editTenant(req, res) {
   res.status(200).json(tenant);
 }
 
-//Delete a tenant by _id
-//TODO: get hoa id from auth instead of body
+//Delete a tenant by _idy
 async function deleteTenant(req, res) {
   const { id } = req.params;
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
 
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const tenant = await Tenant.findOneAndDelete({ _id: id, HOA: hoaID });
+  const tenant = await Tenant.findOneAndDelete({ _id: id });
   if (!tenant) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
@@ -182,18 +164,12 @@ async function createPassword(req, res) {
 }
 
 //Get tenant details
-//TODO: get tenant id from auth instead of body
 async function getTenant(req, res) {
-  // get tenant id from user auth
-  const { tenantID } = req.body; //change to auth id
+  // tenant id from auth
+  const tenant_id = req.user._id;
 
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(tenantID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const tenant = await Tenant.findById(tenantID).select(
-    "firstName lastName buildingNumber apartmentNumber parkingSpot tenantPhoneNumber tenantEmail tenantType"
+  const tenant = await Tenant.findById(tenant_id).select(
+    "firstName lastName buildingNumber apartmentNumber parkingSpot phoneNumber tenantEmail username tenantType"
   );
   if (!tenant) {
     return res.status(404).json({ error: "HOA Not Found" });
@@ -202,7 +178,7 @@ async function getTenant(req, res) {
 }
 
 //Edit the info of the tenant
-//TODO: get tenant id, hoa id from auth instead of body
+//! Check edit function parameters
 async function editTenant(req, res) {
   // request body
   const {
@@ -220,19 +196,10 @@ async function editTenant(req, res) {
     ownerPhoneNumber,
     ownerEmail,
   } = req.body;
+  // tenant id from auth
+  const tenant_id = req.user._id;
 
-  // get hoa id from user auth
-  const { hoaID, tenantID } = req.body; //change to auth id
-
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-  if (!mongoose.Types.ObjectId.isValid(tenantID)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
-  }
-
-  const tenant = await Tenant.findOneAndUpdate({ _id: id, HOA: hoaID });
+  const tenant = await Tenant.findByIdAndUpdate(tenant_id, {});
   if (!tenant) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
