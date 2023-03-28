@@ -10,8 +10,15 @@ function createToken(_id) {
 //* Managers
 //Create a new HOA user - (Signup)
 async function signup(req, res) {
-  const { firstName, lastName, email, password, address, membersMonthlyFee } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    address,
+    membersMonthlyFee,
+    fileNumber,
+  } = req.body;
 
   // sign up user
   try {
@@ -21,7 +28,8 @@ async function signup(req, res) {
       email,
       password,
       address,
-      membersMonthlyFee
+      membersMonthlyFee,
+      fileNumber
     );
     // create JWT
     const token = createToken(newHoa._id);

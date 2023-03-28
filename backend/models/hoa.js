@@ -31,6 +31,11 @@ const hoaSchema = new Schema(
       type: String,
       required: [true, "HOA Monthly Fee is required"],
     },
+    fileNumber: {
+      type: String,
+      required: [true, "HOA File Number is required"],
+      unique: true,
+    },
   },
   { timestamps: true }
 );
@@ -43,7 +48,8 @@ hoaSchema.statics.signup = async function (
   email,
   password,
   address,
-  membersMonthlyFee
+  membersMonthlyFee,
+  fileNumber
 ) {
   // validation
   if (
@@ -52,7 +58,8 @@ hoaSchema.statics.signup = async function (
     !email ||
     !password ||
     !address ||
-    !membersMonthlyFee
+    !membersMonthlyFee ||
+    !fileNumber
   ) {
     throw Error("All fields must be filled");
   }
@@ -60,10 +67,14 @@ hoaSchema.statics.signup = async function (
     throw Error("Email is not Valid");
   }
 
-  // check if the email already exists
+  // check if the email or HOA File Number already exists
   const exists = await this.findOne({ email });
   if (exists) {
     throw Error("Email already in use");
+  }
+  const fileNumberExists = await this.findOne({ fileNumber });
+  if (fileNumberExists) {
+    throw Error("File number already in use");
   }
 
   // hash the password
@@ -78,6 +89,7 @@ hoaSchema.statics.signup = async function (
     password: hash,
     address,
     membersMonthlyFee,
+    fileNumber,
   });
   return user;
 };
