@@ -44,7 +44,6 @@ const tenantSchema = new Schema(
       unique: true,
     },
     password: {
-      //TODO: later make it filled by a tenant on first login
       type: String,
     },
     tenantType: {
