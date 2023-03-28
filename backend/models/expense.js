@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const expenseSchema = new Schema(
   {
-    HOA: {
+    hoa_id: {
       type: String,
       required: [true, "HOA is required"],
     },
-    payableTo: {
+    supplier_id: {
       type: String,
       required: [true, "Supplier ID is required"],
     },

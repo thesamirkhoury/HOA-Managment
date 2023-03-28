@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const requestSchema = new Schema(
   {
-    HOA: {
+    hoa_id: {
       type: String,
       required: [true, "HOA is required"],
     },
-    tenant: {
+    tenant_id: {
       type: String,
       required: [true, "Tenant ID is required"],
     },
@@ -25,7 +25,7 @@ const requestSchema = new Schema(
       required: [true, "Maintenance Request Status is required"],
     },
     pictures: {
-      //TODO: Refine in the next stage.
+      //TODO: Refine in the File handling stage.
       type: Buffer,
     },
     response: {

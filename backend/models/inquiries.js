@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const inquirySchema = new Schema(
   {
-    HOA: {
+    hoa_id: {
       type: String,
       required: [true, "HOA is required"],
     },
-    tenant: {
+    tenant_id: {
       type: String,
       required: [true, "Tenant ID is required"],
     },
