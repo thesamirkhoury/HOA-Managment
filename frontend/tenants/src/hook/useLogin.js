@@ -8,14 +8,14 @@ export function useLogin() {
 
   const [error, setError] = useState(null);
 
-  async function login(email, password) {
+  async function login(username, password) {
     modalsDispatch({ type: "LOADING", payload: true });
     setError(null);
 
     const response = await fetch("http://localhost:4000/api/tenants/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     });
     const json = await response.json();
 
@@ -29,6 +29,8 @@ export function useLogin() {
       //update the AUTH Context
       dispatch({ type: "LOGIN", payload: json });
       modalsDispatch({ type: "LOADING", payload: false });
+      // scroll to the top of the home page after successfully logging in
+      window.scrollTo(0, 0);
     }
   }
   return { login, error };

@@ -32,6 +32,8 @@ export function useCreatePassword() {
       //update the AUTH Context
       dispatch({ type: "LOGIN", payload: json });
       modalsDispatch({ type: "LOADING", payload: false });
+      // scroll to the top of the home page after successfully setting a password
+      window.scrollTo(0, 0);
     }
   }
   return { createPassword, error };

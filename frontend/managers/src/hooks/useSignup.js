@@ -37,7 +37,6 @@ export function useSignup() {
 
     if (!response.ok) {
       modalsDispatch({ type: "LOADING", payload: false });
-
       setError(json.error);
     }
     if (response.ok) {
@@ -46,6 +45,8 @@ export function useSignup() {
       //update the AUTH Context
       dispatch({ type: "LOGIN", payload: json });
       modalsDispatch({ type: "LOADING", payload: false });
+      // scroll to the top of the home page after successfully signing up
+      window.scrollTo(0, 0);
     }
   }
   return { signup, error };

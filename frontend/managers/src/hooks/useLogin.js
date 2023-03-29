@@ -29,6 +29,8 @@ export function useLogin() {
       //update the AUTH Context
       dispatch({ type: "LOGIN", payload: json });
       modalsDispatch({ type: "LOADING", payload: false });
+      // scroll to the top of the home page after successfully logging in
+      window.scrollTo(0, 0);
     }
   }
   return { login, error };
