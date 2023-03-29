@@ -40,6 +40,14 @@
   font-size: 20vw;
 }
 
+.login-card {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+}
+
 .error {
   padding: 10px;
   background: #ffefef;
@@ -47,12 +55,4 @@
   color: #e7195a;
   border-radius: 4px;
   margin: 20px 0;
-}
-
-.login-card {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
 }
