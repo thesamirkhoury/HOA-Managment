@@ -64,7 +64,6 @@ async function editSupplier(req, res) {
   const supplier = await Supplier.findByIdAndUpdate(
     id,
     {
-      HOA: hoaID,
       supplierName,
       supplierType,
       supplierCategory,

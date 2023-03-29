@@ -58,11 +58,6 @@ async function getTenants(req, res) {
   // hoa id from auth
   const hoa_id = req.user._id;
 
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoa_id)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
   const tenants = await Tenant.find({ hoa_id });
   if (!tenants) {
     return res.status(404).json({ error: "No tenant Found" });
@@ -71,44 +66,37 @@ async function getTenants(req, res) {
 }
 
 //Edit a tenant by _id
-//!check update method, check params -- deleted
 async function editTenant(req, res) {
-  // request body
   const {
     firstName,
     lastName,
     buildingNumber,
     apartmentNumber,
     parkingSpot,
-    tenantPhoneNumber,
+    phoneNumber,
     tenantEmail,
-    password,
     tenantType,
     ownerFirstName,
     ownerLastName,
     ownerPhoneNumber,
     ownerEmail,
   } = req.body;
-  // hoa id from auth
-  const hoa_id = req.user._id;
-
+  const { id } = req.params;
   //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoa_id)) {
-    return res.status(404).json({ error: "HOA Not Found" });
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Tenant Not Found" });
   }
 
   const tenant = await Tenant.findByIdAndUpdate(
     id,
     {
-      hoa_id,
       firstName,
       lastName,
       buildingNumber,
       apartmentNumber,
       parkingSpot,
-      tenantPhoneNumber,
+      phoneNumber,
       tenantEmail,
-      password,
       tenantType,
       ownerFirstName,
       ownerLastName,
@@ -118,7 +106,7 @@ async function editTenant(req, res) {
     { new: true }
   );
   if (!tenant) {
-    return res.status(404).json({ error: "HOA Not Found" });
+    return res.status(404).json({ error: "Tenant Not Found" });
   }
   res.status(200).json(tenant);
 }
@@ -138,9 +126,9 @@ async function deleteTenant(req, res) {
 
 //Login as a tenant
 async function login(req, res) {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
-    const user = await Tenant.login(email, password);
+    const user = await Tenant.login(username, password);
     // create JWT
     const token = createToken(user._id);
     res.status(200).json({ token: token });
@@ -178,28 +166,22 @@ async function getTenant(req, res) {
 }
 
 //Edit the info of the tenant
-//! Check edit function parameters
-async function editTenant(req, res) {
+async function editDetails(req, res) {
   // request body
-  const {
-    firstName,
-    lastName,
-    buildingNumber,
-    apartmentNumber,
-    parkingSpot,
-    tenantPhoneNumber,
-    tenantEmail,
-    password,
-    tenantType,
-    ownerFirstName,
-    ownerLastName,
-    ownerPhoneNumber,
-    ownerEmail,
-  } = req.body;
+  const { firstName, lastName, tenantPhoneNumber, tenantEmail } = req.body;
   // tenant id from auth
   const tenant_id = req.user._id;
 
-  const tenant = await Tenant.findByIdAndUpdate(tenant_id, {});
+  const tenant = await Tenant.findByIdAndUpdate(
+    tenant_id,
+    {
+      firstName,
+      lastName,
+      tenantPhoneNumber,
+      tenantEmail,
+    },
+    { new: true }
+  );
   if (!tenant) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
@@ -214,5 +196,5 @@ module.exports = {
   login,
   createPassword,
   getTenant,
-  editTenant,
+  editDetails,
 };

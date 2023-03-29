@@ -22,7 +22,7 @@ router.post("/", createExpense);
 router.get("/", getExpenses);
 
 //Get sum of expenses by a specified time period
-router.get("/sum", getSum);
+router.get("/sum/:from/:to", getSum);
 
 //Edit an expense by _id
 router.patch("/:id", editExpense);

@@ -23,7 +23,7 @@ router.post("/", createBill);
 router.get("/", getBills);
 
 //Get the sum of all paid bills by a specific time period
-router.get("/sum", getSum);
+router.get("/sum/:from/:to", getSum);
 
 //Edit a bill by _id
 router.patch("/:id", editBill);

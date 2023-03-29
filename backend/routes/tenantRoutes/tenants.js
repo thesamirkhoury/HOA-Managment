@@ -1,9 +1,8 @@
 const express = require("express");
 // controller functions
 const {
-  login,
   getTenant,
-  editTenant,
+  editDetails,
 } = require("../../controllers/tenantControllers");
 //auth middleware
 const requireAuthTenant = require("../../middleware/requireAuthTenant");
@@ -17,6 +16,6 @@ router.use(requireAuthTenant);
 router.get("/", getTenant);
 
 //Edit the info of the tenant
-router.patch("/", editTenant);
+router.patch("/", editDetails);
 
 module.exports = router;

@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 async function createBill(req, res) {
   const { tenant_id, amount, description, paymentType, dueDate } = req.body;
   //check of tenant id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(tenant)) {
+  if (!mongoose.Types.ObjectId.isValid(tenant_id)) {
     return res.status(404).json({ error: "Tenant Not Found" });
   }
   // hoa id from auth
@@ -46,7 +46,7 @@ async function getBills(req, res) {
 
 //Get sum of expenses by a specified time period
 async function getSum(req, res) {
-  const { from, to } = req.body;
+  const { from, to } = req.params;
   // hoa id from auth
   const hoa_id = req.user._id;
 
@@ -59,7 +59,7 @@ async function getSum(req, res) {
     {
       $match: {
         // find paid documents from start date to end date, created by th HOA ID
-        hoa_id,
+        hoa_id: hoa_id.toString(),
         updatedAt: {
           $gte: startDate,
           $lte: endDate,

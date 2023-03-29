@@ -46,7 +46,6 @@ async function editReminder(req, res) {
   const reminder = await Reminder.findByIdAndUpdate(
     id,
     {
-      HOA: hoaID,
       title,
       body,
       dateAndTime,
