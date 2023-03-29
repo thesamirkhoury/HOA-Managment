@@ -8,61 +8,72 @@ import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//import Router Nav Link
+import { LinkContainer } from "react-router-bootstrap";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const { login, error } = useLogin();
 
+  // When clicking on redirect link scroll to the top of the page.
+  function scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
   async function handleLogin(e) {
     e.preventDefault();
-    await login(email, password);
+    await login(username, password);
   }
 
   return (
-    <div className="mt-1 mt-md-5 ms-2">
-      <Card>
-        <Card.Body>
-          <h1 className="display-1 text-center">התחבר</h1>
-          <Form className="m-2" onSubmit={handleLogin}>
-            <Form.Group className="mb-2">
-              <Form.Label>מייל</Form.Label>
-              <Form.Control
-                type="email"
-                required
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
+    // <div className="mt-1 mt-md-5 ms-2">
+    <Card className="login-card">
+      <Card.Body>
+        <h1 className="display-1 text-center">התחבר</h1>
+        <Form className="m-2" onSubmit={handleLogin}>
+          <Form.Group className="mb-2">
+            <Form.Label>שם משתמש</Form.Label>
+            <Form.Control
+              type="text"
+              required
+              placeholder="הקליד את שם המשתש"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+            ></Form.Control>
+          </Form.Group>
 
-            <Form.Group className="mb-2">
-              <Form.Label>סיסמה</Form.Label>
-              <Form.Control
-                type="password"
-                required
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
+          <Form.Group className="mb-2">
+            <Form.Label>סיסמה</Form.Label>
+            <Form.Control
+              type="password"
+              required
+              placeholder="הקלד את הסיסמה"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            ></Form.Control>
+          </Form.Group>
 
-            <Row>
-              <Col md={{ span: 5, offset: 3 }} className="">
-                <Button type="submit" className="w-100">
-                  התחבר
-                </Button>
-              </Col>
-            </Row>
+          <Button type="submit" className="w-100 mt-1">
+            התחבר
+          </Button>
 
-            {error && <div className="error">{error}</div>}
-          </Form>
-        </Card.Body>
-      </Card>
-    </div>
+          <LinkContainer to="/forgot-password" onClick={scrollToTop}>
+            <Button className="w-100 mt-1" variant="link">
+              שחכת את הסיסמה?
+            </Button>
+          </LinkContainer>
+
+          {error && <div className="error">{error}</div>}
+        </Form>
+      </Card.Body>
+    </Card>
+    // </div>
   );
 }
 

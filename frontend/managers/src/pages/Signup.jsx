@@ -8,6 +8,8 @@ import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//import Router Nav Link
+import { LinkContainer } from "react-router-bootstrap";
 
 function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -15,10 +17,16 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [fileNumber, setFileNumber] = useState("");
   const [membersMonthlyFee, setMembersMonthlyFee] = useState("");
   const [buildingCount, setBuildingCount] = useState("");
 
   const { signup, error } = useSignup();
+
+  // When clicking on redirect link scroll to the top of the page.
+  function scrollToTop() {
+    window.scrollTo(0, 0);
+  }
 
   async function handleSignup(e) {
     e.preventDefault();
@@ -28,6 +36,7 @@ function Signup() {
       email,
       password,
       address,
+      fileNumber,
       membersMonthlyFee,
       buildingCount
     );
@@ -37,9 +46,10 @@ function Signup() {
     <div className="mt-1 mt-md-5 ms-2">
       <Card>
         <Card.Body>
-          <h1 className="display-1 text-center">הרשמת ועד בית חדש</h1>
+          <h1 className="display-1 text-center">פתיחת חשבון ועד בית חדש</h1>
 
           <Form className="m-2" onSubmit={handleSignup}>
+            <p className="fs-4 text-decoration-underline">פרטים אישיים</p>
             <Row>
               <Col md={6} className="mb-2">
                 <Form.Group>
@@ -47,6 +57,7 @@ function Signup() {
                   <Form.Control
                     type="text"
                     required
+                    placeholder="ישראל"
                     value={firstName}
                     onChange={(e) => {
                       setFirstName(e.target.value);
@@ -60,6 +71,7 @@ function Signup() {
                   <Form.Control
                     type="text"
                     required
+                    placeholder="ישראלי"
                     value={lastName}
                     onChange={(e) => {
                       setLastName(e.target.value);
@@ -70,12 +82,13 @@ function Signup() {
             </Row>
 
             <Row>
-              <Col className="mb-2">
+              <Col md={6} className="mb-2">
                 <Form.Group>
                   <Form.Label>מייל</Form.Label>
                   <Form.Control
                     type="email"
                     required
+                    placeholder="name@domain.com"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -83,15 +96,13 @@ function Signup() {
                   ></Form.Control>
                 </Form.Group>
               </Col>
-            </Row>
-
-            <Row>
-              <Col md={6} className="mb-2">
+              <Col className="mb-2">
                 <Form.Group>
                   <Form.Label>סיסמה</Form.Label>
                   <Form.Control
                     type="password"
                     required
+                    placeholder="הקלד סיסמה"
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -99,29 +110,39 @@ function Signup() {
                   ></Form.Control>
                 </Form.Group>
               </Col>
-              <Col className="mb-2">
-                <Form.Group>
-                  {/* //TODO: Implement Later and remove disabled tag */}
-                  <Form.Label>אימות סיסמה</Form.Label>
-                  <Form.Control
-                    type="password"
-                    required
-                    disabled
-                  ></Form.Control>
-                </Form.Group>
-              </Col>
             </Row>
 
+            <hr />
+            <p className="fs-4 text-decoration-underline">פרטי הועד</p>
+
             <Row>
-              <Col className="mb-2">
+              <Col md={8} className="mb-2">
                 <Form.Group>
                   <Form.Label>כתובת מלאה</Form.Label>
                   <Form.Control
                     type="text"
                     required
+                    placeholder="מספר בניין, רחוב, עיר ומדינה"
                     value={address}
                     onChange={(e) => {
                       setAddress(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+              <Col className="mb-2">
+                <Form.Group>
+                  <Form.Label>מספר תיק</Form.Label>
+                  <Form.Control
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    step="any"
+                    required
+                    placeholder="מספר תיק בפנקס הבית המשותף"
+                    value={fileNumber}
+                    onChange={(e) => {
+                      setFileNumber(e.target.value);
                     }}
                   ></Form.Control>
                 </Form.Group>
@@ -137,6 +158,7 @@ function Signup() {
                     inputMode="numeric"
                     min="1"
                     required
+                    placeholder="מספר הבניינים שמנהל הועד"
                     value={buildingCount}
                     onChange={(e) => {
                       setBuildingCount(e.target.value);
@@ -153,6 +175,7 @@ function Signup() {
                     min="1"
                     step="any"
                     required
+                    placeholder="סכום חודשי"
                     value={membersMonthlyFee}
                     onChange={(e) => {
                       setMembersMonthlyFee(e.target.value);
@@ -163,15 +186,24 @@ function Signup() {
             </Row>
 
             <Row>
-              <Col md={{ span: 5, offset: 3 }} className="">
-                <Button type="submit" className="w-100">
-                  הירשם
+              <Col className="text-center mt-2">
+                <Button type="submit" className="w-50">
+                  צור חישבון חדש
                 </Button>
               </Col>
             </Row>
 
             {error && <div className="error">{error}</div>}
           </Form>
+
+          <hr />
+
+          <p className="text-center fs-5">יש לך כבר חשבון?</p>
+          <Col className="text-center">
+            <LinkContainer to="/login" onClick={scrollToTop}>
+              <Button variant="outline-primary">התחבר לחשבון</Button>
+            </LinkContainer>
+          </Col>
         </Card.Body>
       </Card>
     </div>
