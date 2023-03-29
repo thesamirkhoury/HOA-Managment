@@ -16,6 +16,11 @@ async function requireAuthManager(req, res, next) {
     req.user = await Tenant.findOne({ _id }).select(
       "_id hoa_id buildingNumber"
     );
+    // if user is not found
+    if (!req.user) {
+      throw Error();
+    }
+    
     next();
   } catch (error) {
     res.status(401).json({ error: "Request is not authorized" });
