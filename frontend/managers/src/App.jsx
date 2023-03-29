@@ -19,6 +19,7 @@ import Documents from "./pages/Documents";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -111,6 +112,11 @@ function App() {
             <Route
               path="signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
+              exact
+            />
+            <Route
+              path="forgot-password"
+              element={!user ? <ForgotPassword /> : <Navigate to="/" />}
               exact
             />
             {/* 404 Page for non-existing pages */}
