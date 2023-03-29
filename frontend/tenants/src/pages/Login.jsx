@@ -34,7 +34,11 @@ function Login() {
             <Form.Label>שם משתמש</Form.Label>
             <Form.Control
               type="text"
+              spellcheck="false"
+              autocorrect="off"
+              autocapitalize="off"
               required
+              aria-label="username"
               placeholder="הקליד את שם המשתש"
               value={username}
               onChange={(e) => {

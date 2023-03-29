@@ -32,7 +32,11 @@ function ForgotPassword() {
               <Form.Label>שם משתמש</Form.Label>
               <Form.Control
                 type="text"
+                spellcheck="false"
+                autocorrect="off"
+                autocapitalize="off"
                 required
+                aria-label="username"
                 placeholder="הקליד את שם המשתש"
                 value={username}
                 onChange={(e) => {
@@ -47,7 +51,8 @@ function ForgotPassword() {
             </Button>
           ) : (
             <div className="instructions fs-5">
-              אם שם המשתמש שהזנת קיים במערכת, ישלחו אליך מייל בקרוב עם הנחיות לאיפוס הסיסמה.
+              אם שם המשתמש שהזנת קיים במערכת, ישלחו אליך מייל בקרוב עם הנחיות
+              לאיפוס הסיסמה.
             </div>
           )}
         </Form>
