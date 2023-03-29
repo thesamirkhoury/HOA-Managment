@@ -5,9 +5,6 @@ import { useLogin } from "../hook/useLogin";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-//bootstrap spacing
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 //import Router Nav Link
 import { LinkContainer } from "react-router-bootstrap";
 
