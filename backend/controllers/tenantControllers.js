@@ -163,7 +163,6 @@ async function forgotPassword(req, res) {
         resetMessage:
           "Instructions to reset the password are sent to the email provided",
       });
-      console.log("here");
     }
     // if there is any other errors, sed back
     else {
