@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";
@@ -8,8 +9,11 @@ import Button from "react-bootstrap/Button";
 import { LinkContainer } from "react-router-bootstrap";
 
 function ForgotPassword() {
+  const { dispatch } = useModalsContext();
+
   const [email, setEmail] = useState("");
   const [showInstructions, setShowInstructions] = useState(false);
+  const [error, setError] = useState(null);
 
   // When clicking on redirect link scroll to the top of the page.
   function scrollToTop() {
@@ -18,8 +22,25 @@ function ForgotPassword() {
 
   async function handleForgetPassword(e) {
     e.preventDefault();
-    //TODO: send a request for a password reset
-    setShowInstructions(true);
+    //send forgot password request
+    const response = await fetch(
+      "http://localhost:4000/api/managers/forgot-password/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    );
+    const json = await response.json();
+
+    if (!response.ok) {
+      setError(json.error);
+    }
+    if (response.ok) {
+      setShowInstructions(true);
+    }
+
+    dispatch({ type: "LOADING", payload: false });
   }
 
   return (
@@ -58,6 +79,8 @@ function ForgotPassword() {
             התחבר לחשבון
           </Button>
         </LinkContainer>
+
+        {error && <div className="error">{error}</div>}
       </Card.Body>
     </Card>
   );

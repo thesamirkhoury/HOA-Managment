@@ -20,6 +20,7 @@ import Settings from "./pages/Settings";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
+import SetPassword from "./pages/SetPassword";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -117,6 +118,11 @@ function App() {
             <Route
               path="forgot-password"
               element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+              exact
+            />
+            <Route
+              path="set-password/:resetToken"
+              element={!user ? <SetPassword /> : <Navigate to="/" />}
               exact
             />
             {/* 404 Page for non-existing pages */}
