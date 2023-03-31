@@ -4,24 +4,20 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Create a new bill and send by mail
-//TODO: get hoa id from auth instead of body
 //TODO: Implement send By Mail
 async function createBill(req, res) {
-  const { tenant, amount, description, paymentType, dueDate } = req.body;
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  const { tenant_id, amount, description, paymentType, dueDate } = req.body;
   //check of tenant id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(tenant)) {
+  if (!mongoose.Types.ObjectId.isValid(tenant_id)) {
     return res.status(404).json({ error: "Tenant Not Found" });
   }
+  // hoa id from auth
+  const hoa_id = req.user._id;
+
   try {
     const bill = await Billing.create({
-      HOA: hoaID,
-      tenant,
+      hoa_id,
+      tenant_id,
       amount,
       description,
       paymentType,
@@ -37,16 +33,11 @@ async function createBill(req, res) {
 }
 
 //Get all bills
-//TODO: get hoa id from auth instead of body
 async function getBills(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  const bills = await Billing.find({ HOA: hoaID }).sort({ createdAt: -1 });
+  const bills = await Billing.find({ hoa_id }).sort({ createdAt: -1 });
   if (!bills) {
     return res.status(404).json({ error: "No Bills Found" });
   }
@@ -54,16 +45,10 @@ async function getBills(req, res) {
 }
 
 //Get sum of expenses by a specified time period
-//TODO: get hoa id from auth instead of body
 async function getSum(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const { from, to } = req.body;
+  const { from, to } = req.params;
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   //create date from request body
   const startDate = new Date(from);
@@ -74,7 +59,7 @@ async function getSum(req, res) {
     {
       $match: {
         // find paid documents from start date to end date, created by th HOA ID
-        HOA: hoaID,
+        hoa_id: hoa_id.toString(),
         updatedAt: {
           $gte: startDate,
           $lte: endDate,
@@ -192,19 +177,11 @@ async function recordPayment(req, res) {
 //* Tenants
 
 //Get all bills for a user
-//TODO: get tenant id, hoa id from auth instead of body
 async function getUserBills(req, res) {
-  // get hoa id from user auth
-  const { hoaID, tenantID } = req.body; //change to auth id
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-  if (!mongoose.Types.ObjectId.isValid(tenantID)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
-  }
+  // tenant id from auth
+  const tenant_id = req.user._id;
 
-  const bills = await Billing.find({ HOA: hoaID, tenant: tenantID }).sort({
+  const bills = await Billing.find({ tenant_id }).sort({
     createdAt: -1,
   });
   if (!bills) {

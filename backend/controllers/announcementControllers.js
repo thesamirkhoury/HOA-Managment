@@ -5,19 +5,14 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Create a new announcement
-//TODO: get hoa id from auth instead of body
 async function createAnnouncement(req, res) {
   const { title, body, buildingNumber } = req.body;
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   try {
     const announcement = await Announcement.create({
-      HOA: hoaID,
+      hoa_id,
       title,
       body,
       buildingNumber,
@@ -29,16 +24,11 @@ async function createAnnouncement(req, res) {
 }
 
 //Get all announcements
-//TODO: get hoa id from auth instead of body
 async function getAnnouncements(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  const announcements = await Announcement.find({ HOA: hoaID });
+  const announcements = await Announcement.find({ hoa_id });
 
   if (!announcements) {
     return res.status(404).json({ error: "No Announcements Found" });
@@ -47,27 +37,17 @@ async function getAnnouncements(req, res) {
 }
 
 //Edit an announcement by _id
-//TODO: get hoa id from auth instead of body
 async function editAnnouncement(req, res) {
   const { id } = req.params;
   // check if announcement id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Announcement Not Found" });
   }
-
   const { title, body, buildingNumber } = req.body;
 
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if hoa id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const announcement = await Announcement.findOneAndUpdate(
-    { HOA: hoaID, _id: id },
+  const announcement = await Announcement.findByIdAndUpdate(
+    id,
     {
-      HOA: hoaID,
       title,
       body,
       buildingNumber,
@@ -82,7 +62,6 @@ async function editAnnouncement(req, res) {
 }
 
 //Delete a announcement by _id
-//TODO: get hoa id from auth instead of body
 async function deleteAnnouncement(req, res) {
   const { id } = req.params;
   // check if announcement id is a valid mongoose id
@@ -90,17 +69,7 @@ async function deleteAnnouncement(req, res) {
     return res.status(404).json({ error: "Announcement Not Found" });
   }
 
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if hoa id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const announcement = await Announcement.findOneAndDelete({
-    HOA: hoaID,
-    _id: id,
-  });
+  const announcement = await Announcement.findByIdAndDelete(id);
   if (!announcement) {
     return res.status(404).json({ error: "Announcement Not Found" });
   }
@@ -110,25 +79,15 @@ async function deleteAnnouncement(req, res) {
 //* Tenants
 
 //Get all announcements by building number
-//TODO: get tenant id, hoa id from auth instead of body
 async function getBuildingAnnouncements(req, res) {
-  // get hoa id from user auth
-  const { hoaID, tenantID } = req.body; //change to auth id
-
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-  if (!mongoose.Types.ObjectId.isValid(tenantID)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
-  }
-
-  const tenant = await Tenant.findById(tenantID);
-  const buildingNumber = tenant.buildingNumber;
+  // tenant id from auth
+  const hoa_id = req.user.hoa_id;
+  // tenant building from auth
+  const buildingNumber = req.user.buildingNumber;
 
   //get announcements relevant to both tenant building number and general messages for all buildings
   const announcements = await Announcement.find({
-    HOA: hoaID,
+    hoa_id,
     $or: [{ buildingNumber: buildingNumber }, { buildingNumber: "All" }],
   });
   if (!announcements) {

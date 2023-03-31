@@ -1,15 +1,18 @@
 const express = require("express");
 // controller functions
 const {
-  signup,
+  signup: signupTenant,
   getTenants,
   editTenant,
   deleteTenant,
 } = require("../../controllers/tenantControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
 
-//Create a new tenant
-router.post("/", signup);
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Get all tenants of an HOA
 router.get("/", getTenants);
@@ -24,5 +27,8 @@ router.patch("/:id", editTenant);
 
 //Delete a tenant by _id
 router.delete("/:id", deleteTenant);
+
+//Create a new tenant (signup)
+router.post("/signup", signupTenant);
 
 module.exports = router;

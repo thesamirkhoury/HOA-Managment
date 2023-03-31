@@ -7,7 +7,13 @@ const {
   editExpense,
   deleteBill,
 } = require("../../controllers/expenseControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Create a new expense
 router.post("/", createExpense);
@@ -16,7 +22,7 @@ router.post("/", createExpense);
 router.get("/", getExpenses);
 
 //Get sum of expenses by a specified time period
-router.get("/sum", getSum);
+router.get("/sum/:from/:to", getSum);
 
 //Edit an expense by _id
 router.patch("/:id", editExpense);

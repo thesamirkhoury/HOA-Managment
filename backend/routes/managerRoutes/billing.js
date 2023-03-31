@@ -8,7 +8,13 @@ const {
   deleteBill,
   recordPayment,
 } = require("../../controllers/billingControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Create a new bill and send by mail
 router.post("/", createBill);
@@ -17,7 +23,7 @@ router.post("/", createBill);
 router.get("/", getBills);
 
 //Get the sum of all paid bills by a specific time period
-router.get("/sum", getSum);
+router.get("/sum/:from/:to", getSum);
 
 //Edit a bill by _id
 router.patch("/:id", editBill);

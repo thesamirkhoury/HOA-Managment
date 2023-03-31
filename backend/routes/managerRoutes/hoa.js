@@ -2,20 +2,17 @@ const express = require("express");
 
 // controller functions
 const {
-  signup,
-  login,
   getAllDetails,
   editHoa,
   deleteHoa,
 } = require("../../controllers/hoaControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
 
 const router = express.Router();
 
-//Create a hoa (signup)
-router.post("/signup", signup);
-
-//login as hoa manager
-router.post("/login", login);
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Get the hoa info
 router.get("/", getAllDetails);

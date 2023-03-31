@@ -6,20 +6,14 @@ const mongoose = require("mongoose");
 //* Managers
 
 //Upload a new document
-//TODO: get hoa id from auth instead of body
 async function uploadDocument(req, res) {
   const { fileName, fileDescription, file } = req.body;
-
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   try {
     const document = await Document.create({
-      HOA: hoaID,
+      hoa_id,
       fileName,
       fileDescription,
       file,
@@ -31,16 +25,11 @@ async function uploadDocument(req, res) {
 }
 
 //Get all documents
-//TODO: get hoa id from auth instead of body
 async function getDocuments(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  const documents = await Document.find({ HOA: hoaID }).sort({ createdAt: -1 });
+  const documents = await Document.find({ hoa_id }).sort({ createdAt: -1 });
   if (!documents) {
     return res.status(404).json({ error: "No Documents Found" });
   }
@@ -86,16 +75,11 @@ async function deleteDocument(req, res) {
 //* Tenants
 
 //Get all documents of a user
-//TODO: get hoa id from auth instead of body
 async function getUserDocuments(req, res) {
-  // get hoa id from user auth
-  const { hoaID } = req.body; //change to auth id
-  //   check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user.hoa_id;
 
-  const documents = await Document.find({ hoaID }).sort({ createdAt: -1 });
+  const documents = await Document.find({ hoa_id }).sort({ createdAt: -1 });
   if (!documents) {
     return res.status(404).json({ error: "No Documents Found" });
   }

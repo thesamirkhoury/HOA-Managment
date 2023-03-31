@@ -36,6 +36,33 @@
   background-color: rgba(0, 0, 0, 0);
   border: 0ch;
 }
+
 .fs-huge {
   font-size: 20vw;
+}
+
+.login-card {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.error {
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid #e7195a;
+  color: #e7195a;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.instructions {
+  padding: 10px;
+  background: #eff5ff;
+  border: 1px solid #3819e7;
+  color: #3819e7;
+  border-radius: 4px;
+  margin: 20px 0;
 }

@@ -6,8 +6,13 @@ const {
   editAnnouncement,
   deleteAnnouncement,
 } = require("../../controllers/announcementControllers");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
 
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Create a new announcement
 router.post("/", createAnnouncement);

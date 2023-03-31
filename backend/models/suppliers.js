@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const supplierSchema = new Schema(
   {
-    HOA: {
+    hoa_id: {
       type: String,
       required: [true, "HOA is required"],
     },
@@ -13,13 +13,14 @@ const supplierSchema = new Schema(
       required: [true, "Supplier Name is required"],
       unique: true,
     },
-    supplierType: { // Type is either a "Company" OR an "Independent Contractor"
+    supplierType: {
+      // Type is either a "Company" OR an "Independent Contractor"
       type: String,
       required: [true, "Supplier Type is required"],
     },
     supplierCategory: {
       type: String,
-      required: [true,"Supplier Type is required"],
+      required: [true, "Supplier Type is required"],
     },
     email: {
       type: String,

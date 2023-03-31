@@ -6,7 +6,13 @@ const {
   editDocument,
   deleteDocument,
 } = require("../../controllers/documentController");
+//auth middleware
+const requireAuthManager = require("../../middleware/requireAuthManager");
+
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthManager);
 
 //Upload a new document
 router.post("/", uploadDocument);

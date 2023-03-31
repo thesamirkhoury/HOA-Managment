@@ -4,7 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 //Import Routes
-//* Managers
+//* Authentication route
+const authentication = require("./routes/authentication");
+
+//* Manager routes
 const hoaRoutesManager = require("./routes/managerRoutes/hoa");
 const tenantRoutesManager = require("./routes/managerRoutes/tenants");
 const supplierRoutesManager = require("./routes/managerRoutes/suppliers");
@@ -16,7 +19,7 @@ const billingRoutesManager = require("./routes/managerRoutes/billing");
 const expenseRoutesManager = require("./routes/managerRoutes/expenses");
 const documentRoutesManager = require("./routes/managerRoutes/documents");
 
-//* Tenants
+//* Tenant routes
 const hoaRoutesTenant = require("./routes/TenantRoutes/hoa");
 const tenantRoutesTenant = require("./routes/TenantRoutes/tenants");
 const announcementRoutesTenant = require("./routes/TenantRoutes/announcements");
@@ -32,7 +35,12 @@ const port = 4000;
 //middleware
 //CORS
 const corsOptions = {
-  origin: ["http://localhost:3000", process.env.LCL_IP], //for the meantime only accept from localhost
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    process.env.LCL_IP_PORT1,
+    process.env.LCL_IP_PORT2,
+  ], //for the meantime only accept from localhost
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -47,8 +55,12 @@ app.use((req, res, next) => {
 });
 
 //routes
+
+//* Authentication
+app.use("/api", authentication);
+
 //* Managers
-app.use("/api/managers/hoa", hoaRoutesManager); //? review endpoint link
+app.use("/api/managers/details", hoaRoutesManager);
 app.use("/api/managers/tenants", tenantRoutesManager);
 app.use("/api/managers/suppliers", supplierRoutesManager);
 app.use("/api/managers/reminders", reminderRoutesManager);
@@ -60,8 +72,9 @@ app.use("/api/managers/expenses", expenseRoutesManager);
 app.use("/api/managers/documents", documentRoutesManager);
 
 //* Tenants
+// app.use("/api/managers", authenticationManager);
 app.use("/api/tenants/hoa", hoaRoutesTenant);
-app.use("/api/tenants/tenants", tenantRoutesTenant); //? review endpoint link
+app.use("/api/tenants/details", tenantRoutesTenant); //? review endpoint link
 app.use("/api/tenants/announcements", announcementRoutesTenant);
 app.use("/api/tenants/maintenance", maintenanceRoutesTenant);
 app.use("/api/tenants/inquiries", inquiriesRoutesTenant);
@@ -70,7 +83,7 @@ app.use("/api/tenants/documents", documentRoutesTenant);
 
 //*API Details
 app.get("/api/ver", (req, res) => {
-  res.status(200).json({ version: "0.1.1" });
+  res.status(200).json({ version: "0.2" });
 });
 
 // Make the Queries Strict and Remove Deprecation Warning

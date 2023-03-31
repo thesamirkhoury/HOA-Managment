@@ -1,7 +1,13 @@
 const express = require("express");
 //controller functions
 const { getUserBills } = require("../../controllers/billingControllers");
+//auth middleware
+const requireAuthTenant = require("../../middleware/requireAuthTenant");
+
 const router = express.Router();
+
+//use auth middleware to protect api endpoints
+router.use(requireAuthTenant);
 
 //Get all bills for a user
 router.get("/", getUserBills);

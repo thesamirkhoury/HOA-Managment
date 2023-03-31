@@ -1,50 +1,103 @@
 const HOA = require("../models/hoa");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+
+// JWT Create Token Function
+function createToken(_id) {
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
+}
 
 //* Managers
-//Create a new HOA
-//! For testing purposes only, turn into static method
+//Create a new HOA user - (Signup)
 async function signup(req, res) {
   const {
     firstName,
     lastName,
-    managerEmail,
+    email,
     password,
     address,
     membersMonthlyFee,
+    fileNumber,
   } = req.body;
+
+  // sign up user
   try {
-    const newHoa = await HOA.create({
+    const newHoa = await HOA.signup(
       firstName,
       lastName,
-      managerEmail,
+      email,
       password,
       address,
       membersMonthlyFee,
-    });
-    res.status(200).json(newHoa);
+      fileNumber
+    );
+    // create JWT
+    const token = createToken(newHoa._id);
+    res.status(200).json({ token: token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
 
-//Login a user
-//! implement using static method
+//Login a HOA user
 async function login(req, res) {
-  res.json({ description: "login as hoa manager" });
+  const { email, password } = req.body;
+  try {
+    const user = await HOA.login(email, password);
+    // create JWT
+    const token = createToken(user._id);
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+// Forget Password
+async function forgotPassword(req, res) {
+  const { email } = req.body;
+  try {
+    const user = await HOA.forgotPassword(email);
+    //email the reset link
+    //TODO: use the email util to email the reset link with the token, temp log the token in console
+    console.log(user.email, user.token);
+
+    res.status(200).json({
+      resetMessage:
+        "Instructions to reset the password are sent to the email provided",
+    });
+  } catch (error) {
+    // if user enters an incorrect email, send a generic message for security purposes.
+    if (error.message === "Incorrect Email") {
+      res.status(200).json({
+        resetMessage:
+          "Instructions to reset the password are sent to the email provided",
+      });
+    } else {
+      res.status(400).json({ error: error.message });
+    }
+  }
+}
+
+// Reset the user password using a reset token
+async function resetPassword(req, res) {
+  const { resetToken } = req.params;
+  const { password } = req.body;
+  try {
+    const user = await HOA.resetPassword(resetToken, password);
+    // create JWT
+    const token = createToken(user._id);
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 }
 
 //Returns the Full HOA data
-//TODO: get hoa id from auth instead of body
 async function getAllDetails(req, res) {
-  const { hoaID } = req.body; //change to auth id
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const hoa = await HOA.findById(hoaID);
+  const hoa = await HOA.findById(hoa_id);
   if (!hoa) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
@@ -52,9 +105,7 @@ async function getAllDetails(req, res) {
 }
 
 //Edit the HOA Details
-//TODO: get hoa id from auth instead of body
 async function editHoa(req, res) {
-  const { hoaID } = req.body; //change to auth id
   const {
     firstName,
     lastName,
@@ -63,11 +114,8 @@ async function editHoa(req, res) {
     address,
     membersMonthlyFee,
   } = req.body;
-
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
   const updated = {
     firstName,
@@ -78,7 +126,7 @@ async function editHoa(req, res) {
     membersMonthlyFee,
   }; //possible to replace with ...req.body, after auth
 
-  const hoa = await HOA.findByIdAndUpdate(hoaID, updated, { new: true });
+  const hoa = await HOA.findByIdAndUpdate(hoa_id, updated, { new: true });
   if (!hoa) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
@@ -86,16 +134,11 @@ async function editHoa(req, res) {
 }
 
 //Delete the HOA and close the account
-//TODO: get hoa id from auth instead of body
 async function deleteHoa(req, res) {
-  const { hoaID } = req.body; //change to auth id
+  // hoa id from auth
+  const hoa_id = req.user._id;
 
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const hoa = await HOA.findByIdAndDelete(hoaID);
+  const hoa = await HOA.findByIdAndDelete(hoa_id);
   if (!hoa) {
     return res.status(404).json({ error: "HOA Not Found" });
   }
@@ -104,17 +147,12 @@ async function deleteHoa(req, res) {
 
 //* Tenants
 //Get the hoa info
-//TODO: get hoa id from auth instead of body
 async function getInfo(req, res) {
-  const { hoaID } = req.body; //change to auth id
+  // hoa id from auth
+  const hoa_id = req.user.hoa_id;
 
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(hoaID)) {
-    return res.status(404).json({ error: "HOA Not Found" });
-  }
-
-  const hoa = await HOA.findById(hoaID).select(
-    "firstName lastName address membersMonthlyFee"
+  const hoa = await HOA.findById(hoa_id).select(
+    "firstName lastName address membersMonthlyFee fileNumber"
   );
 
   if (!hoa) {
@@ -123,4 +161,13 @@ async function getInfo(req, res) {
   res.status(200).json(hoa);
 }
 
-module.exports = { signup, login, getAllDetails, editHoa, deleteHoa, getInfo };
+module.exports = {
+  signup,
+  login,
+  forgotPassword,
+  resetPassword,
+  getAllDetails,
+  editHoa,
+  deleteHoa,
+  getInfo,
+};

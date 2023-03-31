@@ -1,20 +1,21 @@
 const express = require("express");
 // controller functions
 const {
-  login,
   getTenant,
-  editTenant,
+  editDetails,
 } = require("../../controllers/tenantControllers");
+//auth middleware
+const requireAuthTenant = require("../../middleware/requireAuthTenant");
 
 const router = express.Router();
 
-//login as a tenant
-router.post("/login", login);
+//use auth middleware to protect api endpoints
+router.use(requireAuthTenant);
 
 //Get tenant details
 router.get("/", getTenant);
 
 //Edit the info of the tenant
-router.patch("/", editTenant);
+router.patch("/", editDetails);
 
 module.exports = router;
