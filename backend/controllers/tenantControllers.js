@@ -157,7 +157,18 @@ async function forgotPassword(req, res) {
         "Instructions to reset the password are sent to the email provided",
     });
   } catch (error) {
-    res.send(400).json({ error: error.message });
+    // if user enters an incorrect username, send a generic message for security purposes.
+    if (error.message === "Incorrect username") {
+      res.status(200).json({
+        resetMessage:
+          "Instructions to reset the password are sent to the email provided",
+      });
+      console.log("here");
+    }
+    // if there is any other errors, sed back
+    else {
+      res.status(400).json({ error: error.message });
+    }
   }
 }
 
@@ -166,7 +177,7 @@ async function resetPassword(req, res) {
   const { resetToken } = req.params;
   const { password } = req.body;
   try {
-    const user = await Tenant.setPassword(resetToken, password);
+    const user = await Tenant.resetPassword(resetToken, password);
     // create JWT
     const token = createToken(user._id);
     res.status(200).json({ token: token });
