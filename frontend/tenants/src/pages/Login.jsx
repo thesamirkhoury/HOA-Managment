@@ -34,9 +34,9 @@ function Login() {
             <Form.Label>שם משתמש</Form.Label>
             <Form.Control
               type="text"
-              spellcheck="false"
-              autocorrect="off"
-              autocapitalize="off"
+              spellCheck="false"
+              autoCorrect="off"
+              autoCapitalize="off"
               required
               aria-label="username"
               placeholder="הקליד את שם המשתש"
