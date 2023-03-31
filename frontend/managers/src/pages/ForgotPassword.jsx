@@ -46,7 +46,7 @@ function ForgotPassword() {
   return (
     <Card className="login-card">
       <Card.Body>
-        <h1 className="display-3 text-center">איפוס סיסמה</h1>
+        <h1 className="display-4 text-center">איפוס סיסמה</h1>
         <Form className="m-2" onSubmit={handleForgetPassword}>
           {!showInstructions && (
             <Form.Group className="mb-2">
