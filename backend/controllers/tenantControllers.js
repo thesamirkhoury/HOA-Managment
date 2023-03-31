@@ -31,7 +31,7 @@ async function signup(req, res) {
 
   let username = `${tenantEmail.split("@")[0]}@${req.user.fileNumber}`;
   try {
-    const newTenant = await Tenant.signup(
+    const tenant = await Tenant.signup(
       hoa_id,
       firstName,
       lastName,
@@ -47,7 +47,13 @@ async function signup(req, res) {
       ownerPhoneNumber,
       ownerEmail
     );
-    res.status(200).json(newTenant);
+
+    //email the signup link to tenant
+    //TODO: use the emil util to email a signup link with the token and username, temp log the token in console
+    console.log(tenant.user.tenantEmail, tenant.user.username, tenant.token);
+
+    //return only the tenant data, without the pure token
+    res.status(200).json(tenant.user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

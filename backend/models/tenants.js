@@ -153,11 +153,11 @@ tenantSchema.statics.signup = async function (
     tokenExpire: Date.now() + 10 * (60 * 1000), //10 minutes
   });
 
-  //email the signup link
-  //TODO: use the emil util to email a signup link with the token, temp log the token in console
-  console.log(token);
-
-  return user;
+  const userData = {
+    user,
+    token: token,
+  };
+  return userData;
 };
 
 //static login method
