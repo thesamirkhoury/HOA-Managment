@@ -13,7 +13,7 @@ export function useResetPassword() {
     setError(null);
 
     const response = await fetch(
-      `http://localhost:4000/api/managers/reset-password/${token}`,
+      `${process.env.REACT_APP_API_URL}/managers/reset-password/${token}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
