@@ -15,7 +15,7 @@ import Documents from "./pages/Documents";
 import HOADetails from "./pages/HOADetails";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
-import CreatePassword from "./pages/CreatePassword";
+import SetPassword from "./pages/SetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 
@@ -96,13 +96,13 @@ function App() {
               exact
             />
             <Route
-              path="set_password/:resetToken"
-              element={!user ? <CreatePassword /> : <Navigate to="/" />}
+              path="forgot-password"
+              element={!user ? <ForgotPassword /> : <Navigate to="/" />}
               exact
             />
             <Route
-              path="forgot-password"
-              element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+              path="set-password/:resetToken"
+              element={!user ? <SetPassword /> : <Navigate to="/" />}
               exact
             />
             {/* 404 Page for non-existing pages */}
