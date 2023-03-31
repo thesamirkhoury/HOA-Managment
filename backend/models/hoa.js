@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const crypto = require("crypto");
 
 const Schema = mongoose.Schema;
 
@@ -35,6 +36,12 @@ const hoaSchema = new Schema(
       type: String,
       required: [true, "HOA File Number is required"],
       unique: true,
+    },
+    token: {
+      type: String,
+    },
+    tokenExpire: {
+      type: Date,
     },
   },
   { timestamps: true }
@@ -114,6 +121,71 @@ hoaSchema.statics.login = async function (email, password) {
   if (!match) {
     throw Error("Incorrect Password");
   }
+  return user;
+};
+
+// static forgot password method
+// TODO: Change Error messages to hebrew
+hoaSchema.statics.forgotPassword = async function (email) {
+  // validation
+  if (!email) {
+    throw Error("Email is required to reset your password");
+  }
+
+  // check if email exists
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw Error("Incorrect Email");
+  }
+
+  //create a random token
+  const token = crypto.randomBytes(20).toString("hex");
+  //hashing the token
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(token, salt);
+
+  user.token = hash;
+  user.tokenExpire = Date.now() + 10 * (60 * 1000); //link is valid for only 10 minutes
+  await user.save();
+
+  const data = {
+    email: user.email,
+    token: token,
+  };
+  return data;
+};
+
+// static change password using a reset token method
+// TODO: Change Error messages to hebrew
+hoaSchema.statics.resetPassword = async function (resetToken, password) {
+  // validation
+  if (!resetToken || !password) {
+    throw Error("All fields must be filled");
+  }
+
+  //hash salt
+  const salt = await bcrypt.genSalt(10);
+
+  // hash the token and compare to the DB
+  const tokenHash = await bcrypt.hash(resetToken, salt);
+  const user = await this.findOne({
+    tokenHash,
+    tokenExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw Error("Invalid Token, try requesting a new password reset");
+  }
+
+  // hash the password
+  const hash = await bcrypt.hash(password, salt);
+
+  // update the password and revoke the token
+  user.password = hash;
+  user.token = undefined;
+  user.tokenExpire = undefined;
+  await user.save();
+
   return user;
 };
 

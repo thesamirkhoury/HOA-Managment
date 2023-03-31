@@ -52,6 +52,38 @@ async function login(req, res) {
   }
 }
 
+// Forget Password
+async function forgotPassword(req, res) {
+  const { email } = req.body;
+  try {
+    const user = await HOA.forgotPassword(email);
+    //email the reset link
+    //TODO: use the email util to email the reset link with the token, temp log the token in console
+    console.log(user.email, user.token);
+
+    res.status(200).json({
+      resetMessage:
+        "Instructions to reset the password are sent to the email provided",
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+// Reset the user password using a reset token
+async function resetPassword(req, res) {
+  const { resetToken } = req.params;
+  const { password } = req.body;
+  try {
+    const user = await HOA.resetPassword(resetToken, password);
+    // create JWT
+    const token = createToken(user._id);
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 //Returns the Full HOA data
 async function getAllDetails(req, res) {
   // hoa id from auth
@@ -121,4 +153,13 @@ async function getInfo(req, res) {
   res.status(200).json(hoa);
 }
 
-module.exports = { signup, login, getAllDetails, editHoa, deleteHoa, getInfo };
+module.exports = {
+  signup,
+  login,
+  forgotPassword,
+  resetPassword,
+  getAllDetails,
+  editHoa,
+  deleteHoa,
+  getInfo,
+};

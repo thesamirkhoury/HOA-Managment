@@ -183,9 +183,42 @@ tenantSchema.statics.login = async function (username, password) {
   return user;
 };
 
+// static forgot password method
+// TODO: Change Error messages to hebrew
+tenantSchema.statics.forgotPassword = async function (username) {
+  // validation
+  if (!username) {
+    throw Error("Username is required to reset your password");
+  }
+
+  // check if username exists
+  const user = await this.findOne({ username });
+  if (!user) {
+    throw Error("Incorrect username");
+  }
+
+  //create a random token
+  const token = crypto.randomBytes(20).toString("hex");
+  //hashing the token
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(token, salt);
+
+  user.password = undefined;
+  user.token = hash;
+  user.tokenExpire = Date.now() + 10 * (60 * 1000); //link is valid for only 10 minutes
+  await user.save();
+
+  const data = {
+    email: user.tenantEmail,
+    username: user.username,
+    token: token,
+  };
+  return data;
+};
+
 // static change password according to token method
 // TODO: Change Error messages to hebrew
-tenantSchema.statics.setPassword = async function (resetToken, password) {
+tenantSchema.statics.resetPassword = async function (resetToken, password) {
   // validation
   if (!resetToken || !password) {
     throw Error("All fields must be filled");

@@ -49,7 +49,7 @@ async function signup(req, res) {
     );
 
     //email the signup link to tenant
-    //TODO: use the emil util to email a signup link with the token and username, temp log the token in console
+    //TODO: use the email util to email a signup link with the token and username, temp log the token in console
     console.log(tenant.user.tenantEmail, tenant.user.username, tenant.token);
 
     //return only the tenant data, without the pure token
@@ -143,8 +143,26 @@ async function login(req, res) {
   }
 }
 
-// Create First Password as a tenant
-async function createPassword(req, res) {
+// Forget Password
+async function forgotPassword(req, res) {
+  const { username } = req.body;
+  try {
+    const user = await Tenant.forgotPassword(username);
+    //email the reset link
+    //TODO: use the email util to email the reset link with the token, temp log the token in console
+    console.log(user.email, user.username, user.token);
+
+    res.status(200).json({
+      resetMessage:
+        "Instructions to reset the password are sent to the email provided",
+    });
+  } catch (error) {
+    res.send(400).json({ error: error.message });
+  }
+}
+
+// Reset the user password using a reset token
+async function resetPassword(req, res) {
   const { resetToken } = req.params;
   const { password } = req.body;
   try {
@@ -200,7 +218,8 @@ module.exports = {
   editTenant,
   deleteTenant,
   login,
-  createPassword,
+  forgotPassword,
+  resetPassword,
   getTenant,
   editDetails,
 };
