@@ -12,7 +12,7 @@ function SetPassword() {
   const [password, setPassword] = useState("");
   const { resetPassword, error } = useResetPassword();
 
-  async function handleCreatePassword(e) {
+  async function handleSetPassword(e) {
     e.preventDefault();
     await resetPassword(resetToken, password);
   }
@@ -22,7 +22,7 @@ function SetPassword() {
       <Card.Body>
         <h1 className="display-5 text-center">הגדרת סיסמה</h1>
       </Card.Body>
-      <Form className="m-2" onSubmit={handleCreatePassword}>
+      <Form className="m-2" onSubmit={handleSetPassword}>
         <Form.Group className="mb-2">
           <Form.Label>בחר סיסמה חדשה</Form.Label>
           <Form.Control
@@ -35,7 +35,7 @@ function SetPassword() {
           ></Form.Control>
         </Form.Group>
         <Button type="submit" className="w-100 mt-1">
-           התחבר למערכת
+          התחבר למערכת
         </Button>
         {error && <div className="error">{error}</div>}
       </Form>
