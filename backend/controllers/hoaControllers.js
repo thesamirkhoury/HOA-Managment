@@ -66,7 +66,15 @@ async function forgotPassword(req, res) {
         "Instructions to reset the password are sent to the email provided",
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    // if user enters an incorrect email, send a generic message for security purposes.
+    if (error.message === "Incorrect Email") {
+      res.status(200).json({
+        resetMessage:
+          "Instructions to reset the password are sent to the email provided",
+      });
+    } else {
+      res.status(400).json({ error: error.message });
+    }
   }
 }
 
