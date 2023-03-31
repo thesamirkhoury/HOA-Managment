@@ -2,18 +2,18 @@ import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useModalsContext } from "./useModalsContext";
 
-export function useCreatePassword() {
+export function useResetPassword() {
   const { dispatch } = useAuthContext();
   const { dispatch: modalsDispatch } = useModalsContext();
 
   const [error, setError] = useState(null);
 
-  async function createPassword(token, password) {
+  async function resetPassword(token, password) {
     modalsDispatch({ type: "LOADING", payload: true });
     setError(null);
 
     const response = await fetch(
-      `http://localhost:4000/api/tenants/password/${token}`,
+      `http://localhost:4000/api/tenants/reset-password/${token}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -36,5 +36,5 @@ export function useCreatePassword() {
       window.scrollTo(0, 0);
     }
   }
-  return { createPassword, error };
+  return { resetPassword, error };
 }
