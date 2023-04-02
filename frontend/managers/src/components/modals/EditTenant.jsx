@@ -58,19 +58,20 @@ function EditTenant({ editData }) {
 
   function handleHide() {
     showModal({ type: "EDIT_TENANT", payload: false });
+    SetIsEditable(false);
 
-    //reset the input fields
-    setFirstName("");
-    setLastName("");
-    setBuildingNumber("");
-    setApartmentNumber("");
-    setParkingSpot("");
-    setPhoneNumber("");
-    setTenantEmail("");
-    setOwnerFirstName("");
-    setOwnerLastName("");
-    setOwnerPhoneNumber("");
-    setOwnerEmail("");
+    //reset the input fields to default values from props
+    setFirstName(editData.firstName);
+    setLastName(editData.lastName);
+    setBuildingNumber(editData.buildingNumber);
+    setApartmentNumber(editData.apartmentNumber);
+    setParkingSpot(editData.parkingSpot);
+    setPhoneNumber(editData.phoneNumber);
+    setTenantEmail(editData.tenantEmail);
+    setOwnerFirstName(editData.ownerFirstName);
+    setOwnerLastName(editData.ownerLastName);
+    setOwnerPhoneNumber(editData.ownerPhoneNumber);
+    setOwnerEmail(editData.ownerEmail);
     setIsOwner(true);
     setError(null);
   }
@@ -289,6 +290,7 @@ function EditTenant({ editData }) {
                 ></Form.Control>
               </Form.Group>
             </Row>
+            {error && <div className="error">{error}</div>}
 
             {!isEditable && (
               <div className="mt-3 float-end">
@@ -316,8 +318,6 @@ function EditTenant({ editData }) {
                 <Button
                   variant="outline-success"
                   type="submit"
-                  onClick={() => {
-                  }}
                 >
                   עדכן פרטיים
                 </Button>
