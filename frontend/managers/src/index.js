@@ -6,6 +6,7 @@ import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ModalsContextProvider } from "./context/ModalsContext";
 import {ContextComposer} from "./context/ContextComposer"; //Combines all the data related context in one context provider
+import { TenantsContextProvider } from "./context/TenantContext";
 
 // react router Browser Router
 import { BrowserRouter } from "react-router-dom";
@@ -23,7 +24,7 @@ root.render(
     <AuthContextProvider>
       <ModalsContextProvider>
         <BrowserRouter>
-          <ContextComposer components={[]}>
+          <ContextComposer components={[TenantsContextProvider]}>
             <App />
           </ContextComposer>
         </BrowserRouter>
