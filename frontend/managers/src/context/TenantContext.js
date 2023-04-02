@@ -7,7 +7,22 @@ export const tenantsReducer = (state, action) => {
     case "SET_TENANTS":
       return { tenants: action.payload };
     case "NEW_TENANT":
-      return { tenants: [action.payload, ...state.tenants] };
+      return { tenants: [...state.tenants, action.payload] };
+    case "EDIT_TENANT":
+      const index = state.tenants.findIndex(
+        (tenant) => tenant._id === action.payload._id
+      );
+      const newTenantsArr = [...state.tenants];
+      newTenantsArr[index] = action.payload;
+      return {
+        tenants: newTenantsArr,
+      };
+    case "DELETE_TENANT":
+      return {
+        tenants: state.tenants.filter(
+          (tenant) => tenant._id !== action.payload._id
+        ),
+      };
     default:
       return state;
   }

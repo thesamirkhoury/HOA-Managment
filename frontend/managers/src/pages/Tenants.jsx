@@ -12,7 +12,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewTenant from "../components/modals/NewTenant";
-import TenantDetails from "../components/modals/TenantDetails";
 import EditTenant from "../components/modals/EditTenant";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
@@ -43,7 +42,7 @@ function Tenants() {
     }
 
     fetchTenants();
-  }, []);
+  }, [dispatch, showModal,user]);
 
   return (
     <>
@@ -104,10 +103,8 @@ function Tenants() {
                     variant="outline-primary"
                     className="me-md-1 mb-1 mb-md-0"
                     onClick={() => {
-                      setEditData({
-                        id: tenant._id,
-                      });
-                      showModal({ type: "TENANT_DETAILS", payload: true });
+                      setEditData(tenant);
+                      showModal({ type: "EDIT_TENANT", payload: true });
                     }}
                   >
                     פרטים
@@ -118,7 +115,7 @@ function Tenants() {
                       setDeleteData({
                         id: tenant._id,
                         displayName: `${tenant.firstName} ${tenant.lastName}`,
-                        db: "tenants",
+                        page: "TENANTS",
                       });
                       showModal({ type: "DELETE_CONFIRMATION", payload: true });
                     }}
@@ -132,7 +129,6 @@ function Tenants() {
       </Table>
       {/* //* Modals */}
       <NewTenant />
-      <TenantDetails editData={editData} />
       <EditTenant editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
