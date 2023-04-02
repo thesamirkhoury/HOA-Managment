@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useModalsContext } from "../../hooks/useModalsContext";
 
@@ -12,7 +12,22 @@ import Col from "react-bootstrap/Col";
 
 function EditTenant({ editData }) {
   const { editTenant, dispatch } = useModalsContext();
+
+  const [isEditable, SetIsEditable] = useState(false);
+
   const [isOwner, setIsOwner] = useState(true);
+
+  useEffect(() => {
+    if (editData) {
+      if (editData.tenantType === "בעל בית") {
+        setIsOwner(true);
+      }
+      if (editData.tenantType === "שוכר") {
+        setIsOwner(false);
+      }
+    }
+  }, [editData]);
+
   return (
     <Modal
       show={editTenant}
@@ -20,22 +35,31 @@ function EditTenant({ editData }) {
       size="lg"
       onHide={() => {
         dispatch({ type: "EDIT_TENANT", payload: false });
-        dispatch({ type: "TENANT_DETAILS", payload: true });
       }}
     >
       <Modal.Header closeButton>
-        <Modal.Title>עדכון פרטי דייר</Modal.Title>
+        <Modal.Title>פרטי הדייר</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Row className="mb-3">
             <Form.Group as={Col} md="6">
               <Form.Label>שם פרטי</Form.Label>
-              <Form.Control required type="text" value={""}></Form.Control>
+              <Form.Control
+                required
+                type="text"
+                defaultValue=""
+                disabled={!isEditable}
+              ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6">
               <Form.Label>שם משפחה</Form.Label>
-              <Form.Control required type="text" value={""}></Form.Control>
+              <Form.Control
+                required
+                type="text"
+                defaultValue=""
+                disabled={!isEditable}
+              ></Form.Control>
             </Form.Group>
           </Row>
           <Row className="mb-3">
@@ -46,37 +70,50 @@ function EditTenant({ editData }) {
                 type="number"
                 inputMode="numeric"
                 min="1"
-                value={""}
+                defaultValue=""
+                disabled={!isEditable}
               ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="4">
-              <Form.Label>מספר דיירה</Form.Label>
+              <Form.Label>מספר דירה</Form.Label>
               <Form.Control
                 required
                 type="number"
                 inputMode="numeric"
                 min="1"
-                value={""}
+                defaultValue=""
+                disabled={!isEditable}
               ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="4">
-              <Form.Label>מספר חנייה</Form.Label>
+              <Form.Label>מספר חניה</Form.Label>
               <Form.Control
                 type="number"
                 inputMode="numeric"
                 min="1"
-                value={""}
+                defaultValue=""
+                disabled={!isEditable}
               ></Form.Control>
             </Form.Group>
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} md="6">
               <Form.Label>מספר טלפון</Form.Label>
-              <Form.Control required type="tel" value={""}></Form.Control>
+              <Form.Control
+                required
+                type="tel"
+                defaultValue=""
+                disabled={!isEditable}
+              ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6">
               <Form.Label>מייל</Form.Label>
-              <Form.Control required type="email" value={""}></Form.Control>
+              <Form.Control
+                required
+                type="email"
+                defaultValue=""
+                disabled={!isEditable}
+              ></Form.Control>
             </Form.Group>
           </Row>
 
@@ -86,6 +123,7 @@ function EditTenant({ editData }) {
               label="הדייר הינו שוכר"
               id="isOwnerCheckBox"
               checked={!isOwner}
+              disabled={!isEditable}
               onChange={() => {
                 setIsOwner(!isOwner);
               }}
@@ -93,11 +131,12 @@ function EditTenant({ editData }) {
           </Row>
           <Row className={`mb-3 ${isOwner ? "d-none" : ""}`}>
             <Form.Group as={Col} md="6">
-              <Form.Label>שם פרט של בעל הדירה</Form.Label>
+              <Form.Label>שם פרטי של בעל הדירה</Form.Label>
               <Form.Control
                 required={!isOwner}
                 type="text"
-                value={""}
+                defaultValue=""
+                disabled={!isEditable}
               ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6">
@@ -105,7 +144,8 @@ function EditTenant({ editData }) {
               <Form.Control
                 required={!isOwner}
                 type="text"
-                value={""}
+                defaultValue=""
+                disabled={!isEditable}
               ></Form.Control>
             </Form.Group>
           </Row>
@@ -115,7 +155,8 @@ function EditTenant({ editData }) {
               <Form.Control
                 required={!isOwner}
                 type="tel"
-                value={""}
+                defaultValue=""
+                disabled={!isEditable}
               ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6">
@@ -123,25 +164,51 @@ function EditTenant({ editData }) {
               <Form.Control
                 required={!isOwner}
                 type="email"
-                value={""}
+                defaultValue=""
+                disabled={!isEditable}
               ></Form.Control>
             </Form.Group>
           </Row>
-          <div className="mt-3 float-end">
-            <Button variant="success" type="submit">
-              <i className="bi bi-pen"> </i>עדכן פרטי דייר
-            </Button>
-            <Button
-              variant="outline-secondary"
-              className="ms-2"
-              onClick={() => {
-                dispatch({ type: "EDIT_TENANT", payload: false });
-                dispatch({ type: "TENANT_DETAILS", payload: true });
-              }}
-            >
-              <i className="bi bi-x-square"> </i>סגור חלון
-            </Button>
-          </div>
+
+          {!isEditable && (
+            <div className="mt-3 float-end">
+              <Button
+                variant="success"
+                onClick={() => {
+                  SetIsEditable(true);
+                }}
+              >
+                <i className="bi bi-pen"> </i>עדכן פרטי דייר
+              </Button>
+              <Button
+                variant="outline-secondary"
+                className="ms-2"
+                onClick={() => {
+                  dispatch({ type: "EDIT_TENANT", payload: false });
+                }}
+              >
+                <i className="bi bi-x-square"> </i>סגור חלון
+              </Button>
+            </div>
+          )}
+
+          {/* Edit Confirmation */}
+          {isEditable && (
+            <div className="mt-3 float-end">
+              <Button variant="outline-success" type="submit">
+                עדכן פרטיים
+              </Button>
+              <Button
+                variant="outline-danger"
+                className="ms-2"
+                onClick={() => {
+                  SetIsEditable(false);
+                }}
+              >
+                בטל
+              </Button>
+            </div>
+          )}
         </Form>
       </Modal.Body>
     </Modal>

@@ -14,11 +14,6 @@ export function modalsReducer(state, action) {
         ...state,
         newTenant: action.payload,
       };
-    case "TENANT_DETAILS":
-      return {
-        ...state,
-        tenantDetails: action.payload,
-      };
     case "EDIT_TENANT":
       return {
         ...state,
@@ -137,7 +132,6 @@ export function modalsReducer(state, action) {
 export const ModalsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(modalsReducer, {
     showOffcanvas: false,
-    tenantDetails: false,
     newTenant: false,
     editTenant: false,
     newSupplier: false,
