@@ -9,13 +9,6 @@ import { useTenantsContext } from "../../hooks/useTenantsContext";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-//!Ref
-// setDeleteData({
-//   id: tenant._id,
-//   displayName: `${tenant.firstName} ${tenant.lastName}`,
-//   db: "tenants",
-// });
-
 function DeleteConfirmation({ deleteData }) {
   const { deleteConfirmation, dispatch: showModal } = useModalsContext();
   const { user } = useAuthContext();
@@ -38,6 +31,7 @@ function DeleteConfirmation({ deleteData }) {
       return null;
     }
   }
+  
   async function handleDelete() {
     switch (deleteData.page) {
       case "TENANTS":
