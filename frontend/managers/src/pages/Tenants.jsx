@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useTenantsContext } from "../hooks/useTenantsContext";
 
@@ -18,6 +19,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 function Tenants() {
   const { dispatch: showModal } = useModalsContext();
   const { user } = useAuthContext();
+  const { logout } = useLogout();
   const { tenants, dispatch } = useTenantsContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
@@ -39,10 +41,17 @@ function Tenants() {
         dispatch({ type: "SET_TENANTS", payload: json });
         showModal({ type: "LOADING", payload: false });
       }
+      if (!response.ok) {
+        //if user logs in with illegal or incorrect token
+        if (json.error === "Request is not authorized") {
+          logout();
+          showModal({ type: "LOADING", payload: false });
+        }
+      }
     }
 
     fetchTenants();
-  }, [dispatch, showModal,user]);
+  }, [dispatch, showModal, user, logout]);
 
   return (
     <>
