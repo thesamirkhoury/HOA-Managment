@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
 import { useTenantsContext } from "../../hooks/useTenantsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -33,8 +33,7 @@ function NewTenant() {
   const [error, setError] = useState(null);
 
   function handleHide() {
-    showModal({ type: "NEW_TENANT", payload: false });
-    
+    showModal({ type: "NEW_TENANT", payload: false }); 
     //reset the input fields
     setFirstName("");
     setLastName("");

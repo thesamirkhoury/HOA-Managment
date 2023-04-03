@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
 import { useTenantsContext } from "../../hooks/useTenantsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -16,7 +17,7 @@ function EditTenant({ editData }) {
   const { dispatch } = useTenantsContext();
   const { user } = useAuthContext();
   const [isEditable, SetIsEditable] = useState(false);
-
+  // form state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [buildingNumber, setBuildingNumber] = useState("");
@@ -315,10 +316,7 @@ function EditTenant({ editData }) {
             {/* Edit Confirmation */}
             {isEditable && (
               <div className="mt-3 float-end">
-                <Button
-                  variant="outline-success"
-                  type="submit"
-                >
+                <Button variant="outline-success" type="submit">
                   עדכן פרטיים
                 </Button>
                 <Button
