@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useTenantsContext } from "../hooks/useTenantsContext";
-
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
