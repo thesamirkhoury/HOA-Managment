@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { useModalsContext } from "../hooks/useModalsContext";
+import React, { useState, useEffect } from "react";
 
+//custom hooks
+import { useModalsContext } from "../hooks/useModalsContext";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useSuppliersContext } from "../hooks/useSuppliersContext";
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -14,10 +18,40 @@ import EditSupplier from "../components/modals/EditSupplier";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
-  const { dispatch } = useModalsContext();
+  const { dispatch: showModal } = useModalsContext();
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+  const { suppliers, dispatch } = useSuppliersContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
+  // fetch suppliers data
+  useEffect(() => {
+    async function fetchSuppliers() {
+      showModal({ type: "LOADING", payload: true });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/managers/suppliers`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const json = await response.json();
+      if (response.ok) {
+        dispatch({ type: "SET_SUPPLIERS", payload: json });
+        showModal({ type: "LOADING", payload: false });
+      }
+      if (!response.ok) {
+        //if user logs in with illegal or incorrect token
+        if (json.error === "Request is not authorized") {
+          logout();
+          showModal({ type: "LOADING", payload: false });
+        }
+      }
+    }
+    fetchSuppliers();
+  }, [dispatch, showModal, user]); //eslint-disable-line
   return (
     <>
       {/* Page Name */}
@@ -37,7 +71,7 @@ function Suppliers() {
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
-              dispatch({ type: "NEW_SUPPLIER", payload: true });
+              showModal({ type: "NEW_SUPPLIER", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>ספק חדש
@@ -57,56 +91,59 @@ function Suppliers() {
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>מעליות בעמ</td>
-            <td>מעליות</td>
-            <td>חברה</td>
-            <td>
-              <a href="tel:+9721700123123" className="text-decoration-none">
-                1700123123
-              </a>
-            </td>
-            <td>
-              <a
-                href="mailto:hello@elevetorsil.co.il"
-                className="text-decoration-none"
-              >
-                hello@elevetorsil.co.il
-              </a>
-            </td>
-            <td>
-              <Button
-                variant="outline-warning"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  setEditData({
-                    name: "מעליות",
-                  });
-                  dispatch({ type: "EDIT_SUPPLIER", payload: true });
-                }}
-              >
-                עדכן פרטים
-              </Button>
+          {suppliers &&
+            suppliers.map((supplier) => (
+              <tr key={supplier._id}>
+                <td>{supplier.supplierName}</td>
+                <td>{supplier.supplierCategory}</td>
+                <td>{supplier.supplierType}</td>
+                <td>
+                  <a
+                    href={`tel:+972${supplier.phoneNumber}`}
+                    className="text-decoration-none"
+                  >
+                    {supplier.phoneNumber}
+                  </a>
+                </td>
+                <td>
+                  <a
+                    href={`mailto:${supplier.email}`}
+                    className="text-decoration-none"
+                  >
+                    {supplier.email}
+                  </a>
+                </td>
+                <td>
+                  <Button
+                    variant="outline-primary"
+                    className="me-md-1 mb-1 mb-md-0"
+                    onClick={() => {
+                      setEditData(supplier);
+                      showModal({ type: "EDIT_SUPPLIER", payload: true });
+                    }}
+                  >
+                    עדכן פרטים
+                  </Button>
 
-              <Button
-                variant="outline-danger"
-                onClick={() => {
-                  setDeleteData({
-                    id: "1234",
-                    displayName: "מעליות בעמ",
-                    db: "suppliers",
-                  });
-                  dispatch({
-                    type: "DELETE_CONFIRMATION",
-                    payload: true,
-                  });
-                }}
-              >
-                מחק
-              </Button>
-            </td>
-          </tr>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => {
+                      setDeleteData({
+                        id: supplier._id,
+                        displayName: supplier.supplierName,
+                        page: "SUPPLIERS",
+                      });
+                      showModal({
+                        type: "DELETE_CONFIRMATION",
+                        payload: true,
+                      });
+                    }}
+                  >
+                    מחק
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
       {/* //* Modals */}

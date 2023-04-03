@@ -2,8 +2,9 @@ import React from "react";
 import { useModalsContext } from "../../hooks/useModalsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-//Data Context
+//Data Context hooks
 import { useTenantsContext } from "../../hooks/useTenantsContext";
+import { useSuppliersContext } from "../../hooks/useSuppliersContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -14,35 +15,47 @@ function DeleteConfirmation({ deleteData }) {
   const { user } = useAuthContext();
   //Data Context
   const { dispatch: dispatchTenants } = useTenantsContext();
+  const { dispatch: dispatchSuppliers } = useSuppliersContext();
 
-  async function deleteItem(url) {
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+  async function deleteItem(suffix) {
+    console.log("here");
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/managers/${suffix}/${deleteData.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
     const json = await response.json();
     if (response.ok) {
+      showModal({ type: "DELETE_CONFIRMATION", payload: false });
       return json;
     }
     if (!response.ok) {
       return null;
     }
   }
-  
+
   async function handleDelete() {
     switch (deleteData.page) {
       case "TENANTS":
-        let response = await deleteItem(
-          `${process.env.REACT_APP_API_URL}/managers/tenants/${deleteData.id}`
-        );
-        if (response) {
-          dispatchTenants({ type: "DELETE_TENANT", payload: response });
+        let tenant = await deleteItem("tenants");
+        if (tenant) {
+          dispatchTenants({ type: "DELETE_TENANT", payload: tenant });
         }
-        showModal({ type: "DELETE_CONFIRMATION", payload: false });
         break;
+
+      case "SUPPLIERS":
+        console.log(deleteData);
+        let supplier = await deleteItem("suppliers");
+        if (supplier) {
+          dispatchSuppliers({ type: "DELETE_SUPPLIER", payload: supplier });
+        }
+        break;
+
       default:
         showModal({ type: "DELETE_CONFIRMATION", payload: false });
     }
