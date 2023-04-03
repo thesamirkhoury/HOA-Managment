@@ -49,9 +49,8 @@ function Tenants() {
         }
       }
     }
-
     fetchTenants();
-  }, [dispatch, showModal, user, logout]);
+  }, [dispatch, showModal, user]); //eslint-disable-line
 
   return (
     <>
