@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useTenantsContext } from "../../hooks/useTenantsContext";
+import { useDataContext } from "../../hooks/useDataContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -14,7 +14,7 @@ import Col from "react-bootstrap/Col";
 
 function NewTenant() {
   const { newTenant, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useTenantsContext();
+  const { dispatch } = useDataContext();
   const { user } = useAuthContext();
   // form state
   const [firstName, setFirstName] = useState("");
@@ -33,7 +33,7 @@ function NewTenant() {
   const [error, setError] = useState(null);
 
   function handleHide() {
-    showModal({ type: "NEW_TENANT", payload: false }); 
+    showModal({ type: "NEW_TENANT", payload: false });
     //reset the input fields
     setFirstName("");
     setLastName("");

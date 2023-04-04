@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useRemindersContext } from "../../hooks/useRemindersContext";
+import { useDataContext } from "../../hooks/useDataContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 
 function NewReminder() {
   const { newReminder, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useRemindersContext();
+  const { dispatch } = useDataContext();
   const { user } = useAuthContext();
   // form state
   const [title, setTitle] = useState("");

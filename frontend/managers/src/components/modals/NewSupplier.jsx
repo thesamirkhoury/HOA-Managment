@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useSuppliersContext } from "../../hooks/useSuppliersContext";
+import { useDataContext } from "../../hooks/useDataContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -14,7 +14,7 @@ import Col from "react-bootstrap/Col";
 
 function NewSupplier() {
   const { newSupplier, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useSuppliersContext();
+  const { dispatch } = useDataContext();
   const { user } = useAuthContext();
   // form state
   const [supplierName, setSupplierName] = useState("");

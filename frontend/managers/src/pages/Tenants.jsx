@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useTenantsContext } from "../hooks/useTenantsContext";
+import { useDataContext } from "../hooks/useDataContext";
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -21,7 +21,7 @@ function Tenants() {
   const { dispatch: showModal } = useModalsContext();
   const { user } = useAuthContext();
   const { logout } = useLogout();
-  const { tenants, dispatch } = useTenantsContext();
+  const { tenants, dispatch } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -124,7 +124,8 @@ function Tenants() {
                       setDeleteData({
                         id: tenant._id,
                         displayName: `${tenant.firstName} ${tenant.lastName}`,
-                        page: "TENANTS",
+                        type: "DELETE_TENANT",
+                        suffix: "tenants",
                       });
                       showModal({ type: "DELETE_CONFIRMATION", payload: true });
                     }}

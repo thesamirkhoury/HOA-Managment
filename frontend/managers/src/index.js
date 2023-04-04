@@ -6,10 +6,7 @@ import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ModalsContextProvider } from "./context/ModalsContext";
 import { RedirectContextProvider } from "./context/RedirectContext";
-import { ContextComposer } from "./context/ContextComposer"; //Combines all the data related context in one context provider
-import { TenantsContextProvider } from "./context/TenantContext";
-import { SupplierContextProvider } from "./context/SupplierContext";
-import { RemindersContextProvider } from "./context/RemindersContext";
+import { DataContextProvider } from "./context/DataContext";
 
 // react router Browser Router
 import { BrowserRouter } from "react-router-dom";
@@ -28,15 +25,9 @@ root.render(
       <RedirectContextProvider>
         <ModalsContextProvider>
           <BrowserRouter>
-            <ContextComposer
-              components={[
-                TenantsContextProvider,
-                SupplierContextProvider,
-                RemindersContextProvider,
-              ]}
-            >
-              <App />
-            </ContextComposer>
+              <DataContextProvider>
+                <App />
+              </DataContextProvider>
           </BrowserRouter>
         </ModalsContextProvider>
       </RedirectContextProvider>

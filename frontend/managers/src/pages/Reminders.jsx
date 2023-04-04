@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useRemindersContext } from "../hooks/useRemindersContext";
+import { useDataContext } from "../hooks/useDataContext";
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -21,7 +21,7 @@ function Reminders() {
   const { dispatch: showModal } = useModalsContext();
   const { user } = useAuthContext();
   const { logout } = useLogout();
-  const { reminders, dispatch } = useRemindersContext();
+  const { reminders, dispatch } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -108,7 +108,8 @@ function Reminders() {
                         setDeleteData({
                           id: reminder._id,
                           displayName: reminder.title,
-                          page: "REMINDERS",
+                          type: "DELETE_REMINDER",
+                          suffix: "reminders",
                         });
                         showModal({
                           type: "DELETE_CONFIRMATION",

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useSuppliersContext } from "../hooks/useSuppliersContext";
+import { useDataContext } from "../hooks/useDataContext";
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -21,7 +21,7 @@ function Suppliers() {
   const { dispatch: showModal } = useModalsContext();
   const { user } = useAuthContext();
   const { logout } = useLogout();
-  const { suppliers, dispatch } = useSuppliersContext();
+  const { suppliers, dispatch } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -131,7 +131,8 @@ function Suppliers() {
                       setDeleteData({
                         id: supplier._id,
                         displayName: supplier.supplierName,
-                        page: "SUPPLIERS",
+                        type: "DELETE_SUPPLIER",
+                        suffix: "suppliers",
                       });
                       showModal({
                         type: "DELETE_CONFIRMATION",

@@ -1,11 +1,8 @@
 import React from "react";
 import { useModalsContext } from "../../hooks/useModalsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
 //Data Context hooks
-import { useTenantsContext } from "../../hooks/useTenantsContext";
-import { useSuppliersContext } from "../../hooks/useSuppliersContext";
-import { useRemindersContext } from "../../hooks/useRemindersContext";
+import { useDataContext } from "../../hooks/useDataContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -15,13 +12,11 @@ function DeleteConfirmation({ deleteData }) {
   const { deleteConfirmation, dispatch: showModal } = useModalsContext();
   const { user } = useAuthContext();
   //Data Context
-  const { dispatch: dispatchTenants } = useTenantsContext();
-  const { dispatch: dispatchSuppliers } = useSuppliersContext();
-  const { dispatch: dispatchReminders } = useRemindersContext();
+  const { dispatch } = useDataContext();
 
-  async function deleteItem(suffix) {
+  async function handleDelete() {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/managers/${suffix}/${deleteData.id}`,
+      `${process.env.REACT_APP_API_URL}/managers/${deleteData.suffix}/${deleteData.id}`,
       {
         method: "DELETE",
         headers: {
@@ -33,38 +28,7 @@ function DeleteConfirmation({ deleteData }) {
     const json = await response.json();
     if (response.ok) {
       showModal({ type: "DELETE_CONFIRMATION", payload: false });
-      return json;
-    }
-    if (!response.ok) {
-      return null;
-    }
-  }
-
-  async function handleDelete() {
-    switch (deleteData.page) {
-      case "TENANTS":
-        let tenant = await deleteItem("tenants");
-        if (tenant) {
-          dispatchTenants({ type: "DELETE_TENANT", payload: tenant });
-        }
-        break;
-
-      case "SUPPLIERS":
-        let supplier = await deleteItem("suppliers");
-        if (supplier) {
-          dispatchSuppliers({ type: "DELETE_SUPPLIER", payload: supplier });
-        }
-        break;
-
-      case "REMINDERS":
-        let reminder = await deleteItem("reminders");
-        if (reminder) {
-          dispatchReminders({ type: "DELETE_REMINDER", payload: reminder });
-        }
-        break;
-
-      default:
-        showModal({ type: "DELETE_CONFIRMATION", payload: false });
+      dispatch({ type: deleteData.type, payload: json });
     }
   }
 

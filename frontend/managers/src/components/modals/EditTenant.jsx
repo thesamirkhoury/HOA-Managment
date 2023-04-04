@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useTenantsContext } from "../../hooks/useTenantsContext";
+import { useDataContext } from "../../hooks/useDataContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -14,7 +14,7 @@ import Col from "react-bootstrap/Col";
 
 function EditTenant({ editData }) {
   const { editTenant, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useTenantsContext();
+  const { dispatch } = useDataContext();
   const { user } = useAuthContext();
   const [isEditable, SetIsEditable] = useState(false);
   // form state
