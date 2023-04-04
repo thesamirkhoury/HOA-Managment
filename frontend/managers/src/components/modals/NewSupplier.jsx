@@ -65,7 +65,6 @@ function NewSupplier() {
     const json = await response.json();
     if (!response.ok) {
       setError(json.error);
-      console.log(supplier);
     }
     if (response.ok) {
       //hide the modal
