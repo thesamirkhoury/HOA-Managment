@@ -5,6 +5,7 @@ import App from "./App";
 // Context Providers
 import { AuthContextProvider } from "./context/AuthContext";
 import { ModalsContextProvider } from "./context/ModalsContext";
+import { RedirectContextProvider } from "./context/RedirectContext";
 import { ContextComposer } from "./context/ContextComposer"; //Combines all the data related context in one context provider
 import { TenantsContextProvider } from "./context/TenantContext";
 import { SupplierContextProvider } from "./context/SupplierContext";
@@ -24,19 +25,21 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <ModalsContextProvider>
-        <BrowserRouter>
-          <ContextComposer
-            components={[
-              TenantsContextProvider,
-              SupplierContextProvider,
-              RemindersContextProvider,
-            ]}
-          >
-            <App />
-          </ContextComposer>
-        </BrowserRouter>
-      </ModalsContextProvider>
+      <RedirectContextProvider>
+        <ModalsContextProvider>
+          <BrowserRouter>
+            <ContextComposer
+              components={[
+                TenantsContextProvider,
+                SupplierContextProvider,
+                RemindersContextProvider,
+              ]}
+            >
+              <App />
+            </ContextComposer>
+          </BrowserRouter>
+        </ModalsContextProvider>
+      </RedirectContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );
