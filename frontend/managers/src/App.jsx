@@ -1,6 +1,7 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
+import { useSetPath } from "./hooks/usePath";
 
 //Pages and Components
 import Navbar from "./components/Navbar";
@@ -25,6 +26,14 @@ import NotFound from "./pages/NotFound";
 
 function App() {
   const { user } = useAuthContext();
+  const { path, setPath } = useSetPath();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/login") {
+      setPath(location.pathname);
+    }
+  }, [user, location]);
 
   return (
     <div className="App">
@@ -107,7 +116,7 @@ function App() {
             {/* Auth pages - show only when user is logged out */}
             <Route
               path="login"
-              element={!user ? <Login /> : <Navigate to="/" />}
+              element={!user ? <Login /> : <Navigate to={path} />}
               exact
             />
             <Route
