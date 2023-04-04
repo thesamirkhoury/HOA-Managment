@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { useModalsContext } from "../hooks/useModalsContext";
+import React, { useState, useEffect } from "react";
 
+//custom hooks
+import { useModalsContext } from "../hooks/useModalsContext";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useRemindersContext } from "../hooks/useRemindersContext";
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -14,11 +18,41 @@ import EditReminder from "../components/modals/EditReminder";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Reminders() {
-  const { dispatch } = useModalsContext();
+  const { dispatch: showModal } = useModalsContext();
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+  const { reminders, dispatch } = useRemindersContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
-  const placeholderReminders = Array.from({ length: 10 });
+  // fetch reminders data
+  useEffect(() => {
+    async function fetchReminders() {
+      showModal({ type: "LOADING", payload: true });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/managers/reminders`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const json = await response.json();
+      if (response.ok) {
+        dispatch({ type: "SET_REMINDERS", payload: json });
+        showModal({ type: "LOADING", payload: false });
+      }
+      if (!response.ok) {
+        //if user logs in with illegal or incorrect token
+        if (json.error === "Request is not authorized") {
+          logout();
+          showModal({ type: "LOADING", payload: false });
+        }
+      }
+    }
+    fetchReminders();
+  }, [dispatch, showModal, user]); //eslint-disable-line
+
   return (
     <>
       {/* Page Name */}
@@ -38,7 +72,7 @@ function Reminders() {
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
-              dispatch({ type: "NEW_REMINDER", payload: true });
+              showModal({ type: "NEW_REMINDER", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>תזכורת חדשה
@@ -47,46 +81,48 @@ function Reminders() {
       </Row>
       {/* Reminder Cards */}
       <Row xs={1} md={4} lg={8} className="g-4 mt-1">
-        {placeholderReminders.map((_, id) => (
-          <Col key={id}>
-            <Card>
-              <Card.Body>
-                <Card.Title>טיפול במעליות</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  18/05/2023 - 10:30
-                </Card.Subtitle>
-                <Card.Text>טיפול שוטף במעליות, כולל החלפת חלקים.</Card.Text>
-                <div className="mt-3 float-end">
-                  <Button
-                    variant="warning"
-                    className="me-1"
-                    onClick={() => {
-                      setEditData({
-                        name: "טיפול במעליות",
-                      });
-                      dispatch({ type: "EDIT_REMINDER", payload: true });
-                    }}
-                  >
-                    עדכן
-                  </Button>
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => {
-                      setDeleteData({
-                        id: "1234",
-                        displayName: "טיפול במעליות",
-                        db: "reminders",
-                      });
-                      dispatch({ type: "DELETE_CONFIRMATION", payload: true });
-                    }}
-                  >
-                    מחק
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+        {reminders &&
+          reminders.map((reminder) => (
+            <Col key={reminder._id}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>{reminder.title}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {reminder.dateAndTime}
+                  </Card.Subtitle>
+                  <Card.Text>{reminder.body}</Card.Text>
+                  <div className="mt-3 float-end">
+                    <Button
+                      variant="outline-primary"
+                      className="me-1"
+                      onClick={() => {
+                        setEditData(reminder);
+                        showModal({ type: "EDIT_REMINDER", payload: true });
+                      }}
+                    >
+                      עדכן
+                    </Button>
+                    <Button
+                      variant="outline-danger"
+                      onClick={() => {
+                        setDeleteData({
+                          id: reminder._id,
+                          displayName: reminder.title,
+                          page: "REMINDERS",
+                        });
+                        showModal({
+                          type: "DELETE_CONFIRMATION",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      מחק
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
       </Row>
       {/* //* Modals */}
       <NewReminder />

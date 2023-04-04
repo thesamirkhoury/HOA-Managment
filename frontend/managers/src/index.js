@@ -8,6 +8,7 @@ import { ModalsContextProvider } from "./context/ModalsContext";
 import { ContextComposer } from "./context/ContextComposer"; //Combines all the data related context in one context provider
 import { TenantsContextProvider } from "./context/TenantContext";
 import { SupplierContextProvider } from "./context/SupplierContext";
+import { RemindersContextProvider } from "./context/RemindersContext";
 
 // react router Browser Router
 import { BrowserRouter } from "react-router-dom";
@@ -26,7 +27,11 @@ root.render(
       <ModalsContextProvider>
         <BrowserRouter>
           <ContextComposer
-            components={[TenantsContextProvider, SupplierContextProvider]}
+            components={[
+              TenantsContextProvider,
+              SupplierContextProvider,
+              RemindersContextProvider,
+            ]}
           >
             <App />
           </ContextComposer>

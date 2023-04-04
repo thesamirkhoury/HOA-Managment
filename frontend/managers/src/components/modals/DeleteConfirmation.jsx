@@ -5,6 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 //Data Context hooks
 import { useTenantsContext } from "../../hooks/useTenantsContext";
 import { useSuppliersContext } from "../../hooks/useSuppliersContext";
+import { useRemindersContext } from "../../hooks/useRemindersContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -16,9 +17,9 @@ function DeleteConfirmation({ deleteData }) {
   //Data Context
   const { dispatch: dispatchTenants } = useTenantsContext();
   const { dispatch: dispatchSuppliers } = useSuppliersContext();
+  const { dispatch: dispatchReminders } = useRemindersContext();
 
   async function deleteItem(suffix) {
-    console.log("here");
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/managers/${suffix}/${deleteData.id}`,
       {
@@ -49,10 +50,16 @@ function DeleteConfirmation({ deleteData }) {
         break;
 
       case "SUPPLIERS":
-        console.log(deleteData);
         let supplier = await deleteItem("suppliers");
         if (supplier) {
           dispatchSuppliers({ type: "DELETE_SUPPLIER", payload: supplier });
+        }
+        break;
+
+      case "REMINDERS":
+        let reminder = await deleteItem("reminders");
+        if (reminder) {
+          dispatchReminders({ type: "DELETE_REMINDER", payload: reminder });
         }
         break;
 
