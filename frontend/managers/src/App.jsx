@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
-import { useSetPath } from "./hooks/usePath";
+import { usePath } from "./hooks/usePath";
 
 //Pages and Components
 import Navbar from "./components/Navbar";
@@ -26,7 +26,7 @@ import NotFound from "./pages/NotFound";
 
 function App() {
   const { user } = useAuthContext();
-  const { path, setPath } = useSetPath();
+  const { path, setPath } = usePath();
   const location = useLocation();
 
   useEffect(() => {

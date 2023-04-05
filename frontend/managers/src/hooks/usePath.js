@@ -1,6 +1,6 @@
 import { useRedirectContext } from "./useRedirectContext";
 
-export function useSetPath() {
+export function usePath() {
   const { dispatch, path } = useRedirectContext();
   function setPath(pathname) {
     if (pathname !== "/login") {
