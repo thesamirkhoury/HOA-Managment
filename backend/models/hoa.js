@@ -32,6 +32,10 @@ const hoaSchema = new Schema(
       type: String,
       required: [true, "HOA Monthly Fee is required"],
     },
+    buildingCount: {
+      type: Number,
+      required: [true, "The Buildings count is required"],
+    },
     fileNumber: {
       type: String,
       required: [true, "HOA File Number is required"],
@@ -56,6 +60,7 @@ hoaSchema.statics.signup = async function (
   password,
   address,
   membersMonthlyFee,
+  buildingCount,
   fileNumber
 ) {
   // validation
@@ -66,6 +71,7 @@ hoaSchema.statics.signup = async function (
     !password ||
     !address ||
     !membersMonthlyFee ||
+    !buildingCount ||
     !fileNumber
   ) {
     throw Error("All fields must be filled");
@@ -96,6 +102,7 @@ hoaSchema.statics.signup = async function (
     password: hash,
     address,
     membersMonthlyFee,
+    buildingCount,
     fileNumber,
   });
   return user;

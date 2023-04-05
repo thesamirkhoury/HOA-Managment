@@ -15,11 +15,11 @@ export function useSignup() {
     password,
     address,
     membersMonthlyFee,
-    buildingCount
+    buildingCount,
+    fileNumber
   ) {
     modalsDispatch({ type: "LOADING", payload: true });
     setError(null);
-
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/managers/signup`,
       {
@@ -33,6 +33,7 @@ export function useSignup() {
           address,
           membersMonthlyFee,
           buildingCount,
+          fileNumber,
         }),
       }
     );

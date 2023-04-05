@@ -36,9 +36,9 @@ function Signup() {
       email,
       password,
       address,
-      fileNumber,
       membersMonthlyFee,
-      buildingCount
+      buildingCount,
+      fileNumber,
     );
   }
 
@@ -152,13 +152,13 @@ function Signup() {
             <Row>
               <Col md={6} className="mb-2">
                 <Form.Group>
-                  <Form.Label>מספר בניינים</Form.Label>
+                  <Form.Label>כמות הבניינים</Form.Label>
                   <Form.Control
                     type="number"
                     inputMode="numeric"
                     min="1"
                     required
-                    placeholder="מספר הבניינים שמנהל הועד"
+                    placeholder="כמות הבניינים שמנהל הועד"
                     value={buildingCount}
                     onChange={(e) => {
                       setBuildingCount(e.target.value);

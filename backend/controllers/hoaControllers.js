@@ -17,6 +17,7 @@ async function signup(req, res) {
     password,
     address,
     membersMonthlyFee,
+    buildingCount,
     fileNumber,
   } = req.body;
 
@@ -29,6 +30,7 @@ async function signup(req, res) {
       password,
       address,
       membersMonthlyFee,
+      buildingCount,
       fileNumber
     );
     // create JWT
@@ -113,6 +115,7 @@ async function editHoa(req, res) {
     password,
     address,
     membersMonthlyFee,
+    buildingCount,
   } = req.body;
   // hoa id from auth
   const hoa_id = req.user._id;
@@ -124,7 +127,8 @@ async function editHoa(req, res) {
     password,
     address,
     membersMonthlyFee,
-  }; //possible to replace with ...req.body, after auth
+    buildingCount,
+  };
 
   const hoa = await HOA.findByIdAndUpdate(hoa_id, updated, { new: true });
   if (!hoa) {
