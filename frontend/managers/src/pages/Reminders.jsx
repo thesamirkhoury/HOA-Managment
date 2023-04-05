@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
-import { useLogout } from "../hooks/useLogout";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useFetchData } from "../hooks/useFetchData";
 import { useDataContext } from "../hooks/useDataContext";
+
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -19,41 +18,17 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Reminders() {
   const { dispatch: showModal } = useModalsContext();
-  const { user } = useAuthContext();
-  const { logout } = useLogout();
-  const { reminders, dispatch } = useDataContext();
+  const { reminders } = useDataContext();
+  const { fetchData } = useFetchData();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   // fetch reminders data
   useEffect(() => {
-    async function fetchReminders() {
-      showModal({ type: "LOADING", payload: true });
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/managers/reminders`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      const json = await response.json();
-      if (response.ok) {
-        dispatch({ type: "SET_REMINDERS", payload: json });
-        showModal({ type: "LOADING", payload: false });
-      }
-      if (!response.ok) {
-        //if user logs in with illegal or incorrect token
-        if (json.error === "Request is not authorized") {
-          logout();
-          showModal({ type: "LOADING", payload: false });
-        }
-      }
-    }
     if (!reminders) {
-      fetchReminders();
+      fetchData("reminders", "SET_REMINDERS");
     }
-  }, [dispatch, showModal, user]); //eslint-disable-line
+  }, [reminders, fetchData]);
 
   return (
     <>

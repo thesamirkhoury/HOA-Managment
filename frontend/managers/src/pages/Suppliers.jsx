@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
-import { useLogout } from "../hooks/useLogout";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useDataContext } from "../hooks/useDataContext";
+import { useFetchData } from "../hooks/useFetchData";
+
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -19,41 +18,17 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
   const { dispatch: showModal } = useModalsContext();
-  const { user } = useAuthContext();
-  const { logout } = useLogout();
-  const { suppliers, dispatch } = useDataContext();
+  const { fetchData } = useFetchData();
+  const { suppliers } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
   // fetch suppliers data
   useEffect(() => {
-    async function fetchSuppliers() {
-      showModal({ type: "LOADING", payload: true });
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/managers/suppliers`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      const json = await response.json();
-      if (response.ok) {
-        dispatch({ type: "SET_SUPPLIERS", payload: json });
-        showModal({ type: "LOADING", payload: false });
-      }
-      if (!response.ok) {
-        //if user logs in with illegal or incorrect token
-        if (json.error === "Request is not authorized") {
-          logout();
-          showModal({ type: "LOADING", payload: false });
-        }
-      }
-    }
     if (!suppliers) {
-      fetchSuppliers();
+      fetchData("suppliers", "SET_SUPPLIERS");
     }
-  }, [dispatch, showModal, user]); //eslint-disable-line
+  }, [suppliers, fetchData]);
   return (
     <>
       {/* Page Name */}
