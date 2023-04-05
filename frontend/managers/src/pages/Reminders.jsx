@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
-import { useFetchData } from "../hooks/useFetchData";
+import { useDataHandler } from "../hooks/useDataHandler";
 import { useDataContext } from "../hooks/useDataContext";
 
 //bootstrap components
@@ -19,7 +19,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 function Reminders() {
   const { dispatch: showModal } = useModalsContext();
   const { reminders } = useDataContext();
-  const { fetchData } = useFetchData();
+  const { fetchData } = useDataHandler();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useDataContext } from "../../hooks/useDataContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
+
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -14,8 +13,8 @@ import Col from "react-bootstrap/Col";
 
 function EditTenant({ editData }) {
   const { editTenant, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useDataContext();
-  const { user } = useAuthContext();
+  const { sendData } = useDataHandler();
+  //editable field toggler
   const [isEditable, SetIsEditable] = useState(false);
   // form state
   const [firstName, setFirstName] = useState("");
@@ -79,10 +78,6 @@ function EditTenant({ editData }) {
 
   async function handleEdit(e) {
     e.preventDefault();
-    if (!user) {
-      setError("You must be logged in");
-      return;
-    }
     const tenantType = `${isOwner ? "בעל בית" : "שוכר"}`;
     const tenant = {
       firstName,
@@ -98,28 +93,17 @@ function EditTenant({ editData }) {
       ownerPhoneNumber,
       ownerEmail,
     };
-
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/managers/tenants/${editData._id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(tenant),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
+    const errors = await sendData(
+      `tenants/${editData._id}`,
+      "PATCH",
+      tenant,
+      "EDIT_TENANT"
     );
-    const json = await response.json();
-
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      //hide the modal
+    if (!errors) {
       handleHide();
-      //add the data to the context
-      dispatch({ type: "EDIT_TENANT", payload: json });
+    }
+    if (errors) {
+      setError(errors.error);
     }
   }
 
@@ -216,8 +200,8 @@ function EditTenant({ editData }) {
               <Form.Group as={Col} md="6">
                 <Form.Label>מייל</Form.Label>
                 <Form.Control
-                  required
-                  type="email"
+                  // required
+                  // type="email"
                   value={tenantEmail}
                   onChange={(e) => {
                     setTenantEmail(e.target.value);

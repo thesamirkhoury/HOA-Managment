@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useDataContext } from "../../hooks/useDataContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
+
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -11,8 +11,8 @@ import Button from "react-bootstrap/Button";
 
 function EditReminder({ editData }) {
   const { editReminder, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useDataContext();
-  const { user } = useAuthContext();
+  const { sendData } = useDataHandler();
+
   // form state
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -38,10 +38,6 @@ function EditReminder({ editData }) {
 
   async function handleEdit(e) {
     e.preventDefault();
-    if (!user) {
-      setError("You must be logged in");
-      return;
-    }
 
     const reminder = {
       title,
@@ -49,26 +45,17 @@ function EditReminder({ editData }) {
       dateAndTime,
     };
 
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/managers/reminders/${editData._id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(reminder),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
+    const errors = await sendData(
+      `reminders/${editData._id}`,
+      "PATCH",
+      reminder,
+      "EDIT_REMINDER"
     );
-    const json = await response.json();
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      //hide the modal
+    if (!errors) {
       handleHide();
-      //add the data to the context
-      dispatch({ type: "EDIT_REMINDER", payload: json });
+    }
+    if (errors) {
+      setError(errors.error);
     }
   }
   return (

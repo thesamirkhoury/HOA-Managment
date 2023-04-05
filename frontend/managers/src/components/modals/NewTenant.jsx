@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useDataContext } from "../../hooks/useDataContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -14,8 +13,7 @@ import Col from "react-bootstrap/Col";
 
 function NewTenant() {
   const { newTenant, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useDataContext();
-  const { user } = useAuthContext();
+  const { sendData } = useDataHandler();
   // form state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -52,10 +50,6 @@ function NewTenant() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!user) {
-      setError("You must be logged in");
-      return;
-    }
 
     const tenantType = `${isOwner ? "בעל בית" : "שוכר"}`;
     const tenant = {
@@ -73,27 +67,17 @@ function NewTenant() {
       ownerEmail,
     };
 
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/managers/tenants/signup`,
-      {
-        method: "POST",
-        body: JSON.stringify(tenant),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
+    const errors = await sendData(
+      "tenants/signup",
+      "POST",
+      tenant,
+      "NEW_TENANT"
     );
-    const json = await response.json();
-
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      //hide the modal
+    if (!errors) {
       handleHide();
-      //add the data to the context
-      dispatch({ type: "NEW_TENANT", payload: json });
+    }
+    if (errors) {
+      setError(errors.error);
     }
   }
 

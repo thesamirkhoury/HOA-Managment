@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useDataContext } from "../../hooks/useDataContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
+
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -11,8 +10,7 @@ import Button from "react-bootstrap/Button";
 
 function NewReminder() {
   const { newReminder, dispatch: showModal } = useModalsContext();
-  const { dispatch } = useDataContext();
-  const { user } = useAuthContext();
+  const { sendData } = useDataHandler();
   // form state
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -31,10 +29,6 @@ function NewReminder() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!user) {
-      setError("You must be logged in");
-      return;
-    }
 
     const reminder = {
       title,
@@ -42,26 +36,17 @@ function NewReminder() {
       dateAndTime,
     };
 
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/managers/reminders`,
-      {
-        method: "POST",
-        body: JSON.stringify(reminder),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
+    const errors = await sendData(
+      "reminders",
+      "POST",
+      reminder,
+      "NEW_REMINDER"
     );
-    const json = await response.json();
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      //hide the modal
+    if (!errors) {
       handleHide();
-      //add the data to the context
-      dispatch({ type: "NEW_REMINDER", payload: json });
+    }
+    if (errors) {
+      setError(errors.error);
     }
   }
 

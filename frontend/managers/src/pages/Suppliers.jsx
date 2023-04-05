@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
-import { useFetchData } from "../hooks/useFetchData";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -18,7 +18,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
   const { dispatch: showModal } = useModalsContext();
-  const { fetchData } = useFetchData();
+  const { fetchData } = useDataHandler();
   const { suppliers } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
