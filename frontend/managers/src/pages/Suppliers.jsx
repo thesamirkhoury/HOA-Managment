@@ -50,7 +50,9 @@ function Suppliers() {
         }
       }
     }
-    fetchSuppliers();
+    if (!suppliers) {
+      fetchSuppliers();
+    }
   }, [dispatch, showModal, user]); //eslint-disable-line
   return (
     <>

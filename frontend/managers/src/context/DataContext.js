@@ -26,7 +26,7 @@ export const dataReducer = (state, action) => {
         ...state,
         tenants: deleteItem(state.tenants, action.payload),
       };
-      
+
     //* Suppliers
     case "SET_SUPPLIERS":
       return { ...state, suppliers: action.payload };
@@ -52,6 +52,14 @@ export const dataReducer = (state, action) => {
         ...state,
         reminders: deleteItem(state.reminders, action.payload),
       };
+
+    case "RESET_ALL":
+      return {
+        tenants: null,
+        suppliers: null,
+        reminders: null,
+      };
+      
     default:
       return state;
   }

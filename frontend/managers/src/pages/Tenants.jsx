@@ -50,7 +50,9 @@ function Tenants() {
         }
       }
     }
-    fetchTenants();
+    if (!tenants) {
+      fetchTenants();
+    }
   }, [dispatch, showModal, user]); //eslint-disable-line
 
   return (

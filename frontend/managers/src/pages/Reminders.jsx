@@ -50,7 +50,9 @@ function Reminders() {
         }
       }
     }
-    fetchReminders();
+    if (!reminders) {
+      fetchReminders();
+    }
   }, [dispatch, showModal, user]); //eslint-disable-line
 
   return (
