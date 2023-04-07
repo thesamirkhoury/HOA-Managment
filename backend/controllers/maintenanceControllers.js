@@ -30,19 +30,15 @@ async function getRequest(req, res) {
   res.status(200).json(request);
 }
 
-//Add a response to a maintenance requests by _id
-//TODO: send a mail notifying User of a new response
-async function addResponse(req, res) {
+//Change the status to a maintenance requests by _id
+//TODO: send a mail notifying User of a change in status
+async function changeStatus(req, res) {
   const { id } = req.params;
-  const { response } = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Request Not Found" });
-  }
-
+  const { status } = req.body;
+  
   const request = await MaintenanceRequest.findByIdAndUpdate(
     id,
-    { response: response, status: "סגור" },
+    { status },
     { new: true }
   );
   if (!request) {
@@ -69,7 +65,6 @@ async function createRequest(req, res) {
       description,
       status: "פתוח",
       pictures,
-      response: "",
     });
     res.status(200).json(request);
   } catch (error) {
@@ -98,7 +93,7 @@ async function getUserRequests(req, res) {
 module.exports = {
   getRequests,
   getRequest,
-  addResponse,
+  changeStatus,
   createRequest,
   getUserRequests,
 };

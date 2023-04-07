@@ -3,7 +3,7 @@ const express = require("express");
 const {
   getRequests,
   getRequest,
-  addResponse,
+  changeStatus,
 } = require("../../controllers/maintenanceControllers");
 //auth middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
@@ -19,8 +19,8 @@ router.get("/", getRequests);
 //Get one maintenance requests by _id
 router.get("/:id", getRequest);
 
-//Add a response to a maintenance requests by _id
-router.post("/:id/response", addResponse);
+//Change the status to a maintenance requests by _id
+router.patch("/:id/status", changeStatus);
 
 //Forward request by _id to a supplier by email
 router.post("/:id/forward/:email", (req, res) => {

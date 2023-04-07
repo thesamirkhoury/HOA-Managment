@@ -28,9 +28,6 @@ const requestSchema = new Schema(
       //TODO: Refine in the File handling stage.
       type: Buffer,
     },
-    response: {
-      type: String,
-    },
   },
   { timestamps: true }
 );
