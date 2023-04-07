@@ -28,7 +28,7 @@ function Reminders() {
     if (!reminders) {
       fetchData("reminders", "SET_REMINDERS");
     }
-  }, [reminders, fetchData]); //eslint-disable-line
+  }, []); //eslint-disable-line
 
   return (
     <>
