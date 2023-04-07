@@ -1,19 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
-import MaintenanceManagement from "../components/modals/MaintenanceManagement";
-import MaintenanceDetails from "../components/modals/MaintenanceDetails";
+import MaintenanceManagement from "../components/modals/MaintenanceDetails";
+import MaintenanceImages from "../components/modals/MaintenanceImages";
 
 function Maintenance() {
   const { dispatch } = useModalsContext();
+  const { fetchData } = useDataHandler();
+  const { tenants, maintenance } = useDataContext();
+  const [tenantData, setTenantData] = useState();
+  const [requestData, setRequestData] = useState();
+  const [imageUrl, setImageUrl] = useState("");
+
+  function getTenant(id) {
+    if (tenants) {
+      let tenant = tenants.find((t) => t._id === id);
+      return tenant;
+    }
+  }
+
+  // fetch requests data
+  useEffect(() => {
+    if (!tenants) {
+      fetchData("tenants", "SET_TENANTS");
+    }
+    if (!maintenance) {
+      fetchData("maintenance", "SET_MAINTENANCE");
+    }
+  }, []); //eslint-disable-line
 
   return (
     <>
@@ -46,24 +72,49 @@ function Maintenance() {
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>ישראל ישראלי</td>
-            <td>החלפת נורות במעלית</td>
-            <td>1/1/2023</td>
-            <td>פתוח</td>
-            <td>
-              <Button
-                variant="outline-primary"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  dispatch({ type: "MAINTENANCE_MANAGEMENT", payload: true });
-                }}
-              >
-                פרטים ולהשיב
-              </Button>
-            </td>
-          </tr>
+          {maintenance &&
+            maintenance.map((request) => {
+              if (
+                tenants &&
+                (request.status === "פתוח" || request.status === "בטיפול")
+              ) {
+                let tenant = getTenant(request.tenant_id);
+                return (
+                  <tr key={request._id}>
+                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
+                    <td>{request.subject}</td>
+                    <td>{request.createdAt}</td>
+                    <td>
+                      <Badge
+                        bg={request.status === "פתוח" ? "danger" : "warning"}
+                        className="fs-6"
+                      >
+                        {request.status}
+                      </Badge>
+                    </td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        className="me-md-1 mb-1 mb-md-0"
+                        onClick={() => {
+                          setTenantData(tenant);
+                          setRequestData(request);
+                          setImageUrl(
+                            "https://codescandy.com/geeks-bootstrap-5/assets/images/placeholder/placeholder-4by3.svg"
+                          ); //!placeholder url
+                          dispatch({
+                            type: "MAINTENANCE_DETAILS",
+                            payload: true,
+                          });
+                        }}
+                      >
+                        פרטים ולהשיב
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              }
+            })}
         </tbody>
       </Table>
 
@@ -81,6 +132,7 @@ function Maintenance() {
           </Form>
         </Col>
       </Row>
+
       {/* Closed Inquires Table */}
       <Table responsive hover className="text-center">
         <thead>
@@ -92,28 +144,47 @@ function Maintenance() {
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>ישראל ישראלי</td>
-            <td>החלפת נורות במעלית</td>
-            <td>1/1/2023</td>
-            <td>
-              <Button
-                variant="outline-primary"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  dispatch({ type: "MAINTENANCE_VIEW", payload: true });
-                }}
-              >
-                פרטים
-              </Button>
-            </td>
-          </tr>
+          {maintenance &&
+            maintenance.map((request) => {
+              if (tenants && request.status === "סגור") {
+                let tenant = getTenant(request.tenant_id);
+                return (
+                  <tr key={request._id}>
+                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
+                    <td>{request.subject}</td>
+                    <td>{request.updatedAt}</td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        className="me-md-1 mb-1 mb-md-0"
+                        onClick={() => {
+                          setTenantData(tenant);
+                          setRequestData(request);
+                          setImageUrl(
+                            "https://codescandy.com/geeks-bootstrap-5/assets/images/placeholder/placeholder-4by3.svg"
+                          ); //!placeholder url
+                          dispatch({
+                            type: "MAINTENANCE_DETAILS",
+                            payload: true,
+                          });
+                        }}
+                      >
+                        פרטים
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              }
+            })}
         </tbody>
       </Table>
+
       {/* //* Modals */}
-      <MaintenanceManagement />
-      <MaintenanceDetails />
+      <MaintenanceManagement
+        tenantData={tenantData}
+        requestData={requestData}
+      />
+      <MaintenanceImages url={imageUrl} />
     </>
   );
 }

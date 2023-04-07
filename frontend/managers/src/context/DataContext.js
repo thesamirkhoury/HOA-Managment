@@ -53,13 +53,24 @@ export const dataReducer = (state, action) => {
         reminders: deleteItem(state.reminders, action.payload),
       };
 
+    //* Maintenance
+    case "SET_MAINTENANCE":
+      return { ...state, maintenance: action.payload };
+    case "MAINTENANCE_STATUS":
+      return {
+        ...state,
+        maintenance: editItem(state.maintenance, action.payload),
+      };
+
+    //* Reset All Data
     case "RESET_ALL":
       return {
         tenants: null,
         suppliers: null,
         reminders: null,
+        maintenance: null,
       };
-      
+
     default:
       return state;
   }
@@ -70,6 +81,7 @@ export const DataContextProvider = ({ children }) => {
     tenants: null,
     suppliers: null,
     reminders: null,
+    maintenance: null,
   });
 
   return (
