@@ -49,16 +49,6 @@ export function modalsReducer(state, action) {
         ...state,
         editAnnouncement: action.payload,
       };
-    case "INQUIRY_REPLY":
-      return {
-        ...state,
-        inquiryReply: action.payload,
-      };
-    case "INQUIRY_VIEW":
-      return {
-        ...state,
-        inquiryView: action.payload,
-      };
     case "MAINTENANCE_DETAILS":
       return {
         ...state,
@@ -68,6 +58,11 @@ export function modalsReducer(state, action) {
       return {
         ...state,
         maintenanceImages: action.payload,
+      };
+    case "INQUIRY_DETAILS":
+      return {
+        ...state,
+        inquiryDetails: action.payload,
       };
     case "NEW_BILL":
       return {
@@ -140,10 +135,9 @@ export const ModalsContextProvider = ({ children }) => {
     editReminder: false,
     newAnnouncement: false,
     editAnnouncement: false,
-    inquiryReply: false,
-    inquiryView: false,
     maintenanceDetails: false,
     maintenanceImages: false,
+    inquiryDetails: false,
     newBill: false,
     recordPayment: false,
     editBill: false,

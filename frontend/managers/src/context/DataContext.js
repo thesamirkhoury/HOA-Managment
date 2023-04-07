@@ -62,6 +62,15 @@ export const dataReducer = (state, action) => {
         maintenance: editItem(state.maintenance, action.payload),
       };
 
+    //* Inquires
+    case "SET_INQUIRES":
+      return { ...state, inquires: action.payload };
+    case "INQUIRY_RESPONSE":
+      return {
+        ...state,
+        inquires: editItem(state.inquires, action.payload),
+      };
+
     //* Reset All Data
     case "RESET_ALL":
       return {
@@ -69,6 +78,7 @@ export const dataReducer = (state, action) => {
         suppliers: null,
         reminders: null,
         maintenance: null,
+        inquires: null,
       };
 
     default:
@@ -82,6 +92,7 @@ export const DataContextProvider = ({ children }) => {
     suppliers: null,
     reminders: null,
     maintenance: null,
+    inquires: null,
   });
 
   return (

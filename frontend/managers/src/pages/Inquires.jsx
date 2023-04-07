@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -9,11 +12,31 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
-import InquiryReply from "../components/modals/InquiryReply";
 import InquiryDetails from "../components/modals/InquiryDetails";
 
 function Inquires() {
   const { dispatch } = useModalsContext();
+  const { fetchData } = useDataHandler();
+  const { tenants, inquires } = useDataContext();
+  const [tenantData, setTenantData] = useState();
+  const [inquiryData, setInquiryData] = useState();
+
+  function getTenant(id) {
+    if (tenants) {
+      let tenant = tenants.find((t) => t._id === id);
+      return tenant;
+    }
+  }
+
+  // fetch inquires data
+  useEffect(() => {
+    if (!tenants) {
+      fetchData("tenants", "SET_TENANTS");
+    }
+    if (!inquires) {
+      fetchData("inquiries", "SET_INQUIRES");
+    }
+  }, []); //eslint-disable-line
 
   return (
     <>
@@ -34,34 +57,44 @@ function Inquires() {
           </Form>
         </Col>
       </Row>
+
       {/* Open Inquires Table */}
       <Table responsive hover className="text-center">
         <thead>
           <tr>
             <th>שם דייר</th>
-            <th>נושא הפנייה</th>
+            <th>נושא הפניה</th>
             <th>תאריך הפתיחה</th>
             <th>פעולות</th>
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>ישראל ישראלי</td>
-            <td>דחיית תשלום דמי הועד</td>
-            <td>1/1/2023</td>
-            <td>
-              <Button
-                variant="outline-primary"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  dispatch({ type: "INQUIRY_REPLY", payload: true });
-                }}
-              >
-                פרטים ולהשיב
-              </Button>
-            </td>
-          </tr>
+          {inquires &&
+            inquires.map((inquiry) => {
+              if (tenants && inquiry.status === "פתוח") {
+                let tenant = getTenant(inquiry.tenant_id);
+                return (
+                  <tr key={inquiry._id}>
+                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
+                    <td>{inquiry.subject}</td>
+                    <td>{inquiry.createdAt}</td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        className="me-md-1 mb-1 mb-md-0"
+                        onClick={() => {
+                          setTenantData(tenant);
+                          setInquiryData(inquiry);
+                          dispatch({ type: "INQUIRY_DETAILS", payload: true });
+                        }}
+                      >
+                        פרטים ולהשיב
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              }
+            })}
         </tbody>
       </Table>
 
@@ -84,34 +117,42 @@ function Inquires() {
         <thead>
           <tr>
             <th>שם דייר</th>
-            <th>נושא הפנייה</th>
+            <th>נושא הפניה</th>
             <th>תאריך סגירה</th>
             <th>פעולות</th>
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>ישראל ישראלי</td>
-            <td>דחיית תשלום דמי הועד</td>
-            <td>1/1/2023</td>
-            <td>
-              <Button
-                variant="outline-primary"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  dispatch({ type: "INQUIRY_VIEW", payload: true });
-                }}
-              >
-                פרטים
-              </Button>
-            </td>
-          </tr>
+          {inquires &&
+            inquires.map((inquiry) => {
+              if (tenants && inquiry.status === "סגור") {
+                let tenant = getTenant(inquiry.tenant_id);
+                return (
+                  <tr key={inquiry._id}>
+                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
+                    <td>{inquiry.subject}</td>
+                    <td>{inquiry.updatedAt}</td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        className="me-md-1 mb-1 mb-md-0"
+                        onClick={() => {
+                          setTenantData(tenant);
+                          setInquiryData(inquiry);
+                          dispatch({ type: "INQUIRY_DETAILS", payload: true });
+                        }}
+                      >
+                        פרטים
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              }
+            })}
         </tbody>
       </Table>
       {/* //* Modals */}
-      <InquiryReply />
-      <InquiryDetails />
+      <InquiryDetails tenantData={tenantData} inquiryData={inquiryData} />
     </>
   );
 }

@@ -1,113 +1,191 @@
 import React, { useState } from "react";
-
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 //bootstrap spacing
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function InquiryDetails() {
-  const { inquiryView, dispatch } = useModalsContext();
-  const [showDetails, setShowDetails] = useState(false);
+function InquiryDetails({ tenantData, inquiryData }) {
+  const { inquiryDetails, dispatch } = useModalsContext();
+  const { sendData } = useDataHandler();
+  const [reply, setReply] = useState("");
+
+  function handleHide() {
+    dispatch({ type: "INQUIRY_DETAILS", payload: false });
+    setReply("");
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const response = { response: reply };
+
+    const errors = await sendData(
+      `inquiries/${inquiryData._id}/response`,
+      "POST",
+      response,
+      "INQUIRY_RESPONSE"
+    );
+    if (!errors) {
+      handleHide();
+    }
+  }
+
   return (
     <Modal
-      show={inquiryView}
+      show={inquiryDetails}
       fullscreen="lg-down"
       size="lg"
-      onHide={() => dispatch({ type: "INQUIRY_VIEW", payload: false })}
+      onHide={handleHide}
     >
       <Modal.Header closeButton>
         <Modal.Title>פרטי הפניה</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Tenant Details */}
-        <div>
-          <p className="fs-4">פרטי הדייר</p>
-          <p>
-            שם הדייר: <span>{"ישראל ישראלי"}</span>
-          </p>
-          {/* Extra tenant Details - API Call */}
-          <div className={`${showDetails ? "d-block" : "d-none"}`}>
-            <Row>
-              <Col sm="6">
-                <p>
-                  מספר בניין: <span>{"1"}</span>
-                </p>
-              </Col>
-              <Col sm="6">
-                <p>
-                  מספר בית: <span>{"2"}</span>
-                </p>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm="6">
-                <p>
-                  מספר טלפון:{" "}
-                  <a href="tel:+9720521234567" className="text-decoration-none">
-                    {"0521234567"}
-                  </a>
-                </p>
-              </Col>
-              <Col sm="6">
-                <p>
-                  מייל:{" "}
-                  <a
-                    href="mailto:israel@gmail.com"
-                    className="text-decoration-none"
-                  >
-                    {"israel@gmail.com"}
-                  </a>
-                </p>
-              </Col>
-            </Row>
-          </div>
-          <Button
-            variant="outline-primary"
-            className={`ms-2 col-12 ${showDetails ? "d-none" : "d-block"}`}
-            onClick={() => {
-              // API CALL
-              setShowDetails(true);
-            }}
-          >
-            <i className="bi bi-file-person"> </i> הצג פרטי הדייר המלאים
-          </Button>
-        </div>
-        <hr />
+        {tenantData && (
+          <Card>
+            <Card.Header className="fs-4">פרטי הדייר</Card.Header>
+            {/* Card Body */}
+            <Card.Body>
+              <Form>
+                <Row className="mb-1">
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>שם הדייר</Form.Label>
+                      <Form.Control
+                        disabled
+                        defaultValue={`${tenantData.firstName} ${tenantData.lastName}`}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>מספר בניין</Form.Label>
+                      <Form.Control
+                        disabled
+                        defaultValue={tenantData.buildingNumber}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>מספר דירה</Form.Label>
+                      <Form.Control
+                        disabled
+                        defaultValue={tenantData.apartmentNumber}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm="6">
+                    <Form.Group>
+                      <Form.Label>מספר טלפון</Form.Label>
+                      <Form.Control
+                        disabled
+                        defaultValue={tenantData.phoneNumber}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col sm="6">
+                    <Form.Group>
+                      <Form.Label>מייל</Form.Label>
+                      <Form.Control
+                        disabled
+                        defaultValue={tenantData.tenantEmail}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </Form>
+            </Card.Body>
+          </Card>
+        )}
+
         {/* Inquiry Details */}
-        <div>
-          <p className="fs-4">פרטי הפנייה</p>
-          <p>
-            נושא הפנייה: <span>{"דחיית תשלום דמי הועד"}</span>
-          </p>
-          <p>
-            תוכן הפנייה:{" "}
-            <span>{"האם ניתן לדחות את תשלום הועד לחודש הבא?"}</span>
-          </p>
-        </div>
-        <hr />
+        {inquiryData && (
+          <Card className="mt-2">
+            <Card.Header className="fs-4">פרטי הפניה</Card.Header>
+            {/* Card Body */}
+            <Card.Body>
+              <Form.Group>
+                <Form.Label>נושא הפניה</Form.Label>
+                <Form.Control
+                  disabled
+                  defaultValue={`${inquiryData.subject}`}
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label>תוכן הפניה</Form.Label>
+                <Form.Control
+                  disabled
+                  as="textarea"
+                  rows={4}
+                  defaultValue={`${inquiryData.body}`}
+                ></Form.Control>
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        )}
+
         {/* Response */}
-        <div>
-          <p className="fs-4">התשובה</p>
-          <p>
-            תשובת הוועד: <span>{"אושר באופן חד פעמי."}</span>
-          </p>
-        </div>
+        {inquiryData && (
+          <Card className="mt-2">
+            <Card.Header className="fs-4">תשובה לפניה</Card.Header>
+            {/* Card Body */}
+            <Card.Body>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Label>תשובת הועד</Form.Label>
+                  <Form.Control
+                    disabled={inquiryData.status === "סגור"}
+                    as="textarea"
+                    rows={3}
+                    required
+                    type="text"
+                    value={
+                      inquiryData.status === "פתוח"
+                        ? reply
+                        : inquiryData.response
+                    }
+                    onChange={(e) => {
+                      if (inquiryData.status === "פתוח") {
+                        setReply(e.target.value);
+                      }
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Form>
+            </Card.Body>
+          </Card>
+        )}
+
         {/* Buttons */}
-        <div className="mt-3 float-end">
-          <Button
-            variant="outline-secondary"
-            className="ms-2"
-            onClick={() => {
-              dispatch({ type: "INQUIRY_VIEW", payload: false });
-            }}
-          >
-            <i className="bi bi-x-square"> </i>סגור חלון
-          </Button>
-        </div>
+        {inquiryData && (
+          <div className="mt-3 float-end">
+            {inquiryData.status === "פתוח" && (
+              <Button variant="success" type="submit" onClick={handleSubmit}>
+                <i className="bi bi-send"> </i>שלח תשובה
+              </Button>
+            )}
+            <Button
+              variant="outline-secondary"
+              className="ms-2"
+              onClick={handleHide}
+            >
+              <i className="bi bi-x-square"> </i>סגור חלון
+            </Button>
+          </div>
+        )}
       </Modal.Body>
     </Modal>
   );
