@@ -12,7 +12,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function EditTenant({ editData }) {
-  const { editTenant, dispatch: showModal } = useModalsContext();
+  const { editTenant, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
   //editable field toggler
   const [isEditable, SetIsEditable] = useState(false);
@@ -57,7 +57,7 @@ function EditTenant({ editData }) {
   }, [editData]);
 
   function handleHide() {
-    showModal({ type: "EDIT_TENANT", payload: false });
+    dispatch({ type: "EDIT_TENANT", payload: false });
     SetIsEditable(false);
 
     //reset the input fields to default values from props

@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 function EditReminder({ editData }) {
-  const { editReminder, dispatch: showModal } = useModalsContext();
+  const { editReminder, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
 
   // form state
@@ -29,7 +29,7 @@ function EditReminder({ editData }) {
   }, [editData]);
 
   function handleHide() {
-    showModal({ type: "EDIT_REMINDER", payload: false });
+    dispatch({ type: "EDIT_REMINDER", payload: false });
     setTitle(editData.title);
     setBody(editData.body);
     setDateAndTime(editData.dateAndTime.split(".")[0]);

@@ -12,7 +12,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function NewTenant() {
-  const { newTenant, dispatch: showModal } = useModalsContext();
+  const { newTenant, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
   // form state
   const [firstName, setFirstName] = useState("");
@@ -31,7 +31,7 @@ function NewTenant() {
   const [error, setError] = useState(null);
 
   function handleHide() {
-    showModal({ type: "NEW_TENANT", payload: false });
+    dispatch({ type: "NEW_TENANT", payload: false });
     //reset the input fields
     setFirstName("");
     setLastName("");

@@ -17,7 +17,7 @@ import EditSupplier from "../components/modals/EditSupplier";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
-  const { dispatch: showModal } = useModalsContext();
+  const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { suppliers } = useDataContext();
   const [editData, setEditData] = useState();
@@ -48,7 +48,7 @@ function Suppliers() {
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
-              showModal({ type: "NEW_SUPPLIER", payload: true });
+              dispatch({ type: "NEW_SUPPLIER", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>ספק חדש
@@ -96,7 +96,7 @@ function Suppliers() {
                     className="me-md-1 mb-1 mb-md-0"
                     onClick={() => {
                       setEditData(supplier);
-                      showModal({ type: "EDIT_SUPPLIER", payload: true });
+                      dispatch({ type: "EDIT_SUPPLIER", payload: true });
                     }}
                   >
                     עדכן פרטים
@@ -111,7 +111,7 @@ function Suppliers() {
                         type: "DELETE_SUPPLIER",
                         suffix: "suppliers",
                       });
-                      showModal({
+                      dispatch({
                         type: "DELETE_CONFIRMATION",
                         payload: true,
                       });

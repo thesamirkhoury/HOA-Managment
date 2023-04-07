@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 function NewReminder() {
-  const { newReminder, dispatch: showModal } = useModalsContext();
+  const { newReminder, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
   // form state
   const [title, setTitle] = useState("");
@@ -19,7 +19,7 @@ function NewReminder() {
   const [error, setError] = useState(null);
 
   function handleHide() {
-    showModal({ type: "NEW_REMINDER", payload: false });
+    dispatch({ type: "NEW_REMINDER", payload: false });
     //reset the input fields
     setTitle("");
     setBody("");

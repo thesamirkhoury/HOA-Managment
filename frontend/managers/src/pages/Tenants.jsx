@@ -17,7 +17,7 @@ import EditTenant from "../components/modals/EditTenant";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Tenants() {
-  const { dispatch: showModal } = useModalsContext();
+  const { dispatch } = useModalsContext();
   const { tenants } = useDataContext();
   const { fetchData } = useDataHandler();
   const [editData, setEditData] = useState();
@@ -28,7 +28,6 @@ function Tenants() {
     if (!tenants) {
       fetchData("tenants", "SET_TENANTS");
     }
-
   }, [tenants, fetchData]);
 
   return (
@@ -50,7 +49,7 @@ function Tenants() {
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
-              showModal({ type: "NEW_TENANT", payload: true });
+              dispatch({ type: "NEW_TENANT", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>דייר חדש
@@ -91,7 +90,7 @@ function Tenants() {
                     className="me-md-1 mb-1 mb-md-0"
                     onClick={() => {
                       setEditData(tenant);
-                      showModal({ type: "EDIT_TENANT", payload: true });
+                      dispatch({ type: "EDIT_TENANT", payload: true });
                     }}
                   >
                     פרטים
@@ -105,7 +104,7 @@ function Tenants() {
                         type: "DELETE_TENANT",
                         suffix: "tenants",
                       });
-                      showModal({ type: "DELETE_CONFIRMATION", payload: true });
+                      dispatch({ type: "DELETE_CONFIRMATION", payload: true });
                     }}
                   >
                     מחק

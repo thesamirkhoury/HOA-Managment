@@ -17,7 +17,7 @@ import EditReminder from "../components/modals/EditReminder";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Reminders() {
-  const { dispatch: showModal } = useModalsContext();
+  const { dispatch } = useModalsContext();
   const { reminders } = useDataContext();
   const { fetchData } = useDataHandler();
   const [editData, setEditData] = useState();
@@ -49,7 +49,7 @@ function Reminders() {
           <Button
             className="ms-4 ms-md-5"
             onClick={() => {
-              showModal({ type: "NEW_REMINDER", payload: true });
+              dispatch({ type: "NEW_REMINDER", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>תזכורת חדשה
@@ -74,7 +74,7 @@ function Reminders() {
                       className="me-1"
                       onClick={() => {
                         setEditData(reminder);
-                        showModal({ type: "EDIT_REMINDER", payload: true });
+                        dispatch({ type: "EDIT_REMINDER", payload: true });
                       }}
                     >
                       עדכן
@@ -88,7 +88,7 @@ function Reminders() {
                           type: "DELETE_REMINDER",
                           suffix: "reminders",
                         });
-                        showModal({
+                        dispatch({
                           type: "DELETE_CONFIRMATION",
                           payload: true,
                         });

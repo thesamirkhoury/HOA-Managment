@@ -12,7 +12,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function NewSupplier() {
-  const { newSupplier, dispatch: showModal } = useModalsContext();
+  const { newSupplier, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
   // form state
   const [supplierName, setSupplierName] = useState("");
@@ -24,7 +24,7 @@ function NewSupplier() {
   const [error, setError] = useState(null);
 
   function handleHide() {
-    showModal({ type: "NEW_SUPPLIER", payload: false });
+    dispatch({ type: "NEW_SUPPLIER", payload: false });
     //reset the input fields
     setSupplierName("");
     setSupplierCategory("");

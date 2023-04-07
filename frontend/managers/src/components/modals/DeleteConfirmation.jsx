@@ -9,10 +9,10 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 function DeleteConfirmation({ deleteData }) {
-  const { deleteConfirmation, dispatch: showModal } = useModalsContext();
+  const { deleteConfirmation, dispatch } = useModalsContext();
   const { user } = useAuthContext();
   //Data Context
-  const { dispatch } = useDataContext();
+  const { dispatch:dataDispatch } = useDataContext();
 
   async function handleDelete() {
     const response = await fetch(
@@ -27,8 +27,8 @@ function DeleteConfirmation({ deleteData }) {
     );
     const json = await response.json();
     if (response.ok) {
-      showModal({ type: "DELETE_CONFIRMATION", payload: false });
-      dispatch({ type: deleteData.type, payload: json });
+      dispatch({ type: "DELETE_CONFIRMATION", payload: false });
+      dataDispatch({ type: deleteData.type, payload: json });
     }
   }
 
@@ -36,7 +36,7 @@ function DeleteConfirmation({ deleteData }) {
     <Modal
       show={deleteConfirmation}
       onHide={() => {
-        showModal({ type: "DELETE_CONFIRMATION", payload: false });
+        dispatch({ type: "DELETE_CONFIRMATION", payload: false });
       }}
     >
       <Modal.Header className="border-0" closeButton></Modal.Header>
@@ -57,7 +57,7 @@ function DeleteConfirmation({ deleteData }) {
           variant="outline-secondary"
           className="ms-2"
           onClick={() => {
-            showModal({ type: "DELETE_CONFIRMATION", payload: false });
+            dispatch({ type: "DELETE_CONFIRMATION", payload: false });
           }}
         >
           <i className="bi bi-x-square"> </i> בטל

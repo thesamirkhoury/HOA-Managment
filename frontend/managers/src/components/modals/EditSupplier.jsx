@@ -12,7 +12,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function EditSupplier({ editData }) {
-  const { editSupplier, dispatch: showModal } = useModalsContext();
+  const { editSupplier, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
 
   // form state
@@ -35,7 +35,7 @@ function EditSupplier({ editData }) {
   }, [editData]);
 
   function handleHide() {
-    showModal({ type: "EDIT_SUPPLIER", payload: false });
+    dispatch({ type: "EDIT_SUPPLIER", payload: false });
     setSupplierName(editData.supplierName);
     setSupplierCategory(editData.supplierCategory);
     setSupplierType(editData.supplierType);
