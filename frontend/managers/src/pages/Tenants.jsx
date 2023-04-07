@@ -28,7 +28,7 @@ function Tenants() {
     if (!tenants) {
       fetchData("tenants", "SET_TENANTS");
     }
-  }, [tenants, fetchData]);
+  }, []); //eslint-disable-line
 
   return (
     <>

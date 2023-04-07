@@ -28,7 +28,7 @@ function Suppliers() {
     if (!suppliers) {
       fetchData("suppliers", "SET_SUPPLIERS");
     }
-  }, [suppliers, fetchData]);
+  }, []); //eslint-disable-line
   return (
     <>
       {/* Page Name */}
