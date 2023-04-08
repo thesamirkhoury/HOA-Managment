@@ -1,33 +1,84 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
+//helper functions
+import { range } from "../../util/range";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-function EditAnnouncement() {
+function EditAnnouncement({ editData, buildingsCount }) {
   const { editAnnouncement, dispatch } = useModalsContext();
-  const placeholderBuildingsCount = 3;
+  const { sendData } = useDataHandler();
+  // form state
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [buildingNumber, setBuildingNumber] = useState();
+  //error handling
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (editData) {
+      setTitle(editData.title);
+      setBody(editData.body);
+      setBuildingNumber(editData.buildingNumber);
+    }
+  }, [editData]);
+
+  function handleHide() {
+    dispatch({ type: "EDIT_ANNOUNCEMENT", payload: false });
+    setTitle(editData.title);
+    setBody(editData.body);
+    setBuildingNumber(editData.buildingNumber);
+    setError(null);
+  }
+
+  async function handleEdit(e) {
+    e.preventDefault();
+    const announcement = {
+      title,
+      body,
+      buildingNumber,
+    };
+    const errors = await sendData(
+      `announcements/${editData._id}`,
+      "PATCH",
+      announcement,
+      "EDIT_ANNOUNCEMENT"
+    );
+    if (!errors) {
+      handleHide();
+    }
+    if (errors) {
+      setError(errors.error);
+    }
+  }
 
   return (
     <Modal
       show={editAnnouncement}
       fullscreen="lg-down"
       size="lg"
-      onHide={() => {
-        dispatch({ type: "EDIT_ANNOUNCEMENT", payload: false });
-      }}
+      onHide={handleHide}
     >
       <Modal.Header closeButton>
         <Modal.Title>עדכון הודעה</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleEdit}>
           <Form.Group>
             <Form.Label>כותרת ההודעה</Form.Label>
-            <Form.Control required type="text" value={""}></Form.Control>
+            <Form.Control
+              required
+              type="text"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            ></Form.Control>
           </Form.Group>
           <Form.Group>
             <Form.Label>תוכן התזכורת</Form.Label>
@@ -36,26 +87,33 @@ function EditAnnouncement() {
               rows={5}
               required
               type="text"
-              value={""}
+              value={body}
+              onChange={(e) => {
+                setBody(e.target.value);
+              }}
             ></Form.Control>
           </Form.Group>
           <Form.Group>
             <Form.Label>מספר בניין</Form.Label>
             <Form.Select
-              aria-label="Building Number select"
-              value={0}
+              required
+              aria-label="Building Number selector"
+              value={buildingNumber}
               onChange={(e) => {
-                // console.log(e.target.value);
+                setBuildingNumber(e.target.value);
               }}
             >
               <option>בחר בניין</option>
               <option value="0">כל הבנינים - כללי</option>
-              {/* <option value="valueID">OptionName> </option> */}
-              {[...Array(placeholderBuildingsCount)].map((_, id) => (
-                <option value={id + 1} key={id + 1}>{`בניין ${id + 1}`}</option>
+              {/* Dynamically List All Available Buildings  */}
+              {range(buildingsCount).map((_, number) => (
+                <option value={number + 1} key={number + 1}>
+                  {`בניין ${number + 1}`}
+                </option>
               ))}
             </Form.Select>
           </Form.Group>
+          {error && <div className="error">{error}</div>}
           <div className="mt-3 float-end">
             <Button variant="success" type="submit">
               <i className="bi bi-plus-square"> </i>פרסום הודעה
@@ -63,9 +121,7 @@ function EditAnnouncement() {
             <Button
               variant="outline-secondary"
               className="ms-2"
-              onClick={() => {
-                dispatch({ type: "EDIT_ANNOUNCEMENT", payload: false });
-              }}
+              onClick={handleHide}
             >
               <i className="bi bi-x-square"> </i>סגור חלון
             </Button>

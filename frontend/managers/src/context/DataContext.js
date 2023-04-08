@@ -53,6 +53,24 @@ export const dataReducer = (state, action) => {
         reminders: deleteItem(state.reminders, action.payload),
       };
 
+    //* Announcements
+    case "SET_ANNOUNCEMENTS":
+      return { ...state, announcements: action.payload };
+    case "NEW_ANNOUNCEMENT":
+      return {
+        ...state,
+        announcements: [...state.announcements, action.payload],
+      };
+    case "EDIT_ANNOUNCEMENT":
+      return {
+        ...state,
+        announcements: editItem(state.announcements, action.payload),
+      };
+    case "DELETE_ANNOUNCEMENT":
+      return {
+        ...state,
+        announcements: deleteItem(state.announcements, action.payload),
+      };
     //* Maintenance
     case "SET_MAINTENANCE":
       return { ...state, maintenance: action.payload };
@@ -77,6 +95,7 @@ export const dataReducer = (state, action) => {
         tenants: null,
         suppliers: null,
         reminders: null,
+        announcements: null,
         maintenance: null,
         inquires: null,
       };
