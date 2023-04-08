@@ -17,7 +17,7 @@ const announcementSchema = new Schema(
       required: [true, "Announcement Body is required"],
     },
     buildingNumber: {
-      type: String,
+      type: Number,
       required: [true, "Building Number is required"],
     },
   },
