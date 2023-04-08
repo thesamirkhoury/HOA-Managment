@@ -113,7 +113,7 @@ function Maintenance() {
                     </td>
                   </tr>
                 );
-              }
+              } else return null;
             })}
         </tbody>
       </Table>
@@ -174,7 +174,7 @@ function Maintenance() {
                     </td>
                   </tr>
                 );
-              }
+              } else return null;
             })}
         </tbody>
       </Table>

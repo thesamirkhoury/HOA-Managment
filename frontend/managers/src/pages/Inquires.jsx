@@ -93,7 +93,7 @@ function Inquires() {
                     </td>
                   </tr>
                 );
-              }
+              } else return null;
             })}
         </tbody>
       </Table>
@@ -147,7 +147,7 @@ function Inquires() {
                     </td>
                   </tr>
                 );
-              }
+              } else return null;
             })}
         </tbody>
       </Table>
