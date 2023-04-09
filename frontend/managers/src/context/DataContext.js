@@ -127,6 +127,13 @@ export const dataReducer = (state, action) => {
         ...state,
         expenses: deleteItem(state.expenses, action.payload),
       };
+
+    //* Financial Dashboard
+    case "SET_INCOME":
+      return { ...state, income: action.payload };
+    case "SET_SPENDING":
+      return { ...state, spending: action.payload };
+
     //* Reset All Data
     case "RESET_ALL":
       return {
@@ -152,6 +159,8 @@ export const DataContextProvider = ({ children }) => {
     inquires: null,
     billings: null,
     expenses: null,
+    income: null,
+    spending: null,
   });
 
   return (
