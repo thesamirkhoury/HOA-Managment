@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -15,8 +18,27 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Expenses() {
   const { dispatch } = useModalsContext();
+  const { fetchData } = useDataHandler();
+  const { suppliers, expenses } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
+
+  function getSupplier(id) {
+    if (suppliers) {
+      let supplier = suppliers.find((s) => s._id === id);
+      return supplier;
+    }
+  }
+
+  //fetch expenses data
+  useEffect(() => {
+    if (!suppliers) {
+      fetchData("suppliers", "SET_SUPPLIERS");
+    }
+    if (!expenses) {
+      fetchData("expenses", "SET_EXPENSES");
+    }
+  }, []); //eslint-disable-line
 
   return (
     <>
@@ -51,62 +73,63 @@ function Expenses() {
             <th>שם ספק</th>
             <th>קטגוריה</th>
             <th>סכום</th>
-            <th>פירוט</th>
+            {/* <th>פירוט</th> */}
             <th>סוג תשלום</th>
             <th>תאריך התשלום</th>
             <th>פעולות</th>
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>חברת המעליות בע״מ</td>
-            <td>מעליות</td>
-            <td>2000</td>
-            <td>
-              1750 - חלקי חילוף
-              <br />
-              350 - עבודה
-            </td>
-            <td>חד פעמי</td>
-            <td>1/1/2023</td>
-            <td>
-              <Button
-                variant="outline-warning"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  setEditData({
-                    subject: "טיפול מעליות",
-                  });
-                  dispatch({ type: "EDIT_EXPENSE", payload: true });
-                }}
-              >
-                עדכן
-              </Button>
+          {expenses &&
+            expenses.map((expense) => {
+              if (suppliers) {
+                let supplier = getSupplier(expense.supplier_id);
+                return (
+                  <tr key={expense._id}>
+                    <td>{supplier.supplierName}</td>
+                    <td>{supplier.supplierCategory}</td>
+                    <td>{expense.amount}</td>
+                    <td>{expense.paymentType}</td>
+                    <td>{expense.paymentDate.split("T")[0]}</td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        className="me-md-1 mb-1 mb-md-0"
+                        onClick={() => {
+                          setEditData(expense);
+                          dispatch({ type: "EDIT_EXPENSE", payload: true });
+                        }}
+                      >
+                        פרטים ועדכון
+                      </Button>
 
-              <Button
-                variant="outline-danger"
-                onClick={() => {
-                  setDeleteData({
-                    id: "1234",
-                    displayName: "ההוצאה",
-                    db: "expense",
-                  });
-                  dispatch({
-                    type: "DELETE_CONFIRMATION",
-                    payload: true,
-                  });
-                }}
-              >
-                מחק
-              </Button>
-            </td>
-          </tr>
+                      <Button
+                        variant="outline-danger"
+                        onClick={() => {
+                          setDeleteData({
+                            id: expense._id,
+                            displayName: "ההוצאה",
+                            type: "DELETE_EXPENSE",
+                            suffix: "expenses",
+                          });
+                          dispatch({
+                            type: "DELETE_CONFIRMATION",
+                            payload: true,
+                          });
+                        }}
+                      >
+                        מחק
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              } else return null;
+            })}
         </tbody>
       </Table>
       {/* //* Modals */}
-      <NewExpense />
-      <EditExpense editData={editData} />
+      <NewExpense suppliers={suppliers} />
+      <EditExpense editData={editData} suppliers={suppliers} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );

@@ -109,6 +109,24 @@ export const dataReducer = (state, action) => {
         billings: deleteItem(state.billings, action.payload),
       };
 
+    //* Expenses
+    case "SET_EXPENSES":
+      return { ...state, expenses: action.payload };
+    case "NEW_EXPENSE":
+      return {
+        ...state,
+        expenses: [...state.expenses, action.payload],
+      };
+    case "EDIT_EXPENSE":
+      return {
+        ...state,
+        expenses: editItem(state.expenses, action.payload),
+      };
+    case "DELETE_EXPENSE":
+      return {
+        ...state,
+        expenses: deleteItem(state.expenses, action.payload),
+      };
     //* Reset All Data
     case "RESET_ALL":
       return {
@@ -133,6 +151,7 @@ export const DataContextProvider = ({ children }) => {
     maintenance: null,
     inquires: null,
     billings: null,
+    expenses: null,
   });
 
   return (
