@@ -134,6 +134,25 @@ export const dataReducer = (state, action) => {
     case "SET_SPENDING":
       return { ...state, spending: action.payload };
 
+    //* Documents
+    case "SET_DOCUMENTS":
+      return { ...state, documents: action.payload };
+    case "NEW_DOCUMENT":
+      return {
+        ...state,
+        documents: [...state.documents, action.payload],
+      };
+    case "EDIT_DOCUMENT":
+      return {
+        ...state,
+        documents: editItem(state.documents, action.payload),
+      };
+    case "DELETE_DOCUMENT":
+      return {
+        ...state,
+        documents: deleteItem(state.documents, action.payload),
+      };
+
     //* Reset All Data
     case "RESET_ALL":
       return {
@@ -161,6 +180,7 @@ export const DataContextProvider = ({ children }) => {
     expenses: null,
     income: null,
     spending: null,
+    documents: null,
   });
 
   return (
