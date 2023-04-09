@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
+import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
@@ -11,54 +13,170 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function RecordPayment() {
+function RecordPayment({ editData, tenantData }) {
   const { recordPayment, dispatch } = useModalsContext();
-  //   Cash
+  const { sendData } = useDataHandler();
+
+  // Payment Type Selector
+  // Cash
   const [cash, setCash] = useState(false);
   const [cashInput, setCashInput] = useState(0);
-
+  // Card
   const [card, setCard] = useState(false);
+  const [issuer, setIssuer] = useState("");
+  const [lastDigits, setLastDigits] = useState("");
+  const [EXP, setEXP] = useState("");
+  // Check
   const [check, setCheck] = useState(false);
+  const [bankName, setBankName] = useState("");
+  const [branchNumber, setBranchNumber] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [checkNumber, setCheckNumber] = useState("");
+  // Bank transfer
   const [transfer, setTransfer] = useState(false);
-
-  let placeholderAmount = 200;
+  const [approvalNumber, setApprovalNumber] = useState("");
+  //error handling
+  const [error, setError] = useState(null);
 
   function closeAllSections() {
+    // Close all sections
     setCash(false);
     setCard(false);
     setCheck(false);
     setTransfer(false);
   }
+
+  function handleHide() {
+    dispatch({ type: "PAYMENT_RECORD", payload: false });
+    // Close all sections
+    closeAllSections();
+    // reset form data
+    setCashInput("");
+    setIssuer("");
+    setLastDigits("");
+    setEXP("");
+    setBankName("");
+    setBranchNumber("");
+    setAccountNumber("");
+    setCheckNumber("");
+    setApprovalNumber("");
+    //error handling
+    setError(null);
+  }
+
+  async function handlePayment(e) {
+    e.preventDefault();
+
+    let paymentRecord;
+    if (cash) {
+      paymentRecord = {
+        paymentMethod: "Cash",
+        paymentDate: Date.now(),
+      };
+    }
+    if (card) {
+      paymentRecord = {
+        paymentMethod: "Card",
+        issuer,
+        lastDigits,
+        EXP,
+        paymentDate: Date.now(),
+      };
+    }
+    if (check) {
+      paymentRecord = {
+        paymentMethod: "Check",
+        bankName,
+        branchNumber,
+        accountNumber,
+        checkNumber,
+        paymentDate: Date.now(),
+      };
+    }
+    if (transfer) {
+      paymentRecord = {
+        paymentMethod: "Transfer",
+        approvalNumber,
+        paymentDate: Date.now(),
+      };
+    }
+    //send the request
+    if (paymentRecord) {
+      const errors = await sendData(
+        `billing/${editData._id}/payment`,
+        "POST",
+        paymentRecord,
+        "EDIT_BILLING"
+      );
+      if (!errors) {
+        handleHide();
+      }
+      if (errors) {
+        setError(errors.error);
+      }
+    }
+  }
+
   return (
     <Modal
       show={recordPayment}
       fullscreen="lg-down"
       size="lg"
-      onHide={() => {
-        dispatch({ type: "PAYMENT_RECORD", payload: false });
-        closeAllSections();
-      }}
+      onHide={handleHide}
     >
       <Modal.Header closeButton>
         <Modal.Title>הוספת תיעוד תשלום</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Invoice Details */}
-        <div>
-          <p className="fs-4">פרטי דרישת התשלום</p>
-          <p>
-            שם דייר:<span> {"ישראל ישראלי"}</span>{" "}
-          </p>
-          <p>
-            סכום: <span> {"200"}</span>
-          </p>
-          <p>
-            תיאור: <span> {"דמי ועד הבית החודשי"}</span>
-          </p>
-          <p>
-            לתשלום עד: <span> {"1/1/2023"}</span>
-          </p>
-        </div>
+        {tenantData && editData && (
+          <Card>
+            <Card.Header className="fs-4">פרטי דרישת התשלום</Card.Header>
+            {/* Card Body */}
+            <Card.Body>
+              <Form>
+                <Form.Group>
+                  <Form.Label>שם הדייר</Form.Label>
+                  <Form.Control
+                    disabled
+                    defaultValue={`${tenantData.firstName} ${tenantData.lastName}`}
+                  ></Form.Control>
+                </Form.Group>
+
+                <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>סכום</Form.Label>
+                      <Form.Control
+                        disabled
+                        defaultValue={editData.amount}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>לתשלום עד</Form.Label>
+                      <Form.Control
+                        disabled
+                        defaultValue={editData.dueDate.split("T")[0]}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Form.Group>
+                  <Form.Label>תיאור</Form.Label>
+                  <Form.Control
+                    disabled
+                    as="textarea"
+                    rows={3}
+                    defaultValue={editData.description}
+                  ></Form.Control>
+                </Form.Group>
+              </Form>
+            </Card.Body>
+          </Card>
+        )}
+
         <hr />
         {/* Payment Details */}
         <div className="mb-2">
@@ -89,7 +207,7 @@ function RecordPayment() {
           </Form.Group>
         </div>
 
-        <Form>
+        <Form onSubmit={handlePayment}>
           {/* Cash Payment */}
           <div className={cash ? "d-block" : "d-none"}>
             <Row>
@@ -104,19 +222,19 @@ function RecordPayment() {
                   onChange={(e) => {
                     setCashInput(e.target.value);
                   }}
-                  placeholder=""
                 ></Form.Control>
               </Form.Group>
-              <Form.Group as={Col} md="6">
-                {/* //TODO: Round the change to look like XX.XX */}
-                <Form.Label>עודף</Form.Label>
-                <Form.Control
-                  disabled
-                  dir="ltr"
-                  className="text-start"
-                  value={cashInput - placeholderAmount}
-                ></Form.Control>
-              </Form.Group>
+              {editData && (
+                <Form.Group as={Col} md="6">
+                  <Form.Label>עודף</Form.Label>
+                  <Form.Control
+                    disabled
+                    dir="ltr"
+                    className="text-start"
+                    value={cashInput - editData.amount}
+                  ></Form.Control>
+                </Form.Group>
+              )}
             </Row>
           </div>
 
@@ -125,10 +243,16 @@ function RecordPayment() {
             <Row className="mt-1">
               <Form.Group as={Col} md="6">
                 <Form.Label>סוג כרטיס אשראי</Form.Label>
-                <Form.Select aria-label="credit card type select">
+                <Form.Select
+                  aria-label="credit card type selector"
+                  value={issuer}
+                  onChange={(e) => {
+                    setIssuer(e.target.value);
+                  }}
+                >
                   <option>בחר סוג כרטיס אשראי</option>
-                  <option value="visa">ויזה - Visa</option>
-                  <option value="MasterCard">מאסטר כארד - Master Card</option>
+                  <option value="Visa">ויזה - Visa</option>
+                  <option value="Mastercard">מאסטר כארד - Master Card</option>
                   <option value="AMEX">אמריקאן אקספרס - AMEX</option>
                   <option value="Debit">חיוב מידי - Debit</option>
                 </Form.Select>
@@ -140,8 +264,10 @@ function RecordPayment() {
                   type="number"
                   inputMode="numeric"
                   min="1"
-                  maxLength="4"
-                  placeholder=""
+                  value={lastDigits}
+                  onChange={(e) => {
+                    setLastDigits(e.target.value);
+                  }}
                 ></Form.Control>
               </Form.Group>
               <Form.Group as={Col} md="2">
@@ -150,8 +276,10 @@ function RecordPayment() {
                   required={card}
                   type="number"
                   min="1"
-                  maxLength={4}
-                  placeholder=""
+                  value={EXP}
+                  onChange={(e) => {
+                    setEXP(e.target.value);
+                  }}
                 ></Form.Control>
               </Form.Group>
             </Row>
@@ -165,7 +293,10 @@ function RecordPayment() {
                 <Form.Control
                   required={check}
                   type="text"
-                  placeholder=""
+                  value={bankName}
+                  onChange={(e) => {
+                    setBankName(e.target.value);
+                  }}
                 ></Form.Control>
               </Form.Group>
               <Form.Group as={Col} md="2">
@@ -175,7 +306,10 @@ function RecordPayment() {
                   type="number"
                   inputMode="numeric"
                   min="1"
-                  placeholder=""
+                  value={branchNumber}
+                  onChange={(e) => {
+                    setBranchNumber(e.target.value);
+                  }}
                 ></Form.Control>
               </Form.Group>
               <Form.Group as={Col} md="4">
@@ -185,7 +319,10 @@ function RecordPayment() {
                   type="number"
                   inputMode="numeric"
                   min="1"
-                  placeholder=""
+                  value={accountNumber}
+                  onChange={(e) => {
+                    setAccountNumber(e.target.value);
+                  }}
                 ></Form.Control>
               </Form.Group>
             </Row>
@@ -196,7 +333,10 @@ function RecordPayment() {
                 type="number"
                 inputMode="numeric"
                 min="1"
-                placeholder=""
+                value={checkNumber}
+                onChange={(e) => {
+                  setCheckNumber(e.target.value);
+                }}
               ></Form.Control>
             </Form.Group>
           </div>
@@ -210,20 +350,26 @@ function RecordPayment() {
                 type="number"
                 inputMode="numeric"
                 min="1"
-                placeholder=""
+                value={approvalNumber}
+                onChange={(e) => {
+                  setApprovalNumber(e.target.value);
+                }}
               ></Form.Control>
             </Form.Group>
           </div>
+          {error && <div className="error">{error}</div>}
+          {/* Buttons */}
           <div className="mt-3 float-end">
-            <Button variant="success" type="submit">
-              <i className="bi bi-plus-square"> </i>הוספת תיעוד
-            </Button>
+            {/* Show Submit button only when a payment option is selected */}
+            {(cash || card || check || transfer) && (
+              <Button variant="success" type="submit">
+                <i className="bi bi-plus-square"> </i>הוספת תיעוד
+              </Button>
+            )}
             <Button
               variant="outline-secondary"
               className="ms-2"
-              onClick={() => {
-                dispatch({ type: "PAYMENT_RECORD", payload: false });
-              }}
+              onClick={handleHide}
             >
               <i className="bi bi-x-square"> </i>סגור חלון
             </Button>

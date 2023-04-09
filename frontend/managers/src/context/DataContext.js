@@ -71,6 +71,7 @@ export const dataReducer = (state, action) => {
         ...state,
         announcements: deleteItem(state.announcements, action.payload),
       };
+
     //* Maintenance
     case "SET_MAINTENANCE":
       return { ...state, maintenance: action.payload };
@@ -87,6 +88,25 @@ export const dataReducer = (state, action) => {
       return {
         ...state,
         inquires: editItem(state.inquires, action.payload),
+      };
+
+    //* Billings
+    case "SET_BILLINGS":
+      return { ...state, billings: action.payload };
+    case "NEW_BILLING":
+      return {
+        ...state,
+        billings: [...state.billings, action.payload],
+      };
+    case "EDIT_BILLING":
+      return {
+        ...state,
+        billings: editItem(state.billings, action.payload),
+      };
+    case "DELETE_BILLING":
+      return {
+        ...state,
+        billings: deleteItem(state.billings, action.payload),
       };
 
     //* Reset All Data
@@ -112,6 +132,7 @@ export const DataContextProvider = ({ children }) => {
     reminders: null,
     maintenance: null,
     inquires: null,
+    billings: null,
   });
 
   return (
