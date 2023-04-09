@@ -64,7 +64,7 @@ async function getSum(req, res) {
           $gte: startDate,
           $lte: endDate,
         },
-        paymentStatus: "Paid",
+        paymentStatus: "שולם",
       },
     },
     {
@@ -110,7 +110,7 @@ async function getSum(req, res) {
     currMonth.setMonth(currMonth.getMonth() + 1);
   }
 
-  res.status(200).json({ incomes });
+  res.status(200).json( incomes );
 }
 
 //Edit a bill by _id

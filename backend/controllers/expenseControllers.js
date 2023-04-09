@@ -75,7 +75,10 @@ async function getSum(req, res) {
     {
       $group: {
         // sum the amount
-        _id: { month: { $month: "$createdAt" }, year: { $year: "$createdAt" } },
+        _id: {
+          month: { $month: "$paymentDate" },
+          year: { $year: "$paymentDate" },
+        },
         sum: { $sum: "$amount" },
       },
     },
@@ -115,7 +118,7 @@ async function getSum(req, res) {
     currMonth.setMonth(currMonth.getMonth() + 1);
   }
 
-  res.status(200).json({ expenses });
+  res.status(200).json(expenses);
 }
 
 //Edit an expense by _id
