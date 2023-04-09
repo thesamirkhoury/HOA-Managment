@@ -24,13 +24,13 @@ const expenseSchema = new Schema(
       type: String,
       required: [true, "Payment Details are required"],
     },
-    paymentCategory: {
-      type: String,
-      required: [true, "Payment Category is required"],
-    },
     paymentMethod: {
       type: String,
       required: [true, "Payment Method is required"],
+    },
+    paymentDate: {
+      type: Date,
+      required: [true, "Payment date is required"],
     },
   },
   { timestamps: true }

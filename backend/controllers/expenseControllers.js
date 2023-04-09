@@ -12,6 +12,7 @@ async function createExpense(req, res) {
     details,
     paymentCategory,
     paymentMethod,
+    paymentDate,
   } = req.body;
   //check of tenant id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(supplier_id)) {
@@ -29,6 +30,7 @@ async function createExpense(req, res) {
       details,
       paymentCategory,
       paymentMethod,
+      paymentDate,
     });
     res.status(200).json(expense);
   } catch (error) {
@@ -118,8 +120,14 @@ async function getSum(req, res) {
 
 //Edit an expense by _id
 async function editExpense(req, res) {
-  const { amount, paymentType, details, paymentCategory, paymentMethod } =
-    req.body;
+  const {
+    supplier_id,
+    amount,
+    paymentType,
+    details,
+    paymentMethod,
+    paymentDate,
+  } = req.body;
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -128,7 +136,14 @@ async function editExpense(req, res) {
 
   const expense = await Expense.findByIdAndUpdate(
     id,
-    { amount, paymentType, details, paymentCategory, paymentMethod },
+    {
+      supplier_id,
+      amount,
+      paymentType,
+      details,
+      paymentMethod,
+      paymentDate,
+    },
     { new: true }
   );
   if (!expense) {
