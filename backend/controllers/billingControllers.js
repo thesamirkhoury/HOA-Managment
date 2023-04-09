@@ -22,8 +22,8 @@ async function createBill(req, res) {
       description,
       paymentType,
       dueDate,
-      paymentStatus: "Not Paid",
-      paymentDetails: {},
+      paymentStatus: "לא שולם",
+      paymentDetails: undefined,
       paymentDate: undefined,
     });
     res.status(200).json(bill);
@@ -152,18 +152,12 @@ async function deleteBill(req, res) {
 //Add a payment record to an existing bill by _id
 async function recordPayment(req, res) {
   const { id } = req.params;
-  // check if bill id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Bill Not Found" });
-  }
-
   // payment details, and "paymentDate" field.
-  const { paymentRecord } = req.body;
-
+  const paymentRecord = req.body;
   const bill = await Billing.findByIdAndUpdate(
     id,
     {
-      paymentStatus: "Paid",
+      paymentStatus: "שולם",
       paymentDetails: paymentRecord,
     },
     { new: true }

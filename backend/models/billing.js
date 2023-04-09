@@ -33,7 +33,7 @@ const billingSchema = new Schema(
       required: [true, "Payment Status is required"],
     },
     paymentDetails: {
-      // records the payment method details (for Credit card, it stores 4 digits and EXP.), and "paymentDate" field.
+      // records the payment method details
       type: Object,
     },
   },
