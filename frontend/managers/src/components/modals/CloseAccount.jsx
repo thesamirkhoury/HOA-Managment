@@ -1,8 +1,6 @@
 import React from "react";
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useDataContext } from "../../hooks/useDataContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -10,7 +8,6 @@ import Button from "react-bootstrap/Button";
 
 function CloseAccount() {
   const { closeAccount, dispatch } = useModalsContext();
-  const { user } = useAuthContext();
 
   return (
     <Modal
