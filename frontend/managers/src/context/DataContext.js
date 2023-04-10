@@ -153,6 +153,14 @@ export const dataReducer = (state, action) => {
         documents: deleteItem(state.documents, action.payload),
       };
 
+    //* HOA Details
+    case "SET_DETAILS":
+      return { ...state, details: action.payload };
+
+    //* Do No change
+    case "NO_CHANGE":
+      return state;
+
     //* Reset All Data
     case "RESET_ALL":
       return {
@@ -162,6 +170,12 @@ export const dataReducer = (state, action) => {
         announcements: null,
         maintenance: null,
         inquires: null,
+        billings: null,
+        expenses: null,
+        income: null,
+        spending: null,
+        documents: null,
+        details: null,
       };
 
     default:
@@ -181,6 +195,7 @@ export const DataContextProvider = ({ children }) => {
     income: null,
     spending: null,
     documents: null,
+    details: null,
   });
 
   return (
