@@ -22,7 +22,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 function Announcements() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
-  const { announcements } = useDataContext();
+  const { announcements, details } = useDataContext();
   const [buildingsCount, setBuildingsCount] = useState();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
@@ -31,8 +31,13 @@ function Announcements() {
     if (!announcements) {
       fetchData("announcements", "SET_ANNOUNCEMENTS");
     }
-    setBuildingsCount(3); //!placeholderData - replace with HOA Details
-  }, []); // eslint-disable-line
+    if (!details) {
+      fetchData("details", "SET_DETAILS");
+    }
+    if (details) {
+      setBuildingsCount(details.buildingCount);
+    }
+  }, [details]); // eslint-disable-line
 
   return (
     <>
