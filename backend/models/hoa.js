@@ -15,6 +15,10 @@ const hoaSchema = new Schema(
       type: String,
       required: [true, "Manager Last Name is required"],
     },
+    phoneNumber: {
+      type: String,
+      required: [true, "Manager's Phone Number is required"],
+    },
     email: {
       type: String,
       required: [true, "Manager's Email is required"],
@@ -194,6 +198,37 @@ hoaSchema.statics.resetPassword = async function (resetToken, password) {
   await user.save();
 
   return user;
+};
+
+// static change password using a reset token method
+// TODO: Change Error messages to hebrew
+hoaSchema.statics.changePassword = async function (
+  _id,
+  currentPassword,
+  newPassword
+) {
+  // validation
+  if (!currentPassword || !newPassword) {
+    throw Error("All fields must be filled");
+  }
+  // check if email exists
+  const user = await this.findOne({ _id });
+  if (!user) {
+    throw Error("Incorrect Email");
+  }
+  const match = await bcrypt.compare(currentPassword, user.password);
+  if (!match) {
+    throw Error("Incorrect Password");
+  }
+  if (match) {
+    //hash salt
+    const salt = await bcrypt.genSalt(10);
+    // hash the password
+    const hash = await bcrypt.hash(newPassword, salt);
+    user.password = hash;
+    await user.save();
+    return user;
+  }
 };
 
 module.exports = mongoose.model("HOA", hoaSchema);
