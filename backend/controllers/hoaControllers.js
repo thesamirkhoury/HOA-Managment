@@ -13,6 +13,7 @@ async function signup(req, res) {
   const {
     firstName,
     lastName,
+    phoneNumber,
     email,
     password,
     address,
@@ -26,6 +27,7 @@ async function signup(req, res) {
     const newHoa = await HOA.signup(
       firstName,
       lastName,
+      phoneNumber,
       email,
       password,
       address,
@@ -94,6 +96,18 @@ async function resetPassword(req, res) {
   }
 }
 
+// change password
+async function changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
+  const hoa_id = req.user._id;
+  try {
+    const user = await HOA.changePassword(hoa_id, currentPassword, newPassword);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
 //Returns the Full HOA data
 async function getAllDetails(req, res) {
   // hoa id from auth
@@ -111,11 +125,12 @@ async function editHoa(req, res) {
   const {
     firstName,
     lastName,
-    managerEmail,
-    password,
+    phoneNumber,
+    email,
     address,
     membersMonthlyFee,
     buildingCount,
+    fileNumber,
   } = req.body;
   // hoa id from auth
   const hoa_id = req.user._id;
@@ -123,11 +138,12 @@ async function editHoa(req, res) {
   const updated = {
     firstName,
     lastName,
-    managerEmail,
-    password,
+    phoneNumber,
+    email,
     address,
     membersMonthlyFee,
     buildingCount,
+    fileNumber,
   };
 
   const hoa = await HOA.findByIdAndUpdate(hoa_id, updated, { new: true });
@@ -171,6 +187,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getAllDetails,
+  changePassword,
   editHoa,
   deleteHoa,
   getInfo,
