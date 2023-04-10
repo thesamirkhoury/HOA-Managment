@@ -6,6 +6,7 @@ import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ModalsContextProvider } from "./context/ModalsContext";
 import { RedirectContextProvider } from "./context/RedirectContext";
+import { DataContextProvider } from "./context/DataContext";
 
 // react router Browser Router
 import { BrowserRouter } from "react-router-dom";
@@ -24,7 +25,9 @@ root.render(
       <RedirectContextProvider>
         <ModalsContextProvider>
           <BrowserRouter>
-            <App />
+            <DataContextProvider>
+              <App />
+            </DataContextProvider>
           </BrowserRouter>
         </ModalsContextProvider>
       </RedirectContextProvider>
