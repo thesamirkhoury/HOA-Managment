@@ -14,8 +14,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function Financial() {
-  const expenseData = [75, 400, 230, 300];
-
   const { fetchData } = useDataHandler();
   const { income, spending } = useDataContext();
   //form data
