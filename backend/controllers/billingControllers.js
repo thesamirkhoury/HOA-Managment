@@ -110,7 +110,7 @@ async function getSum(req, res) {
     currMonth.setMonth(currMonth.getMonth() + 1);
   }
 
-  res.status(200).json( incomes );
+  res.status(200).json(incomes);
 }
 
 //Edit a bill by _id
@@ -121,11 +121,11 @@ async function editBill(req, res) {
     return res.status(404).json({ error: "Bill Not Found" });
   }
 
-  const { amount, description, paymentType, dueDate } = req.body;
+  const { tenant_id, amount, description, paymentType, dueDate } = req.body;
 
   const bill = await Billing.findByIdAndUpdate(
     id,
-    { amount, description, paymentType, dueDate },
+    { tenant_id, amount, description, paymentType, dueDate },
     { new: true }
   );
   if (!bill) {
