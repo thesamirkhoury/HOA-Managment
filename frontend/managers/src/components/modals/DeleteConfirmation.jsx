@@ -50,12 +50,12 @@ function DeleteConfirmation({ deleteData }) {
         </div>
       </Modal.Body>
       <Modal.Footer className="border-0 justify-content-center mb-4">
-        <Button variant="danger" onClick={handleDelete}>
+        <Button variant="danger" className="w-50" onClick={handleDelete}>
           <i className="bi bi-trash3"></i> מחק
         </Button>
         <Button
           variant="outline-secondary"
-          className="ms-2"
+          className="ms-2 w-25"
           onClick={() => {
             dispatch({ type: "DELETE_CONFIRMATION", payload: false });
           }}
