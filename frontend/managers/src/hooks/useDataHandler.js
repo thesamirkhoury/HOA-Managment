@@ -34,7 +34,6 @@ export function useDataHandler() {
   }
 
   async function sendData(suffix, method, body, type) {
-    console.log(body);
     if (!user) {
       // return error message
       return { error: "You must be logged in" };
