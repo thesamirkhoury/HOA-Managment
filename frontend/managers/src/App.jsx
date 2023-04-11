@@ -34,7 +34,7 @@ function App() {
       setPath(location.pathname);
     }
     console.log("here");
-  }, [location]);
+  }, [location]); // eslint-disable-line
 
   return (
     <div className="App">

@@ -29,7 +29,7 @@ function App() {
     if (location.pathname !== "/login") {
       setPath(location.pathname);
     }
-  }, [location]);
+  }, [location]); // eslint-disable-line
 
   return (
     <div className="App">
