@@ -27,6 +27,15 @@ export const dataReducer = (state, action) => {
         maintenance: [action.payload, ...state.maintenance],
       };
 
+    //* Inquires
+    case "SET_INQUIRES":
+      return { ...state, inquires: action.payload };
+    case "NEW_INQUIRY":
+      return {
+        ...state,
+        inquires: [action.payload, ...state.inquires],
+      };
+
     //* Do No change
     case "NO_CHANGE":
       return state;
@@ -44,6 +53,7 @@ export const DataContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(dataReducer, {
     announcements: null,
     maintenance: null,
+    inquires: null,
   });
 
   return (

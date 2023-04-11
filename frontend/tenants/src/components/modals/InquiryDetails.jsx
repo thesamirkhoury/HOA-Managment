@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-function InquiryDetails() {
+function InquiryDetails({ details }) {
   const { inquiryDetails, dispatch } = useModalsContext();
 
   return (
@@ -21,49 +21,52 @@ function InquiryDetails() {
         <Modal.Title>פרטי הפנייה</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group>
-            <Form.Label>נושא הפנייה</Form.Label>
-            <Form.Control
-              defaultValue="החלפת נורות במעלית"
-              readOnly
-              disabled
-            ></Form.Control>
-          </Form.Group>
+        {details && (
+          <Form>
+            <Form.Group>
+              <Form.Label>נושא הפנייה</Form.Label>
+              <Form.Control
+                readOnly
+                disabled
+                defaultValue={details.subject}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group>
-            <Form.Label>תוכן הפנייה</Form.Label>
-            <Form.Control
-              as="textarea"
-              defaultValue="החלפת נורות במעלית"
-              readOnly
-              disabled
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group>
+              <Form.Label>תוכן הפנייה</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                readOnly
+                disabled
+                defaultValue={details.body}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group>
-            <Form.Label>תשובת הועד</Form.Label>
-            <Form.Control
-              as="textarea"
-              //    rows={} //rows = based on text len
-              defaultValue="טופל בנורות במעלית"
-              readOnly
-              disabled
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group>
+              <Form.Label>תשובת הועד</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                defaultValue={details.response}
+                readOnly
+                disabled
+              ></Form.Control>
+            </Form.Group>
 
-          <div className="mt-5 float-end">
-            <Button
-              variant="outline-secondary"
-              className="ms-2"
-              onClick={() => {
-                dispatch({ type: "INQUIRY_DETAILS", payload: false });
-              }}
-            >
-              <i className="bi bi-x-square"> </i>סגור חלון
-            </Button>
-          </div>
-        </Form>
+            <div className="mt-5 float-end">
+              <Button
+                variant="outline-secondary"
+                className="ms-2"
+                onClick={() => {
+                  dispatch({ type: "INQUIRY_DETAILS", payload: false });
+                }}
+              >
+                <i className="bi bi-x-square"> </i>סגור חלון
+              </Button>
+            </div>
+          </Form>
+        )}
       </Modal.Body>
     </Modal>
   );
