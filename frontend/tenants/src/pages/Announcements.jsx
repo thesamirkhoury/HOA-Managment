@@ -43,12 +43,12 @@ function Announcements() {
         <Accordion.Item eventKey={0}>
           <Accordion.Header>הודעות כלליות</Accordion.Header>
           <Accordion.Body>
-            <Row xs={1} md={2} lg={3} className="g-3 mt-1">
+            <Row xs={1} md={2} xl={3}>
               {announcements &&
                 announcements.map(
                   (announcement) =>
                     announcement.buildingNumber === 0 && (
-                      <Col key={announcement._id}>
+                      <Col key={announcement._id} className="mt-1">
                         <Card>
                           <Card.Body>
                             <Card.Title>{announcement.title}</Card.Title>
