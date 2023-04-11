@@ -14,6 +14,10 @@ function deleteItem(arr, deletedItem) {
 
 export const dataReducer = (state, action) => {
   switch (action.type) {
+    //* Announcements
+    case "SET_ANNOUNCEMENTS":
+      return { ...state, announcements: action.payload };
+
     //* Do No change
     case "NO_CHANGE":
       return state;
@@ -28,7 +32,9 @@ export const dataReducer = (state, action) => {
 };
 
 export const DataContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(dataReducer, {});
+  const [state, dispatch] = useReducer(dataReducer, {
+    announcements: null,
+  });
 
   return (
     <DataContext.Provider value={{ ...state, dispatch }}>

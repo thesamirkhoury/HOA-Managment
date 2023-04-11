@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+//custom hooks
+import { useDataContext } from "../hook/useDataContext";
+import { useDataHandler } from "../hook/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -9,6 +12,15 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function Announcements() {
+  const { fetchData } = useDataHandler();
+  const { announcements } = useDataContext();
+
+  useEffect(() => {
+    if (!announcements) {
+      fetchData("announcements", "SET_ANNOUNCEMENTS");
+    }
+  }, [announcements]); // eslint-disable-line
+
   return (
     <>
       {/* Page Name */}
@@ -32,39 +44,51 @@ function Announcements() {
           <Accordion.Header>הודעות כלליות</Accordion.Header>
           <Accordion.Body>
             <Row xs={1} md={2} lg={3} className="g-3 mt-1">
-              <Col>
-                <Card>
-                  <Card.Body>
-                    <Card.Title>בדיקה כללית</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      לפני שעתיים
-                    </Card.Subtitle>
-                    <Card.Text>בדיקת הודעה כללית</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
+              {announcements &&
+                announcements.map(
+                  (announcement) =>
+                    announcement.buildingNumber === 0 && (
+                      <Col key={announcement._id}>
+                        <Card>
+                          <Card.Body>
+                            <Card.Title>{announcement.title}</Card.Title>
+                            {/* //TODO: Better Date Display (e.g. "לפני שעתיים") */}
+                            <Card.Subtitle className="mb-2 text-muted">
+                              {announcement.createdAt}
+                            </Card.Subtitle>
+                            <Card.Text>{announcement.body}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    )
+                )}
             </Row>
           </Accordion.Body>
         </Accordion.Item>
+
         {/* Building Specific Messages */}
-        {/* //! Placeholder Data: BLD Num 1 */}
         <Accordion.Item eventKey={1}>
-          <Accordion.Header>בניין 1</Accordion.Header>
+          <Accordion.Header>הודעות לבניין שלי</Accordion.Header>
           <Accordion.Body>
             <Row xs={1} md={2} lg={3} className="g-3 mt-1">
-              <Col>
-                <Card>
-                  <Card.Body>
-                    <Card.Title>ניתוק חשמל כללי</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      לפני שעתיים
-                    </Card.Subtitle>
-                    <Card.Text>
-                      היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
+              {announcements &&
+                announcements.map(
+                  (announcement) =>
+                    announcement.buildingNumber !== 0 && (
+                      <Col key={announcement._id}>
+                        <Card>
+                          <Card.Body>
+                            <Card.Title>{announcement.title}</Card.Title>
+                            {/* //TODO: Better Date Display (e.g. "לפני שעתיים") */}
+                            <Card.Subtitle className="mb-2 text-muted">
+                              {announcement.createdAt}
+                            </Card.Subtitle>
+                            <Card.Text>{announcement.body}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    )
+                )}
             </Row>
           </Accordion.Body>
         </Accordion.Item>
