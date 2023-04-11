@@ -33,7 +33,8 @@ function App() {
     if (location.pathname !== "/login") {
       setPath(location.pathname);
     }
-  }, [user, location, setPath]);
+    console.log("here");
+  }, [location]);
 
   return (
     <div className="App">
