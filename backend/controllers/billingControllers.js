@@ -45,7 +45,7 @@ async function getBills(req, res) {
 }
 
 //Get sum of expenses by a specified time period
-async function getSum(req, res) {
+async function getSumManager(req, res) {
   const { from, to } = req.params;
   // hoa id from auth
   const hoa_id = req.user._id;
@@ -54,63 +54,12 @@ async function getSum(req, res) {
   const startDate = new Date(from);
   let endDate = new Date(to);
 
-  // search for all the bills,created by th HOA ID grouped by updated at month, (with the status of paid)
-  const existingIncomes = await Billing.aggregate([
-    {
-      $match: {
-        // find paid documents from start date to end date, created by th HOA ID
-        hoa_id: hoa_id.toString(),
-        updatedAt: {
-          $gte: startDate,
-          $lte: endDate,
-        },
-        paymentStatus: "שולם",
-      },
-    },
-    {
-      $group: {
-        // sum the amount
-        _id: { month: { $month: "$updatedAt" }, year: { $year: "$updatedAt" } },
-        sum: { $sum: "$amount" },
-      },
-    },
-    {
-      $sort: {
-        "_id.year": 1,
-        "_id.month": 1,
-      },
-    },
-  ]);
-
-  let incomes = [];
-  let currMonth = startDate;
-  //iterate over the provided time period, if the month is available append it to the incomes array, if it is not available append a sum of zero
-  while (currMonth <= endDate) {
-    //search for the month in the aggregated results from the DB
-    const existingIncome = existingIncomes.find(
-      (income) => income._id.month === currMonth.getMonth() + 1
-    );
-
-    // check if the month is NOT available in the DB, to append a sum of zero for that month.
-    if (!existingIncome) {
-      incomes.push({
-        date: `${currMonth.getFullYear()}-${currMonth.getMonth() + 1}`,
-        sum: 0,
-      });
-    }
-    // if the month is available in the DB, append the sum from the aggregation array.
-    else {
-      incomes.push({
-        date: `${existingIncome._id.year}-${existingIncome._id.month}`,
-        sum: existingIncome.sum,
-      });
-    }
-
-    // increase the months by one
-    currMonth.setMonth(currMonth.getMonth() + 1);
+  try {
+    const incomes = await Billing.sum(hoa_id, startDate, endDate);
+    res.status(200).json(incomes);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-
-  res.status(200).json(incomes);
 }
 
 //Edit a bill by _id
@@ -184,12 +133,31 @@ async function getUserBills(req, res) {
   res.status(200).json(bills);
 }
 
+//Get sum of expenses by a specified time period
+async function getSumTenant(req, res) {
+  const { from, to } = req.params;
+  // hoa id from auth
+  const hoa_id = req.user.hoa_id;
+
+  //create date from request body
+  const startDate = new Date(from);
+  let endDate = new Date(to);
+
+  try {
+    const incomes = await Billing.sum(hoa_id, startDate, endDate);
+    res.status(200).json(incomes);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createBill,
   getBills,
-  getSum,
+  getSumManager,
   editBill,
   deleteBill,
   recordPayment,
   getUserBills,
+  getSumTenant,
 };

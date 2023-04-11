@@ -26,6 +26,7 @@ const announcementRoutesTenant = require("./routes/TenantRoutes/announcements");
 const maintenanceRoutesTenant = require("./routes/TenantRoutes/maintenance");
 const inquiriesRoutesTenant = require("./routes/TenantRoutes/inquiries");
 const billingRoutesTenant = require("./routes/TenantRoutes/billing");
+const expenseRoutesTenant = require("./routes/tenantRoutes/expenses");
 const documentRoutesTenant = require("./routes/TenantRoutes/documents");
 
 //express app
@@ -72,18 +73,18 @@ app.use("/api/managers/expenses", expenseRoutesManager);
 app.use("/api/managers/documents", documentRoutesManager);
 
 //* Tenants
-// app.use("/api/managers", authenticationManager);
 app.use("/api/tenants/hoa", hoaRoutesTenant);
 app.use("/api/tenants/details", tenantRoutesTenant); //? review endpoint link
 app.use("/api/tenants/announcements", announcementRoutesTenant);
 app.use("/api/tenants/maintenance", maintenanceRoutesTenant);
 app.use("/api/tenants/inquiries", inquiriesRoutesTenant);
 app.use("/api/tenants/billing", billingRoutesTenant);
+app.use("/api/tenants/expenses", expenseRoutesTenant);
 app.use("/api/tenants/documents", documentRoutesTenant);
 
 //*API Details
 app.get("/api/ver", (req, res) => {
-  res.status(200).json({ version: "0.2" });
+  res.status(200).json({ version: "0.4" });
 });
 
 // Make the Queries Strict and Remove Deprecation Warning

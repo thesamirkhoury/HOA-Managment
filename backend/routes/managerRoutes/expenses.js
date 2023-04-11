@@ -3,7 +3,7 @@ const express = require("express");
 const {
   createExpense,
   getExpenses,
-  getSum,
+  getSumManager,
   editExpense,
   deleteBill,
 } = require("../../controllers/expenseControllers");
@@ -22,7 +22,7 @@ router.post("/", createExpense);
 router.get("/", getExpenses);
 
 //Get sum of expenses by a specified time period
-router.get("/sum/:from/:to", getSum);
+router.get("/sum/:from/:to", getSumManager);
 
 //Edit an expense by _id
 router.patch("/:id", editExpense);

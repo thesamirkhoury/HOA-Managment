@@ -3,7 +3,7 @@ const express = require("express");
 const {
   createBill,
   getBills,
-  getSum,
+  getSumManager,
   editBill,
   deleteBill,
   recordPayment,
@@ -23,7 +23,7 @@ router.post("/", createBill);
 router.get("/", getBills);
 
 //Get the sum of all paid bills by a specific time period
-router.get("/sum/:from/:to", getSum);
+router.get("/sum/:from/:to", getSumManager);
 
 //Edit a bill by _id
 router.patch("/:id", editBill);
