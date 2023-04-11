@@ -88,7 +88,7 @@ async function getBuildingAnnouncements(req, res) {
   //get announcements relevant to both tenant building number and general messages for all buildings
   const announcements = await Announcement.find({
     hoa_id,
-    $or: [{ buildingNumber: buildingNumber }, { buildingNumber: "All" }],
+    $or: [{ buildingNumber: buildingNumber }, { buildingNumber: 0 }],
   });
   if (!announcements) {
     return res.status(404).json({ error: "Announcement Not Found" });
