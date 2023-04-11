@@ -40,13 +40,26 @@ export const dataReducer = (state, action) => {
     case "SET_BILLINGS":
       return { ...state, billings: action.payload };
 
+    //* Financial Dashboard
+    case "SET_INCOME":
+      return { ...state, income: action.payload };
+    case "SET_SPENDING":
+      return { ...state, spending: action.payload };
+
     //* Do No change
     case "NO_CHANGE":
       return state;
 
     //* Reset All Data
     case "RESET_ALL":
-      return {};
+      return {
+        announcements: null,
+        maintenance: null,
+        inquires: null,
+        billings: null,
+        income: null,
+        spending: null,
+      };
 
     default:
       return state;
@@ -59,6 +72,8 @@ export const DataContextProvider = ({ children }) => {
     maintenance: null,
     inquires: null,
     billings: null,
+    income: null,
+    spending: null,
   });
 
   return (
