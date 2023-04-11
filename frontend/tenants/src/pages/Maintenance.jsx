@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 //custom hooks
-import { useModalsContext } from "../hook/useModalsContext";
-import { useDataContext } from "../hook/useDataContext";
-import { useDataHandler } from "../hook/useDataHandler";
+import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -65,7 +65,11 @@ function Maintenance() {
                     {request.createdAt}
                   </Card.Subtitle>
                   <Badge
-                    bg={request.status === "פתוח" ? "danger" : `${request.status === "סגור"? "success":"warning"}`}
+                    bg={
+                      request.status === "פתוח"
+                        ? "danger"
+                        : `${request.status === "סגור" ? "success" : "warning"}`
+                    }
                     className="fs-6 ms-1"
                   >
                     {request.status}

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useAuthContext } from "./hook/useAuthContext";
-import { usePath } from "./hook/usePath";
+import { useAuthContext } from "./hooks/useAuthContext";
+import { usePath } from "./hooks/usePath";
 
 //Pages and Components
 import Navbar from "./components/Navbar";

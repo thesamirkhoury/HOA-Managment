@@ -1,6 +1,6 @@
 import React from "react";
-import { useModalsContext } from "../hook/useModalsContext";
-import { useAuthContext } from "../hook/useAuthContext";
+import { useModalsContext } from "../hooks/useModalsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 //bootstrap components
 import Navbar from "react-bootstrap/Navbar";

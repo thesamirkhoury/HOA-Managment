@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 //custom hooks
-import { useDataContext } from "../hook/useDataContext";
-import { useDataHandler } from "../hook/useDataHandler";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";

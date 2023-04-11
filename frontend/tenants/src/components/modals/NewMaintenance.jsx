@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 //custom hooks
-import { useModalsContext } from "../../hook/useModalsContext";
-import { useDataHandler } from "../../hook/useDataHandler";
+import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";

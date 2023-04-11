@@ -1,6 +1,6 @@
 import React from "react";
-import { useModalsContext } from "../hook/useModalsContext";
-import { useLogout } from "../hook/useLogout";
+import { useModalsContext } from "../hooks/useModalsContext";
+import { useLogout } from "../hooks/useLogout";
 
 //bootstrap components
 import Offcanvas from "react-bootstrap/Offcanvas";

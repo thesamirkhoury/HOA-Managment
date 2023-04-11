@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useModalsContext } from "../hook/useModalsContext";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";

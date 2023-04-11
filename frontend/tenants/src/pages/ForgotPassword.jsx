@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useModalsContext } from "../hook/useModalsContext";
+import { useModalsContext } from "../hooks/useModalsContext";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";
