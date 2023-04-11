@@ -188,6 +188,7 @@ export const DataContextProvider = ({ children }) => {
     tenants: null,
     suppliers: null,
     reminders: null,
+    announcements: null,
     maintenance: null,
     inquires: null,
     billings: null,
