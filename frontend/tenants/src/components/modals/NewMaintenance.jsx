@@ -11,7 +11,6 @@ import Button from "react-bootstrap/Button";
 function NewMaintenance() {
   const { newMaintenance, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
-
   //form state
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
