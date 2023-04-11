@@ -29,6 +29,11 @@ export function modalsReducer(state, action) {
         ...state,
         changeEmail: action.payload,
       };
+    case "BILLING_DETAILS":
+      return {
+        ...state,
+        billingDetails: action.payload,
+      };
     case "CHANGE_PASSWORD":
       return {
         ...state,
@@ -50,6 +55,7 @@ export const ModalsContextProvider = ({ children }) => {
     newMaintenance: false,
     newInquiry: false,
     inquiryDetails: false,
+    billingDetails: false,
     changeEmail: false,
     changePassword: false,
     loading: false,

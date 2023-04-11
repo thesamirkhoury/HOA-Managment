@@ -36,6 +36,10 @@ export const dataReducer = (state, action) => {
         inquires: [action.payload, ...state.inquires],
       };
 
+    //* Billings
+    case "SET_BILLINGS":
+      return { ...state, billings: action.payload };
+
     //* Do No change
     case "NO_CHANGE":
       return state;
@@ -54,6 +58,7 @@ export const DataContextProvider = ({ children }) => {
     announcements: null,
     maintenance: null,
     inquires: null,
+    billings: null,
   });
 
   return (
