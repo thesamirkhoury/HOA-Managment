@@ -33,7 +33,6 @@ function App() {
     if (location.pathname !== "/login") {
       setPath(location.pathname);
     }
-    console.log("here");
   }, [location]); // eslint-disable-line
 
   return (
