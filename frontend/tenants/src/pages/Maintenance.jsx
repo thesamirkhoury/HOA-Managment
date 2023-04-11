@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+//custom hooks
 import { useModalsContext } from "../hook/useModalsContext";
+import { useDataContext } from "../hook/useDataContext";
+import { useDataHandler } from "../hook/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -14,6 +17,14 @@ import NewMaintenance from "../components/modals/NewMaintenance";
 
 function Maintenance() {
   const { dispatch } = useModalsContext();
+  const { fetchData } = useDataHandler();
+  const { maintenance } = useDataContext();
+
+  useEffect(() => {
+    if (!maintenance) {
+      fetchData("maintenance", "SET_MAINTENANCE");
+    }
+  }, []); //eslint-disable-line
 
   return (
     <>
@@ -42,39 +53,29 @@ function Maintenance() {
         </Col>
       </Row>
       {/* Maintenance Requests */}
-      {/* //!Placeholder data */}
-      <Row xs={1} md={2} lg={3} className="g-3 mt-1">
-        <Col>
-          <Card>
-            <Card.Body>
-              <Card.Title>החלפת נורות במעלית</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                לפני שעתיים
-                <Badge bg="danger" className="fs-6 ms-2">
-                  {"פתוח"}
-                </Badge>
-              </Card.Subtitle>
-              <Card.Text>החלפת נורות במעלית</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col>
-          <Card>
-            <Card.Body>
-              <Card.Title>החלפת נורות במעלית</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                לפני יומיים
-                <Badge bg="success" className="fs-6 ms-2">
-                  {"סגור"}
-                </Badge>
-              </Card.Subtitle>
-              <Card.Text>החלפת נורות במעלית</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
+      <Row xs={1} md={3} xl={4}>
+        {maintenance &&
+          maintenance.map((request) => (
+            <Col className="mt-1" key={request._id}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>{request.subject}</Card.Title>
+                  {/* //TODO: Better Date Display (e.g. "לפני שעתיים") */}
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {request.createdAt}
+                  </Card.Subtitle>
+                  <Badge
+                    bg={request.status === "פתוח" ? "danger" : `${request.status === "סגור"? "success":"warning"}`}
+                    className="fs-6 ms-1"
+                  >
+                    {request.status}
+                  </Badge>
+                  <Card.Text className="mt-2">{request.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
       </Row>
-
       {/* //* Modals */}
       <NewMaintenance />
     </>

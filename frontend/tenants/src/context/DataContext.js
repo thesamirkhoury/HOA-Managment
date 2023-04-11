@@ -18,6 +18,15 @@ export const dataReducer = (state, action) => {
     case "SET_ANNOUNCEMENTS":
       return { ...state, announcements: action.payload };
 
+    //* Maintenance
+    case "SET_MAINTENANCE":
+      return { ...state, maintenance: action.payload };
+    case "NEW_MAINTENANCE":
+      return {
+        ...state,
+        maintenance: [action.payload, ...state.maintenance],
+      };
+
     //* Do No change
     case "NO_CHANGE":
       return state;
@@ -34,6 +43,7 @@ export const dataReducer = (state, action) => {
 export const DataContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(dataReducer, {
     announcements: null,
+    maintenance: null,
   });
 
   return (
