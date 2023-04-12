@@ -99,7 +99,7 @@ function EditBill({ editData, tenants }) {
               <Form.Control
                 required
                 type="number"
-                inputMode="numeric"
+                inputMode="decimal"
                 min="1"
                 value={amount}
                 onChange={(e) => {
