@@ -50,6 +50,10 @@ export const dataReducer = (state, action) => {
     case "SET_DOCUMENTS":
       return { ...state, documents: action.payload };
 
+    //* HOA Details
+    case "SET_HOA":
+      return { ...state, hoa: action.payload };
+
     //* Do No change
     case "NO_CHANGE":
       return state;
@@ -79,6 +83,8 @@ export const DataContextProvider = ({ children }) => {
     billings: null,
     income: null,
     spending: null,
+    documents: null,
+    hoa: null,
   });
 
   return (
