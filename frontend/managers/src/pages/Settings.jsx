@@ -364,7 +364,7 @@ function Settings() {
       </Card>
       {/* //* Modals */}
       <ChangeEmail currentMail={email} />
-      <ChangePassword currentMail={email} />
+      <ChangePassword />
       {/* //TODO: Implement a full wipe down of all data */}
       <CloseAccount />
     </>

@@ -45,6 +45,7 @@ function ChangePassword() {
       }
     }
   }
+  
   return (
     <Modal
       show={changePassword}
@@ -100,9 +101,7 @@ function ChangePassword() {
             <Button
               variant="outline-secondary"
               className="ms-2"
-              onClick={() => {
-                dispatch({ type: "CHANGE_PASSWORD", payload: false });
-              }}
+              onClick={handleHide}
             >
               <i className="bi bi-x-square"> </i>סגור חלון
             </Button>
