@@ -185,6 +185,22 @@ async function resetPassword(req, res) {
   }
 }
 
+// change password
+async function changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
+  const tenant_id = req.user._id;
+  try {
+    const user = await Tenant.changePassword(
+      tenant_id,
+      currentPassword,
+      newPassword
+    );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
 //Get tenant details
 async function getTenant(req, res) {
   // tenant id from auth
@@ -230,6 +246,7 @@ module.exports = {
   login,
   forgotPassword,
   resetPassword,
+  changePassword,
   getTenant,
   editDetails,
 };

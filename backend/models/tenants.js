@@ -250,4 +250,36 @@ tenantSchema.statics.resetPassword = async function (resetToken, password) {
   return user;
 };
 
+// static change password using old password method
+// TODO: Change Error messages to hebrew
+tenantSchema.statics.changePassword = async function (
+  _id,
+  currentPassword,
+  newPassword
+) {
+  // validation
+  if (!currentPassword || !newPassword) {
+    throw Error("All fields must be filled");
+  }
+  // check if user exists
+  const user = await this.findOne({ _id });
+  if (!user) {
+    throw Error("User not Found");
+  }
+  // check if provided current password is correct
+  const match = await bcrypt.compare(currentPassword, user.password);
+  if (!match) {
+    throw Error("Incorrect Password");
+  }
+  if (match) {
+    //hash salt
+    const salt = await bcrypt.genSalt(10);
+    // hash the password
+    const hash = await bcrypt.hash(newPassword, salt);
+    user.password = hash;
+    await user.save();
+    return user;
+  }
+};
+
 module.exports = mongoose.model("Tenant", tenantSchema);
