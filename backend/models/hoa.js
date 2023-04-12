@@ -200,7 +200,7 @@ hoaSchema.statics.resetPassword = async function (resetToken, password) {
   return user;
 };
 
-// static change password using a reset token method
+// static change password using old password method
 // TODO: Change Error messages to hebrew
 hoaSchema.statics.changePassword = async function (
   _id,
@@ -211,11 +211,12 @@ hoaSchema.statics.changePassword = async function (
   if (!currentPassword || !newPassword) {
     throw Error("All fields must be filled");
   }
-  // check if email exists
+  // check if user exists
   const user = await this.findOne({ _id });
   if (!user) {
-    throw Error("Incorrect Email");
+    throw Error("User not Found");
   }
+  // check if provided current password is correct
   const match = await bcrypt.compare(currentPassword, user.password);
   if (!match) {
     throw Error("Incorrect Password");
