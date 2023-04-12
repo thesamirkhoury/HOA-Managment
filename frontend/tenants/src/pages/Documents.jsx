@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+//custom hooks
+import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -9,6 +13,15 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function Documents() {
+  const { fetchData } = useDataHandler();
+  const { documents } = useDataContext();
+
+  useEffect(() => {
+    if(!documents){
+      fetchData("documents", "SET_DOCUMENTS");
+    }
+  }, []); //eslint-disable-lines
+
   return (
     <>
       {/* Page Name */}
@@ -32,24 +45,27 @@ function Documents() {
             <th>שם קובץ</th>
             <th>תיאור הקובץ</th>
             <th>תאריך העלאת הקובץ</th>
-            <th>הורדה</th>
+            <th>פעולות</th>
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>חוזה אחזקת מעליות</td>
-            <td>חוזה מפורט לאחזקת מעליות - שנתי 2023</td>
-            <td>1/1/2023</td>
-            <td>
-              <Button
-                variant="outline-primary"
-                className="me-md-1 mb-1 mb-md-0"
-              >
-                הורדת הקובץ
-              </Button>
-            </td>
-          </tr>
+          {documents &&
+            documents.map((document) => (
+              <tr key={document._id}>
+                <td>{document.fileName}</td>
+                <td>{document.fileDescription}</td>
+                <td>{document.createdAt}</td>
+                <td>
+                  {/* //TODO: Handle file download */}
+                  <Button
+                    variant="outline-primary"
+                    className="me-md-1 mb-1 mb-md-0"
+                  >
+                    הורדה
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </>

@@ -46,6 +46,10 @@ export const dataReducer = (state, action) => {
     case "SET_SPENDING":
       return { ...state, spending: action.payload };
 
+    //* Documents
+    case "SET_DOCUMENTS":
+      return { ...state, documents: action.payload };
+
     //* Do No change
     case "NO_CHANGE":
       return state;
@@ -59,6 +63,7 @@ export const dataReducer = (state, action) => {
         billings: null,
         income: null,
         spending: null,
+        documents: null,
       };
 
     default:
