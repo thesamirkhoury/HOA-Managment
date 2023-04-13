@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 //custom hooks
-import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
 
