@@ -6,19 +6,19 @@ const announcementSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     title: {
       type: String,
-      required: [true, "Announcement Title is required"],
+      required: [true, "כותרת ההודעה הינה שדה חובה"],
     },
     body: {
       type: String,
-      required: [true, "Announcement Body is required"],
+      required: [true, "תוכן ההודעה הינו שדה חובה"],
     },
     buildingNumber: {
       type: Number,
-      required: [true, "Building Number is required"],
+      required: [true, "מספר הבניין הינו שדה חובה"],
     },
   },
   { timestamps: true }

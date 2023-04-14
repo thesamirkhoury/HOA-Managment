@@ -6,23 +6,23 @@ const inquirySchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     tenant_id: {
       type: String,
-      required: [true, "Tenant ID is required"],
+      required: [true, "דייר הינו שדה חובה"],
     },
     subject: {
       type: String,
-      required: [true, "Inquiry Subject is required"],
+      required: [true, "כותרת הפנייה הינה שדה חובה"],
     },
     body: {
       type: String,
-      required: [true, "Inquiry Body is required"],
+      required: [true, "תוכן הפנייה הינו שדה חובה"],
     },
     status: {
       type: String,
-      required: [true, "Inquiry Status is required"],
+      required: [true, "שגיאה, נא לנסות שוב"],
     },
     response: {
       type: String,

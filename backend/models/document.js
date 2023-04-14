@@ -6,15 +6,15 @@ const documentSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     fileName: {
       type: String,
-      required: [true, "File Name is required"],
+      required: [true, "שם הקובץ הינו שדה חובה"],
     },
     fileDescription: {
       type: String,
-      required: [true, "File Description is required"],
+      required: [true, "תיאור הקובץ הינו שדה חובה"],
     },
     file: {
       //TODO: Refine in the files handling stage.

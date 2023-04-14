@@ -6,41 +6,40 @@ const expenseSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     supplier_id: {
       type: String,
-      required: [true, "Supplier ID is required"],
+      required: [true, "ספק הינו שדה חובה"],
     },
     amount: {
       type: Number,
-      required: [true, "Expense Amount is required"],
+      required: [true, "סכום ההוצאה הינו שדה חובה"],
     },
     paymentType: {
       type: String,
-      required: [true, "Payment Time is required"],
+      required: [true, "סוג התשלום הינה שדה חובה"],
     },
     details: {
       type: String,
-      required: [true, "Payment Details are required"],
+      required: [true, "תיאור ההוצאה הינו שדה חובה"],
     },
     paymentMethod: {
       type: String,
-      required: [true, "Payment Method is required"],
+      required: [true, "שיטת התשלום הינה שדה חובה"],
     },
     paymentDate: {
       type: Date,
-      required: [true, "Payment date is required"],
+      required: [true, "תאריך ההוצאה הינו שדה חובה"],
     },
   },
   { timestamps: true }
 );
 
 // static sum given a period of time function
-//TODO: Change Error messages to hebrew
 expenseSchema.statics.sum = async function (hoa_id, startDate, endDate) {
   if (!hoa_id || !startDate || !endDate) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מפרטי הועד החובה חסרים.");
   }
   // search for all the expenses,created by th HOA ID grouped by created month
   const existingExpenses = await this.aggregate([

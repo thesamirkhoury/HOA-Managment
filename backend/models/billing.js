@@ -6,31 +6,31 @@ const billingSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     tenant_id: {
       type: String,
-      required: [true, "Tenant ID is required"],
+      required: [true, "דייר הינו שדה חובה"],
     },
     amount: {
       type: Number,
-      required: [true, "Bill Amount is required"],
+      required: [true, "סכום החיוב הינו שדה חובה"],
     },
     description: {
       type: String,
-      required: [true, "Item Description is required"],
+      required: [true, "תיאור החיוב הינו שדה חובה"],
     },
     paymentType: {
       type: String,
-      required: [true, "Payment Time is required"],
+      required: [true, "סוג התשלום הינה שדה חובה"],
     },
     dueDate: {
       type: Date,
-      required: [true, "Due Date is required"],
+      required: [true, "תאריך אחרון לתשלום הינו שדה חובה"],
     },
     paymentStatus: {
       type: String,
-      required: [true, "Payment Status is required"],
+      required: [true, "שגיאה, נא לנסות שוב"],
     },
     paymentDetails: {
       // records the payment method details
@@ -41,10 +41,9 @@ const billingSchema = new Schema(
 );
 
 // static sum given a period of time function
-//TODO: Change Error messages to hebrew
 billingSchema.statics.sum = async function (hoa_id, startDate, endDate) {
   if (!hoa_id || !startDate || !endDate) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מפרטי הועד החובה חסרים.");
   }
   // search for all the bills,created by th HOA ID grouped by updated at month, (with the status of paid)
   const existingIncomes = await this.aggregate([

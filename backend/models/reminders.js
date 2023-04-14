@@ -6,19 +6,19 @@ const reminderSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     title: {
       type: String,
-      required: [true, "Reminder Title is required"],
+      required: [true, "כותרת הינה שדה חובה"],
     },
     body: {
       type: String,
-      required: [true, "Reminder Body is required"],
+      required: [true, "תיכן הינו שדה חובה"],
     },
     dateAndTime: {
       type: Date,
-      required: [true, "Reminder Date and Time is required"],
+      required: [true, "זמן התזכורת הינו שדה חובה"],
     },
   },
   { timestamps: true }

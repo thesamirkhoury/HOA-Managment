@@ -6,21 +6,21 @@ const supplierSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     supplierName: {
       type: String,
-      required: [true, "Supplier Name is required"],
+      required: [true, "שם ספק הינו חובה"],
       unique: true,
     },
     supplierType: {
       // Type is either a "Company" OR an "Independent Contractor"
       type: String,
-      required: [true, "Supplier Type is required"],
+      required: [true, "סוג ספק  הינו שדה חובה"],
     },
     supplierCategory: {
       type: String,
-      required: [true, "Supplier Type is required"],
+      required: [true, "תחום ספק הינו שדה חובה"],
     },
     email: {
       type: String,

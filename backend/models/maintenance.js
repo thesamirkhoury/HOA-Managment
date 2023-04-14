@@ -6,23 +6,23 @@ const requestSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     tenant_id: {
       type: String,
-      required: [true, "Tenant ID is required"],
+      required: [true, "דייר הינו שדה חובה"],
     },
     subject: {
       type: String,
-      required: [true, "Maintenance Request Subject is required"],
+      required: [true, "כותרת קריאת השירות הינה שדה חובה"],
     },
     description: {
       type: String,
-      required: [true, "Maintenance Request Description is required"],
+      required: [true, "תיאור קראית השירות הינו שדה חובה"],
     },
     status: {
       type: String,
-      required: [true, "Maintenance Request Status is required"],
+      required: [true, "שגיאה, נא לנסות שוב"],
     },
     pictures: {
       //TODO: Refine in the File handling stage.
