@@ -11,7 +11,6 @@ const supplierSchema = new Schema(
     supplierName: {
       type: String,
       required: [true, "שם ספק הינו חובה"],
-      unique: true,
     },
     supplierType: {
       // Type is either a "Company" OR an "Independent Contractor"
@@ -31,5 +30,8 @@ const supplierSchema = new Schema(
   },
   { timestamps: true }
 );
+
+//creating unique compound index - supplier and hoa_id
+supplierSchema.index({ hoa_id: 1, supplierName: 1 }, { unique: true });
 
 module.exports = mongoose.model("supplier", supplierSchema);

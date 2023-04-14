@@ -33,6 +33,10 @@ async function createSupplier(req, res) {
     });
     res.status(200).json(supplier);
   } catch (error) {
+    // handle unique compound index error message
+    if (error.code === 11000) {
+      return res.status(400).json({ error: "הספק כבר קיים במערכת" });
+    }
     res.status(400).json({ error: error.message });
   }
 }
