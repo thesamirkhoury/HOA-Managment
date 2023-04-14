@@ -2,7 +2,6 @@ const express = require("express");
 //controller functions
 const {
   getRequests,
-  getRequest,
   changeStatus,
 } = require("../../controllers/maintenanceControllers");
 //auth middleware
@@ -15,9 +14,6 @@ router.use(requireAuthManager);
 
 //Get all maintenance requests
 router.get("/", getRequests);
-
-//Get one maintenance requests by _id
-router.get("/:id", getRequest);
 
 //Change the status to a maintenance requests by _id
 router.patch("/:id/status", changeStatus);

@@ -15,25 +15,6 @@ async function getRequests(req, res) {
   res.status(200).json(requests);
 }
 
-//Get one maintenance requests by _id
-async function getRequest(req, res) {
-  const { id } = req.params;
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res
-      .status(404)
-      .json({ error: "קריאת שירות זאת אינה קמיית במערכת." });
-  }
-
-  const request = await MaintenanceRequest.findById(id);
-  if (!request) {
-    return res
-      .status(404)
-      .json({ error: "קריאת שירות זאת אינה קמיית במערכת." });
-  }
-  res.status(200).json(request);
-}
-
 //Change the status to a maintenance requests by _id
 //TODO: send a mail notifying User of a change in status
 async function changeStatus(req, res) {
@@ -101,7 +82,6 @@ async function getUserRequests(req, res) {
 
 module.exports = {
   getRequests,
-  getRequest,
   changeStatus,
   createRequest,
   getUserRequests,

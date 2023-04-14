@@ -15,22 +15,6 @@ async function getInquiries(req, res) {
   res.status(200).json(inquiry);
 }
 
-//Get a single inquiry by _id
-async function getInquiry(req, res) {
-  const { id } = req.params;
-
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "פנייה זאת אינה קמיית במערכת." });
-  }
-
-  const request = await Inquirie.findById(id);
-  if (!request) {
-    return res.status(404).json({ error: "פנייה זאת אינה קמיית במערכת." });
-  }
-  res.status(200).json(request);
-}
-
 //Add a response to an inquiry by _id
 //TODO: send a mail notifying User of a new response
 async function addResponse(req, res) {
@@ -99,7 +83,6 @@ async function getUserInquiries(req, res) {
 
 module.exports = {
   getInquiries,
-  getInquiry,
   addResponse,
   createInquiry,
   getUserInquiries,
