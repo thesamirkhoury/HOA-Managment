@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataHandler } from "../hooks/useDataHandler";
@@ -32,6 +33,10 @@ function Tenants() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - ניהול דיירים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">ניהול דיירים</h1>
       {/* Search Bar */}

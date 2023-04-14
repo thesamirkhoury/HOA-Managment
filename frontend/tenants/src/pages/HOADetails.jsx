@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
@@ -20,6 +21,10 @@ function HOADetails() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - אודות הועד</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">אודות הועד</h1>
       {/* Details Card */}

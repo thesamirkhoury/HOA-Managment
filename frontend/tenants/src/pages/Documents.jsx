@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
@@ -25,6 +26,10 @@ function Documents() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - מרכז מסמכים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">מרכז שיטוף מסמכים</h1>
       {/* Search Bar */}
@@ -55,7 +60,7 @@ function Documents() {
               <tr key={document._id}>
                 <td>{document.fileName}</td>
                 <td>{document.fileDescription}</td>
-                <td>{format (new Date(document.createdAt),"dd/MM/yyyy")}</td>
+                <td>{format(new Date(document.createdAt), "dd/MM/yyyy")}</td>
                 <td>
                   {/* //TODO: Handle file download */}
                   <Button

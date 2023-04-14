@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
@@ -30,6 +31,10 @@ function Maintenance() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - קריאות שירות</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">קריאות שירות</h1>
       {/* Search Bar */}
@@ -63,7 +68,7 @@ function Maintenance() {
                 <Card.Body>
                   <Card.Title>{request.subject}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    {format(new Date(request.createdAt),"HH:mm dd/MM/yyyy")}
+                    {format(new Date(request.createdAt), "HH:mm dd/MM/yyyy")}
                   </Card.Subtitle>
                   <Badge
                     bg={

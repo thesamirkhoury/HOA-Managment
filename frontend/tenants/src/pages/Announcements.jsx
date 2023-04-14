@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
@@ -26,6 +27,10 @@ function Announcements() {
 
   return (
     <>
+    {/* Document Title */}
+    <Helmet>
+      <title>נהל - הודעות</title>
+    </Helmet>
       {/* Page Name */}
       <h1 className="display-1">הודעות הועד</h1>
       {/* Search Bar */}

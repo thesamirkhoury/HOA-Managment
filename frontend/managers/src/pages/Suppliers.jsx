@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
@@ -31,6 +32,10 @@ function Suppliers() {
   }, []); //eslint-disable-line
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - ניהול ספקים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">ניהול ספקים</h1>
       {/* Search Bar */}

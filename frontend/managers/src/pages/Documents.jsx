@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
@@ -34,6 +35,10 @@ function Documents() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - מרכז שיטוף מסמכים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">מרכז שיטוף מסמכים</h1>
       {/* Search Bar */}

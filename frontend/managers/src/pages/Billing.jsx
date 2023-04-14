@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
@@ -47,6 +48,10 @@ function Billing() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - ניהול חיובים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">ניהול חיובים</h1>
       {/* Search Bar */}
@@ -94,8 +99,8 @@ function Billing() {
                   <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
                   <td>{bill.amount}</td>
                   <td>{bill.paymentType}</td>
-                  <td>{format(new Date(bill.createdAt),"dd/MM/yyyy")}</td>
-                  <td>{format(new Date(bill.dueDate),"dd/MM/yyyy")}</td>
+                  <td>{format(new Date(bill.createdAt), "dd/MM/yyyy")}</td>
+                  <td>{format(new Date(bill.dueDate), "dd/MM/yyyy")}</td>
                   <td>
                     <Badge
                       bg={bill.paymentStatus === "שולם" ? "success" : "danger"}

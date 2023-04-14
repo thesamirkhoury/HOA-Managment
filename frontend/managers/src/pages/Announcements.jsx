@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
@@ -43,6 +44,10 @@ function Announcements() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - הודעות לדיירים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">הודעות לדיירים</h1>
       {/* Search Bar */}

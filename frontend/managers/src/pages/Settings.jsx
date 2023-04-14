@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataHandler } from "../hooks/useDataHandler";
@@ -95,6 +96,10 @@ function Settings() {
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - הגדרות</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">הגדרות</h1>
 

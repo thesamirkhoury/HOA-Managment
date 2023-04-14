@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 //custom hooks
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
@@ -44,6 +45,10 @@ function Financial() {
   }, [income, spending]);
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - דאשבורד פיננסי</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">דאשבורד פיננסי</h1>
       {/* Date Selector */}
