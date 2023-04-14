@@ -29,7 +29,7 @@ function ChangePassword() {
   async function handlePasswordChange(e) {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      setError("הסיסמה והאימות אינם תואמים אחד את השני, נא לנשות שוב.");
+      setError("הסיסמה והאימות אינם תואמים אחד את השני, נא לנסות שוב.");
     } else {
       const errors = await sendData(
         "details/change-password",
