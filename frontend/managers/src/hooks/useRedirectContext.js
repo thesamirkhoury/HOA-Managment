@@ -6,7 +6,7 @@ export function useRedirectContext() {
 
   if (!context) {
     throw Error(
-      "useRedirectContext must be used inside a useAuthContextProvider"
+      "useRedirectContext must be used inside a useRedirectContextProvider"
     );
   }
 

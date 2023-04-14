@@ -5,9 +5,7 @@ export function useDataContext() {
   const context = useContext(DataContext);
 
   if (!context) {
-    throw Error(
-      "useDataContext must be used inside a useModalsContextProvider"
-    );
+    throw Error("useDataContext must be used inside a useDataContextProvider");
   }
 
   return context;
