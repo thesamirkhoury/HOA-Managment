@@ -29,6 +29,12 @@ function Expenses() {
   function getSupplier(id) {
     if (suppliers) {
       let supplier = suppliers.find((s) => s._id === id);
+      if (!supplier) {
+        return {
+          supplierName: "הספק נמחק מהמערכת",
+          supplierCategory: "הספק נמחק מהמערכת",
+        };
+      }
       return supplier;
     }
   }

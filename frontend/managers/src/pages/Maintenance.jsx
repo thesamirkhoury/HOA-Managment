@@ -30,6 +30,9 @@ function Maintenance() {
   function getTenant(id) {
     if (tenants) {
       let tenant = tenants.find((t) => t._id === id);
+      if (!tenant) {
+        return { firstName: "הדייר נמחק מהמערכת", lastName: "" };
+      }
       return tenant;
     }
   }
