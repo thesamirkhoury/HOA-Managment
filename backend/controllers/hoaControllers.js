@@ -21,7 +21,7 @@ async function signup(req, res) {
     buildingCount,
     fileNumber,
   } = req.body;
-  console.log(email);
+  
   // sign up user
   try {
     const newHoa = await HOA.signup(
