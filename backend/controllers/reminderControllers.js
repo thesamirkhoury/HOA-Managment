@@ -6,6 +6,11 @@ const mongoose = require("mongoose");
 //Create a new reminder
 async function createReminder(req, res) {
   const { title, body, dateAndTime } = req.body;
+  //Validation
+  if (!title || !body || !dateAndTime) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
+  }
+
   // hoa id from auth
   const hoa_id = req.user._id;
 
@@ -29,7 +34,7 @@ async function getReminders(req, res) {
 
   const reminders = await Reminder.find({ hoa_id });
   if (!reminders) {
-    return res.status(404).json({ error: "No Reminders Found" });
+    return res.status(404).json({ error: "לא נמצאו תזכורות." });
   }
   res.status(200).json(reminders);
 }
@@ -39,7 +44,7 @@ async function editReminder(req, res) {
   const { id } = req.params;
   // check if supplier id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Reminder Not Found" });
+    return res.status(404).json({ error: "תזכורת זאת אינה קמיית במערכת." });
   }
   const { title, body, dateAndTime } = req.body;
 
@@ -54,7 +59,7 @@ async function editReminder(req, res) {
   );
 
   if (!reminder) {
-    return res.status(404).json({ error: "No Reminders Found" });
+    return res.status(404).json({ error: "לא נמצאו תזכורות." });
   }
   res.status(200).json(reminder);
 }
@@ -64,12 +69,12 @@ async function deleteReminder(req, res) {
   const { id } = req.params;
   // check if supplier id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Reminder Not Found" });
+    return res.status(404).json({ error: "תזכורת זאת אינה קמיית במערכת." });
   }
 
   const reminder = await Reminder.findByIdAndDelete(id);
   if (!reminder) {
-    return res.status(404).json({ error: "Supplier Not Found" });
+    return res.status(404).json({ error: "תזכורת זאת אינה קמיית במערכת." });
   }
   res.status(200).json(reminder);
 }

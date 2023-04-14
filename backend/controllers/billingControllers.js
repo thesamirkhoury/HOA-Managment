@@ -7,10 +7,16 @@ const mongoose = require("mongoose");
 //TODO: Implement send By Mail
 async function createBill(req, res) {
   const { tenant_id, amount, description, paymentType, dueDate } = req.body;
-  //check of tenant id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(tenant_id)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
+
+  //Validation
+  if (!tenant_id || !amount || !description || !paymentType || !dueDate) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
   }
+  if (!mongoose.Types.ObjectId.isValid(tenant_id)) {
+    //check of tenant id is a valid mongoose id
+    return res.status(404).json({ error: "הדייר אינו קיים בערכת" });
+  }
+
   // hoa id from auth
   const hoa_id = req.user._id;
 
@@ -39,7 +45,7 @@ async function getBills(req, res) {
 
   const bills = await Billing.find({ hoa_id }).sort({ createdAt: -1 });
   if (!bills) {
-    return res.status(404).json({ error: "No Bills Found" });
+    return res.status(404).json({ error: "לא נמצאו חיובים" });
   }
   res.status(200).json(bills);
 }
@@ -67,7 +73,7 @@ async function editBill(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
 
   const { tenant_id, amount, description, paymentType, dueDate } = req.body;
@@ -78,7 +84,7 @@ async function editBill(req, res) {
     { new: true }
   );
   if (!bill) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
   res.status(200).json(bill);
 }
@@ -88,12 +94,12 @@ async function deleteBill(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
 
   const bill = await Billing.findByIdAndDelete(id);
   if (!bill) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
   res.status(200).json(bill);
 }
@@ -112,7 +118,7 @@ async function recordPayment(req, res) {
     { new: true }
   );
   if (!bill) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
   res.status(200).json(bill);
 }
@@ -128,7 +134,7 @@ async function getUserBills(req, res) {
     createdAt: -1,
   });
   if (!bills) {
-    return res.status(404).json({ error: "No Bills Found" });
+    return res.status(404).json({ error: "לא נמצאו חיובים" });
   }
   res.status(200).json(bills);
 }

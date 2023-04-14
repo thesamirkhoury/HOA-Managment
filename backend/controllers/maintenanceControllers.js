@@ -10,7 +10,7 @@ async function getRequests(req, res) {
 
   const requests = await MaintenanceRequest.find({ hoa_id });
   if (!requests) {
-    return res.status(404).json({ error: "No Requests Found" });
+    return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
   }
   res.status(200).json(requests);
 }
@@ -20,12 +20,16 @@ async function getRequest(req, res) {
   const { id } = req.params;
   // check if id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Request Not Found" });
+    return res
+      .status(404)
+      .json({ error: "קריאת שירות זאת אינה קמיית במערכת." });
   }
 
   const request = await MaintenanceRequest.findById(id);
   if (!request) {
-    return res.status(404).json({ error: "No Request Found" });
+    return res
+      .status(404)
+      .json({ error: "קריאת שירות זאת אינה קמיית במערכת." });
   }
   res.status(200).json(request);
 }
@@ -35,14 +39,14 @@ async function getRequest(req, res) {
 async function changeStatus(req, res) {
   const { id } = req.params;
   const { status } = req.body;
-  
+
   const request = await MaintenanceRequest.findByIdAndUpdate(
     id,
     { status },
     { new: true }
   );
   if (!request) {
-    return res.status(404).json({ error: "No Requests Found" });
+    return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
   }
   res.status(200).json(request);
 }
@@ -52,6 +56,11 @@ async function changeStatus(req, res) {
 //Create a new maintenance request
 async function createRequest(req, res) {
   const { subject, description, pictures } = req.body;
+  //Validation
+  if (!subject || !description) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
+  }
+
   // hoa id from auth
   const hoa_id = req.user.hoa_id;
   // tenant id from auth
@@ -85,7 +94,7 @@ async function getUserRequests(req, res) {
   }).sort({ createdAt: -1 });
 
   if (!requests) {
-    return res.status(404).json({ error: "No Requests Found" });
+    return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
   }
   res.status(200).json(requests);
 }

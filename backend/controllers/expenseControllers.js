@@ -14,9 +14,21 @@ async function createExpense(req, res) {
     paymentMethod,
     paymentDate,
   } = req.body;
+  //Validation
+  if (
+    !supplier_id ||
+    !amount ||
+    !paymentType ||
+    !details ||
+    !paymentCategory ||
+    !paymentMethod ||
+    !paymentDate
+  ) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
+  }
   //check of tenant id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(supplier_id)) {
-    return res.status(404).json({ error: "Supplier Not Found" });
+    return res.status(404).json({ error: "הספק אינו קיים במערכת." });
   }
   // hoa id from auth
   const hoa_id = req.user._id;
@@ -45,7 +57,7 @@ async function getExpenses(req, res) {
 
   const expenses = await Expense.find({ hoa_id }).sort({ createdAt: -1 });
   if (!expenses) {
-    return res.status(404).json({ error: "No Expenses Found" });
+    return res.status(404).json({ error: "לא נמצאו הוצאות." });
   }
   res.status(200).json(expenses);
 }
@@ -81,7 +93,7 @@ async function editExpense(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "הוצאה זאת אינה קמיית במערכת." });
   }
 
   const expense = await Expense.findByIdAndUpdate(
@@ -97,7 +109,7 @@ async function editExpense(req, res) {
     { new: true }
   );
   if (!expense) {
-    return res.status(404).json({ error: "Expense Not Found" });
+    return res.status(404).json({ error: "הוצאה זאת אינה קמיית במערכת." });
   }
   res.status(200).json(expense);
 }
@@ -107,12 +119,12 @@ async function deleteBill(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Expense Not Found" });
+    return res.status(404).json({ error: "הוצאה זאת אינה קמיית במערכת." });
   }
 
   const expense = await Expense.findByIdAndDelete(id);
   if (!expense) {
-    return res.status(404).json({ error: "Expense Not Found" });
+    return res.status(404).json({ error: "הוצאה זאת אינה קמיית במערכת." });
   }
   res.status(200).json(expense);
 }

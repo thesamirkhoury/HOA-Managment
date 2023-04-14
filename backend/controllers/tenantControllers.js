@@ -1,6 +1,7 @@
 const Tenant = require("../models/tenants");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const validator = require("validator");
 
 // JWT Create Token Function
 function createToken(_id) {
@@ -64,9 +65,11 @@ async function getTenants(req, res) {
   // hoa id from auth
   const hoa_id = req.user._id;
 
-  const tenants = await Tenant.find({ hoa_id });
+  const tenants = await Tenant.find({ hoa_id }).select(
+    "firstName lastName buildingNumber apartmentNumber parkingSpot phoneNumber tenantEmail username tenantType ownerFirstName ownerLastName ownerPhoneNumber ownerEmail"
+  );
   if (!tenants) {
-    return res.status(404).json({ error: "No tenant Found" });
+    return res.status(404).json({ error: "הדייר אינו קיים במערכת." });
   }
   res.status(200).json(tenants);
 }
@@ -90,9 +93,12 @@ async function editTenant(req, res) {
   const { id } = req.params;
   //   check if id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
+    return res.status(404).json({ error: "הדייר אינו קיים במערכת." });
   }
 
+  if (!validator.isEmail(tenantEmail) || !validator.isEmail(ownerEmail)) {
+    throw Error("המייל שהיזנת אינו בפורמת מייל תקין.");
+  }
   const tenant = await Tenant.findByIdAndUpdate(
     id,
     {
@@ -112,7 +118,7 @@ async function editTenant(req, res) {
     { new: true }
   );
   if (!tenant) {
-    return res.status(404).json({ error: "Tenant Not Found" });
+    return res.status(404).json({ error: "הדייר אינו קיים במערכת." });
   }
   res.status(200).json(tenant);
 }
@@ -123,7 +129,7 @@ async function deleteTenant(req, res) {
 
   const tenant = await Tenant.findOneAndDelete({ _id: id });
   if (!tenant) {
-    return res.status(404).json({ error: "HOA Not Found" });
+    return res.status(404).json({ error: "הדייר אינו קיים במערכת." });
   }
   res.status(200).json(tenant);
 }
@@ -154,14 +160,14 @@ async function forgotPassword(req, res) {
 
     res.status(200).json({
       resetMessage:
-        "Instructions to reset the password are sent to the email provided",
+        "הוראות לאיפוס הסיסמה יישלחו בדקות הקרובות לכתובת המייל המעודכן במערכת.",
     });
   } catch (error) {
     // if user enters an incorrect username, send a generic message for security purposes.
     if (error.message === "Incorrect username") {
       res.status(200).json({
         resetMessage:
-          "Instructions to reset the password are sent to the email provided",
+          "הוראות לאיפוס הסיסמה יישלחו בדקות הקרובות לכתובת המייל המעודכן במערכת.",
       });
     }
     // if there is any other errors, sed back
@@ -233,7 +239,7 @@ async function editDetails(req, res) {
     { new: true }
   );
   if (!tenant) {
-    return res.status(404).json({ error: "HOA Not Found" });
+    return res.status(404).json({ error: "הדייר אינו קיים במערכת." });
   }
   res.status(200).json(tenant);
 }
