@@ -176,6 +176,7 @@ function EditTenant({ editData }) {
                   type="number"
                   inputMode="numeric"
                   min="1"
+                  placeholder="שדה לא חובה"
                   value={parkingSpot}
                   onChange={(e) => {
                     setParkingSpot(e.target.value);

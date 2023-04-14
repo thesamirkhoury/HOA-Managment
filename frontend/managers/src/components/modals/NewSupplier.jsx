@@ -113,8 +113,8 @@ function NewSupplier() {
             <Form.Group as={Col} md="6">
               <Form.Label>מספר טלפון</Form.Label>
               <Form.Control
-                required
                 type="tel"
+                placeholder="שדה לא חובה"
                 value={phoneNumber}
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
@@ -124,8 +124,8 @@ function NewSupplier() {
             <Form.Group as={Col} md="6">
               <Form.Label>מייל</Form.Label>
               <Form.Control
-                required
                 type="email"
+                placeholder="שדה לא חובה"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
