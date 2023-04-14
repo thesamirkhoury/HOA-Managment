@@ -15,7 +15,9 @@ function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
   const [fileNumber, setFileNumber] = useState("");
   const [membersMonthlyFee, setMembersMonthlyFee] = useState("");
@@ -30,15 +32,18 @@ function Signup() {
 
   async function handleSignup(e) {
     e.preventDefault();
+
     await signup(
       firstName,
       lastName,
       email,
+      phoneNumber,
       password,
+      confirmPassword,
       address,
       membersMonthlyFee,
       buildingCount,
-      fileNumber,
+      fileNumber
     );
   }
 
@@ -96,7 +101,24 @@ function Signup() {
                   ></Form.Control>
                 </Form.Group>
               </Col>
-              <Col className="mb-2">
+              <Col md={6} className="mb-2">
+                <Form.Group>
+                  <Form.Label>מספר טלפון</Form.Label>
+                  <Form.Control
+                    type="tel"
+                    required
+                    placeholder="0512345678"
+                    value={phoneNumber}
+                    onChange={(e) => {
+                      setPhoneNumber(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6} className="mb-2">
                 <Form.Group>
                   <Form.Label>סיסמה</Form.Label>
                   <Form.Control
@@ -106,6 +128,20 @@ function Signup() {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>אימות סיסמה חדשה</Form.Label>
+                  <Form.Control
+                    type="password"
+                    required
+                    placeholder="הקלד סיסמה פעם נוספת"
+                    value={confirmPassword}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
                     }}
                   ></Form.Control>
                 </Form.Group>
