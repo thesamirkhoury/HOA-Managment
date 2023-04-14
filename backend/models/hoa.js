@@ -59,6 +59,7 @@ const hoaSchema = new Schema(
 hoaSchema.statics.signup = async function (
   firstName,
   lastName,
+  phoneNumber,
   email,
   password,
   address,
@@ -80,6 +81,7 @@ hoaSchema.statics.signup = async function (
     throw Error("אחד או יותר מפרטי הועד החובה חסרים.");
   }
   if (!validator.isEmail(email)) {
+    console.log(email);
     throw Error("המייל שהיזנת אינו בפורמת מייל תקין.");
   }
 
@@ -102,6 +104,7 @@ hoaSchema.statics.signup = async function (
     firstName,
     lastName,
     email,
+    phoneNumber,
     password: hash,
     address,
     membersMonthlyFee,
