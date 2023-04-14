@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -72,8 +74,7 @@ function Documents() {
               <tr key={document._id}>
                 <td>{document.fileName}</td>
                 <td>{document.fileDescription}</td>
-                <td>{document.createdAt}</td>
-
+                <td>{format(new Date(document.createdAt), "dd/MM/yyyy")}</td>
                 <td>
                   <Button
                     variant="outline-primary"
@@ -118,7 +119,7 @@ function Documents() {
       </Table>
       {/* //* Modals */}
       {/* //TODO: Implement New and Edit Documents in File handling Stage */}
-      <NewDocument /> 
+      <NewDocument />
       <EditDocument editData={editData} />
       <DeleteConfirmation deleteData={deleteData} /> {/*///? Implemented */}
     </>

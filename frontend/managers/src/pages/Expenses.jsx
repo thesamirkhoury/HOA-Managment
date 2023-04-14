@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -90,7 +92,9 @@ function Expenses() {
                     <td>{supplier.supplierCategory}</td>
                     <td>{expense.amount}</td>
                     <td>{expense.paymentType}</td>
-                    <td>{expense.paymentDate.split("T")[0]}</td>
+                    <td>
+                      {format(new Date(expense.paymentDate), "dd/MM/yyyy")}
+                    </td>
                     <td>
                       <Button
                         variant="outline-primary"

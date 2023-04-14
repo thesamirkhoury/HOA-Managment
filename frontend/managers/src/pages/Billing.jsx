@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -92,8 +94,8 @@ function Billing() {
                   <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
                   <td>{bill.amount}</td>
                   <td>{bill.paymentType}</td>
-                  <td>{bill.createdAt.split("T")[0]}</td>
-                  <td>{bill.dueDate.split("T")[0]}</td>
+                  <td>{format(new Date(bill.createdAt),"dd/MM/yyyy")}</td>
+                  <td>{format(new Date(bill.dueDate),"dd/MM/yyyy")}</td>
                   <td>
                     <Badge
                       bg={bill.paymentStatus === "שולם" ? "success" : "danger"}

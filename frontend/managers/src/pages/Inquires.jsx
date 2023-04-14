@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -77,7 +79,9 @@ function Inquires() {
                   <tr key={inquiry._id}>
                     <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
                     <td>{inquiry.subject}</td>
-                    <td>{inquiry.createdAt}</td>
+                    <td>
+                      {format(new Date(inquiry.createdAt), "HH:mm dd/MM/yyyy")}
+                    </td>
                     <td>
                       <Button
                         variant="outline-primary"
@@ -131,7 +135,10 @@ function Inquires() {
                   <tr key={inquiry._id}>
                     <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
                     <td>{inquiry.subject}</td>
-                    <td>{inquiry.updatedAt}</td>
+
+                    <td>
+                      {format(new Date(inquiry.updatedAt), "HH:mm dd/MM/yyyy")}
+                    </td>
                     <td>
                       <Button
                         variant="outline-primary"

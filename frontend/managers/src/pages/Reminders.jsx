@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataHandler } from "../hooks/useDataHandler";
 import { useDataContext } from "../hooks/useDataContext";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -65,7 +67,7 @@ function Reminders() {
                 <Card.Body>
                   <Card.Title>{reminder.title}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    {reminder.dateAndTime}
+                    {format(new Date(reminder.dateAndTime), "HH:mm dd/MM/yyyy")}
                   </Card.Subtitle>
                   <Card.Text>{reminder.body}</Card.Text>
                   <div className="mt-3 float-end">

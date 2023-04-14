@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -60,9 +62,8 @@ function Maintenance() {
               <Card>
                 <Card.Body>
                   <Card.Title>{request.subject}</Card.Title>
-                  {/* //TODO: Better Date Display (e.g. "לפני שעתיים") */}
                   <Card.Subtitle className="mb-2 text-muted">
-                    {request.createdAt}
+                    {format(new Date(request.createdAt),"HH:mm dd/MM/yyyy")}
                   </Card.Subtitle>
                   <Badge
                     bg={

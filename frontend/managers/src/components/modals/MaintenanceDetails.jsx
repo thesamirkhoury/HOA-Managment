@@ -2,6 +2,8 @@ import React from "react";
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
 import { useDataHandler } from "../../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -171,7 +173,12 @@ function MaintenanceManagement({ tenantData, requestData, isClosed }) {
                   <Col md="6">
                     <p>
                       תאריך הפתיחה:
-                      <span> {requestData.createdAt}</span>
+                      <span>
+                        {format(
+                          new Date(requestData.createdAt),
+                          "HH:mm dd/MM/yyyy"
+                        )}
+                      </span>
                     </p>
                   </Col>
 
@@ -180,7 +187,12 @@ function MaintenanceManagement({ tenantData, requestData, isClosed }) {
                     <Col md="6">
                       <p>
                         תאריך סגירה:
-                        <span> {requestData.updatedAt}</span>
+                        <span>
+                          {format(
+                            new Date(requestData.updatedAt),
+                            "HH:mm dd/MM/yyyy"
+                          )}
+                        </span>
                       </p>
                     </Col>
                   )}

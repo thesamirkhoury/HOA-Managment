@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -83,7 +85,9 @@ function Maintenance() {
                   <tr key={request._id}>
                     <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
                     <td>{request.subject}</td>
-                    <td>{request.createdAt}</td>
+                    <td>
+                      {format(new Date(request.createdAt), "HH:mm dd/MM/yyyy")}
+                    </td>
                     <td>
                       <Badge
                         bg={request.status === "פתוח" ? "danger" : "warning"}
@@ -152,7 +156,9 @@ function Maintenance() {
                   <tr key={request._id}>
                     <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
                     <td>{request.subject}</td>
-                    <td>{request.updatedAt}</td>
+                    <td>
+                      {format(new Date(request.updatedAt), "HH:mm dd/MM/yyyy")}
+                    </td>
                     <td>
                       <Button
                         variant="outline-primary"

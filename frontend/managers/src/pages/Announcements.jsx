@@ -5,6 +5,8 @@ import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
 //helper functions
 import { range } from "../util/range";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNow";
+import { he } from "date-fns/locale";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -87,8 +89,10 @@ function Announcements() {
                               <Card.Body>
                                 <Card.Title>{announcement.title}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">
-                                  {/* //TODO: Better Date Display (e.g. "לפני שעתיים") */}
-                                  {announcement.createdAt}
+                                  {formatDistanceToNowStrict(
+                                    new Date(announcement.createdAt),
+                                    { addSuffix: true, locale: he }
+                                  )}
                                 </Card.Subtitle>
                                 <Card.Text>{announcement.body}</Card.Text>
 

@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 //custom hooks
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNow";
+import { he } from "date-fns/locale";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -52,9 +55,11 @@ function Announcements() {
                         <Card>
                           <Card.Body>
                             <Card.Title>{announcement.title}</Card.Title>
-                            {/* //TODO: Better Date Display (e.g. "לפני שעתיים") */}
                             <Card.Subtitle className="mb-2 text-muted">
-                              {announcement.createdAt}
+                              {formatDistanceToNowStrict(
+                                new Date(announcement.createdAt),
+                                { addSuffix: true, locale: he }
+                              )}
                             </Card.Subtitle>
                             <Card.Text>{announcement.body}</Card.Text>
                           </Card.Body>
@@ -79,9 +84,11 @@ function Announcements() {
                         <Card>
                           <Card.Body>
                             <Card.Title>{announcement.title}</Card.Title>
-                            {/* //TODO: Better Date Display (e.g. "לפני שעתיים") */}
                             <Card.Subtitle className="mb-2 text-muted">
-                              {announcement.createdAt}
+                              {formatDistanceToNowStrict(
+                                new Date(announcement.createdAt),
+                                { addSuffix: true, locale: he }
+                              )}
                             </Card.Subtitle>
                             <Card.Text>{announcement.body}</Card.Text>
                           </Card.Body>

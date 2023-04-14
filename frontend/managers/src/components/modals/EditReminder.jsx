@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
 import { useDataHandler } from "../../hooks/useDataHandler";
+import format from "date-fns/format";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -24,7 +25,10 @@ function EditReminder({ editData }) {
     if (editData) {
       setTitle(editData.title);
       setBody(editData.body);
-      setDateAndTime(editData.dateAndTime.split(".")[0]);
+      setDateAndTime(
+        // get the date formatted for local timezone
+        format(new Date(editData.dateAndTime), "yyyy-MM-dd'T'HH:mm")
+      );
     }
   }, [editData]);
 

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 //custom hooks
 import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -53,7 +55,7 @@ function Documents() {
               <tr key={document._id}>
                 <td>{document.fileName}</td>
                 <td>{document.fileDescription}</td>
-                <td>{document.createdAt}</td>
+                <td>{format (new Date(document.createdAt),"dd/MM/yyyy")}</td>
                 <td>
                   {/* //TODO: Handle file download */}
                   <Button
