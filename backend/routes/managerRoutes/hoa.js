@@ -7,6 +7,8 @@ const {
   changePassword,
   deleteHoa,
 } = require("../../controllers/hoaControllers");
+const { closeAccount } = require("../../controllers/closeAccount");
+
 //auth middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
 
@@ -25,6 +27,6 @@ router.patch("/", editHoa);
 router.put("/change-password", changePassword);
 
 //Delete the HOA and close the account
-router.delete("/", deleteHoa);
+router.delete("/", closeAccount);
 
 module.exports = router;

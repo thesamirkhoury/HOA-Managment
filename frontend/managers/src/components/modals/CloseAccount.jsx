@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
+import { useLogout } from "../../hooks/useLogout";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -8,6 +10,26 @@ import Button from "react-bootstrap/Button";
 
 function CloseAccount() {
   const { closeAccount, dispatch } = useModalsContext();
+  const { sendData } = useDataHandler();
+  const { logout } = useLogout();
+  //error handling
+  const [error, setError] = useState(null);
+
+  async function handleCloseAccount(e) {
+    e.preventDefault();
+    dispatch({ type: "LOADING", payload: true });
+    const errors = await sendData("details/", "DELETE", {}, "NO_CHANGE");
+    if (!errors) {
+      dispatch({ type: "CLOSE_ACCOUNT", payload: false });
+      dispatch({ type: "LOADING", payload: false });
+      logout();
+    }
+    if (errors) {
+      console.log(errors);
+      setError(errors.error);
+      dispatch({ type: "LOADING", payload: false });
+    }
+  }
 
   return (
     <Modal
@@ -26,9 +48,10 @@ function CloseAccount() {
             והגישה לדיירים תחסם באופן מיידי.
           </h5>
         </div>
+        {error && <div className="error">{error}</div>}
       </Modal.Body>
       <Modal.Footer className="border-0 justify-content-center mb-4">
-        <Button variant="danger" className="w-50" >
+        <Button variant="danger" className="w-50" onClick={handleCloseAccount}>
           <i className="bi bi-x-lg"></i> סגירת החשבון
         </Button>
         <Button
