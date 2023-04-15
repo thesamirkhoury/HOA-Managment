@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 //custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
@@ -17,11 +17,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewMaintenance from "../components/modals/NewMaintenance";
+import MaintenanceImages from "../components/modals/MaintenanceImages";
 
 function Maintenance() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { maintenance } = useDataContext();
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     if (!maintenance) {
@@ -81,6 +83,19 @@ function Maintenance() {
                     {request.status}
                   </Badge>
                   <Card.Text className="mt-2">{request.description}</Card.Text>
+                  <Button
+                    disabled={request.status === "סגור"}
+                    variant="outline-primary"
+                    className="float-end"
+                    onClick={() => {
+                      setImageUrl(
+                        "https://codescandy.com/geeks-bootstrap-5/assets/images/placeholder/placeholder-4by3.svg"
+                      ); //!placeholder url
+                      dispatch({ type: "MAINTENANCE_IMAGES", payload: true });
+                    }}
+                  >
+                    תיעוד
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -88,6 +103,7 @@ function Maintenance() {
       </Row>
       {/* //* Modals */}
       <NewMaintenance />
+      <MaintenanceImages url={imageUrl} />
     </>
   );
 }
