@@ -1,6 +1,8 @@
 import React from "react";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useNetworkStatus } from "../hooks/useNetworkStatus";
 
 //bootstrap components
 import Navbar from "react-bootstrap/Navbar";
@@ -13,6 +15,7 @@ import Logo from "../assets/Logo.svg";
 function VerticalNav() {
   const { dispatch } = useModalsContext();
   const { user } = useAuthContext();
+  const { status } = useNetworkStatus();
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -31,12 +34,17 @@ function VerticalNav() {
             <img src={Logo} alt="logo" width="50" className="logo" />
           </Navbar.Brand>
         </LinkContainer>
-        {/* //TODO: implement dynamic hook */}
         {/* Dynamically updated Wifi status,displayed only when logged in */}
         {user && (
           <div className="d-flex ">
-            <i className="bi bi-wifi-off fs-5 fw-bold text-danger me-1"></i>
-            <h6 className="fs-4 fw-bold text-light">לא מחובר</h6>
+            <i
+              className={`bi ${
+                status ? "bi-wifi" : "bi-wifi-off"
+              } fs-5 fw-bold ${status ? "text-success" : "text-danger"} me-1`}
+            ></i>
+            <h6 className="fs-4 fw-bold text-light">{`${
+              status ? "מחובר" : "לא מחובר"
+            }`}</h6>
           </div>
         )}
       </Container>
