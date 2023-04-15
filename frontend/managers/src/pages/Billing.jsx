@@ -119,6 +119,7 @@ function Billing() {
                       disabled={bill.paymentStatus === "שולם"}
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={() => {
+                        setTenantData(tenant);
                         setEditData(bill);
                         dispatch({ type: "PAYMENT_RECORD", payload: true });
                       }}
@@ -128,6 +129,7 @@ function Billing() {
 
                     <Button
                       variant="outline-secondary"
+                      disabled={bill.paymentStatus === "שולם"}
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={() => {
                         //TODO: Send an email reminder to tenant
@@ -138,6 +140,7 @@ function Billing() {
 
                     <Button
                       variant="outline-warning"
+                      disabled={bill.paymentStatus === "שולם"}
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={() => {
                         setTenantData(tenant);
@@ -150,6 +153,7 @@ function Billing() {
 
                     <Button
                       variant="outline-danger"
+                      disabled={bill.paymentStatus === "שולם"}
                       onClick={() => {
                         setDeleteData({
                           id: bill._id,

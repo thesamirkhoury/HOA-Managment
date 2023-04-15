@@ -17,44 +17,40 @@ function RecordPayment({ editData, tenantData }) {
   const { recordPayment, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
 
-  // Payment Type Selector
-  // Cash
-  const [cash, setCash] = useState(false);
+  //form state
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [cashInput, setCashInput] = useState(0);
-  // Card
-  const [card, setCard] = useState(false);
   const [issuer, setIssuer] = useState("");
   const [lastDigits, setLastDigits] = useState("");
-  const [EXP, setEXP] = useState("");
-  // Check
-  const [check, setCheck] = useState(false);
+  const [exp, setExp] = useState("");
   const [bankName, setBankName] = useState("");
   const [branchNumber, setBranchNumber] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [checkNumber, setCheckNumber] = useState("");
-  // Bank transfer
-  const [transfer, setTransfer] = useState(false);
   const [approvalNumber, setApprovalNumber] = useState("");
+
+  // Payment Type Selector
+  const [paymentRecord, setPaymentRecord] = useState("");
   //error handling
   const [error, setError] = useState(null);
 
-  function closeAllSections() {
-    // Close all sections
-    setCash(false);
-    setCard(false);
-    setCheck(false);
-    setTransfer(false);
+  function updatePaymentRecord(newObj) {
+    setPaymentRecord((prev) => ({
+      ...prev,
+      ...newObj,
+    }));
   }
 
   function handleHide() {
     dispatch({ type: "PAYMENT_RECORD", payload: false });
-    // Close all sections
-    closeAllSections();
-    // reset form data
+    //clear the record object
+    setPaymentRecord({ paymentMethod: "" });
+    //clear the form state
+    setPaymentMethod("");
     setCashInput("");
     setIssuer("");
     setLastDigits("");
-    setEXP("");
+    setExp("");
     setBankName("");
     setBranchNumber("");
     setAccountNumber("");
@@ -67,39 +63,6 @@ function RecordPayment({ editData, tenantData }) {
   async function handlePayment(e) {
     e.preventDefault();
 
-    let paymentRecord;
-    if (cash) {
-      paymentRecord = {
-        paymentMethod: "Cash",
-        paymentDate: Date.now(),
-      };
-    }
-    if (card) {
-      paymentRecord = {
-        paymentMethod: "Card",
-        issuer,
-        lastDigits,
-        EXP,
-        paymentDate: Date.now(),
-      };
-    }
-    if (check) {
-      paymentRecord = {
-        paymentMethod: "Check",
-        bankName,
-        branchNumber,
-        accountNumber,
-        checkNumber,
-        paymentDate: Date.now(),
-      };
-    }
-    if (transfer) {
-      paymentRecord = {
-        paymentMethod: "Transfer",
-        approvalNumber,
-        paymentDate: Date.now(),
-      };
-    }
     //send the request
     if (paymentRecord) {
       const errors = await sendData(
@@ -116,7 +79,7 @@ function RecordPayment({ editData, tenantData }) {
       }
     }
   }
-
+  
   return (
     <Modal
       show={recordPayment}
@@ -178,203 +141,222 @@ function RecordPayment({ editData, tenantData }) {
         )}
 
         <hr />
-        {/* Payment Details */}
-        <div className="mb-2">
-          <Form.Group>
-            <Form.Label>סוג אמצעי התשלום</Form.Label>
-            <Form.Select
-              aria-label="Payment type select"
-              onChange={(e) => {
-                const selection = e.target.value;
-                closeAllSections();
-                if (selection === "מזומן") {
-                  setCash(true);
-                } else if (selection === "חד פעמי") {
-                  setCard(true);
-                } else if (selection === "צק") {
-                  setCheck(true);
-                } else if (selection === "העברה בנקאית") {
-                  setTransfer(true);
-                }
-              }}
-            >
-              <option>בחר סוג אמצעי התשלום</option>
-              <option value="מזומן">מזומן</option>
-              <option value="חד פעמי">כרטיס אשראי</option>
-              <option value="צק">צ'ק</option>
-              <option value="העברה בנקאית">העברה בנקאית</option>
-            </Form.Select>
-          </Form.Group>
-        </div>
 
-        <Form onSubmit={handlePayment}>
-          {/* Cash Payment */}
-          <div className={cash ? "d-block" : "d-none"}>
-            <Row>
-              <Form.Group as={Col} md="6">
-                <Form.Label>סכום במזומן</Form.Label>
-                <Form.Control
-                  required={cash}
-                  type="number"
-                  inputMode="numeric"
-                  min="1"
-                  value={cashInput}
-                  onChange={(e) => {
-                    setCashInput(e.target.value);
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              {editData && (
-                <Form.Group as={Col} md="6">
-                  <Form.Label>עודף</Form.Label>
+        {/* Payment Details */}
+        {editData && (
+          <div className="mb-2">
+            <Form.Group>
+              <Form.Label>סוג אמצעי התשלום</Form.Label>
+              <Form.Select
+                aria-label="Payment type select"
+                value={paymentMethod}
+                onChange={(e) => {
+                  setPaymentMethod(e.target.value);
+                  setPaymentRecord({
+                    paymentMethod: e.target.value,
+                    paymentDate: Date.now(),
+                  });
+                }}
+              >
+                <option>בחר סוג אמצעי התשלום</option>
+                <option value="מזומן">מזומן</option>
+                <option value="כרטיס אשראי">כרטיס אשראי</option>
+                <option value="צק">צ'ק</option>
+                <option value="העברה בנקאית">העברה בנקאית</option>
+              </Form.Select>
+            </Form.Group>
+          </div>
+        )}
+
+        {paymentRecord && (
+          <Form onSubmit={handlePayment}>
+            {/* Cash Payment */}
+            {editData && paymentMethod === "מזומן" && (
+              <>
+                <Row>
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>סכום במזומן</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={cashInput}
+                      onChange={(e) => {
+                        setCashInput(e.target.value);
+                        updatePaymentRecord({ paidAmount: e.target.value });
+                      }}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>עודף</Form.Label>
+                    <Form.Control
+                      disabled
+                      dir="ltr"
+                      className="text-start"
+                      value={cashInput - editData.amount}
+                    ></Form.Control>
+                  </Form.Group>
+                </Row>
+              </>
+            )}
+
+            {/* Card Payment */}
+            {paymentMethod === "כרטיס אשראי" && (
+              <>
+                <Row className="mt-1">
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>סוג כרטיס אשראי</Form.Label>
+                    <Form.Select
+                      aria-label="credit card type selector"
+                      value={issuer}
+                      onChange={(e) => {
+                        setIssuer(e.target.value);
+                        updatePaymentRecord({ issuer: e.target.value });
+                      }}
+                    >
+                      <option>בחר סוג כרטיס אשראי</option>
+                      <option value="Visa">ויזה - Visa</option>
+                      <option value="Mastercard">
+                        מאסטר כארד - Master Card
+                      </option>
+                      <option value="AMEX">אמריקאן אקספרס - AMEX</option>
+                      <option value="Debit">חיוב מידי - Debit</option>
+                    </Form.Select>
+                  </Form.Group>
+                  <Form.Group as={Col} md="4">
+                    <Form.Label>4 ספרות אחרונות של הכרטיס</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={lastDigits}
+                      onChange={(e) => {
+                        setLastDigits(e.target.value);
+                        updatePaymentRecord({ lastDigits: e.target.value });
+                      }}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group as={Col} md="2">
+                    <Form.Label>תוקף הכרטיס</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      min="1"
+                      value={exp}
+                      onChange={(e) => {
+                        setExp(e.target.value);
+                        updatePaymentRecord({ EXP: e.target.value });
+                      }}
+                    ></Form.Control>
+                  </Form.Group>
+                </Row>
+              </>
+            )}
+
+            {/* Check Payment */}
+            {paymentMethod === "צק" && (
+              <>
+                <Row>
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>שם הבנק</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      value={bankName}
+                      onChange={(e) => {
+                        setBankName(e.target.value);
+                        updatePaymentRecord({ bankName: e.target.value });
+                      }}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group as={Col} md="2">
+                    <Form.Label>מספר סניף</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={branchNumber}
+                      onChange={(e) => {
+                        setBranchNumber(e.target.value);
+                        updatePaymentRecord({ branchNumber: e.target.value });
+                      }}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group as={Col} md="4">
+                    <Form.Label>מספר חשבון</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={accountNumber}
+                      onChange={(e) => {
+                        setAccountNumber(e.target.value);
+                        updatePaymentRecord({ accountNumber: e.target.value });
+                      }}
+                    ></Form.Control>
+                  </Form.Group>
+                </Row>
+                <Form.Group>
+                  <Form.Label>מספר צ׳ק</Form.Label>
                   <Form.Control
-                    disabled
-                    dir="ltr"
-                    className="text-start"
-                    value={cashInput - editData.amount}
+                    required
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    value={checkNumber}
+                    onChange={(e) => {
+                      setCheckNumber(e.target.value);
+                      updatePaymentRecord({ checkNumber: e.target.value });
+                    }}
                   ></Form.Control>
                 </Form.Group>
-              )}
-            </Row>
-          </div>
-
-          {/* Card Payment */}
-          <div className={card ? "d-block" : "d-none"}>
-            <Row className="mt-1">
-              <Form.Group as={Col} md="6">
-                <Form.Label>סוג כרטיס אשראי</Form.Label>
-                <Form.Select
-                  aria-label="credit card type selector"
-                  value={issuer}
-                  onChange={(e) => {
-                    setIssuer(e.target.value);
-                  }}
-                >
-                  <option>בחר סוג כרטיס אשראי</option>
-                  <option value="Visa">ויזה - Visa</option>
-                  <option value="Mastercard">מאסטר כארד - Master Card</option>
-                  <option value="AMEX">אמריקאן אקספרס - AMEX</option>
-                  <option value="Debit">חיוב מידי - Debit</option>
-                </Form.Select>
-              </Form.Group>
-              <Form.Group as={Col} md="4">
-                <Form.Label>4 ספרות אחרונות של הכרטיס</Form.Label>
-                <Form.Control
-                  required={card}
-                  type="number"
-                  inputMode="numeric"
-                  min="1"
-                  value={lastDigits}
-                  onChange={(e) => {
-                    setLastDigits(e.target.value);
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group as={Col} md="2">
-                <Form.Label>תוקף הכרטיס</Form.Label>
-                <Form.Control
-                  required={card}
-                  type="number"
-                  min="1"
-                  value={EXP}
-                  onChange={(e) => {
-                    setEXP(e.target.value);
-                  }}
-                ></Form.Control>
-              </Form.Group>
-            </Row>
-          </div>
-
-          {/* Check Payment */}
-          <div className={check ? "d-block" : "d-none"}>
-            <Row>
-              <Form.Group as={Col} md="6">
-                <Form.Label>שם הבנק</Form.Label>
-                <Form.Control
-                  required={check}
-                  type="text"
-                  value={bankName}
-                  onChange={(e) => {
-                    setBankName(e.target.value);
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group as={Col} md="2">
-                <Form.Label>מספר סניף</Form.Label>
-                <Form.Control
-                  required={check}
-                  type="number"
-                  inputMode="numeric"
-                  min="1"
-                  value={branchNumber}
-                  onChange={(e) => {
-                    setBranchNumber(e.target.value);
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group as={Col} md="4">
-                <Form.Label>מספר חשבון</Form.Label>
-                <Form.Control
-                  required={check}
-                  type="number"
-                  inputMode="numeric"
-                  min="1"
-                  value={accountNumber}
-                  onChange={(e) => {
-                    setAccountNumber(e.target.value);
-                  }}
-                ></Form.Control>
-              </Form.Group>
-            </Row>
-            <Form.Group>
-              <Form.Label>מספר צ׳ק</Form.Label>
-              <Form.Control
-                required={check}
-                type="number"
-                inputMode="numeric"
-                min="1"
-                value={checkNumber}
-                onChange={(e) => {
-                  setCheckNumber(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
-          </div>
-
-          {/* Bank Transfer Payment */}
-          <div className={transfer ? "d-block" : "d-none"}>
-            <Form.Group>
-              <Form.Label>מספר אסמכתא</Form.Label>
-              <Form.Control
-                required={transfer}
-                type="number"
-                inputMode="numeric"
-                min="1"
-                value={approvalNumber}
-                onChange={(e) => {
-                  setApprovalNumber(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
-          </div>
-          {error && <div className="error">{error}</div>}
-          {/* Buttons */}
-          <div className="mt-3 float-end">
-            {/* Show Submit button only when a payment option is selected */}
-            {(cash || card || check || transfer) && (
-              <Button variant="success" type="submit">
-                <i className="bi bi-plus-square"> </i>הוספת תיעוד
-              </Button>
+              </>
             )}
-            <Button
-              variant="outline-secondary"
-              className="ms-2"
-              onClick={handleHide}
-            >
-              <i className="bi bi-x-square"> </i>סגור חלון
-            </Button>
-          </div>
-        </Form>
+
+            {/* Bank Transfer Payment */}
+            {paymentMethod === "העברה בנקאית" && (
+              <>
+                <Form.Group>
+                  <Form.Label>מספר אסמכתא</Form.Label>
+                  <Form.Control
+                    required
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    value={approvalNumber}
+                    onChange={(e) => {
+                      setApprovalNumber(e.target.value);
+                      updatePaymentRecord({ approvalNumber: e.target.value });
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </>
+            )}
+
+            {error && <div className="error">{error}</div>}
+
+            {/* Buttons */}
+            <div className="mt-3 float-end">
+              {/* Show Submit button only when a payment option is selected */}
+              {paymentRecord.paymentMethod && (
+                <Button variant="success" type="submit">
+                  <i className="bi bi-plus-square"> </i>הוספת תיעוד
+                </Button>
+              )}
+              <Button
+                variant="outline-secondary"
+                className="ms-2"
+                onClick={handleHide}
+              >
+                <i className="bi bi-x-square"> </i>סגור חלון
+              </Button>
+            </div>
+          </Form>
+        )}
       </Modal.Body>
     </Modal>
   );
