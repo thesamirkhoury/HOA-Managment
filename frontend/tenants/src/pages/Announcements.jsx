@@ -9,6 +9,7 @@ import { he } from "date-fns/locale";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 //bootstrap spacing
@@ -27,15 +28,15 @@ function Announcements() {
 
   return (
     <>
-    {/* Document Title */}
-    <Helmet>
-      <title>נהל - הודעות</title>
-    </Helmet>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - הודעות</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">הודעות הועד</h1>
       {/* Search Bar */}
       <Row className="ms-md-2 mb-2">
-        <Col xs={12} md={6} lg={8}>
+        <Col xs={7} md={8} lg={8}>
           <Form>
             <Form.Control
               type="search"
@@ -43,6 +44,17 @@ function Announcements() {
               className="ms-3 ms-md-3"
             ></Form.Control>
           </Form>
+        </Col>
+        <Col xs={5} md={4} lg={3}>
+          <Button
+            variant="outline-secondary"
+            className="ms-4 ms-md-2"
+            onClick={() => {
+              fetchData("announcements", "SET_ANNOUNCEMENTS");
+            }}
+          >
+            <i className="bi bi-arrow-repeat"> </i>רענן מידע
+          </Button>
         </Col>
       </Row>
       {/* Message Accordian */}

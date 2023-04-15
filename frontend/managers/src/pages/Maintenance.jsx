@@ -54,13 +54,13 @@ function Maintenance() {
         <title>נהל - קריאות שירות</title>
       </Helmet>
       {/* Page Name */}
-      <h1 className="display-1">קריאות שירות</h1>
 
+      <h1 className="display-1">קריאות שירות</h1>
       {/* Open Requests */}
       <h1 className="display-3">קריאות פתוחות</h1>
       {/*Opened Requests - Search Bar */}
       <Row className="ms-md-2">
-        <Col xs={12} md={12} lg={10} xxl={10}>
+        <Col xs={7} md={8} lg={8}>
           <Form>
             <Form.Control
               type="search"
@@ -68,6 +68,16 @@ function Maintenance() {
               className="ms-3 ms-md-3"
             ></Form.Control>
           </Form>
+        </Col>
+        <Col xs={5} md={4} lg={3}>
+          <Button
+            variant="outline-secondary"
+            onClick={() => {
+              fetchData("maintenance", "SET_MAINTENANCE");
+            }}
+          >
+            <i className="bi bi-arrow-repeat"> </i>רענן מידע
+          </Button>
         </Col>
       </Row>
       {/* Open Requests Table */}
@@ -134,7 +144,7 @@ function Maintenance() {
       <h1 className="display-3">קריאות סגורות</h1>
       {/*Closed Requests - Search Bar */}
       <Row className="ms-md-2">
-        <Col xs={12} md={12} lg={10} xxl={10}>
+        <Col xs={7} md={8} lg={8}>
           <Form>
             <Form.Control
               type="search"
@@ -142,6 +152,16 @@ function Maintenance() {
               className="ms-3 ms-md-3"
             ></Form.Control>
           </Form>
+        </Col>
+        <Col xs={5} md={4} lg={3}>
+          <Button
+            variant="outline-secondary"
+            onClick={() => {
+              fetchData("maintenance", "SET_MAINTENANCE");
+            }}
+          >
+            <i className="bi bi-arrow-repeat"> </i>רענן מידע
+          </Button>
         </Col>
       </Row>
 

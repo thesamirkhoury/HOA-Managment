@@ -19,7 +19,7 @@ function Documents() {
   const { documents } = useDataContext();
 
   useEffect(() => {
-    if(!documents){
+    if (!documents) {
       fetchData("documents", "SET_DOCUMENTS");
     }
   }, []); //eslint-disable-line
@@ -34,7 +34,7 @@ function Documents() {
       <h1 className="display-1">מרכז שיטוף מסמכים</h1>
       {/* Search Bar */}
       <Row className="ms-md-2 mb-2">
-        <Col xs={12} md={6} lg={8}>
+        <Col xs={7} md={8} lg={8}>
           <Form>
             <Form.Control
               type="search"
@@ -42,6 +42,17 @@ function Documents() {
               className="ms-3 ms-md-3"
             ></Form.Control>
           </Form>
+        </Col>
+        <Col xs={5} md={4} lg={3}>
+          <Button
+            variant="outline-secondary"
+            className="ms-4 ms-md-2"
+            onClick={() => {
+              fetchData("documents", "SET_DOCUMENTS");
+            }}
+          >
+            <i className="bi bi-arrow-repeat"> </i>רענן מידע
+          </Button>
         </Col>
       </Row>
       {/* Table */}
