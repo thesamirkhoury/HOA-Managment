@@ -10,7 +10,6 @@ async function createExpense(req, res) {
     amount,
     paymentType,
     details,
-    paymentCategory,
     paymentMethod,
     paymentDate,
   } = req.body;
@@ -20,7 +19,6 @@ async function createExpense(req, res) {
     !amount ||
     !paymentType ||
     !details ||
-    !paymentCategory ||
     !paymentMethod ||
     !paymentDate
   ) {
@@ -40,7 +38,6 @@ async function createExpense(req, res) {
       amount,
       paymentType,
       details,
-      paymentCategory,
       paymentMethod,
       paymentDate,
     });
