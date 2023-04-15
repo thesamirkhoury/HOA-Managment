@@ -7,6 +7,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { ModalsContextProvider } from "./context/ModalsContext";
 import { RedirectContextProvider } from "./context/RedirectContext";
 import { DataContextProvider } from "./context/DataContext";
+import { HelmetProvider } from "react-helmet-async";
 
 // react router Browser Router
 import { BrowserRouter } from "react-router-dom";
@@ -24,11 +25,13 @@ root.render(
     <AuthContextProvider>
       <RedirectContextProvider>
         <ModalsContextProvider>
-          <BrowserRouter>
-            <DataContextProvider>
-              <App />
-            </DataContextProvider>
-          </BrowserRouter>
+          <HelmetProvider>
+            <BrowserRouter>
+              <DataContextProvider>
+                <App />
+              </DataContextProvider>
+            </BrowserRouter>
+          </HelmetProvider>
         </ModalsContextProvider>
       </RedirectContextProvider>
     </AuthContextProvider>
