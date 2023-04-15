@@ -59,7 +59,7 @@ export const dataReducer = (state, action) => {
     case "NEW_ANNOUNCEMENT":
       return {
         ...state,
-        announcements: [...state.announcements, action.payload],
+        announcements: [action.payload, ...state.announcements],
       };
     case "EDIT_ANNOUNCEMENT":
       return {
@@ -96,7 +96,7 @@ export const dataReducer = (state, action) => {
     case "NEW_BILLING":
       return {
         ...state,
-        billings: [...state.billings, action.payload],
+        billings: [action.payload, ...state.billings],
       };
     case "EDIT_BILLING":
       return {
@@ -115,7 +115,7 @@ export const dataReducer = (state, action) => {
     case "NEW_EXPENSE":
       return {
         ...state,
-        expenses: [...state.expenses, action.payload],
+        expenses: [action.payload, ...state.expenses],
       };
     case "EDIT_EXPENSE":
       return {
@@ -140,7 +140,7 @@ export const dataReducer = (state, action) => {
     case "NEW_DOCUMENT":
       return {
         ...state,
-        documents: [...state.documents, action.payload],
+        documents: [action.payload, ...state.documents],
       };
     case "EDIT_DOCUMENT":
       return {

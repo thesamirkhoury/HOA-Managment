@@ -32,7 +32,9 @@ async function getAnnouncements(req, res) {
   // hoa id from auth
   const hoa_id = req.user._id;
 
-  const announcements = await Announcement.find({ hoa_id });
+  const announcements = await Announcement.find({ hoa_id }).sort({
+    createdAt: -1,
+  });
 
   if (!announcements) {
     return res.status(404).json({ error: "לא נמצאו הודעות במערכת." });
