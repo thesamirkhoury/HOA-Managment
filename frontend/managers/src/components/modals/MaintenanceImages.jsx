@@ -1,14 +1,10 @@
-import React, { useDeferredValue, useState } from "react";
+import React from "react";
 
 import { useModalsContext } from "../../hooks/useModalsContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-
-//bootstrap spacing
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 function MaintenanceImages({ url }) {
   const { maintenanceImages, dispatch } = useModalsContext();
@@ -32,7 +28,7 @@ function MaintenanceImages({ url }) {
       <Modal.Body>
         <img
           src={url}
-          alt="maintenance request documentation image"
+          alt="maintenance request documentation"
           className="img-fluid"
         />
         <Button

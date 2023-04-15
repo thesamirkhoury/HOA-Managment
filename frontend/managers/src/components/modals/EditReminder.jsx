@@ -111,6 +111,7 @@ function EditReminder({ editData }) {
                 }}
               ></Form.Control>
             </Form.Group>
+            {error && <div className="error">{error}</div>}
             <div className="mt-3 float-end">
               <Button variant="success" type="submit">
                 <i className="bi bi-pen"> </i>עדכן תזכורת
