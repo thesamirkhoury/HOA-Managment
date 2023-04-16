@@ -97,7 +97,9 @@ async function editTenant(req, res) {
   }
 
   if (!validator.isEmail(tenantEmail) || !validator.isEmail(ownerEmail)) {
-    throw Error("המייל שהיזנת אינו בפורמת מייל תקין.");
+    return res
+      .status(404)
+      .json({ error: "המייל שהיזנת אינו בפורמת מייל תקין." });
   }
   const tenant = await Tenant.findByIdAndUpdate(
     id,

@@ -186,7 +186,7 @@ function EditTenant({ editData }) {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Form.Group as={Col} md="6">
+              <Form.Group as={Col} md="4">
                 <Form.Label>מספר טלפון</Form.Label>
                 <Form.Control
                   required
@@ -198,16 +198,25 @@ function EditTenant({ editData }) {
                   disabled={!isEditable}
                 ></Form.Control>
               </Form.Group>
-              <Form.Group as={Col} md="6">
+              <Form.Group as={Col} md="4">
                 <Form.Label>מייל</Form.Label>
                 <Form.Control
-                  // required
-                  // type="email"
+                  required
+                  type="email"
                   value={tenantEmail}
                   onChange={(e) => {
                     setTenantEmail(e.target.value);
                   }}
                   disabled={!isEditable}
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group as={Col} md="4">
+                <Form.Label>מייל</Form.Label>
+                <Form.Control
+                  required
+                  disabled
+                  defaultValue={editData.username}
                 ></Form.Control>
               </Form.Group>
             </Row>
