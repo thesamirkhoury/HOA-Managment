@@ -116,7 +116,6 @@ function Billing() {
                   <td>
                     <Button
                       variant="outline-primary"
-                      disabled={bill.paymentStatus === "שולם"}
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={() => {
                         setTenantData(tenant);
