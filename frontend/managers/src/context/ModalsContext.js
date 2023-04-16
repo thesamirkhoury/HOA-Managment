@@ -14,11 +14,6 @@ export function modalsReducer(state, action) {
         ...state,
         newTenant: action.payload,
       };
-    case "TENANT_DETAILS":
-      return {
-        ...state,
-        tenantDetails: action.payload,
-      };
     case "EDIT_TENANT":
       return {
         ...state,
@@ -54,25 +49,20 @@ export function modalsReducer(state, action) {
         ...state,
         editAnnouncement: action.payload,
       };
-    case "INQUIRY_REPLY":
+    case "MAINTENANCE_DETAILS":
       return {
         ...state,
-        inquiryReply: action.payload,
+        maintenanceDetails: action.payload,
       };
-    case "INQUIRY_VIEW":
+    case "MAINTENANCE_IMAGES":
       return {
         ...state,
-        inquiryView: action.payload,
+        maintenanceImages: action.payload,
       };
-    case "MAINTENANCE_MANAGEMENT":
+    case "INQUIRY_DETAILS":
       return {
         ...state,
-        maintenanceManagement: action.payload,
-      };
-    case "MAINTENANCE_VIEW":
-      return {
-        ...state,
-        maintenanceView: action.payload,
+        inquiryDetails: action.payload,
       };
     case "NEW_BILL":
       return {
@@ -119,6 +109,11 @@ export function modalsReducer(state, action) {
         ...state,
         changePassword: action.payload,
       };
+    case "CLOSE_ACCOUNT":
+      return {
+        ...state,
+        closeAccount: action.payload,
+      };
     case "LOADING":
       return {
         ...state,
@@ -137,7 +132,6 @@ export function modalsReducer(state, action) {
 export const ModalsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(modalsReducer, {
     showOffcanvas: false,
-    tenantDetails: false,
     newTenant: false,
     editTenant: false,
     newSupplier: false,
@@ -146,10 +140,9 @@ export const ModalsContextProvider = ({ children }) => {
     editReminder: false,
     newAnnouncement: false,
     editAnnouncement: false,
-    inquiryReply: false,
-    inquiryView: false,
-    maintenanceManagement: false,
-    maintenanceView: false,
+    maintenanceDetails: false,
+    maintenanceImages: false,
+    inquiryDetails: false,
     newBill: false,
     recordPayment: false,
     editBill: false,
@@ -159,6 +152,7 @@ export const ModalsContextProvider = ({ children }) => {
     editDocument: false,
     changeEmail: false,
     changePassword: false,
+    closeAccount: false,
     loading: false,
     deleteConfirmation: false,
   });

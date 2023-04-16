@@ -13,22 +13,26 @@ async function signup(req, res) {
   const {
     firstName,
     lastName,
+    phoneNumber,
     email,
     password,
     address,
     membersMonthlyFee,
+    buildingCount,
     fileNumber,
   } = req.body;
-
+  
   // sign up user
   try {
     const newHoa = await HOA.signup(
       firstName,
       lastName,
+      phoneNumber,
       email,
       password,
       address,
       membersMonthlyFee,
+      buildingCount,
       fileNumber
     );
     // create JWT
@@ -63,14 +67,14 @@ async function forgotPassword(req, res) {
 
     res.status(200).json({
       resetMessage:
-        "Instructions to reset the password are sent to the email provided",
+        "הוראות לאיפוס הסיסמה יישלחו בדקות הקרובות לכתובת המייל המעודכן במערכת.",
     });
   } catch (error) {
     // if user enters an incorrect email, send a generic message for security purposes.
     if (error.message === "Incorrect Email") {
       res.status(200).json({
         resetMessage:
-          "Instructions to reset the password are sent to the email provided",
+          "הוראות לאיפוס הסיסמה יישלחו בדקות הקרובות לכתובת המייל המעודכן במערכת.",
       });
     } else {
       res.status(400).json({ error: error.message });
@@ -92,14 +96,30 @@ async function resetPassword(req, res) {
   }
 }
 
+// change password
+async function changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
+  const hoa_id = req.user._id;
+  try {
+    const user = await HOA.changePassword(hoa_id, currentPassword, newPassword);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
 //Returns the Full HOA data
 async function getAllDetails(req, res) {
   // hoa id from auth
   const hoa_id = req.user._id;
 
-  const hoa = await HOA.findById(hoa_id);
+  const hoa = await HOA.findById(hoa_id).select(
+    "firstName lastName phoneNumber email address membersMonthlyFee buildingCount fileNumber"
+  );
   if (!hoa) {
-    return res.status(404).json({ error: "HOA Not Found" });
+    return res
+      .status(404)
+      .json({ error: "חשבון ועד עם הממייל שהוזן אינו קיים במערכת." });
   }
   res.status(200).json(hoa);
 }
@@ -109,10 +129,12 @@ async function editHoa(req, res) {
   const {
     firstName,
     lastName,
-    managerEmail,
-    password,
+    phoneNumber,
+    email,
     address,
     membersMonthlyFee,
+    buildingCount,
+    fileNumber,
   } = req.body;
   // hoa id from auth
   const hoa_id = req.user._id;
@@ -120,15 +142,17 @@ async function editHoa(req, res) {
   const updated = {
     firstName,
     lastName,
-    managerEmail,
-    password,
+    phoneNumber,
+    email,
     address,
     membersMonthlyFee,
-  }; //possible to replace with ...req.body, after auth
+    buildingCount,
+    fileNumber,
+  };
 
   const hoa = await HOA.findByIdAndUpdate(hoa_id, updated, { new: true });
   if (!hoa) {
-    return res.status(404).json({ error: "HOA Not Found" });
+    return res.status(404).json({ error: "חשבון ועד אינו קיים." });
   }
   res.status(200).json(hoa);
 }
@@ -140,7 +164,7 @@ async function deleteHoa(req, res) {
 
   const hoa = await HOA.findByIdAndDelete(hoa_id);
   if (!hoa) {
-    return res.status(404).json({ error: "HOA Not Found" });
+    return res.status(404).json({ error: "חשבון ועד אינו קיים." });
   }
   res.status(200).json(hoa);
 }
@@ -156,7 +180,7 @@ async function getInfo(req, res) {
   );
 
   if (!hoa) {
-    return res.status(404).json({ error: "HOA Not Found" });
+    return res.status(404).json({ error: "חשבון ועד אינו קיים." });
   }
   res.status(200).json(hoa);
 }
@@ -167,6 +191,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getAllDetails,
+  changePassword,
   editHoa,
   deleteHoa,
   getInfo,

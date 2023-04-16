@@ -7,10 +7,16 @@ const mongoose = require("mongoose");
 //TODO: Implement send By Mail
 async function createBill(req, res) {
   const { tenant_id, amount, description, paymentType, dueDate } = req.body;
-  //check of tenant id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(tenant_id)) {
-    return res.status(404).json({ error: "Tenant Not Found" });
+
+  //Validation
+  if (!tenant_id || !amount || !description || !paymentType || !dueDate) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
   }
+  if (!mongoose.Types.ObjectId.isValid(tenant_id)) {
+    //check of tenant id is a valid mongoose id
+    return res.status(404).json({ error: "הדייר אינו קיים בערכת" });
+  }
+
   // hoa id from auth
   const hoa_id = req.user._id;
 
@@ -22,8 +28,8 @@ async function createBill(req, res) {
       description,
       paymentType,
       dueDate,
-      paymentStatus: "Not Paid",
-      paymentDetails: {},
+      paymentStatus: "לא שולם",
+      paymentDetails: undefined,
       paymentDate: undefined,
     });
     res.status(200).json(bill);
@@ -39,13 +45,13 @@ async function getBills(req, res) {
 
   const bills = await Billing.find({ hoa_id }).sort({ createdAt: -1 });
   if (!bills) {
-    return res.status(404).json({ error: "No Bills Found" });
+    return res.status(404).json({ error: "לא נמצאו חיובים" });
   }
   res.status(200).json(bills);
 }
 
 //Get sum of expenses by a specified time period
-async function getSum(req, res) {
+async function getSumManager(req, res) {
   const { from, to } = req.params;
   // hoa id from auth
   const hoa_id = req.user._id;
@@ -54,63 +60,12 @@ async function getSum(req, res) {
   const startDate = new Date(from);
   let endDate = new Date(to);
 
-  // search for all the bills,created by th HOA ID grouped by updated at month, (with the status of paid)
-  const existingIncomes = await Billing.aggregate([
-    {
-      $match: {
-        // find paid documents from start date to end date, created by th HOA ID
-        hoa_id: hoa_id.toString(),
-        updatedAt: {
-          $gte: startDate,
-          $lte: endDate,
-        },
-        paymentStatus: "Paid",
-      },
-    },
-    {
-      $group: {
-        // sum the amount
-        _id: { month: { $month: "$updatedAt" }, year: { $year: "$updatedAt" } },
-        sum: { $sum: "$amount" },
-      },
-    },
-    {
-      $sort: {
-        "_id.year": 1,
-        "_id.month": 1,
-      },
-    },
-  ]);
-
-  let incomes = [];
-  let currMonth = startDate;
-  //iterate over the provided time period, if the month is available append it to the incomes array, if it is not available append a sum of zero
-  while (currMonth <= endDate) {
-    //search for the month in the aggregated results from the DB
-    const existingIncome = existingIncomes.find(
-      (income) => income._id.month === currMonth.getMonth() + 1
-    );
-
-    // check if the month is NOT available in the DB, to append a sum of zero for that month.
-    if (!existingIncome) {
-      incomes.push({
-        date: `${currMonth.getFullYear()}-${currMonth.getMonth() + 1}`,
-        sum: 0,
-      });
-    }
-    // if the month is available in the DB, append the sum from the aggregation array.
-    else {
-      incomes.push({
-        date: `${existingIncome._id.year}-${existingIncome._id.month}`,
-        sum: existingIncome.sum,
-      });
-    }
-
-    // increase the months by one
-    currMonth.setMonth(currMonth.getMonth() + 1);
+  try {
+    const incomes = await Billing.sum(hoa_id, startDate, endDate);
+    res.status(200).json(incomes);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-
-  res.status(200).json({ incomes });
 }
 
 //Edit a bill by _id
@@ -118,18 +73,18 @@ async function editBill(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
 
-  const { amount, description, paymentType, dueDate } = req.body;
+  const { tenant_id, amount, description, paymentType, dueDate } = req.body;
 
   const bill = await Billing.findByIdAndUpdate(
     id,
-    { amount, description, paymentType, dueDate },
+    { tenant_id, amount, description, paymentType, dueDate },
     { new: true }
   );
   if (!bill) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
   res.status(200).json(bill);
 }
@@ -139,12 +94,12 @@ async function deleteBill(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
 
   const bill = await Billing.findByIdAndDelete(id);
   if (!bill) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
   res.status(200).json(bill);
 }
@@ -152,24 +107,18 @@ async function deleteBill(req, res) {
 //Add a payment record to an existing bill by _id
 async function recordPayment(req, res) {
   const { id } = req.params;
-  // check if bill id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Bill Not Found" });
-  }
-
   // payment details, and "paymentDate" field.
-  const { paymentRecord } = req.body;
-
+  const paymentRecord = req.body;
   const bill = await Billing.findByIdAndUpdate(
     id,
     {
-      paymentStatus: "Paid",
+      paymentStatus: "שולם",
       paymentDetails: paymentRecord,
     },
     { new: true }
   );
   if (!bill) {
-    return res.status(404).json({ error: "Bill Not Found" });
+    return res.status(404).json({ error: "חיוב זה אינו קמיית במערכת." });
   }
   res.status(200).json(bill);
 }
@@ -185,17 +134,36 @@ async function getUserBills(req, res) {
     createdAt: -1,
   });
   if (!bills) {
-    return res.status(404).json({ error: "No Bills Found" });
+    return res.status(404).json({ error: "לא נמצאו חיובים" });
   }
   res.status(200).json(bills);
+}
+
+//Get sum of expenses by a specified time period
+async function getSumTenant(req, res) {
+  const { from, to } = req.params;
+  // hoa id from auth
+  const hoa_id = req.user.hoa_id;
+
+  //create date from request body
+  const startDate = new Date(from);
+  let endDate = new Date(to);
+
+  try {
+    const incomes = await Billing.sum(hoa_id, startDate, endDate);
+    res.status(200).json(incomes);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 }
 
 module.exports = {
   createBill,
   getBills,
-  getSum,
+  getSumManager,
   editBill,
   deleteBill,
   recordPayment,
   getUserBills,
+  getSumTenant,
 };

@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -15,11 +19,23 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Suppliers() {
   const { dispatch } = useModalsContext();
+  const { fetchData } = useDataHandler();
+  const { suppliers } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
+  // fetch suppliers data
+  useEffect(() => {
+    if (!suppliers) {
+      fetchData("suppliers", "SET_SUPPLIERS");
+    }
+  }, []); //eslint-disable-line
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - ניהול ספקים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">ניהול ספקים</h1>
       {/* Search Bar */}
@@ -57,56 +73,60 @@ function Suppliers() {
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>מעליות בעמ</td>
-            <td>מעליות</td>
-            <td>חברה</td>
-            <td>
-              <a href="tel:+9721700123123" className="text-decoration-none">
-                1700123123
-              </a>
-            </td>
-            <td>
-              <a
-                href="mailto:hello@elevetorsil.co.il"
-                className="text-decoration-none"
-              >
-                hello@elevetorsil.co.il
-              </a>
-            </td>
-            <td>
-              <Button
-                variant="outline-warning"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  setEditData({
-                    name: "מעליות",
-                  });
-                  dispatch({ type: "EDIT_SUPPLIER", payload: true });
-                }}
-              >
-                עדכן פרטים
-              </Button>
+          {suppliers &&
+            suppliers.map((supplier) => (
+              <tr key={supplier._id}>
+                <td>{supplier.supplierName}</td>
+                <td>{supplier.supplierCategory}</td>
+                <td>{supplier.supplierType}</td>
+                <td>
+                  <a
+                    href={`tel:+972${supplier.phoneNumber}`}
+                    className="text-decoration-none"
+                  >
+                    {supplier.phoneNumber}
+                  </a>
+                </td>
+                <td>
+                  <a
+                    href={`mailto:${supplier.email}`}
+                    className="text-decoration-none"
+                  >
+                    {supplier.email}
+                  </a>
+                </td>
+                <td>
+                  <Button
+                    variant="outline-primary"
+                    className="me-md-1 mb-1 mb-md-0"
+                    onClick={() => {
+                      setEditData(supplier);
+                      dispatch({ type: "EDIT_SUPPLIER", payload: true });
+                    }}
+                  >
+                    עדכן פרטים
+                  </Button>
 
-              <Button
-                variant="outline-danger"
-                onClick={() => {
-                  setDeleteData({
-                    id: "1234",
-                    displayName: "מעליות בעמ",
-                    db: "suppliers",
-                  });
-                  dispatch({
-                    type: "DELETE_CONFIRMATION",
-                    payload: true,
-                  });
-                }}
-              >
-                מחק
-              </Button>
-            </td>
-          </tr>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => {
+                      setDeleteData({
+                        id: supplier._id,
+                        displayName: supplier.supplierName,
+                        type: "DELETE_SUPPLIER",
+                        suffix: "suppliers",
+                      });
+                      dispatch({
+                        type: "DELETE_CONFIRMATION",
+                        payload: true,
+                      });
+                    }}
+                  >
+                    מחק
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
       {/* //* Modals */}

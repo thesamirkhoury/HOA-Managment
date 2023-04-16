@@ -8,6 +8,12 @@ const mongoose = require("mongoose");
 //Upload a new document
 async function uploadDocument(req, res) {
   const { fileName, fileDescription, file } = req.body;
+  //Validation
+  //TODO: refine in file handling
+  if (!fileName || !fileDescription) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
+  }
+
   // hoa id from auth
   const hoa_id = req.user._id;
 
@@ -31,7 +37,7 @@ async function getDocuments(req, res) {
 
   const documents = await Document.find({ hoa_id }).sort({ createdAt: -1 });
   if (!documents) {
-    return res.status(404).json({ error: "No Documents Found" });
+    return res.status(404).json({ error: "לא נמצאו קבצים" });
   }
   res.status(200).json(documents);
 }
@@ -41,7 +47,7 @@ async function editDocument(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Document Not Found" });
+    return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת." });
   }
 
   const { fileName, fileDescription, file } = req.body;
@@ -52,7 +58,7 @@ async function editDocument(req, res) {
     { new: true }
   );
   if (!document) {
-    return res.status(404).json({ error: "Document Not Found" });
+    return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת." });
   }
   res.status(200).json(document);
 }
@@ -62,12 +68,12 @@ async function deleteDocument(req, res) {
   const { id } = req.params;
   // check if bill id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Document Not Found" });
+    return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת." });
   }
 
   const document = await Document.findByIdAndDelete(id);
   if (!document) {
-    return res.status(404).json({ error: "Document Not Found" });
+    return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת." });
   }
   res.status(200).json(document);
 }
@@ -81,7 +87,7 @@ async function getUserDocuments(req, res) {
 
   const documents = await Document.find({ hoa_id }).sort({ createdAt: -1 });
   if (!documents) {
-    return res.status(404).json({ error: "No Documents Found" });
+    return res.status(404).json({ error: "לא נמצאו קבצים" });
   }
   res.status(200).json(documents);
 }

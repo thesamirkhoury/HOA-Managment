@@ -1,6 +1,7 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuthContext } from "./hook/useAuthContext";
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "./hooks/useAuthContext";
+import { usePath } from "./hooks/usePath";
 
 //Pages and Components
 import Navbar from "./components/Navbar";
@@ -21,6 +22,14 @@ import NotFound from "./pages/NotFound";
 
 function App() {
   const { user } = useAuthContext();
+  const { path, setPath } = usePath();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/login") {
+      setPath(location.pathname);
+    }
+  }, [location]); // eslint-disable-line
 
   return (
     <div className="App">
@@ -92,7 +101,7 @@ function App() {
             {/* Auth pages */}
             <Route
               path="login"
-              element={!user ? <Login /> : <Navigate to="/" />}
+              element={!user ? <Login /> : <Navigate to={path} />}
               exact
             />
             <Route

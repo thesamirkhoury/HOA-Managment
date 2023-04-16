@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataHandler } from "../hooks/useDataHandler";
+import { useDataContext } from "../hooks/useDataContext";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -15,12 +21,24 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Reminders() {
   const { dispatch } = useModalsContext();
+  const { reminders } = useDataContext();
+  const { fetchData } = useDataHandler();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
-  const placeholderReminders = Array.from({ length: 10 });
+  // fetch reminders data
+  useEffect(() => {
+    if (!reminders) {
+      fetchData("reminders", "SET_REMINDERS");
+    }
+  }, []); //eslint-disable-line
+
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - תזכורות אחזקה</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">תזכורות אחזקה</h1>
       {/* Search Bar */}
@@ -47,46 +65,49 @@ function Reminders() {
       </Row>
       {/* Reminder Cards */}
       <Row xs={1} md={4} lg={8} className="g-4 mt-1">
-        {placeholderReminders.map((_, id) => (
-          <Col key={id}>
-            <Card>
-              <Card.Body>
-                <Card.Title>טיפול במעליות</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  18/05/2023 - 10:30
-                </Card.Subtitle>
-                <Card.Text>טיפול שוטף במעליות, כולל החלפת חלקים.</Card.Text>
-                <div className="mt-3 float-end">
-                  <Button
-                    variant="warning"
-                    className="me-1"
-                    onClick={() => {
-                      setEditData({
-                        name: "טיפול במעליות",
-                      });
-                      dispatch({ type: "EDIT_REMINDER", payload: true });
-                    }}
-                  >
-                    עדכן
-                  </Button>
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => {
-                      setDeleteData({
-                        id: "1234",
-                        displayName: "טיפול במעליות",
-                        db: "reminders",
-                      });
-                      dispatch({ type: "DELETE_CONFIRMATION", payload: true });
-                    }}
-                  >
-                    מחק
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+        {reminders &&
+          reminders.map((reminder) => (
+            <Col key={reminder._id}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>{reminder.title}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {format(new Date(reminder.dateAndTime), "HH:mm dd/MM/yyyy")}
+                  </Card.Subtitle>
+                  <Card.Text>{reminder.body}</Card.Text>
+                  <div className="mt-3 float-end">
+                    <Button
+                      variant="outline-primary"
+                      className="me-1"
+                      onClick={() => {
+                        setEditData(reminder);
+                        dispatch({ type: "EDIT_REMINDER", payload: true });
+                      }}
+                    >
+                      עדכן
+                    </Button>
+                    <Button
+                      variant="outline-danger"
+                      onClick={() => {
+                        setDeleteData({
+                          id: reminder._id,
+                          displayName: reminder.title,
+                          type: "DELETE_REMINDER",
+                          suffix: "reminders",
+                        });
+                        dispatch({
+                          type: "DELETE_CONFIRMATION",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      מחק
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
       </Row>
       {/* //* Modals */}
       <NewReminder />

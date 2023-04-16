@@ -9,38 +9,38 @@ const tenantSchema = new Schema(
   {
     hoa_id: {
       type: String,
-      required: [true, "HOA ID is required"],
+      required: [true, "חובה להתחבר לחשבון ועד"],
     },
     firstName: {
       type: String,
-      required: [true, "Tenant First Name is required"],
+      required: [true, "שם פרטי הינו שדה חובה"],
     },
     lastName: {
       type: String,
-      required: [true, "Tenant Last Name is required"],
+      required: [true, "שם ממשפחה הינו שדה חובה"],
     },
     buildingNumber: {
       type: String,
-      required: [true, "Tenant Building Number is required"],
+      required: [true, "מספר בניין הינו שדה חובה"],
     },
     apartmentNumber: {
       type: String,
-      required: [true, "Tenant Apartment Number is required"],
+      required: [true, "ספר דירה הינו שדה חובה"],
     },
     parkingSpot: {
       type: String,
     },
     phoneNumber: {
       type: String,
-      required: [true, "Tenant Phone Number is required"],
+      required: [true, "מספר טלפון הינו שדה חובה"],
     },
     tenantEmail: {
       type: String,
-      required: [true, "Tenant Email is required"],
+      required: [true, "מייל דייר הינו שדה חובה"],
     },
     username: {
       type: String,
-      required: [true, "Tenant Email is required"],
+      required: true,
       unique: true,
     },
     password: {
@@ -49,23 +49,23 @@ const tenantSchema = new Schema(
     tenantType: {
       // Type is either an "Owner" or a "Renter"
       type: String,
-      required: [true, "Tenant Type is required"],
+      required: [true, "סוג דייר  הינו שדה חובה"],
     },
     ownerFirstName: {
       type: String,
-      required: [true, "Owner First Name is required"],
+      required: [true, "שם פרטי של בעל הבית הינו שדה חובה"],
     },
     ownerLastName: {
       type: String,
-      required: [true, "Owner Last Name is required"],
+      required: [true, "שם משפחה של בעל הבית הינו שדה חובה"],
     },
     ownerPhoneNumber: {
       type: String,
-      required: [true, "Owner Phone Number is required"],
+      required: [true, "מספר טלפון של בעל הבית הינו שדה חובה"],
     },
     ownerEmail: {
       type: String,
-      required: [true, "Owner Email is required"],
+      required: [true, "מייל של בעל הדירה הינו שדה חובה"],
     },
     token: {
       type: String,
@@ -78,7 +78,6 @@ const tenantSchema = new Schema(
 );
 
 // static signup method
-//TODO: Change Error messages to hebrew
 tenantSchema.statics.signup = async function (
   hoa_id,
   firstName,
@@ -97,7 +96,7 @@ tenantSchema.statics.signup = async function (
 ) {
   // validation
   if (!hoa_id) {
-    throw Error("Tenant must be associated with a HOA");
+    throw Error("הדייר חייב להיות משויך לועד בית.");
   }
   //check if all required values are passed
   if (
@@ -114,16 +113,16 @@ tenantSchema.statics.signup = async function (
     !ownerPhoneNumber ||
     !ownerEmail
   ) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מפרטי הדייר החובה חסרים.");
   }
   if (!validator.isEmail(tenantEmail) || !validator.isEmail(ownerEmail)) {
-    throw Error("Email is not Valid");
+    throw Error("המייל שהיזנת אינו בפורמת מייל תקין.");
   }
 
   // check if the email already exists
   const exists = await this.findOne({ username });
   if (exists) {
-    throw Error("Tenant already added to HOA");
+    throw Error("הדייר כבר קיים במערכת.");
   }
 
   //create a random token
@@ -150,7 +149,7 @@ tenantSchema.statics.signup = async function (
     ownerPhoneNumber,
     ownerEmail,
     token: hash,
-    tokenExpire: Date.now() + 10 * (60 * 1000), //10 minutes
+    tokenExpire: Date.now() + 3 * (24 * 60 * (60 * 1000)), //link valid for 3 days for the creation date
   });
 
   const userData = {
@@ -161,40 +160,37 @@ tenantSchema.statics.signup = async function (
 };
 
 //static login method
-//TODO: Change Error messages to hebrew
-//? check error message for possibility of generic messages
 tenantSchema.statics.login = async function (username, password) {
   // validation
   if (!username || !password) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מהפרטים חסרים.");
   }
 
   // check if email exists
   const user = await this.findOne({ username });
   if (!user) {
-    throw Error("Incorrect username");
+    throw Error("אחד או יותר מהפרטים שהוזנו אינם תקינים.");
   }
 
   // check if the plain-text password matches the hashed password
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    throw Error("Incorrect Password");
+    throw Error("אחד או יותר מהפרטים שהוזנו אינם תקינים.");
   }
   return user;
 };
 
 // static forgot password method
-// TODO: Change Error messages to hebrew
 tenantSchema.statics.forgotPassword = async function (username) {
   // validation
   if (!username) {
-    throw Error("Username is required to reset your password");
+    throw Error("שדה שם המשתמש היינו חובה לאיפוס הסיסמה.");
   }
 
   // check if username exists
   const user = await this.findOne({ username });
   if (!user) {
-    throw Error("Incorrect username");
+    throw Error("הוזן שם משתמש שגוי.");
   }
 
   //create a random token
@@ -217,11 +213,10 @@ tenantSchema.statics.forgotPassword = async function (username) {
 };
 
 // static change password according to token method
-// TODO: Change Error messages to hebrew
 tenantSchema.statics.resetPassword = async function (resetToken, password) {
   // validation
   if (!resetToken || !password) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מהפרטים חסרים.");
   }
 
   //hash salt
@@ -235,7 +230,7 @@ tenantSchema.statics.resetPassword = async function (resetToken, password) {
   });
 
   if (!user) {
-    throw Error("Invalid Token");
+    throw Error("הקישור שקבלת אינו תקין, נא לנסות לאפס את הסיסה שינית.");
   }
 
   // hash the password
@@ -248,6 +243,37 @@ tenantSchema.statics.resetPassword = async function (resetToken, password) {
   await user.save();
 
   return user;
+};
+
+// static change password using old password method
+tenantSchema.statics.changePassword = async function (
+  _id,
+  currentPassword,
+  newPassword
+) {
+  // validation
+  if (!currentPassword || !newPassword) {
+    throw Error("אחד או יותר מהפרטים חסרים.");
+  }
+  // check if user exists
+  const user = await this.findOne({ _id });
+  if (!user) {
+    throw Error("חשבון הדייר אינו קיים במערכת.");
+  }
+  // check if provided current password is correct
+  const match = await bcrypt.compare(currentPassword, user.password);
+  if (!match) {
+    throw Error("הסיסממה הנוכחית אינה תקינה.");
+  }
+  if (match) {
+    //hash salt
+    const salt = await bcrypt.genSalt(10);
+    // hash the password
+    const hash = await bcrypt.hash(newPassword, salt);
+    user.password = hash;
+    await user.save();
+    return user;
+  }
 };
 
 module.exports = mongoose.model("Tenant", tenantSchema);

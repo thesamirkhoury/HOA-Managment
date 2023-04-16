@@ -1,5 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import { range } from "../util/range";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNow";
+import { he } from "date-fns/locale";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -16,65 +24,30 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Announcements() {
   const { dispatch } = useModalsContext();
+  const { fetchData } = useDataHandler();
+  const { announcements, details } = useDataContext();
+  const [buildingsCount, setBuildingsCount] = useState();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
-  const placeholderMsgs = [
-    {
-      HOA: "63a0674e2aa7479524d3f594",
-      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam quibusdam consequuntur alias perspiciatis aut placeat reiciendis omnis, quasi autem odit ipsum quis facere soluta impedit debitis nulla minus. Repudiandae animi quos itaque id nisi, rem, quibusdam et, quaerat corrupti nemo laborum. Ducimus, enim laudantium! Reiciendis praesentium cumque libero officia eum.",
-      buildingNumber: "2",
-      title: "הפסקת מים כללית",
-      _id: "63a329baad4e7a94b176a771",
-    },
-    {
-      _id: "63a329c7ad4e7a94b176a773",
-      HOA: "63a0674e2aa7479524d3f594",
-      title: "ניתוק חשמל כללי",
-      body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
-      buildingNumber: "2",
-    },
-    {
-      _id: "63a329c7ad4e7a94b176a774",
-      HOA: "63a0674e2aa7479524d3f594",
-      title: "ניתוק חשמל כללי",
-      body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
-      buildingNumber: "2",
-    },
-    {
-      _id: "63a329c7ad4e7a94b176a775",
-      HOA: "63a0674e2aa7479524d3f594",
-      title: "ניתוק חשמל כללי",
-      body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
-      buildingNumber: "2",
-    },
-    {
-      _id: "63a329c7ad4e7a94b176a776",
-      HOA: "63a0674e2aa7479524d3f594",
-      title: "ניתוק חשמל כללי",
-      body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
-      buildingNumber: "2",
-    },
-
-    {
-      _id: "63a329c7ad4e7a94b176a773",
-      HOA: "63a0674e2aa7479524d3f594",
-      title: "ניתוק חשמל כללי",
-      body: "היום אחרי הצהרים החשמל ינתק למשך כשעתיים בשל עבודת תשתית",
-      buildingNumber: "1",
-    },
-    {
-      _id: "63a334ef370b5e62a5212206",
-      HOA: "63a0674e2aa7479524d3f594",
-      title: "בדיקה כללית",
-      body: "בדיקת הודעה כללית",
-      buildingNumber: "0", //all buildings
-    },
-  ];
-  const placeholderBuildingsCount = 3;
+  useEffect(() => {
+    if (!announcements) {
+      fetchData("announcements", "SET_ANNOUNCEMENTS");
+    }
+    if (!details) {
+      fetchData("details", "SET_DETAILS");
+    }
+    if (details) {
+      setBuildingsCount(details.buildingCount);
+    }
+  }, [details]); // eslint-disable-line
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - הודעות לדיירים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">הודעות לדיירים</h1>
       {/* Search Bar */}
@@ -101,71 +74,80 @@ function Announcements() {
       </Row>
       {/* Message Accordian */}
       <Accordion alwaysOpen>
-        {[...Array(placeholderBuildingsCount + 1)].map((_, id) => (
-          <Accordion.Item eventKey={id} key={id}>
-            <Accordion.Header>
-              {id === 0 ? "הודעות כלליות" : `בניין ${id}`}
-            </Accordion.Header>
-            <Accordion.Body>
-              <Row xs={1} md={2} lg={3} className="g-3 mt-1">
-                {placeholderMsgs &&
-                  placeholderMsgs.map(
-                    (msg) =>
-                      parseInt(msg.buildingNumber) === id && (
-                        <Col key={msg._id}>
-                          <Card>
-                            <Card.Body>
-                              <Card.Title>{msg.title}</Card.Title>
-                              <Card.Subtitle className="mb-2 text-muted">
-                                לפני שעתיים
-                              </Card.Subtitle>
-                              <Card.Text>{msg.body}</Card.Text>
-                              <div className="float-end">
-                                <Button
-                                  variant="warning"
-                                  className="me-1"
-                                  onClick={() => {
-                                    setEditData({
-                                      title: "בדיקה כללית",
-                                    });
-                                    dispatch({
-                                      type: "EDIT_ANNOUNCEMENT",
-                                      payload: true,
-                                    });
-                                  }}
-                                >
-                                  עדכן
-                                </Button>
-                                <Button
-                                  variant="outline-danger"
-                                  onClick={() => {
-                                    setDeleteData({
-                                      id: "1234",
-                                      displayName: "ניתק חשמלי כללי",
-                                      db: "announcements",
-                                    });
-                                    dispatch({
-                                      type: "DELETE_CONFIRMATION",
-                                      payload: true,
-                                    });
-                                  }}
-                                >
-                                  מחק
-                                </Button>
-                              </div>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      )
-                  )}
-              </Row>
-            </Accordion.Body>
-          </Accordion.Item>
-        ))}
+        {buildingsCount &&
+          range(buildingsCount + 1).map((_, number) => (
+            // Diviade announcements into buildings
+            <Accordion.Item eventKey={number} key={number}>
+              <Accordion.Header>
+                {number === 0 ? "הודעות כלליות" : `בניין ${number}`}
+              </Accordion.Header>
+              <Accordion.Body>
+                {/* Announcement Cards */}
+                <Row xs={1} md={2} lg={3} className="g-3 mt-1">
+                  {announcements &&
+                    announcements.map(
+                      (announcement) =>
+                        // group announcements by building number
+                        announcement.buildingNumber === number && (
+                          <Col key={announcement._id}>
+                            <Card>
+                              <Card.Body>
+                                <Card.Title>{announcement.title}</Card.Title>
+                                <Card.Subtitle className="mb-2 text-muted">
+                                  {formatDistanceToNowStrict(
+                                    new Date(announcement.createdAt),
+                                    { addSuffix: true, locale: he }
+                                  )}
+                                </Card.Subtitle>
+                                <Card.Text>{announcement.body}</Card.Text>
+
+                                {/* Controll Buttons */}
+                                <div className="float-end">
+                                  <Button
+                                    variant="warning"
+                                    className="me-1"
+                                    onClick={() => {
+                                      setEditData(announcement);
+                                      dispatch({
+                                        type: "EDIT_ANNOUNCEMENT",
+                                        payload: true,
+                                      });
+                                    }}
+                                  >
+                                    עדכן
+                                  </Button>
+
+                                  <Button
+                                    variant="outline-danger"
+                                    onClick={() => {
+                                      setDeleteData({
+                                        id: announcement._id,
+                                        displayName: announcement.title,
+                                        type: "DELETE_ANNOUNCEMENT",
+                                        suffix: "announcements",
+                                      });
+                                      dispatch({
+                                        type: "DELETE_CONFIRMATION",
+                                        payload: true,
+                                      });
+                                    }}
+                                  >
+                                    מחק
+                                  </Button>
+                                </div>
+                              </Card.Body>
+                            </Card>
+                          </Col>
+                        )
+                    )}
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
       </Accordion>
       {/* //* Modals */}
-      <NewAnnouncement />
-      <EditAnnouncement editData={editData} />
+      <NewAnnouncement buildingsCount={buildingsCount} />
+      <EditAnnouncement editData={editData} buildingsCount={buildingsCount} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );

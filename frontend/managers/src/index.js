@@ -5,6 +5,9 @@ import App from "./App";
 // Context Providers
 import { AuthContextProvider } from "./context/AuthContext";
 import { ModalsContextProvider } from "./context/ModalsContext";
+import { RedirectContextProvider } from "./context/RedirectContext";
+import { DataContextProvider } from "./context/DataContext";
+import { HelmetProvider } from "react-helmet-async";
 
 // react router Browser Router
 import { BrowserRouter } from "react-router-dom";
@@ -20,11 +23,17 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <ModalsContextProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ModalsContextProvider>
+      <RedirectContextProvider>
+        <ModalsContextProvider>
+          <HelmetProvider>
+            <BrowserRouter>
+              <DataContextProvider>
+                <App />
+              </DataContextProvider>
+            </BrowserRouter>
+          </HelmetProvider>
+        </ModalsContextProvider>
+      </RedirectContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

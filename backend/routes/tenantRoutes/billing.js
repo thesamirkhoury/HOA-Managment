@@ -1,6 +1,9 @@
 const express = require("express");
 //controller functions
-const { getUserBills } = require("../../controllers/billingControllers");
+const {
+  getUserBills,
+  getSumTenant,
+} = require("../../controllers/billingControllers");
 //auth middleware
 const requireAuthTenant = require("../../middleware/requireAuthTenant");
 
@@ -11,6 +14,9 @@ router.use(requireAuthTenant);
 
 //Get all bills for a user
 router.get("/", getUserBills);
+
+//Get the sum of all paid bills by a specific time period
+router.get("/sum/:from/:to", getSumTenant);
 
 //Get an invoice pdf based on bill _id
 router.get("/:id/invoice", (req, res) => {

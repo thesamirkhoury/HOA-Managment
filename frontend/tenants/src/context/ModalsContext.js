@@ -14,6 +14,11 @@ export function modalsReducer(state, action) {
         ...state,
         newMaintenance: action.payload,
       };
+    case "MAINTENANCE_IMAGES":
+      return {
+        ...state,
+        maintenanceImages: action.payload,
+      };
     case "NEW_INQUIRY":
       return {
         ...state,
@@ -28,6 +33,11 @@ export function modalsReducer(state, action) {
       return {
         ...state,
         changeEmail: action.payload,
+      };
+    case "BILLING_DETAILS":
+      return {
+        ...state,
+        billingDetails: action.payload,
       };
     case "CHANGE_PASSWORD":
       return {
@@ -48,8 +58,10 @@ export const ModalsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(modalsReducer, {
     showOffcanvas: false,
     newMaintenance: false,
+    maintenanceImages: false,
     newInquiry: false,
     inquiryDetails: false,
+    billingDetails: false,
     changeEmail: false,
     changePassword: false,
     loading: false,

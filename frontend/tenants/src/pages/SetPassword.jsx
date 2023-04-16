@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useResetPassword } from "../hook/useResetPassword";
+import { useResetPassword } from "../hooks/useResetPassword";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";

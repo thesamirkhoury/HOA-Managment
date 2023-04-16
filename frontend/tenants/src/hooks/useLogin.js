@@ -12,11 +12,14 @@ export function useLogin() {
     modalsDispatch({ type: "LOADING", payload: true });
     setError(null);
 
-    const response = await fetch("http://localhost:4000/api/tenants/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/tenants/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      }
+    );
     const json = await response.json();
 
     if (!response.ok) {

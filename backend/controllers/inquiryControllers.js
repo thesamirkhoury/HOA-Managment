@@ -10,25 +10,9 @@ async function getInquiries(req, res) {
 
   const inquiry = await Inquirie.find({ hoa_id });
   if (!inquiry) {
-    return res.status(404).json({ error: "No Inquiries Found" });
+    return res.status(404).json({ error: "לא נמצאו פניות." });
   }
   res.status(200).json(inquiry);
-}
-
-//Get a single inquiry by _id
-async function getInquiry(req, res) {
-  const { id } = req.params;
-
-  // check if id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Inquiries Not Found" });
-  }
-
-  const request = await Inquirie.findById(id);
-  if (!request) {
-    return res.status(404).json({ error: "No Inquiry Found" });
-  }
-  res.status(200).json(request);
 }
 
 //Add a response to an inquiry by _id
@@ -38,7 +22,7 @@ async function addResponse(req, res) {
   const { response } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Inquiry Not Found" });
+    return res.status(404).json({ error: "פנייה זאת אינה קמיית במערכת." });
   }
 
   const inquiry = await Inquirie.findByIdAndUpdate(
@@ -47,7 +31,7 @@ async function addResponse(req, res) {
     { new: true }
   );
   if (!inquiry) {
-    return res.status(404).json({ error: "No Inquiries Found" });
+    return res.status(404).json({ error: "לא נמצאו פניות." });
   }
   res.status(200).json(inquiry);
 }
@@ -57,6 +41,11 @@ async function addResponse(req, res) {
 //Create a new inquiry
 async function createInquiry(req, res) {
   const { subject, body } = req.body;
+  //Validation
+  if (!subject || !body) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
+  }
+
   // hoa id from auth
   const hoa_id = req.user.hoa_id;
   // tenant id from auth
@@ -87,14 +76,13 @@ async function getUserInquiries(req, res) {
   }).sort({ createdAt: -1 });
 
   if (!inquiries) {
-    return res.status(404).json({ error: "No Inquiries Found" });
+    return res.status(404).json({ error: "לא נמצאו פניות." });
   }
   res.status(200).json(inquiries);
 }
 
 module.exports = {
   getInquiries,
-  getInquiry,
   addResponse,
   createInquiry,
   getUserInquiries,

@@ -1,6 +1,7 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -10,50 +11,131 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function EditExpense() {
+function EditExpense({ editData, suppliers }) {
   const { editExpense, dispatch } = useModalsContext();
+  const { sendData } = useDataHandler();
+  //editable field toggler
+  const [isEditable, SetIsEditable] = useState(false);
+  // form state
+  const [supplierId, setSupplierId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [details, setDetails] = useState("");
+  const [paymentType, setPaymentType] = useState("");
+  const [paymentDate, setPaymentDate] = useState("");
+  //error handling
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (editData) {
+      setSupplierId(editData.supplier_id);
+      setAmount(editData.amount);
+      setPaymentMethod(editData.paymentMethod);
+      setDetails(editData.details);
+      setPaymentType(editData.paymentType);
+      setPaymentDate(editData.paymentDate.split("T")[0]);
+    }
+  }, [editData]);
+
+  function handleHide() {
+    dispatch({ type: "EDIT_EXPENSE", payload: false });
+    setSupplierId(editData.supplier_id);
+    setAmount(editData.amount);
+    setPaymentMethod(editData.paymentMethod);
+    setDetails(editData.details);
+    setPaymentType(editData.paymentType);
+    setPaymentDate(editData.paymentDate.split("T")[0]);
+  }
+
+  async function handleEdit(e) {
+    e.preventDefault();
+    const expense = {
+      supplier_id: supplierId,
+      amount,
+      paymentType,
+      paymentMethod,
+      details,
+      paymentDate,
+    };
+    const errors = await sendData(
+      `expenses/${editData._id}`,
+      "PATCH",
+      expense,
+      "EDIT_EXPENSE"
+    );
+    if (!errors) {
+      handleHide();
+      SetIsEditable(false);
+    }
+    if (errors) {
+      setError(errors.error);
+    }
+  }
 
   return (
     <Modal
       show={editExpense}
       fullscreen="lg-down"
       size="lg"
-      onHide={() => {
-        dispatch({ type: "EDIT_EXPENSE", payload: false });
-      }}
+      onHide={handleHide}
     >
       <Modal.Header closeButton>
         <Modal.Title>עדכון הוצאה</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleEdit}>
           <Form.Group>
             <Form.Label>בחר ספק</Form.Label>
             <Form.Select
-              aria-label="Supplier select"
+              required
+              disabled={!isEditable}
+              aria-label="Supplier selector"
+              value={supplierId}
               onChange={(e) => {
-                // console.log(e.target.value);
+                setSupplierId(e.target.value);
               }}
             >
               <option>בחר ספק</option>
-              {/* //! Place holder data for API Call */}
-              <option value="ישראל ישראלי">חברת המעליות בע״מ </option>
+              {/* Dynamically List All tenants */}
+              {suppliers &&
+                suppliers.map((supplier) => (
+                  <option key={supplier._id} value={supplier._id}>
+                    {supplier.supplierName}
+                  </option>
+                ))}
             </Form.Select>
           </Form.Group>
           <Row>
             <Form.Group as={Col} md="6">
-              <Form.Label>בחר קטגוריה</Form.Label>
-              <Form.Control required type="text" value=""></Form.Control>
-            </Form.Group>
-            <Form.Group as={Col} md="6">
               <Form.Label>סכום</Form.Label>
               <Form.Control
                 required
+                disabled={!isEditable}
                 type="number"
-                inputMode="numeric"
+                inputMode="decimal"
                 min="1"
-                value=""
+                value={amount}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                }}
               ></Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} md="6">
+              <Form.Label>שיטת תשלום</Form.Label>
+              <Form.Select
+                required
+                disabled={!isEditable}
+                aria-label="Payment Method selector"
+                value={paymentMethod}
+                onChange={(e) => {
+                  setPaymentMethod(e.target.value);
+                }}
+              >
+                <option>בחר שיטת תשלום</option>
+                <option value="מזומן">מזומן</option>
+                <option value="העברה בנקאית">העברה בנקאית</option>
+                <option value="אשראי">כרטיס אשראי</option>
+              </Form.Select>
             </Form.Group>
           </Row>
           <Form.Group>
@@ -62,17 +144,24 @@ function EditExpense() {
               as="textarea"
               rows={3}
               required
+              disabled={!isEditable}
               type="text"
-              value=""
+              value={details}
+              onChange={(e) => {
+                setDetails(e.target.value);
+              }}
             ></Form.Control>
           </Form.Group>
           <Row>
             <Form.Group as={Col} md="6">
               <Form.Label>סוג התשלום</Form.Label>
               <Form.Select
-                aria-label="Payment type select"
+                required
+                disabled={!isEditable}
+                aria-label="Payment type selector"
+                value={paymentType}
                 onChange={(e) => {
-                  // console.log(e.target.value);
+                  setPaymentType(e.target.value);
                 }}
               >
                 <option>בחר סוג תשלום</option>
@@ -84,27 +173,54 @@ function EditExpense() {
               <Form.Label>תאריך התשלום</Form.Label>
               <Form.Control
                 required
+                disabled={!isEditable}
                 type="date"
                 dir="ltr"
-                value=""
+                value={paymentDate}
+                onChange={(e) => {
+                  setPaymentDate(e.target.value);
+                }}
               ></Form.Control>
             </Form.Group>
           </Row>
+          {error && <div className="error">{error}</div>}
 
-          <div className="mt-3 float-end">
-            <Button variant="success" type="submit">
-              <i className="bi bi-plus-square"> </i>הוספת הוצאה
-            </Button>
-            <Button
-              variant="outline-secondary"
-              className="ms-2"
-              onClick={() => {
-                dispatch({ type: "EDIT_EXPENSE", payload: false });
-              }}
-            >
-              <i className="bi bi-x-square"> </i>סגור חלון
-            </Button>
-          </div>
+          {!isEditable && (
+            <div className="mt-3 float-end">
+              <Button
+                variant="success"
+                onClick={() => {
+                  SetIsEditable(true);
+                }}
+              >
+                <i className="bi bi-pen"> </i>עדכן פרטי ההוצאה
+              </Button>
+              <Button
+                variant="outline-secondary"
+                className="ms-2"
+                onClick={handleHide}
+              >
+                <i className="bi bi-x-square"> </i>סגור חלון
+              </Button>
+            </div>
+          )}
+
+          {isEditable && (
+            <div className="mt-3 float-end">
+              <Button variant="outline-success" type="submit">
+                עדכן פרטים
+              </Button>
+              <Button
+                variant="outline-danger"
+                className="ms-2"
+                onClick={() => {
+                  SetIsEditable(false);
+                }}
+              >
+                בטל
+              </Button>
+            </div>
+          )}
         </Form>
       </Modal.Body>
     </Modal>

@@ -4,8 +4,11 @@ const express = require("express");
 const {
   getAllDetails,
   editHoa,
+  changePassword,
   deleteHoa,
 } = require("../../controllers/hoaControllers");
+const { closeAccount } = require("../../controllers/closeAccount");
+
 //auth middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
 
@@ -20,7 +23,10 @@ router.get("/", getAllDetails);
 //Edit the HOA info
 router.patch("/", editHoa);
 
+//Change Password
+router.put("/change-password", changePassword);
+
 //Delete the HOA and close the account
-router.delete("/", deleteHoa);
+router.delete("/", closeAccount);
 
 module.exports = router;

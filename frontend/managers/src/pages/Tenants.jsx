@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+//custom hooks
 import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataHandler } from "../hooks/useDataHandler";
+import { useDataContext } from "../hooks/useDataContext";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -10,17 +14,29 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewTenant from "../components/modals/NewTenant";
-import TenantDetails from "../components/modals/TenantDetails";
 import EditTenant from "../components/modals/EditTenant";
 import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Tenants() {
   const { dispatch } = useModalsContext();
+  const { tenants } = useDataContext();
+  const { fetchData } = useDataHandler();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
+  // fetch tenants data
+  useEffect(() => {
+    if (!tenants) {
+      fetchData("tenants", "SET_TENANTS");
+    }
+  }, []); //eslint-disable-line
+
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - ניהול דיירים</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">ניהול דיירים</h1>
       {/* Search Bar */}
@@ -51,60 +67,60 @@ function Tenants() {
           <tr>
             <th>שם דייר</th>
             <th>מספר בניין</th>
-            <th>מספר בית</th>
-            <th>סוג דירה</th>
+            <th>מספר דירה</th>
+            <th>סוג בעלות</th>
             <th>טלפון</th>
             <th>פעולות</th>
           </tr>
         </thead>
         <tbody>
-          {/* //! Placeholder text */}
-          <tr>
-            <td>ישראל ישראלי</td>
-            <td>1</td>
-            <td>2</td>
-            <td>שכירות</td>
-            <td>
-              <a href="tel:+9720521234567" className="text-decoration-none">
-                0521234567
-              </a>
-            </td>
-            <td>
-              <Button
-                variant="outline-primary"
-                className="me-md-1 mb-1 mb-md-0"
-                onClick={() => {
-                  setEditData({
-                    firstName: "ישראל",
-                    lastName: "ישראלי",
-                    tenantType: "שכירות",
-                    parkingSpot: "2",
-                  });
-                  dispatch({ type: "TENANT_DETAILS", payload: true });
-                }}
-              >
-                פרטים
-              </Button>
-              <Button
-                variant="outline-danger"
-                onClick={() => {
-                  setDeleteData({
-                    id: "1234",
-                    displayName: "ישראל ישראלי",
-                    db: "tenants",
-                  });
-                  dispatch({ type: "DELETE_CONFIRMATION", payload: true });
-                }}
-              >
-                מחק
-              </Button>
-            </td>
-          </tr>
+          {tenants &&
+            tenants.map((tenant) => (
+              <tr key={tenant._id}>
+                <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
+                <td>{tenant.buildingNumber}</td>
+                <td>{tenant.apartmentNumber}</td>
+                <td>{tenant.tenantType}</td>
+                <td>
+                  <a
+                    href={`tel:+972${tenant.phoneNumber}`}
+                    className="text-decoration-none"
+                  >
+                    {tenant.phoneNumber}
+                  </a>
+                </td>
+                <td>
+                  <Button
+                    variant="outline-primary"
+                    className="me-md-1 mb-1 mb-md-0"
+                    onClick={() => {
+                      setEditData(tenant);
+                      dispatch({ type: "EDIT_TENANT", payload: true });
+                    }}
+                  >
+                    פרטים
+                  </Button>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => {
+                      setDeleteData({
+                        id: tenant._id,
+                        displayName: `${tenant.firstName} ${tenant.lastName}`,
+                        type: "DELETE_TENANT",
+                        suffix: "tenants",
+                      });
+                      dispatch({ type: "DELETE_CONFIRMATION", payload: true });
+                    }}
+                  >
+                    מחק
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
       {/* //* Modals */}
       <NewTenant />
-      <TenantDetails editData={editData} />
       <EditTenant editData={editData} />
       <DeleteConfirmation deleteData={deleteData} />
     </>

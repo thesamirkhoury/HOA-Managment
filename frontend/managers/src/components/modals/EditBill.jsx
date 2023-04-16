@@ -1,6 +1,7 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -10,34 +11,86 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function EditBill() {
+function EditBill({ editData, tenants }) {
   const { editBill, dispatch } = useModalsContext();
+  const { sendData } = useDataHandler();
+  // form state
+  const [tenantId, setTenantId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [paymentType, setPaymentType] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  //error handling
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (editData) {
+      setTenantId(editData.tenant_id);
+      setAmount(editData.amount);
+      setPaymentType(editData.paymentType);
+      setDescription(editData.description);
+      setDueDate(editData.dueDate.split("T")[0]);
+    }
+  }, [editData]);
+
+  function handleHide() {
+    dispatch({ type: "EDIT_BILL", payload: false });
+    setTenantId(editData.tenant_id);
+    setAmount(editData.amount);
+    setPaymentType(editData.paymentType);
+    setDescription(editData.description);
+    setDueDate(editData.dueDate.split("T")[0]);
+    setError(null);
+  }
+
+  async function handleEdit(e) {
+    e.preventDefault();
+    const bill = {
+      tenant_id: tenantId,
+      amount,
+      paymentType,
+      description,
+      dueDate,
+    };
+    const errors = await sendData(
+      `billing/${editData._id}`,
+      "PATCH",
+      bill,
+      "EDIT_BILLING"
+    );
+    if (!errors) {
+      handleHide();
+    }
+    if (errors) {
+      setError(errors.error);
+    }
+  }
 
   return (
-    <Modal
-      show={editBill}
-      fullscreen="lg-down"
-      size="lg"
-      onHide={() => {
-        dispatch({ type: "EDIT_BILL", payload: false });
-      }}
-    >
+    <Modal show={editBill} fullscreen="lg-down" size="lg" onHide={handleHide}>
       <Modal.Header closeButton>
         <Modal.Title>עדכון דרישת תשלום</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleEdit}>
           <Form.Group>
             <Form.Label>בחר דייר</Form.Label>
             <Form.Select
-              aria-label="Tenant Name select"
+              aria-label="Tenant Name selector"
+              value={tenantId}
               onChange={(e) => {
-                // console.log(e.target.value);
+                setTenantId(e.target.value);
               }}
             >
               <option>בחר שם דייר</option>
-              {/* //! Place holder data for API Call */}
-              <option value="ישראל ישראלי">ישראל ישראלי</option>
+              {/* Dynamically List All tenants */}
+              {tenants &&
+                tenants.map((tenant) => (
+                  <option
+                    key={tenant._id}
+                    value={tenant._id}
+                  >{`${tenant.firstName} ${tenant.lastName}`}</option>
+                ))}
             </Form.Select>
           </Form.Group>
           <Row>
@@ -46,17 +99,21 @@ function EditBill() {
               <Form.Control
                 required
                 type="number"
-                inputMode="numeric"
+                inputMode="decimal"
                 min="1"
-                value={""}
+                value={amount}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                }}
               ></Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6">
               <Form.Label>סוג התשלום</Form.Label>
               <Form.Select
-                aria-label="Payment type select"
+                aria-label="Payment type selector"
+                value={paymentType}
                 onChange={(e) => {
-                  // console.log(e.target.value);
+                  setPaymentType(e.target.value);
                 }}
               >
                 <option>בחר סוג תשלום</option>
@@ -72,7 +129,10 @@ function EditBill() {
               rows={3}
               required
               type="text"
-              value={""}
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
             ></Form.Control>
           </Form.Group>
           <Form.Group>
@@ -81,9 +141,13 @@ function EditBill() {
               required
               type="date"
               dir="ltr"
-              value={""}
+              value={dueDate}
+              onChange={(e) => {
+                setDueDate(e.target.value);
+              }}
             ></Form.Control>
           </Form.Group>
+          {error && <div className="error">{error}</div>}
           <div className="mt-3 float-end">
             <Button variant="success" type="submit">
               <i className="bi bi-pen"> </i>עדכן דרישת תשלום
@@ -91,9 +155,7 @@ function EditBill() {
             <Button
               variant="outline-secondary"
               className="ms-2"
-              onClick={() => {
-                dispatch({ type: "EDIT_BILL", payload: false });
-              }}
+              onClick={handleHide}
             >
               <i className="bi bi-x-square"> </i>סגור חלון
             </Button>

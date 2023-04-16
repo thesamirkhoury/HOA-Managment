@@ -1,6 +1,8 @@
 import React from "react";
-
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+//Data Context hooks
+import { useDataContext } from "../../hooks/useDataContext";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -8,6 +10,28 @@ import Button from "react-bootstrap/Button";
 
 function DeleteConfirmation({ deleteData }) {
   const { deleteConfirmation, dispatch } = useModalsContext();
+  const { user } = useAuthContext();
+  //Data Context
+  const { dispatch:dataDispatch } = useDataContext();
+
+  async function handleDelete() {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/managers/${deleteData.suffix}/${deleteData.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    const json = await response.json();
+    if (response.ok) {
+      dispatch({ type: "DELETE_CONFIRMATION", payload: false });
+      dataDispatch({ type: deleteData.type, payload: json });
+    }
+  }
+
   return (
     <Modal
       show={deleteConfirmation}
@@ -26,12 +50,12 @@ function DeleteConfirmation({ deleteData }) {
         </div>
       </Modal.Body>
       <Modal.Footer className="border-0 justify-content-center mb-4">
-        <Button variant="danger" onClick={() => {}}>
+        <Button variant="danger" className="w-50" onClick={handleDelete}>
           <i className="bi bi-trash3"></i> מחק
         </Button>
         <Button
           variant="outline-secondary"
-          className="ms-2"
+          className="ms-2 w-25"
           onClick={() => {
             dispatch({ type: "DELETE_CONFIRMATION", payload: false });
           }}

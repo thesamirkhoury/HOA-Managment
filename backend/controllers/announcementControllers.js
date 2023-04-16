@@ -1,5 +1,4 @@
 const Announcement = require("../models/announcements");
-const Tenant = require("../models/tenants");
 const mongoose = require("mongoose");
 
 //* Managers
@@ -9,6 +8,11 @@ async function createAnnouncement(req, res) {
   const { title, body, buildingNumber } = req.body;
   // hoa id from auth
   const hoa_id = req.user._id;
+
+  //Validation
+  if (!title || !body || !buildingNumber) {
+    return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
+  }
 
   try {
     const announcement = await Announcement.create({
@@ -28,10 +32,12 @@ async function getAnnouncements(req, res) {
   // hoa id from auth
   const hoa_id = req.user._id;
 
-  const announcements = await Announcement.find({ hoa_id });
+  const announcements = await Announcement.find({ hoa_id }).sort({
+    createdAt: -1,
+  });
 
   if (!announcements) {
-    return res.status(404).json({ error: "No Announcements Found" });
+    return res.status(404).json({ error: "לא נמצאו הודעות במערכת." });
   }
   res.status(200).json(announcements);
 }
@@ -41,7 +47,7 @@ async function editAnnouncement(req, res) {
   const { id } = req.params;
   // check if announcement id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Announcement Not Found" });
+    return res.status(404).json({ error: "הודעה זאת אינה קיית בערכת." });
   }
   const { title, body, buildingNumber } = req.body;
 
@@ -56,7 +62,7 @@ async function editAnnouncement(req, res) {
   );
 
   if (!announcement) {
-    return res.status(404).json({ error: "No Announcement Found" });
+    return res.status(404).json({ error: "הודעה זאת אינה קמיית במערכת." });
   }
   res.status(200).json(announcement);
 }
@@ -66,12 +72,12 @@ async function deleteAnnouncement(req, res) {
   const { id } = req.params;
   // check if announcement id is a valid mongoose id
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Announcement Not Found" });
+    return res.status(404).json({ error: "הודעה זאת אינה קמיית במערכת." });
   }
 
   const announcement = await Announcement.findByIdAndDelete(id);
   if (!announcement) {
-    return res.status(404).json({ error: "Announcement Not Found" });
+    return res.status(404).json({ error: "הודעה זאת אינה קמיית במערכת." });
   }
   res.status(200).json(announcement);
 }
@@ -88,10 +94,10 @@ async function getBuildingAnnouncements(req, res) {
   //get announcements relevant to both tenant building number and general messages for all buildings
   const announcements = await Announcement.find({
     hoa_id,
-    $or: [{ buildingNumber: buildingNumber }, { buildingNumber: "All" }],
+    $or: [{ buildingNumber: buildingNumber }, { buildingNumber: 0 }],
   });
   if (!announcements) {
-    return res.status(404).json({ error: "Announcement Not Found" });
+    return res.status(404).json({ error: "לא נמצאו הודעות במערכת." });
   }
   res.status(200).json(announcements);
 }

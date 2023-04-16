@@ -3,6 +3,7 @@ const express = require("express");
 const {
   getTenant,
   editDetails,
+  changePassword,
 } = require("../../controllers/tenantControllers");
 //auth middleware
 const requireAuthTenant = require("../../middleware/requireAuthTenant");
@@ -17,5 +18,8 @@ router.get("/", getTenant);
 
 //Edit the info of the tenant
 router.patch("/", editDetails);
+
+//Change Password
+router.put("/change-password", changePassword);
 
 module.exports = router;

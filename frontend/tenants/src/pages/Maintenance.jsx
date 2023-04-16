@@ -1,5 +1,11 @@
-import React from "react";
-import { useModalsContext } from "../hook/useModalsContext";
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+//custom hooks
+import { useModalsContext } from "../hooks/useModalsContext";
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
+//helper functions
+import format from "date-fns/format";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -11,12 +17,26 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //modals
 import NewMaintenance from "../components/modals/NewMaintenance";
+import MaintenanceImages from "../components/modals/MaintenanceImages";
 
 function Maintenance() {
   const { dispatch } = useModalsContext();
+  const { fetchData } = useDataHandler();
+  const { maintenance } = useDataContext();
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    if (!maintenance) {
+      fetchData("maintenance", "SET_MAINTENANCE");
+    }
+  }, []); //eslint-disable-line
 
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - קריאות שירות</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">קריאות שירות</h1>
       {/* Search Bar */}
@@ -42,41 +62,48 @@ function Maintenance() {
         </Col>
       </Row>
       {/* Maintenance Requests */}
-      {/* //!Placeholder data */}
-      <Row xs={1} md={2} lg={3} className="g-3 mt-1">
-        <Col>
-          <Card>
-            <Card.Body>
-              <Card.Title>החלפת נורות במעלית</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                לפני שעתיים
-                <Badge bg="danger" className="fs-6 ms-2">
-                  {"פתוח"}
-                </Badge>
-              </Card.Subtitle>
-              <Card.Text>החלפת נורות במעלית</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col>
-          <Card>
-            <Card.Body>
-              <Card.Title>החלפת נורות במעלית</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                לפני יומיים
-                <Badge bg="success" className="fs-6 ms-2">
-                  {"סגור"}
-                </Badge>
-              </Card.Subtitle>
-              <Card.Text>החלפת נורות במעלית</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
+      <Row xs={1} md={3} xl={4}>
+        {maintenance &&
+          maintenance.map((request) => (
+            <Col className="mt-1" key={request._id}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>{request.subject}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {format(new Date(request.createdAt), "HH:mm dd/MM/yyyy")}
+                  </Card.Subtitle>
+                  <Badge
+                    bg={
+                      request.status === "פתוח"
+                        ? "danger"
+                        : `${request.status === "סגור" ? "success" : "warning"}`
+                    }
+                    className="fs-6 ms-1"
+                  >
+                    {request.status}
+                  </Badge>
+                  <Card.Text className="mt-2">{request.description}</Card.Text>
+                  <Button
+                    disabled={request.status === "סגור"}
+                    variant="outline-primary"
+                    className="float-end"
+                    onClick={() => {
+                      setImageUrl(
+                        "https://codescandy.com/geeks-bootstrap-5/assets/images/placeholder/placeholder-4by3.svg"
+                      ); //!placeholder url
+                      dispatch({ type: "MAINTENANCE_IMAGES", payload: true });
+                    }}
+                  >
+                    תיעוד
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
       </Row>
-
       {/* //* Modals */}
       <NewMaintenance />
+      <MaintenanceImages url={imageUrl} />
     </>
   );
 }

@@ -1,6 +1,7 @@
-import React from "react";
-
+import React, { useState } from "react";
+//custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
+import { useDataHandler } from "../../hooks/useDataHandler";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -10,66 +11,106 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function NewExpense() {
+function NewExpense({ suppliers }) {
   const { newExpense, dispatch } = useModalsContext();
+  const { sendData } = useDataHandler();
+  // form state
+  const [supplierId, setSupplierId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [details, setDetails] = useState("");
+  const [paymentType, setPaymentType] = useState("");
+  const [paymentDate, setPaymentDate] = useState("");
+  //error handling
+  const [error, setError] = useState(null);
+
+  function handleHide() {
+    dispatch({ type: "NEW_EXPENSE", payload: false });
+    setSupplierId("");
+    setAmount("");
+    setPaymentMethod("");
+    setDetails("");
+    setPaymentType("");
+    setPaymentDate("");
+    setError(null);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const expense = {
+      supplier_id: supplierId,
+      amount,
+      paymentType,
+      paymentMethod,
+      details,
+      paymentDate,
+    };
+    const errors = await sendData("expenses", "POST", expense, "NEW_EXPENSE");
+    if (!errors) {
+      handleHide();
+    }
+    if (errors) {
+      setError(errors.error);
+    }
+  }
 
   return (
-    <Modal
-      show={newExpense}
-      fullscreen="lg-down"
-      size="lg"
-      onHide={() => dispatch({ type: "NEW_EXPENSE", payload: false })}
-    >
+    <Modal show={newExpense} fullscreen="lg-down" size="lg" onHide={handleHide}>
       <Modal.Header closeButton>
         <Modal.Title>הוספת הוצאה חדשה</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Label>בחר ספק</Form.Label>
             <Form.Select
-              aria-label="Supplier select"
+              required
+              aria-label="Supplier selector"
+              value={supplierId}
               onChange={(e) => {
-                // console.log(e.target.value);
+                setSupplierId(e.target.value);
               }}
             >
               <option>בחר ספק</option>
-              {/* //! Place holder data for API Call */}
-              <option value="ישראל ישראלי">חברת המעליות בע״מ </option>
+              {/* Dynamically List All tenants */}
+              {suppliers &&
+                suppliers.map((supplier) => (
+                  <option key={supplier._id} value={supplier._id}>
+                    {supplier.supplierName}
+                  </option>
+                ))}
             </Form.Select>
           </Form.Group>
           <Row>
-            <Form.Group as={Col} md="6">
-              <Form.Label>בחר קטגוריה</Form.Label>
-              <Form.Control required type="text" placeholder=""></Form.Control>
-            </Form.Group>
-            {/* //? Option 2 -- check what fits better. */}
-            {/* <Col>
-              <Form.Label>בחר קטגוריה</Form.Label>
-              <input
-                className="form-control"
-                type="text"
-                list="expense-catagories"
-                id="expense-catagories-choice"
-                name="expense-catagories-choice"
-              ></input>
-              <datalist id="expense-catagories">
-                <option value="Chocolate" />
-                <option value="Coconut" />
-                <option value="Mint" />
-                <option value="Strawberry" />
-                <option value="Vanilla" />
-              </datalist>
-            </Col> */}
             <Form.Group as={Col} md="6">
               <Form.Label>סכום</Form.Label>
               <Form.Control
                 required
                 type="number"
-                inputMode="numeric"
+                inputMode="decimal"
                 min="1"
-                placeholder=""
+                value={amount}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                }}
               ></Form.Control>
+            </Form.Group>
+
+            <Form.Group as={Col} md="6">
+              <Form.Label>שיטת תשלום</Form.Label>
+              <Form.Select
+                required
+                aria-label="Payment Method selector"
+                value={paymentMethod}
+                onChange={(e) => {
+                  setPaymentMethod(e.target.value);
+                }}
+              >
+                <option>בחר שיטת תשלום</option>
+                <option value="מזומן">מזומן</option>
+                <option value="העברה בנקאית">העברה בנקאית</option>
+                <option value="אשראי">כרטיס אשראי</option>
+              </Form.Select>
             </Form.Group>
           </Row>
           <Form.Group>
@@ -79,16 +120,21 @@ function NewExpense() {
               rows={3}
               required
               type="text"
-              placeholder=""
+              value={details}
+              onChange={(e) => {
+                setDetails(e.target.value);
+              }}
             ></Form.Control>
           </Form.Group>
           <Row>
             <Form.Group as={Col} md="6">
               <Form.Label>סוג התשלום</Form.Label>
               <Form.Select
-                aria-label="Payment type select"
+                required
+                aria-label="Payment type selector"
+                value={paymentType}
                 onChange={(e) => {
-                  // console.log(e.target.value);
+                  setPaymentType(e.target.value);
                 }}
               >
                 <option>בחר סוג תשלום</option>
@@ -102,11 +148,14 @@ function NewExpense() {
                 required
                 type="date"
                 dir="ltr"
-                placeholder=""
+                value={paymentDate}
+                onChange={(e) => {
+                  setPaymentDate(e.target.value);
+                }}
               ></Form.Control>
             </Form.Group>
           </Row>
-
+          {error && <div className="error">{error}</div>}
           <div className="mt-3 float-end">
             <Button variant="success" type="submit">
               <i className="bi bi-plus-square"> </i>הוספת הוצאה

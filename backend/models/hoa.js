@@ -9,32 +9,40 @@ const hoaSchema = new Schema(
   {
     firstName: {
       type: String,
-      required: [true, "Manager First Name is required"],
+      required: [true, "שם פרטי הינו שדה חובה"],
     },
     lastName: {
       type: String,
-      required: [true, "Manager Last Name is required"],
+      required: [true, "שם משפחה הינו שדה חובה"],
+    },
+    phoneNumber: {
+      type: String,
+      required: [true, "מספר טלפון הינו שדה חובה"],
     },
     email: {
       type: String,
-      required: [true, "Manager's Email is required"],
+      required: [true, "מייל הינו שדה חובה"],
       unique: true,
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, "סיסממה הינה שדה חובה"],
     },
     address: {
       type: String,
-      required: [true, "HOA Address is required"],
+      required: [true, "כתובת הינו שדה חובה"],
     },
     membersMonthlyFee: {
       type: String,
-      required: [true, "HOA Monthly Fee is required"],
+      required: [true, "דמי ועד חודשיים הינו שדה חובה"],
+    },
+    buildingCount: {
+      type: Number,
+      required: [true, "ספר הבניינים הינו שדה חובה"],
     },
     fileNumber: {
       type: String,
-      required: [true, "HOA File Number is required"],
+      required: [true, "מספר תיק הינו שדה חובה"],
       unique: true,
     },
     token: {
@@ -48,14 +56,15 @@ const hoaSchema = new Schema(
 );
 
 // static signup method
-//TODO: Change Error messages to hebrew
 hoaSchema.statics.signup = async function (
   firstName,
   lastName,
+  phoneNumber,
   email,
   password,
   address,
   membersMonthlyFee,
+  buildingCount,
   fileNumber
 ) {
   // validation
@@ -66,22 +75,24 @@ hoaSchema.statics.signup = async function (
     !password ||
     !address ||
     !membersMonthlyFee ||
+    !buildingCount ||
     !fileNumber
   ) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מפרטי הועד החובה חסרים.");
   }
   if (!validator.isEmail(email)) {
-    throw Error("Email is not Valid");
+    console.log(email);
+    throw Error("המייל שהיזנת אינו בפורמת מייל תקין.");
   }
 
   // check if the email or HOA File Number already exists
   const exists = await this.findOne({ email });
   if (exists) {
-    throw Error("Email already in use");
+    throw Error("המייל כבר קיים במערכת.");
   }
   const fileNumberExists = await this.findOne({ fileNumber });
   if (fileNumberExists) {
-    throw Error("File number already in use");
+    throw Error("כבר קיים ועד עם מספר התיק שהוזן.");
   }
 
   // hash the password
@@ -93,49 +104,48 @@ hoaSchema.statics.signup = async function (
     firstName,
     lastName,
     email,
+    phoneNumber,
     password: hash,
     address,
     membersMonthlyFee,
+    buildingCount,
     fileNumber,
   });
   return user;
 };
 
 //static login method
-//TODO: Change Error messages to hebrew
-//? check error message for possibility of generic messages
 hoaSchema.statics.login = async function (email, password) {
   // validation
   if (!email || !password) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מהפרטים חסרים.");
   }
 
   // check if email exists
   const user = await this.findOne({ email });
   if (!user) {
-    throw Error("Incorrect Email");
+    throw Error("אחד או יותר מהפרטים שהוזנו אינם תקינים.");
   }
 
   // check if the plain-text password matches the hashed password
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    throw Error("Incorrect Password");
+    throw Error("אחד או יותר מהפרטים שהוזנו אינם תקינים.");
   }
   return user;
 };
 
 // static forgot password method
-// TODO: Change Error messages to hebrew
 hoaSchema.statics.forgotPassword = async function (email) {
   // validation
   if (!email) {
-    throw Error("Email is required to reset your password");
+    throw Error("שדה המייל היינו חובה לאיפוס הסיסמה.");
   }
 
   // check if email exists
   const user = await this.findOne({ email });
   if (!user) {
-    throw Error("Incorrect Email");
+    throw Error("הוזן מייל שגוי.");
   }
 
   //create a random token
@@ -156,11 +166,10 @@ hoaSchema.statics.forgotPassword = async function (email) {
 };
 
 // static change password using a reset token method
-// TODO: Change Error messages to hebrew
 hoaSchema.statics.resetPassword = async function (resetToken, password) {
   // validation
   if (!resetToken || !password) {
-    throw Error("All fields must be filled");
+    throw Error("אחד או יותר מהפרטים חסרים.");
   }
 
   //hash salt
@@ -174,7 +183,7 @@ hoaSchema.statics.resetPassword = async function (resetToken, password) {
   });
 
   if (!user) {
-    throw Error("Invalid Token, try requesting a new password reset");
+    throw Error("הקישור שקבלת אינו תקין, נא לנסות לאפס את הסיסה שינית.");
   }
 
   // hash the password
@@ -187,6 +196,37 @@ hoaSchema.statics.resetPassword = async function (resetToken, password) {
   await user.save();
 
   return user;
+};
+
+// static change password using old password method
+hoaSchema.statics.changePassword = async function (
+  _id,
+  currentPassword,
+  newPassword
+) {
+  // validation
+  if (!currentPassword || !newPassword) {
+    throw Error("אחד או יותר מהפרטים חסרים.");
+  }
+  // check if user exists
+  const user = await this.findOne({ _id });
+  if (!user) {
+    throw Error("חשבון הועד אינו קיים במערכת.");
+  }
+  // check if provided current password is correct
+  const match = await bcrypt.compare(currentPassword, user.password);
+  if (!match) {
+    throw Error("הסיסממה הנוכחית אינה תקינה.");
+  }
+  if (match) {
+    //hash salt
+    const salt = await bcrypt.genSalt(10);
+    // hash the password
+    const hash = await bcrypt.hash(newPassword, salt);
+    user.password = hash;
+    await user.save();
+    return user;
+  }
 };
 
 module.exports = mongoose.model("HOA", hoaSchema);

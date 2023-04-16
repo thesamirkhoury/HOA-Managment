@@ -1,53 +1,75 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+//custom hooks
+import { useDataContext } from "../hooks/useDataContext";
+import { useDataHandler } from "../hooks/useDataHandler";
 
 //bootstrap components
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 
 function HOADetails() {
+  const { fetchData } = useDataHandler();
+  const { hoa } = useDataContext();
+
+  //fetch hoa details data
+  useEffect(() => {
+    if (!hoa) {
+      fetchData("hoa", "SET_HOA");
+    }
+  }, []); //eslint-disable-line
+
   return (
     <>
+      {/* Document Title */}
+      <Helmet>
+        <title>נהל - אודות הועד</title>
+      </Helmet>
       {/* Page Name */}
       <h1 className="display-1">אודות הועד</h1>
       {/* Details Card */}
       <Card>
+        {hoa && (
           <Form className="m-2">
             <Form.Group>
               <Form.Label className="fs-2">כתובת הבניין</Form.Label>
               <Form.Control
-                defaultValue="רחוב יעקב שרייבום 26, רמת בית הכרם ירושלים"
                 readOnly
                 disabled
+                defaultValue={hoa.address}
               ></Form.Control>
             </Form.Group>
 
             <Form.Group>
               <Form.Label className="fs-2">שם ראש ועד הבית</Form.Label>
               <Form.Control
-                defaultValue="ישראל ישראלי"
                 readOnly
                 disabled
+                defaultValue={`${hoa.firstName} ${hoa.lastName}`}
               ></Form.Control>
             </Form.Group>
 
             <Form.Group>
-              <Form.Label className="fs-2">מספר הבניינים</Form.Label>
+              <Form.Label className="fs-2">
+                מספר תיק בפנקס הבית המשותף
+              </Form.Label>
               <Form.Control
-                defaultValue="3"
                 readOnly
                 disabled
+                defaultValue={hoa.fileNumber}
               ></Form.Control>
             </Form.Group>
 
             <Form.Group>
               <Form.Label className="fs-2">דמי ועד חודשיים</Form.Label>
               <Form.Control
-                defaultValue="250.00₪"
                 readOnly
                 disabled
+                defaultValue={`${hoa.membersMonthlyFee} ₪`}
               ></Form.Control>
             </Form.Group>
           </Form>
+        )}
       </Card>
     </>
   );

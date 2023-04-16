@@ -4,7 +4,6 @@ const express = require("express");
 const {
   createSupplier,
   getSuppliers,
-  getSupplier,
   editSupplier,
   deleteSupplier,
 } = require("../../controllers/supplierControllers");
@@ -21,9 +20,6 @@ router.post("/", createSupplier);
 
 //Get all suppliers
 router.get("/", getSuppliers);
-
-// Get a single supplier by _id
-router.get("/:id", getSupplier);
 
 //Edit a supplier by _id
 router.patch("/:id", editSupplier);
