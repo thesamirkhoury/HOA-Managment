@@ -20,3 +20,17 @@ async function sendMail(receiverMail, subject, body) {
     text: body,
   });
 }
+
+async function sendSignupLink(receiver, username, token) {
+  let subject = "הנחיות להרשמה למערכת הדיירים";
+  let body = `
+  ועד הבית הוסיף אותך למערכת.
+  להלן פרטי ההרשמה:
+  שם המשתמש: ${username}
+  קישור להשלמת ההרשמה: http://localhost:3001/set-password/${token}
+  `;
+
+  await sendMail(receiver, subject, body);
+}
+
+module.exports = { sendSignupLink };
