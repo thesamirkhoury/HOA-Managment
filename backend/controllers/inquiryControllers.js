@@ -16,7 +16,6 @@ async function getInquiries(req, res) {
 }
 
 //Add a response to an inquiry by _id
-//TODO: send a mail notifying User of a new response
 async function addResponse(req, res) {
   const { id } = req.params;
   const { response } = req.body;

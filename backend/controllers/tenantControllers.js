@@ -51,8 +51,6 @@ async function signup(req, res) {
     );
 
     //email the signup link to tenant
-    //TODO: use the email util to email a signup link with the token and username, temp log the token in console
-    console.log(tenant.user.tenantEmail, tenant.user.username, tenant.token);
     sendSignupLink(tenant.user.tenantEmail, tenant.user.username, tenant.token);
 
     //return only the tenant data, without the pure token
