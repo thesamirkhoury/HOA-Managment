@@ -7,6 +7,7 @@ const {
   editBill,
   deleteBill,
   recordPayment,
+  sendReminder,
 } = require("../../controllers/billingControllers");
 //auth middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
@@ -35,10 +36,6 @@ router.delete("/:id", deleteBill);
 router.post("/:id/payment", recordPayment);
 
 //Send email reminder to pay the bill by _id
-router.post("/:id/reminder", (req, res) => {
-  res.json({
-    description: "Send email reminder by mail to pay the bill by _id",
-  });
-});
+router.post("/:id/reminder", sendReminder);
 
 module.exports = router;

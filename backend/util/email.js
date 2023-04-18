@@ -57,6 +57,21 @@ async function sendNewBill(tenant_id, amount) {
   }
 }
 
+async function sendBillReminder(tenant_id) {
+  try {
+    const tenant = await findTenant(tenant_id);
+    let subject = "תזכורת לתשלום דרישת תשלום";
+    let body = `
+  שלום ${tenant.firstName},
+  זאת תזכורת לשלם דרישת תשלום שהופקה על ידי הועד שלך.
+  לפרטים נוספים יש להכנס למערכת הדיירים.
+  `;
+    await sendMail(tenant.tenantEmail, subject, body);
+  } catch (error) {
+    throw Error(error);
+  }
+}
+
 async function sendResetLinkManager(recipient, firstName, token) {
   let subject = "איפוס סיסמה";
   let body = `
@@ -100,6 +115,7 @@ async function sendMaintenanceStatus(tenant_id) {
 module.exports = {
   sendSignupLink,
   sendNewBill,
+  sendBillReminder,
   sendResetLinkManager,
   sendInquiryResponse,
   sendMaintenanceStatus,
