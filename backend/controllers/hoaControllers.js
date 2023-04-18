@@ -1,6 +1,7 @@
 const HOA = require("../models/hoa");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const { sendResetLinkManager } = require("../util/email");
 
 // JWT Create Token Function
 function createToken(_id) {
@@ -21,7 +22,7 @@ async function signup(req, res) {
     buildingCount,
     fileNumber,
   } = req.body;
-  
+
   // sign up user
   try {
     const newHoa = await HOA.signup(
@@ -62,8 +63,7 @@ async function forgotPassword(req, res) {
   try {
     const user = await HOA.forgotPassword(email);
     //email the reset link
-    //TODO: use the email util to email the reset link with the token, temp log the token in console
-    console.log(user.email, user.token);
+    sendResetLinkManager(user.email, user.firstName, user.token);
 
     res.status(200).json({
       resetMessage:

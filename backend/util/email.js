@@ -33,7 +33,7 @@ async function sendSignupLink(receiver, username, token) {
   await sendMail(receiver, subject, body);
 }
 
-async function sendNewBill(receiver,firstName, amount) {
+async function sendNewBill(receiver, firstName, amount) {
   let subject = "התקבלה דרישת תשלום חדשה";
   let body = `
   שלום ${firstName},
@@ -43,4 +43,13 @@ async function sendNewBill(receiver,firstName, amount) {
   await sendMail(receiver, subject, body);
 }
 
-module.exports = { sendSignupLink, sendNewBill };
+async function sendResetLinkManager(recipient, firstName, token) {
+  let subject = "איפוס סיסמה";
+  let body = `
+  שלום ${firstName},
+  מצורף קישור לאיפוס הסיסמה
+  http://localhost:3000/set-password/${token}
+  `;
+  await sendMail(receiver, subject, body);
+}
+module.exports = { sendSignupLink, sendNewBill, sendResetLinkManager };

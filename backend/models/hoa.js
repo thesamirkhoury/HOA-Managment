@@ -160,6 +160,7 @@ hoaSchema.statics.forgotPassword = async function (email) {
 
   const data = {
     email: user.email,
+    firstName: user.firstName,
     token: token,
   };
   return data;
