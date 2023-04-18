@@ -9,6 +9,8 @@ async function findTenant(id) {
   }
   return tenant;
 }
+
+//Send Mail function
 async function sendMail(receiverMail, subject, body) {
   //set up the transporter
   let transporter = nodemailer.createTransport({
@@ -40,6 +42,36 @@ async function sendSignupLink(receiver, username, token) {
   `;
 
   await sendMail(receiver, subject, body);
+}
+
+async function sendMaintenanceStatus(tenant_id) {
+  try {
+    const tenant = await findTenant(tenant_id);
+    let subject = "שינוי בסטטוס קריאת השירות";
+    let body = `
+  שלום ${tenant.firstName},
+  השתנה הססטוס לקריאת השירות שפתחת.
+  לפרטים נוספים יש להכנס למערכת הדיירים.
+  `;
+    await sendMail(tenant.tenantEmail, subject, body);
+  } catch (error) {
+    throw Error(error);
+  }
+}
+
+async function sendInquiryResponse(tenant_id) {
+  try {
+    const tenant = await findTenant(tenant_id);
+    let subject = "תשובה לפנייה שלך";
+    let body = `
+  שלום ${tenant.firstName},
+  התקבלה תשובה לפנייה שלך,
+  לפרטים נוספים יש להכנס למערכת הדיירים.
+  `;
+    await sendMail(tenant.tenantEmail, subject, body);
+  } catch (error) {
+    throw Error(error);
+  }
 }
 
 async function sendNewBill(tenant_id, amount) {
@@ -82,41 +114,11 @@ async function sendResetLinkManager(recipient, firstName, token) {
   await sendMail(receiver, subject, body);
 }
 
-async function sendInquiryResponse(tenant_id) {
-  try {
-    const tenant = await findTenant(tenant_id);
-    let subject = "תשובה לפנייה שלך";
-    let body = `
-  שלום ${tenant.firstName},
-  התקבלה תשובה לפנייה שלך,
-  לפרטים נוספים יש להכנס למערכת הדיירים.
-  `;
-    await sendMail(tenant.tenantEmail, subject, body);
-  } catch (error) {
-    throw Error(error);
-  }
-}
-
-async function sendMaintenanceStatus(tenant_id) {
-  try {
-    const tenant = await findTenant(tenant_id);
-    let subject = "שינוי בסטטוס קריאת השירות";
-    let body = `
-  שלום ${tenant.firstName},
-  השתנה הססטוס לקריאת השירות שפתחת.
-  לפרטים נוספים יש להכנס למערכת הדיירים.
-  `;
-    await sendMail(tenant.tenantEmail, subject, body);
-  } catch (error) {
-    throw Error(error);
-  }
-}
-
 module.exports = {
   sendSignupLink,
+  sendMaintenanceStatus,
+  sendInquiryResponse,
   sendNewBill,
   sendBillReminder,
   sendResetLinkManager,
-  sendInquiryResponse,
-  sendMaintenanceStatus,
 };
