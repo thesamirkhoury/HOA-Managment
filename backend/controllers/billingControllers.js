@@ -27,7 +27,7 @@ async function createBill(req, res) {
 
   // hoa id from auth
   const hoa_id = req.user._id;
-  console.log(tenantEmail);
+
   try {
     const bill = await Billing.create({
       hoa_id,
@@ -39,7 +39,7 @@ async function createBill(req, res) {
       paymentStatus: "לא שולם",
       paymentDetails: undefined,
     });
-    sendNewBill(tenantEmail, firstName, amount);
+    sendNewBill(tenant_id, amount);
 
     res.status(200).json(bill);
   } catch (error) {

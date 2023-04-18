@@ -1,5 +1,14 @@
 const nodemailer = require("nodemailer");
+const Tenant = require("../models/tenants");
 
+//helper function
+async function findTenant(id) {
+  const tenant = await Tenant.findById(id);
+  if (!tenant) {
+    throw Error("הדייר אינו קיים");
+  }
+  return tenant;
+}
 async function sendMail(receiverMail, subject, body) {
   //set up the transporter
   let transporter = nodemailer.createTransport({
@@ -33,14 +42,19 @@ async function sendSignupLink(receiver, username, token) {
   await sendMail(receiver, subject, body);
 }
 
-async function sendNewBill(receiver, firstName, amount) {
-  let subject = "התקבלה דרישת תשלום חדשה";
-  let body = `
-  שלום ${firstName},
+async function sendNewBill(tenant_id, amount) {
+  try {
+    const tenant = await findTenant(tenant_id);
+    let subject = "התקבלה דרישת תשלום חדשה";
+    let body = `
+  שלום ${tenant.firstName},
   התקבלה דרישת תשלום חדשה עבורך על סך ${amount} ש״ח.
   לפרטים נוספים יש להכנס למערכת הדיירים.
   `;
-  await sendMail(receiver, subject, body);
+    await sendMail(tenant.tenantEmail, subject, body);
+  } catch (error) {
+    throw Error(error);
+  }
 }
 
 async function sendResetLinkManager(recipient, firstName, token) {
@@ -52,4 +66,5 @@ async function sendResetLinkManager(recipient, firstName, token) {
   `;
   await sendMail(receiver, subject, body);
 }
+
 module.exports = { sendSignupLink, sendNewBill, sendResetLinkManager };

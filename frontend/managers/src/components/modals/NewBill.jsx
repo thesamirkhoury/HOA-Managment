@@ -16,24 +16,12 @@ function NewBill({ tenants }) {
   const { sendData } = useDataHandler();
   // form state
   const [tenantId, setTenantId] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [tenantEmail, setTenantEmail] = useState("");
   const [amount, setAmount] = useState("");
   const [paymentType, setPaymentType] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
   //error handling
   const [error, setError] = useState(null);
-
-  function getTenant(id) {
-    if (tenants) {
-      let tenant = tenants.find((t) => t._id === id);
-      if (!tenant) {
-        return { firstName: "הדייר נמחק מהמערכת", lastName: "" };
-      }
-      return tenant;
-    }
-  }
 
   function handleHide() {
     dispatch({ type: "NEW_BILL", payload: false });
@@ -47,15 +35,12 @@ function NewBill({ tenants }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    let tenant = await getTenant(tenantId);
     const bill = {
       tenant_id: tenantId,
       amount,
       paymentType,
       description,
       dueDate,
-      firstName: tenant.firstName,
-      tenantEmail: tenant.tenantEmail,
     };
     const errors = await sendData("billing", "POST", bill, "NEW_BILLING");
     if (!errors) {
