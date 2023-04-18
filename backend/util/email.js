@@ -67,4 +67,23 @@ async function sendResetLinkManager(recipient, firstName, token) {
   await sendMail(receiver, subject, body);
 }
 
-module.exports = { sendSignupLink, sendNewBill, sendResetLinkManager };
+async function sendInquiryResponse(tenant_id) {
+  try {
+    const tenant = await findTenant(tenant_id);
+    let subject = "תשובה לפנייה שלך";
+    let body = `
+  שלום ${tenant.firstName},
+  התקבלה תשובה לפנייה שלך,
+  לפרטים נוספים יש להכנס למערכת הדדירים.
+  `;
+    await sendMail(tenant.tenantEmail, subject, body);
+  } catch (error) {
+    throw Error(error);
+  }
+}
+module.exports = {
+  sendSignupLink,
+  sendNewBill,
+  sendResetLinkManager,
+  sendInquiryResponse,
+};

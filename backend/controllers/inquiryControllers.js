@@ -1,5 +1,6 @@
 const Inquirie = require("../models/inquiries");
 const mongoose = require("mongoose");
+const { sendInquiryResponse } = require("../util/email");
 
 //* Managers
 
@@ -24,15 +25,20 @@ async function addResponse(req, res) {
     return res.status(404).json({ error: "פנייה זאת אינה קמיית במערכת." });
   }
 
-  const inquiry = await Inquirie.findByIdAndUpdate(
-    id,
-    { response: response, status: "סגור" },
-    { new: true }
-  );
-  if (!inquiry) {
-    return res.status(404).json({ error: "לא נמצאו פניות." });
+  try {
+    const inquiry = await Inquirie.findByIdAndUpdate(
+      id,
+      { response: response, status: "סגור" },
+      { new: true }
+    );
+    sendInquiryResponse(inquiry.tenant_id);
+    if (!inquiry) {
+      return res.status(404).json({ error: "לא נמצאו פניות." });
+    }
+    res.status(200).json(inquiry);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-  res.status(200).json(inquiry);
 }
 
 //* Tenants
