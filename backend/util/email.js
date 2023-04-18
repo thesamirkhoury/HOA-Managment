@@ -33,4 +33,14 @@ async function sendSignupLink(receiver, username, token) {
   await sendMail(receiver, subject, body);
 }
 
-module.exports = { sendSignupLink };
+async function sendNewBill(receiver,firstName, amount) {
+  let subject = "התקבלה דרישת תשלום חדשה";
+  let body = `
+  שלום ${firstName},
+  התקבלה דרישת תשלום חדשה עבורך על סך ${amount} ש״ח.
+  לפרטים נוספים יש להכנס למערכת הדיירים.
+  `;
+  await sendMail(receiver, subject, body);
+}
+
+module.exports = { sendSignupLink, sendNewBill };

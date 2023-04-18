@@ -1,12 +1,20 @@
 const Billing = require("../models/billing");
 const mongoose = require("mongoose");
+const { sendNewBill } = require("../util/email");
 
 //* Managers
 
 //Create a new bill and send by mail
-//TODO: Implement send By Mail
 async function createBill(req, res) {
-  const { tenant_id, amount, description, paymentType, dueDate } = req.body;
+  const {
+    tenant_id,
+    amount,
+    description,
+    paymentType,
+    dueDate,
+    tenantEmail,
+    firstName,
+  } = req.body;
 
   //Validation
   if (!tenant_id || !amount || !description || !paymentType || !dueDate) {
@@ -19,7 +27,7 @@ async function createBill(req, res) {
 
   // hoa id from auth
   const hoa_id = req.user._id;
-
+  console.log(tenantEmail);
   try {
     const bill = await Billing.create({
       hoa_id,
@@ -30,8 +38,9 @@ async function createBill(req, res) {
       dueDate,
       paymentStatus: "לא שולם",
       paymentDetails: undefined,
-      paymentDate: undefined,
     });
+    sendNewBill(tenantEmail, firstName, amount);
+
     res.status(200).json(bill);
   } catch (error) {
     res.status(400).json({ error: error.message });
