@@ -1,5 +1,6 @@
 const MaintenanceRequest = require("../models/maintenance");
 const mongoose = require("mongoose");
+const { sendMaintenanceStatus } = require("../util/email");
 
 //* Managers
 
@@ -16,20 +17,25 @@ async function getRequests(req, res) {
 }
 
 //Change the status to a maintenance requests by _id
-//TODO: send a mail notifying User of a change in status
 async function changeStatus(req, res) {
   const { id } = req.params;
   const { status } = req.body;
 
-  const request = await MaintenanceRequest.findByIdAndUpdate(
-    id,
-    { status },
-    { new: true }
-  );
-  if (!request) {
-    return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
+  try {
+    const request = await MaintenanceRequest.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+    sendMaintenanceStatus();
+
+    if (!request) {
+      return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
+    }
+    res.status(200).json(request);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-  res.status(200).json(request);
 }
 
 //* Tenants

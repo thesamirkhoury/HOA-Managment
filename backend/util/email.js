@@ -74,16 +74,33 @@ async function sendInquiryResponse(tenant_id) {
     let body = `
   שלום ${tenant.firstName},
   התקבלה תשובה לפנייה שלך,
-  לפרטים נוספים יש להכנס למערכת הדדירים.
+  לפרטים נוספים יש להכנס למערכת הדיירים.
   `;
     await sendMail(tenant.tenantEmail, subject, body);
   } catch (error) {
     throw Error(error);
   }
 }
+
+async function sendMaintenanceStatus(tenant_id) {
+  try {
+    const tenant = await findTenant(tenant_id);
+    let subject = "שינוי בסטטוס קריאת השירות";
+    let body = `
+  שלום ${tenant.firstName},
+  השתנה הססטוס לקריאת השירות שפתחת.
+  לפרטים נוספים יש להכנס למערכת הדיירים.
+  `;
+    await sendMail(tenant.tenantEmail, subject, body);
+  } catch (error) {
+    throw Error(error);
+  }
+}
+
 module.exports = {
   sendSignupLink,
   sendNewBill,
   sendResetLinkManager,
   sendInquiryResponse,
+  sendMaintenanceStatus,
 };
