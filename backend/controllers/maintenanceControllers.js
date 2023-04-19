@@ -1,5 +1,4 @@
 const MaintenanceRequest = require("../models/maintenance");
-const mongoose = require("mongoose");
 const { sendMaintenanceStatus, forwardToSupplier } = require("../util/email");
 
 //* Managers
