@@ -31,10 +31,10 @@ async function addResponse(req, res) {
       { response: response, status: "סגור" },
       { new: true }
     );
-    sendInquiryResponse(inquiry.tenant_id);
     if (!inquiry) {
       return res.status(404).json({ error: "לא נמצאו פניות." });
     }
+    sendInquiryResponse(inquiry.tenant_id);
     res.status(200).json(inquiry);
   } catch (error) {
     res.status(400).json({ error: error.message });
