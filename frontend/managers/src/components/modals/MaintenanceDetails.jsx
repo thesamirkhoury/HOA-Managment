@@ -18,7 +18,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function MaintenanceManagement({ tenantData, requestData, isClosed }) {
+function MaintenanceManagement({ tenantData, requestData }) {
   const { maintenanceDetails, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
 
@@ -220,7 +220,15 @@ function MaintenanceManagement({ tenantData, requestData, isClosed }) {
                   </DropdownButton>
                 </ButtonGroup>
 
-                <Button variant="success" type="submit">
+                <Button
+                  variant="success"
+                  type="submit"
+                  onClick={() => {
+                    dispatch({ type: "FORWARD_MAINTENANCE", payload: true });
+
+                    dispatch({ type: "MAINTENANCE_DETAILS", payload: false });
+                  }}
+                >
                   <i className="bi bi-envelope"> </i>העבר לספק
                 </Button>
               </div>

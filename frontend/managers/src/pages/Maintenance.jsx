@@ -18,11 +18,12 @@ import Col from "react-bootstrap/Col";
 //modals
 import MaintenanceManagement from "../components/modals/MaintenanceDetails";
 import MaintenanceImages from "../components/modals/MaintenanceImages";
+import ForwardMaintenance from "../components/modals/ForwardMaintenance";
 
 function Maintenance() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
-  const { tenants, maintenance } = useDataContext();
+  const { tenants, suppliers, maintenance } = useDataContext();
   const [tenantData, setTenantData] = useState();
   const [requestData, setRequestData] = useState();
   const [imageUrl, setImageUrl] = useState("");
@@ -42,6 +43,9 @@ function Maintenance() {
     if (!tenants) {
       fetchData("tenants", "SET_TENANTS");
     }
+    if (!suppliers) {
+      fetchData("suppliers", "SET_SUPPLIERS");
+    }
     if (!maintenance) {
       fetchData("maintenance", "SET_MAINTENANCE");
     }
@@ -54,7 +58,6 @@ function Maintenance() {
         <title>נהל - קריאות שירות</title>
       </Helmet>
       {/* Page Name */}
-
       <h1 className="display-1">קריאות שירות</h1>
       {/* Open Requests */}
       <h1 className="display-3">קריאות פתוחות</h1>
@@ -139,7 +142,6 @@ function Maintenance() {
             })}
         </tbody>
       </Table>
-
       {/* Closed Requests */}
       <h1 className="display-3">קריאות סגורות</h1>
       {/*Closed Requests - Search Bar */}
@@ -164,7 +166,6 @@ function Maintenance() {
           </Button>
         </Col>
       </Row>
-
       {/* Closed Inquires Table */}
       <Table responsive hover className="text-center">
         <thead>
@@ -194,9 +195,6 @@ function Maintenance() {
                         onClick={() => {
                           setTenantData(tenant);
                           setRequestData(request);
-                          setImageUrl(
-                            "https://codescandy.com/geeks-bootstrap-5/assets/images/placeholder/placeholder-4by3.svg"
-                          ); //!placeholder url
                           dispatch({
                             type: "MAINTENANCE_DETAILS",
                             payload: true,
@@ -212,13 +210,13 @@ function Maintenance() {
             })}
         </tbody>
       </Table>
-
       {/* //* Modals */}
       <MaintenanceManagement
         tenantData={tenantData}
         requestData={requestData}
       />
       <MaintenanceImages url={imageUrl} />
+      <ForwardMaintenance suppliers={suppliers} requestData={requestData} />
     </>
   );
 }

@@ -23,7 +23,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Billing() {
   const { dispatch } = useModalsContext();
-  const { fetchData } = useDataHandler();
+  const { fetchData, sendData } = useDataHandler();
   const { tenants, billings } = useDataContext();
   const [tenantData, setTenantData] = useState();
   const [editData, setEditData] = useState();
@@ -130,8 +130,13 @@ function Billing() {
                       variant="outline-secondary"
                       disabled={bill.paymentStatus === "שולם"}
                       className="me-md-1 mb-1 mb-md-0"
-                      onClick={() => {
-                        //TODO: Send an email reminder to tenant
+                      onClick={async () => {
+                        await sendData(
+                          `billing/${bill.tenant_id}/reminder`,
+                          "POST",
+                          {},
+                          "NO_CHANGE"
+                        );
                       }}
                     >
                       שליחת תזכורת

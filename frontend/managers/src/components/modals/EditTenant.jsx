@@ -124,6 +124,9 @@ function EditTenant({ editData }) {
                   value={firstName}
                   onChange={(e) => {
                     setFirstName(e.target.value);
+                    if (isOwner) {
+                      setOwnerFirstName(e.target.value);
+                    }
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -136,6 +139,9 @@ function EditTenant({ editData }) {
                   value={lastName}
                   onChange={(e) => {
                     setLastName(e.target.value);
+                     if (isOwner) {
+                       setOwnerLastName(e.target.value);
+                     }
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -194,6 +200,9 @@ function EditTenant({ editData }) {
                   value={phoneNumber}
                   onChange={(e) => {
                     setPhoneNumber(e.target.value);
+                    if (isOwner) {
+                      setOwnerPhoneNumber(e.target.value);
+                    }
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -206,13 +215,16 @@ function EditTenant({ editData }) {
                   value={tenantEmail}
                   onChange={(e) => {
                     setTenantEmail(e.target.value);
+                    if (isOwner) {
+                      setOwnerEmail(e.target.value);
+                    }
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
               </Form.Group>
 
               <Form.Group as={Col} md="4">
-                <Form.Label>מייל</Form.Label>
+                <Form.Label>שם משתמש</Form.Label>
                 <Form.Control
                   required
                   disabled

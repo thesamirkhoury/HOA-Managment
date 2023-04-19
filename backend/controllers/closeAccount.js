@@ -1,4 +1,3 @@
-
 const Announcement = require("../models/announcements");
 const Billing = require("../models/billing");
 const Document = require("../models/document");
@@ -9,6 +8,7 @@ const Reminder = require("../models/reminders");
 const Supplier = require("../models/suppliers");
 const Tenant = require("../models/tenants");
 const HOA = require("../models/hoa");
+const { sendCloseAccount } = require("../util/email");
 
 async function closeAccount(req, res) {
   // hoa id from auth
@@ -29,7 +29,8 @@ async function closeAccount(req, res) {
   await Reminder.deleteMany(hoa_id);
   await Supplier.deleteMany(hoa_id);
   await Tenant.deleteMany({ hoa_id });
-
+  
+  sendCloseAccount(hoa.email, hoa.firstName);
   res.status(200).json(hoa);
 }
 

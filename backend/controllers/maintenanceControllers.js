@@ -1,5 +1,5 @@
 const MaintenanceRequest = require("../models/maintenance");
-const mongoose = require("mongoose");
+const { sendMaintenanceStatus, forwardToSupplier } = require("../util/email");
 
 //* Managers
 
@@ -16,22 +16,41 @@ async function getRequests(req, res) {
 }
 
 //Change the status to a maintenance requests by _id
-//TODO: send a mail notifying User of a change in status
 async function changeStatus(req, res) {
   const { id } = req.params;
   const { status } = req.body;
 
-  const request = await MaintenanceRequest.findByIdAndUpdate(
-    id,
-    { status },
-    { new: true }
-  );
-  if (!request) {
-    return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
+  try {
+    const request = await MaintenanceRequest.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+    if (!request) {
+      return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
+    }
+    sendMaintenanceStatus();
+    res.status(200).json(request);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-  res.status(200).json(request);
 }
 
+async function forwardRequest(req, res) {
+  const { id } = req.params;
+  const { supplierEmail } = req.body;
+
+  try {
+    const request = await MaintenanceRequest.findById(id);
+    if (!request) {
+      return res.status(404).json({ error: "לא נמצת קריאת שירות." });
+    }
+    await forwardToSupplier(supplierEmail, request.description);
+    res.status(200).json({ message: "נשלח מייל לספק בהצלחה" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
 //* Tenants
 
 //Create a new maintenance request
@@ -83,6 +102,7 @@ async function getUserRequests(req, res) {
 module.exports = {
   getRequests,
   changeStatus,
+  forwardRequest,
   createRequest,
   getUserRequests,
 };

@@ -24,7 +24,7 @@ function ForgotPassword() {
     e.preventDefault();
     //send forgot password request
     const response = await fetch(
-      "http://localhost:4000/api/managers/forgot-password/",
+      `${process.env.REACT_APP_API_URL}/managers/forgot-password/`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ function ForgotPassword() {
             </Button>
           ) : (
             <div className="instructions fs-5">
-              אם המייל שהזנת קיים במערכת, ישלחו אליך מייל בקרוב עם הנחיות לאיפוס
+              אם המייל שהזנת קיים במערכת, ישלח אליך מייל בקרוב עם הנחיות לאיפוס
               הסיסמה.
             </div>
           )}

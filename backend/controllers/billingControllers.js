@@ -1,10 +1,10 @@
 const Billing = require("../models/billing");
 const mongoose = require("mongoose");
+const { sendNewBill, sendBillReminder } = require("../util/email");
 
 //* Managers
 
 //Create a new bill and send by mail
-//TODO: Implement send By Mail
 async function createBill(req, res) {
   const { tenant_id, amount, description, paymentType, dueDate } = req.body;
 
@@ -30,8 +30,9 @@ async function createBill(req, res) {
       dueDate,
       paymentStatus: "לא שולם",
       paymentDetails: undefined,
-      paymentDate: undefined,
     });
+    sendNewBill(tenant_id, amount);
+
     res.status(200).json(bill);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -123,6 +124,18 @@ async function recordPayment(req, res) {
   res.status(200).json(bill);
 }
 
+//Send a payment reminder by mail
+async function sendReminder(req, res) {
+  const { id } = req.params;
+
+  try {
+    await sendBillReminder(id);
+    res.status(200).json({ message: "מייל נשלח בהצלחה" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 //* Tenants
 
 //Get all bills for a user
@@ -164,6 +177,7 @@ module.exports = {
   editBill,
   deleteBill,
   recordPayment,
+  sendReminder,
   getUserBills,
   getSumTenant,
 };

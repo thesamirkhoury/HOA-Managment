@@ -59,6 +59,11 @@ export function modalsReducer(state, action) {
         ...state,
         maintenanceImages: action.payload,
       };
+    case "FORWARD_MAINTENANCE":
+      return {
+        ...state,
+        forwardMaintenance: action.payload,
+      };
     case "INQUIRY_DETAILS":
       return {
         ...state,
@@ -142,6 +147,7 @@ export const ModalsContextProvider = ({ children }) => {
     editAnnouncement: false,
     maintenanceDetails: false,
     maintenanceImages: false,
+    forwardMaintenance: false,
     inquiryDetails: false,
     newBill: false,
     recordPayment: false,

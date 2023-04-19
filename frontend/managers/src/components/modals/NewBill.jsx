@@ -50,6 +50,7 @@ function NewBill({ tenants }) {
       setError(errors.error);
     }
   }
+
   return (
     <Modal show={newBill} fullscreen="lg-down" size="lg" onHide={handleHide}>
       <Modal.Header closeButton>

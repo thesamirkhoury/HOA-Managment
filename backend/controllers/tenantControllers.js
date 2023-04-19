@@ -2,6 +2,7 @@ const Tenant = require("../models/tenants");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const { sendSignupLink } = require("../util/email");
 
 // JWT Create Token Function
 function createToken(_id) {
@@ -50,8 +51,7 @@ async function signup(req, res) {
     );
 
     //email the signup link to tenant
-    //TODO: use the email util to email a signup link with the token and username, temp log the token in console
-    console.log(tenant.user.tenantEmail, tenant.user.username, tenant.token);
+    sendSignupLink(tenant.user.tenantEmail, tenant.user.username, tenant.token);
 
     //return only the tenant data, without the pure token
     res.status(200).json(tenant.user);
