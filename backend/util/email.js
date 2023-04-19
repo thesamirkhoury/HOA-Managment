@@ -124,6 +124,16 @@ async function sendResetLinkManager(recipient, firstName, token) {
   await sendMail(recipient, subject, body);
 }
 
+async function sendCloseAccount(recipient, firstName) {
+  let subject = "אישור סגירת חשבון";
+  let body = `
+  שלום ${firstName},
+  זה אישור סופי על סגירת החשבון לםי בקשתך.
+  כל המידע השמור במערכת נמחק באופן סופי
+  `;
+  await sendMail(recipient, subject, body);
+}
+
 module.exports = {
   sendSignupLink,
   sendMaintenanceStatus,
@@ -132,4 +142,5 @@ module.exports = {
   sendNewBill,
   sendBillReminder,
   sendResetLinkManager,
+  sendCloseAccount,
 };
