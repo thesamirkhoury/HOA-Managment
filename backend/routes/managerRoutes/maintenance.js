@@ -3,6 +3,7 @@ const express = require("express");
 const {
   getRequests,
   changeStatus,
+  forwardRequest,
 } = require("../../controllers/maintenanceControllers");
 //auth middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
@@ -19,8 +20,6 @@ router.get("/", getRequests);
 router.patch("/:id/status", changeStatus);
 
 //Forward request by _id to a supplier by email
-router.post("/:id/forward/:email", (req, res) => {
-  res.json({ description: "Forward request by _id to a supplier by email" });
-});
+router.post("/:id/forward", forwardRequest);
 
 module.exports = router;

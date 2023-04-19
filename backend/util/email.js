@@ -59,6 +59,16 @@ async function sendMaintenanceStatus(tenant_id) {
   }
 }
 
+async function forwardToSupplier(recipient, description) {
+  let subject = "העברת תיאור קריאת שירות";
+  let body = `
+  להלן פרטי ותיאור קריאת השירות:
+  ${description}
+  `;
+
+  await sendMail(recipient, subject, body);
+}
+
 async function sendInquiryResponse(tenant_id) {
   try {
     const tenant = await findTenant(tenant_id);
@@ -111,12 +121,13 @@ async function sendResetLinkManager(recipient, firstName, token) {
   מצורף קישור לאיפוס הסיסמה
   http://localhost:3000/set-password/${token}
   `;
-  await sendMail(receiver, subject, body);
+  await sendMail(recipient, subject, body);
 }
 
 module.exports = {
   sendSignupLink,
   sendMaintenanceStatus,
+  forwardToSupplier,
   sendInquiryResponse,
   sendNewBill,
   sendBillReminder,
