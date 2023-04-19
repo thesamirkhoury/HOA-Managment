@@ -24,7 +24,7 @@ function ForgotPassword() {
     e.preventDefault();
     //send forgot password request
     const response = await fetch(
-      "http://localhost:4000/api/managers/forgot-password/",
+      `${process.env.REACT_APP_API_URL}/managers/forgot-password/`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
