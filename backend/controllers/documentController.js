@@ -1,28 +1,33 @@
 const Document = require("../models/document");
 const mongoose = require("mongoose");
-
-//TODO: Refine in the files handling stage.
+const fs = require("fs");
 
 //* Managers
 
 //Upload a new document
 async function uploadDocument(req, res) {
-  const { fileName, fileDescription, file } = req.body;
+  let { fileName, fileDescription } = req.body;
+  const file = req.file;
   //Validation
-  //TODO: refine in file handling
-  if (!fileName || !fileDescription) {
+  if (!fileName || !fileDescription || !file) {
     return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
   }
 
   // hoa id from auth
   const hoa_id = req.user._id;
 
+  //check if filename has an extension, if not append the correct one.
+  if (!fileName.includes(".")) {
+    let extension = file.originalname.split(".").pop();
+    fileName = `${fileName}.${extension}`;
+  }
+
   try {
     const document = await Document.create({
       hoa_id,
       fileName,
       fileDescription,
-      file,
+      filePath: file.filename,
     });
     res.status(200).json(document);
   } catch (error) {
@@ -45,16 +50,16 @@ async function getDocuments(req, res) {
 //Edit an existing document by _id
 async function editDocument(req, res) {
   const { id } = req.params;
-  // check if bill id is a valid mongoose id
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת." });
-  }
+  let { fileName, fileDescription, extension } = req.body;
 
-  const { fileName, fileDescription, file } = req.body;
+  //check if filename has an extension, if not append the correct one.
+  if (!fileName.includes(".")) {
+    fileName = `${fileName}.${extension}`;
+  }
 
   const document = await Document.findByIdAndUpdate(
     id,
-    { fileName, fileDescription, file },
+    { fileName, fileDescription },
     { new: true }
   );
   if (!document) {
@@ -75,7 +80,13 @@ async function deleteDocument(req, res) {
   if (!document) {
     return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת." });
   }
-  res.status(200).json(document);
+  try {
+    fs.unlinkSync(`uploads/${document.filePath}`);
+    res.status(200).json(document);
+  } catch (error) {
+    // if file is unsuccessfully deleted
+    res.status(400).json({ error: "File unlinked." });
+  }
 }
 
 //* Tenants
@@ -92,10 +103,22 @@ async function getUserDocuments(req, res) {
   res.status(200).json(documents);
 }
 
+//* General
+//Send back file for download by id
+async function downloadDocument(req, res) {
+  const { id } = req.params;
+  const document = await Document.findById(id);
+  if (!document) {
+    return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת" });
+  }
+  res.download(`uploads/${document.filePath}`, document.fileName);
+}
+
 module.exports = {
   uploadDocument,
   getDocuments,
   editDocument,
   deleteDocument,
   getUserDocuments,
+  downloadDocument,
 };

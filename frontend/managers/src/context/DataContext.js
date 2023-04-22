@@ -152,7 +152,7 @@ export const dataReducer = (state, action) => {
         ...state,
         documents: deleteItem(state.documents, action.payload),
       };
-
+      
     //* HOA Details
     case "SET_DETAILS":
       return { ...state, details: action.payload };

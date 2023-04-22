@@ -21,7 +21,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Documents() {
   const { dispatch } = useModalsContext();
-  const { fetchData } = useDataHandler();
+  const { fetchData, fetchFile } = useDataHandler();
   const { documents } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
@@ -84,7 +84,12 @@ function Documents() {
                   <Button
                     variant="outline-primary"
                     className="me-md-1 mb-1 mb-md-0"
-                    //TODO: Handle file download
+                    onClick={async () => {
+                      await fetchFile(
+                        `documents/download/${document._id}`,
+                        document.fileName
+                      );
+                    }}
                   >
                     הורדה
                   </Button>
@@ -123,10 +128,9 @@ function Documents() {
         </tbody>
       </Table>
       {/* //* Modals */}
-      {/* //TODO: Implement New and Edit Documents in File handling Stage */}
       <NewDocument />
       <EditDocument editData={editData} />
-      <DeleteConfirmation deleteData={deleteData} /> {/*///? Implemented */}
+      <DeleteConfirmation deleteData={deleteData} />
     </>
   );
 }

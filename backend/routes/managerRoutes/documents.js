@@ -5,9 +5,11 @@ const {
   getDocuments,
   editDocument,
   deleteDocument,
+  downloadDocument,
 } = require("../../controllers/documentController");
-//auth middleware
+//middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
+const upload = require("../../middleware/upload");
 
 const router = express.Router();
 
@@ -15,7 +17,7 @@ const router = express.Router();
 router.use(requireAuthManager);
 
 //Upload a new document
-router.post("/", uploadDocument);
+router.post("/", upload.single("document"), uploadDocument);
 
 //Get all documents
 router.get("/", getDocuments);
@@ -25,5 +27,7 @@ router.patch("/:id", editDocument);
 
 //Delete an existing document by _id
 router.delete("/:id", deleteDocument);
+
+router.get("/download/:id", downloadDocument);
 
 module.exports = router;

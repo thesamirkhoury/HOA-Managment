@@ -15,7 +15,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function Documents() {
-  const { fetchData } = useDataHandler();
+  const { fetchData, fetchFile } = useDataHandler();
   const { documents } = useDataContext();
 
   useEffect(() => {
@@ -73,10 +73,15 @@ function Documents() {
                 <td>{document.fileDescription}</td>
                 <td>{format(new Date(document.createdAt), "dd/MM/yyyy")}</td>
                 <td>
-                  {/* //TODO: Handle file download */}
                   <Button
                     variant="outline-primary"
                     className="me-md-1 mb-1 mb-md-0"
+                    onClick={async () => {
+                      await fetchFile(
+                        `documents/download/${document._id}`,
+                        document.fileName
+                      );
+                    }}
                   >
                     הורדה
                   </Button>

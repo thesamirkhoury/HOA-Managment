@@ -1,6 +1,9 @@
 const express = require("express");
 //controller functions
-const { getUserDocuments } = require("../../controllers/documentController");
+const {
+  getUserDocuments,
+  downloadDocument,
+} = require("../../controllers/documentController");
 //auth middleware
 const requireAuthTenant = require("../../middleware/requireAuthTenant");
 
@@ -11,5 +14,7 @@ router.use(requireAuthTenant);
 
 //Get all documents of a user
 router.get("/", getUserDocuments);
+
+router.get("/download/:id", downloadDocument);
 
 module.exports = router;
