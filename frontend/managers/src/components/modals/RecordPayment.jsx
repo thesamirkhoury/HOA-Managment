@@ -37,8 +37,6 @@ function RecordPayment({ editData, tenantData }) {
   //Payment object
   const [paymentRecord, setPaymentRecord] = useState("");
 
-  let datePH = new Date("2020/12/12");
-
   function updatePaymentRecord(newObj) {
     setPaymentRecord((prev) => ({
       ...prev,
