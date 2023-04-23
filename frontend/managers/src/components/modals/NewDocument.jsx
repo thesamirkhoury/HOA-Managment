@@ -33,7 +33,7 @@ function NewDocument() {
     e.preventDefault();
     //form data body
     let formData = new FormData();
-    formData.append("document", file);
+    formData.append("file", file);
     formData.append("fileName", fileName);
     formData.append("fileDescription", fileDescription);
     //upload file

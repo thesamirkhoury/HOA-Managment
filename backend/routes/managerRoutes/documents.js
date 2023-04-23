@@ -17,7 +17,7 @@ const router = express.Router();
 router.use(requireAuthManager);
 
 //Upload a new document
-router.post("/", upload.single("document"), uploadDocument);
+router.post("/", upload.single("file"), uploadDocument);
 
 //Get all documents
 router.get("/", getDocuments);

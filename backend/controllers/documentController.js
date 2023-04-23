@@ -111,7 +111,7 @@ async function downloadDocument(req, res) {
   if (!document) {
     return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת" });
   }
-  res.download(`uploads/${document.filePath}`, document.fileName);
+  res.download(`uploads/documents/${document.filePath}`, document.fileName);
 }
 
 module.exports = {
