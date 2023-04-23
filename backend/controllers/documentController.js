@@ -80,13 +80,13 @@ async function deleteDocument(req, res) {
   if (!document) {
     return res.status(404).json({ error: "קובץ זה אינו קמיית במערכת." });
   }
-  try {
-    fs.unlinkSync(`uploads/${document.filePath}`);
-    res.status(200).json(document);
-  } catch (error) {
-    // if file is unsuccessfully deleted
-    res.status(400).json({ error: "File unlinked." });
-  }
+  fs.unlink(`uploads/documents/${document.filePath}`, function (error) {
+    if (error)
+      return console.error(
+        `error deleting file: ${document.filePath} - err msg: ${error}`
+      );
+  });
+  res.status(200).json(document);
 }
 
 //* Tenants
