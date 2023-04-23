@@ -68,6 +68,7 @@ export function useDataHandler() {
       // return error message
       return { error: "You must be logged in" };
     }
+    showModal({ type: "LOADING", payload: true });
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/managers/${suffix}`,
       {
@@ -80,12 +81,16 @@ export function useDataHandler() {
     );
     const json = await response.json();
     if (!response.ok) {
+      //hide loading modal
+      showModal({ type: "LOADING", payload: false });
       // return error message
       return json;
     }
     if (response.ok) {
       //add the data to the context
       dispatch({ type: type, payload: json });
+      //hide loading modal
+      showModal({ type: "LOADING", payload: false });
       //if successful return no errors
       return null;
     }
