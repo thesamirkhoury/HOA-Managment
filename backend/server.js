@@ -34,6 +34,7 @@ const app = express();
 const port = 4000;
 
 //middleware
+const { ensureUploadPaths } = require("./middleware/upload");
 //CORS
 const corsOptions = {
   origin: [
@@ -84,7 +85,7 @@ app.use("/api/tenants/documents", documentRoutesTenant);
 
 //*API Details
 app.get("/api/ver", (req, res) => {
-  res.status(200).json({ version: "0.4" });
+  res.status(200).json({ version: "0.6" });
 });
 
 // Make the Queries Strict and Remove Deprecation Warning
@@ -96,6 +97,9 @@ mongoose
     console.log("connected to database");
     // Run the server on the port
     app.listen(port, () => {
+      // check if uploads folders exits, if not create them
+      ensureUploadPaths();
+      // log the port the server is running on
       console.log(`Server running on port: ${port}`);
     });
   })

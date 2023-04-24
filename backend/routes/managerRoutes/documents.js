@@ -9,7 +9,7 @@ const {
 } = require("../../controllers/documentController");
 //middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
-const upload = require("../../middleware/upload");
+const { upload } = require("../../middleware/upload");
 
 const router = express.Router();
 
