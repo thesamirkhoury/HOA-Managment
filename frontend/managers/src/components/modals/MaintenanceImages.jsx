@@ -39,7 +39,7 @@ function MaintenanceImages({ url }) {
         setImgSrc();
       }
     };
-  }, [url]);
+  }, [url]); //eslint-disable-line
 
   return (
     <Modal
