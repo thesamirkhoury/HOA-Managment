@@ -24,9 +24,8 @@ const requestSchema = new Schema(
       type: String,
       required: [true, "שגיאה, נא לנסות שוב"],
     },
-    pictures: {
-      //TODO: Refine in the File handling stage.
-      type: Buffer,
+    picturePath: {
+      type: String,
     },
   },
   { timestamps: true }

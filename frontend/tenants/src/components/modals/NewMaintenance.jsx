@@ -10,8 +10,9 @@ import Button from "react-bootstrap/Button";
 
 function NewMaintenance() {
   const { newMaintenance, dispatch } = useModalsContext();
-  const { sendData } = useDataHandler();
+  const { sendFormData } = useDataHandler();
   //form state
+  const [image, setImage] = useState({});
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   //error handling
@@ -19,6 +20,7 @@ function NewMaintenance() {
 
   function handleHide() {
     dispatch({ type: "NEW_MAINTENANCE", payload: false });
+    setImage({});
     setSubject("");
     setDescription("");
     setError(null);
@@ -26,12 +28,16 @@ function NewMaintenance() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const request = { subject, description };
-
-    const errors = await sendData(
+    //form data body
+    let formData = new FormData();
+    formData.append("file", image);
+    formData.append("subject", subject);
+    formData.append("description", description);
+    //upload file
+    const errors = await sendFormData(
       "maintenance",
       "POST",
-      request,
+      formData,
       "NEW_MAINTENANCE"
     );
     if (!errors) {
@@ -41,6 +47,7 @@ function NewMaintenance() {
       setError(errors.error);
     }
   }
+
   return (
     <Modal
       show={newMaintenance}
@@ -81,7 +88,13 @@ function NewMaintenance() {
 
           <Form.Group controlId="formFile">
             <Form.Label>צילום ותיעוד</Form.Label>
-            <Form.Control type="file" accept=".png,.jpeg" />
+            <Form.Control
+              type="file"
+              accept=".png,.jpeg"
+              onChange={(e) => {
+                setImage(e.target.files[0]);
+              }}
+            />
           </Form.Group>
           {error && <div className="error">{error}</div>}
           <div className="mt-5 float-end">
