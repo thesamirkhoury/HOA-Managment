@@ -28,6 +28,7 @@ router.patch("/:id", editDocument);
 //Delete an existing document by _id
 router.delete("/:id", deleteDocument);
 
+//Download a document by _id
 router.get("/download/:id", downloadDocument);
 
 module.exports = router;

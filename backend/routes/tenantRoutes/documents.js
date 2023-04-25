@@ -15,6 +15,7 @@ router.use(requireAuthTenant);
 //Get all documents of a user
 router.get("/", getUserDocuments);
 
+//Download a document by _id
 router.get("/download/:id", downloadDocument);
 
 module.exports = router;
