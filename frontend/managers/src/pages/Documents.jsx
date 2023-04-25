@@ -6,6 +6,7 @@ import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
 //helper functions
 import format from "date-fns/format";
+import { download } from "../util/fileDownload";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -85,10 +86,10 @@ function Documents() {
                     variant="outline-primary"
                     className="me-md-1 mb-1 mb-md-0"
                     onClick={async () => {
-                      await fetchFile(
-                        `documents/download/${document._id}`,
-                        document.fileName
+                      const response = await fetchFile(
+                        `documents/download/${document._id}`
                       );
+                      download(response, document.fileName);
                     }}
                   >
                     הורדה
