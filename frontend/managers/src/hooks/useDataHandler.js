@@ -107,16 +107,12 @@ export function useDataHandler() {
       }
     );
     if (response.ok) {
+      //create blob url from file
       const blob = await response.blob();
-      //download file
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
       // hide loading modal
       showModal({ type: "LOADING", payload: false });
+      return url;
     }
     if (!response.ok) {
       const json = await response.json();
@@ -125,6 +121,7 @@ export function useDataHandler() {
       if (json.error === "Request is not authorized") {
         logout();
         showModal({ type: "LOADING", payload: false });
+        return null;
       }
     }
   }
