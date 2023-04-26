@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //image asset
 import Placeholder_Hero from "../../assets/Placeholder_Hero.png";
+
 function Hero() {
   return (
     <Container className="hero-bg">
@@ -43,7 +44,7 @@ function Hero() {
           <img
             //!Placeholder link
             src={Placeholder_Hero}
-            alt="placeholder image"
+            alt="placeholder display"
             className="img-fluid"
           />
         </Col>
