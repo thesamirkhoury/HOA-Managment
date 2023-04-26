@@ -72,7 +72,7 @@ function Sidebar() {
           <LinkContainer to="/inquires" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-chat-left-fill me-1"></i>
-              פניות דיירים
+              פניות לועד
             </Nav.Link>
           </LinkContainer>
           <hr />

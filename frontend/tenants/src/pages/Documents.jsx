@@ -5,6 +5,7 @@ import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
 //helper functions
 import format from "date-fns/format";
+import { download } from "../util/fileDownload";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -15,7 +16,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function Documents() {
-  const { fetchData } = useDataHandler();
+  const { fetchData, fetchFile } = useDataHandler();
   const { documents } = useDataContext();
 
   useEffect(() => {
@@ -73,10 +74,15 @@ function Documents() {
                 <td>{document.fileDescription}</td>
                 <td>{format(new Date(document.createdAt), "dd/MM/yyyy")}</td>
                 <td>
-                  {/* //TODO: Handle file download */}
                   <Button
                     variant="outline-primary"
                     className="me-md-1 mb-1 mb-md-0"
+                    onClick={async () => {
+                      const response = await fetchFile(
+                        `documents/download/${document._id}`
+                      );
+                      download(response, document.fileName);
+                    }}
                   >
                     הורדה
                   </Button>

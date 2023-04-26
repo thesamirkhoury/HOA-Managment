@@ -1,5 +1,6 @@
 const MaintenanceRequest = require("../models/maintenance");
 const { sendMaintenanceStatus, forwardToSupplier } = require("../util/email");
+const { compressImage } = require("../middleware/upload");
 
 //* Managers
 
@@ -29,7 +30,7 @@ async function changeStatus(req, res) {
     if (!request) {
       return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
     }
-    sendMaintenanceStatus();
+    await sendMaintenanceStatus(request.tenant_id);
     res.status(200).json(request);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -55,7 +56,8 @@ async function forwardRequest(req, res) {
 
 //Create a new maintenance request
 async function createRequest(req, res) {
-  const { subject, description, pictures } = req.body;
+  const { subject, description } = req.body;
+  let picture = req.file;
   //Validation
   if (!subject || !description) {
     return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
@@ -66,6 +68,12 @@ async function createRequest(req, res) {
   // tenant id from auth
   const tenant_id = req.user._id;
 
+  //if the request has a picture, compress it and store the pathname
+  if (picture) {
+    picture = picture.filename;
+    await compressImage(req.file.path);
+  }
+
   try {
     const request = await MaintenanceRequest.create({
       hoa_id,
@@ -73,7 +81,7 @@ async function createRequest(req, res) {
       subject,
       description,
       status: "פתוח",
-      pictures,
+      picturePath: picture,
     });
     res.status(200).json(request);
   } catch (error) {
@@ -99,10 +107,18 @@ async function getUserRequests(req, res) {
   res.status(200).json(requests);
 }
 
+//* General
+//Send the image ready to be viewed
+async function viewImage(req, res) {
+  const { path } = req.params;
+  res.sendFile(path, { root: "uploads/requests/" });
+}
+
 module.exports = {
   getRequests,
   changeStatus,
   forwardRequest,
   createRequest,
   getUserRequests,
+  viewImage,
 };

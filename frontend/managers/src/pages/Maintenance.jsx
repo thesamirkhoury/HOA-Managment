@@ -124,9 +124,7 @@ function Maintenance() {
                         onClick={() => {
                           setTenantData(tenant);
                           setRequestData(request);
-                          setImageUrl(
-                            "https://codescandy.com/geeks-bootstrap-5/assets/images/placeholder/placeholder-4by3.svg"
-                          ); //!placeholder url
+                          setImageUrl(request.picturePath);
                           dispatch({
                             type: "MAINTENANCE_DETAILS",
                             payload: true,

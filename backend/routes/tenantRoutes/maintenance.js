@@ -3,9 +3,11 @@ const express = require("express");
 const {
   createRequest,
   getUserRequests,
+  viewImage,
 } = require("../../controllers/maintenanceControllers");
-//auth middleware
+//middleware
 const requireAuthTenant = require("../../middleware/requireAuthTenant");
+const { upload } = require("../../middleware/upload");
 
 const router = express.Router();
 
@@ -13,9 +15,12 @@ const router = express.Router();
 router.use(requireAuthTenant);
 
 //Create a new maintenance request
-router.post("/", createRequest);
+router.post("/", upload.single("file"), createRequest);
 
 //Get all requests for a user
 router.get("/", getUserRequests);
+
+//View Documentation Image by image path
+router.get("/view/:path", viewImage);
 
 module.exports = router;

@@ -4,6 +4,7 @@ const {
   getRequests,
   changeStatus,
   forwardRequest,
+  viewImage,
 } = require("../../controllers/maintenanceControllers");
 //auth middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
@@ -21,5 +22,8 @@ router.patch("/:id/status", changeStatus);
 
 //Forward request by _id to a supplier by email
 router.post("/:id/forward", forwardRequest);
+
+//View Documentation Image by image path
+router.get("/view/:path", viewImage);
 
 module.exports = router;

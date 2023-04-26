@@ -6,6 +6,7 @@ import { useDataContext } from "../hooks/useDataContext";
 import { useDataHandler } from "../hooks/useDataHandler";
 //helper functions
 import format from "date-fns/format";
+import { download } from "../util/fileDownload";
 
 //bootstrap components
 import Form from "react-bootstrap/Form";
@@ -21,7 +22,7 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Documents() {
   const { dispatch } = useModalsContext();
-  const { fetchData } = useDataHandler();
+  const { fetchData, fetchFile } = useDataHandler();
   const { documents } = useDataContext();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
@@ -84,7 +85,12 @@ function Documents() {
                   <Button
                     variant="outline-primary"
                     className="me-md-1 mb-1 mb-md-0"
-                    //TODO: Handle file download
+                    onClick={async () => {
+                      const response = await fetchFile(
+                        `documents/download/${document._id}`
+                      );
+                      download(response, document.fileName);
+                    }}
                   >
                     הורדה
                   </Button>
@@ -123,10 +129,9 @@ function Documents() {
         </tbody>
       </Table>
       {/* //* Modals */}
-      {/* //TODO: Implement New and Edit Documents in File handling Stage */}
       <NewDocument />
       <EditDocument editData={editData} />
-      <DeleteConfirmation deleteData={deleteData} /> {/*///? Implemented */}
+      <DeleteConfirmation deleteData={deleteData} />
     </>
   );
 }

@@ -16,9 +16,8 @@ const documentSchema = new Schema(
       type: String,
       required: [true, "תיאור הקובץ הינו שדה חובה"],
     },
-    file: {
-      //TODO: Refine in the files handling stage.
-      type: Buffer,
+    filePath: {
+      type: String,
       required: [true, "The File is required"],
     },
   },
