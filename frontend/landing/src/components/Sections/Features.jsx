@@ -13,19 +13,19 @@ function Features() {
       <hr />
       <h2 className="mt-2">מה נהל מציעה?</h2>
       <Row className="mt-2">
-        <Col>
+        <Col md={4}>
           <i className="fs-1 bi bi-cash-stack"></i>
           <p className="fs-4">ניהול פיננסי</p>
           <p className="fs-5">מערכת לניהול הכנסות והוצאות ותיעוד תשלומים.</p>
         </Col>
-        <Col>
+        <Col md={4}>
           <i className="fs-1 bi bi-megaphone-fill"></i>
           <p className="fs-4">ערוצי תקשורת</p>
           <p className="fs-5">
             ערוצי תקשורת שונות בין הועד לבין הדיירים המותאמות לצרכים שונים.
           </p>
         </Col>
-        <Col>
+        <Col md={4}>
           <i className="fs-1 bi bi-cone-striped"></i>
           <p className="fs-4">ניהול ספקים ותקלות</p>
           <p className="fs-5">
