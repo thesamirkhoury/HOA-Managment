@@ -1,9 +1,15 @@
 import React from "react";
 
+//components
+import Navbar from "./components/Navbar";
+//Sections
+import Hero from "./components/Sections/Hero";
+
 function App() {
   return (
     <div className="App">
-      <h1>hello react</h1>
+      <Navbar />
+      <Hero />
     </div>
   );
 }
