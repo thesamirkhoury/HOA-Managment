@@ -41,7 +41,7 @@ function Hero() {
         <Col className="mt-1">
           {/*//TODO: replace placeholder image */}
           <img
-            // src="https://mockups-design.com/wp-content/uploads/2022/07/Free_iMac_Mockup_3.jpg" //!Placeholder link
+            //!Placeholder link
             src={Placeholder_Hero}
             alt="placeholder image"
             className="img-fluid"
