@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//helper function
+import { navigate } from "../../util/Navigate";
 
 function Features() {
   return (
@@ -36,7 +38,13 @@ function Features() {
       <Row>
         <Col className="mt-4 mb-2 text-center">
           <h5>רוצה להצטרף לכל הטוב הזה?</h5>
-          <Button variant="outline-light" className="w-100 text-center">
+          <Button
+            variant="outline-light"
+            className="w-100 text-center"
+            onClick={() => {
+              navigate("http://localhost:3000/signup"); //!Placeholder URL
+            }}
+          >
             ליצור חישבון ועד חדש
           </Button>
         </Col>
