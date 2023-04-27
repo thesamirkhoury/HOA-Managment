@@ -11,7 +11,7 @@ import Placeholder_Hero from "../../assets/Placeholder_Hero.png";
 
 function Hero() {
   return (
-    <Container className="hero-bg">
+    <Container className="hero-bg" id="hero">
       <Row className="mt-2">
         <Col md={6} className="ms-2">
           <p className="display-1 mt-3">

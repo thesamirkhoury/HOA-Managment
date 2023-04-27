@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 
 function SellingPoints() {
   return (
-    <Container className="mt-3">
+    <Container className="mt-3" id="selling-points">
       <h2>למה לבחור נהל?</h2>
       <Row className="mt-2">
         <Col md={4}>

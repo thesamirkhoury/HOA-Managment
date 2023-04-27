@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 
 function Features() {
   return (
-    <Container className="mt-3">
+    <Container className="mt-3" id="features">
       <hr />
       <h2 className="mt-2">מה נהל מציעה?</h2>
       <Row className="mt-2">

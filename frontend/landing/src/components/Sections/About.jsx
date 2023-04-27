@@ -2,7 +2,7 @@ import React from "react";
 
 function About() {
   return (
-    <div className="mt-2">
+    <div className="mt-2" id="about">
       <hr />
       <div className="mt-2 ms-3 mb-2">
         <h2 className="mt-2 ">מה זה נהל?</h2>
