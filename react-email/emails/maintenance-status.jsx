@@ -10,8 +10,6 @@ import {
   Section,
   Heading,
   Text,
-  Button,
-  Link,
 } from "@react-email/components";
 
 function MaintenanceStatus() {
