@@ -15,7 +15,7 @@ import {
 } from "@react-email/components";
 
 function SignupTenant() {
-  //!placeholderdata
+  //!placeholder data
   let firstName = "ישראל";
   let username = "user@1234";
   let token = "1234";
@@ -44,7 +44,7 @@ function SignupTenant() {
               <Text className="text-black text-[18px] leading-[24px]">
                 שלום {firstName},
               </Text>
-              <Text className="text-black text-[16px] leading-[24px]">
+              <Text className="text-black text-[18px] leading-[24px]">
                 הועד שלך הוסיף אותך למערכת ניהול ועד הבית, להלן פרטי החשבון שלך.
               </Text>
             </Section>
