@@ -69,6 +69,9 @@ function SignupTenant() {
                   {token}
                 </Link>
               </Text>
+              <Text className="text-[12px]">
+                הקישור תקף ל-3 ימים בלבד.
+              </Text>
             </Section>
 
             {/* Terms and Conditions */}
