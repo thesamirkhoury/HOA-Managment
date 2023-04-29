@@ -51,7 +51,7 @@ function MaintenanceStatus() {
             <Section>
               <Text className="text-[#666666]">
                 ההודעה הזאת נשלחה באופן אוטומאטי, כי המייל שלך מופיע במערכת
-                ניהול ועד בית כדייר
+                ניהול ועד בית כדייר.
               </Text>
             </Section>
           </Container>

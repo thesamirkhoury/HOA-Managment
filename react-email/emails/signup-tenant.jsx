@@ -78,6 +78,8 @@ function SignupTenant() {
                 <Link href={"/terms"} className="text-blue-600 no-underline">
                   לתנאי השימוש.
                 </Link>
+                <br />
+                ההודעה הזאת נשלחה באופן אוטומאטי.
               </Text>
             </Section>
           </Container>
