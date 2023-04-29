@@ -16,7 +16,6 @@ function NewBill() {
   //!placeholder data
   let firstName = "ישראל";
   let amount = "123";
-  let due = "1/1/1970";
 
   return (
     <Html lang="he" dir="rtl">
