@@ -10,6 +10,7 @@ import {
   Section,
   Heading,
   Text,
+  Button,
 } from "@react-email/components";
 
 function InquiryResponse() {
@@ -43,9 +44,22 @@ function InquiryResponse() {
                 שלום {firstName},
               </Text>
               <Text className="text-black text-[18px] leading-[24px]">
-                התקבלה תשובה לפנייה השירות שלך בנושה {subject}, לפרטים נוספים יש
-                להכנס לממערכת הדיירים.
+                התקבלה תשובה לפנייה השירות שלך בנושה {subject}.
+                <br />
+                לפרטים נוספים יש להכנס למערכת הדיירים.
               </Text>
+            </Section>
+
+            {/* Link Section */}
+            <Section className="text-center">
+              <Button
+                pX={20}
+                pY={12}
+                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
+                href={"http://localhost:3001/inquires"}
+              >
+                כניסה למערכת
+              </Button>
             </Section>
 
             {/* Footer */}

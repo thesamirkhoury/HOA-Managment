@@ -58,7 +58,7 @@ function SignupTenant() {
               <Button
                 pX={20}
                 pY={12}
-                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center center"
+                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
                 href={token}
               >
                 ליצירת סיסמה

@@ -10,6 +10,7 @@ import {
   Section,
   Heading,
   Text,
+  Button,
 } from "@react-email/components";
 
 function BillReminder() {
@@ -48,6 +49,18 @@ function BillReminder() {
                 <br />
                 לפרטים נוספים יש להכנס למערכת הדיירים.
               </Text>
+            </Section>
+
+            {/* Link Section */}
+            <Section className="text-center">
+              <Button
+                pX={20}
+                pY={12}
+                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center center"
+                href={"http://localhost:3001/billing"}
+              >
+                כניסה למערכת
+              </Button>
             </Section>
 
             {/* Footer */}
