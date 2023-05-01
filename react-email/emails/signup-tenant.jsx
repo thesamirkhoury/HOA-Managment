@@ -28,12 +28,13 @@ function SignupTenant() {
         <Body className="bg-white my-auto mx-auto font-sans">
           <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
             {/* Logo Section */}
-            <Section className="mt-[32px]">
+            <Section className="mt-[32px] grid justify-center">
               <Img
-                src={`/static/logo.svg`}
+                src={`http://localhost:4000/logo`}
                 width="212"
                 height="88"
                 alt="logo"
+                className="bg-white"
               />
             </Section>
             {/* Subject Section */}
@@ -41,10 +42,10 @@ function SignupTenant() {
               <Heading className="text-black text-center font-normal text-[24px]">
                 הועד שלך רוצה לצרף אותך למערכת נהל.
               </Heading>
-              <Text className="text-black text-[18px] leading-[24px]">
+              <Text className="text-black text-center text-[18px] leading-[24px]">
                 שלום {firstName},
               </Text>
-              <Text className="text-black text-[18px] leading-[24px]">
+              <Text className="text-black text-center text-[18px] leading-[24px]">
                 הועד שלך הוסיף אותך למערכת ניהול ועד הבית, להלן פרטי החשבון שלך.
               </Text>
             </Section>
@@ -53,6 +54,7 @@ function SignupTenant() {
             <Section className="text-center mt-[32px] mb-[32px]">
               <Text className="text-black text-[14px] leading-[24px] text-center">
                 שם המשתמש שלך:
+                <br />
                 <strong>{username}</strong>
               </Text>
               <Button
@@ -70,14 +72,12 @@ function SignupTenant() {
                   {token}
                 </Link>
               </Text>
-              <Text className="text-[12px]">
-                הקישור תקף ל-3 ימים בלבד.
-              </Text>
+              <Text className="text-[12px]">הקישור תקף ל-3 ימים בלבד.</Text>
             </Section>
 
             {/* Terms and Conditions */}
             <Section>
-              <Text className="text-[#666666]">
+              <Text className="text-[#666666] text-center">
                 בעת השלמת ההרשמה למערכת, אתה מסקים
                 <Link href={"/terms"} className="text-blue-600 no-underline">
                   לתנאי השימוש.
