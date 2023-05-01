@@ -34,7 +34,7 @@ async function addResponse(req, res) {
     if (!inquiry) {
       return res.status(404).json({ error: "לא נמצאו פניות." });
     }
-    sendInquiryResponse(inquiry.tenant_id);
+    sendInquiryResponse(inquiry.tenant_id, inquiry.subject);
     res.status(200).json(inquiry);
   } catch (error) {
     res.status(400).json({ error: error.message });

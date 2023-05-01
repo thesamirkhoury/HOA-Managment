@@ -205,6 +205,7 @@ tenantSchema.statics.forgotPassword = async function (username) {
   await user.save();
 
   const data = {
+    firstName: user.firstName,
     email: user.tenantEmail,
     username: user.username,
     token: token,

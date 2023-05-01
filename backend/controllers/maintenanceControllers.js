@@ -30,7 +30,7 @@ async function changeStatus(req, res) {
     if (!request) {
       return res.status(404).json({ error: "לא נמצאו קריאות שירות." });
     }
-    await sendMaintenanceStatus(request.tenant_id);
+    await sendMaintenanceStatus(request.tenant_id, request.subject);
     res.status(200).json(request);
   } catch (error) {
     res.status(400).json({ error: error.message });
