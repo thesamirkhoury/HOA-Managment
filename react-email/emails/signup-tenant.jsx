@@ -16,9 +16,9 @@ import {
 
 function SignupTenant() {
   //!placeholder data
-  let firstName = "ישראל";
-  let username = "user@1234";
-  let token = "1234";
+  let firstName = "FIRSTNAME";
+  let username = "USERNAME";
+  let token = "TOKEN";
 
   return (
     <Html lang="he" dir="rtl">
@@ -65,6 +65,7 @@ function SignupTenant() {
               </Button>
               <Text className="text-black text-[14px] leading-[24px]">
                 או ללחוץ/להעתיק את הקישור הבא:
+                <br />
                 <Link href={token} className="text-blue-600 no-underline">
                   {token}
                 </Link>

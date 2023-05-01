@@ -44,7 +44,7 @@ function InquiryResponse() {
                 שלום {firstName},
               </Text>
               <Text className="text-black text-[18px] leading-[24px]">
-                התקבלה תשובה לפנייה השירות שלך בנושה {subject}.
+                התקבלה תשובה לפנייה שלך בנושה {subject}.
                 <br />
                 לפרטים נוספים יש להכנס למערכת הדיירים.
               </Text>
