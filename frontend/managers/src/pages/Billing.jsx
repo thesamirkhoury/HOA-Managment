@@ -132,7 +132,7 @@ function Billing() {
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={async () => {
                         await sendData(
-                          `billing/${bill.tenant_id}/reminder`,
+                          `billing/${bill._id}/reminder`,
                           "POST",
                           {},
                           "NO_CHANGE"

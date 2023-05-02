@@ -127,9 +127,12 @@ async function recordPayment(req, res) {
 //Send a payment reminder by mail
 async function sendReminder(req, res) {
   const { id } = req.params;
-
   try {
-    await sendBillReminder(id);
+    const bill = await Billing.findById(id);
+    if (!bill) {
+      return res.status(404).json({ error: "לא נמצאו חיובים" });
+    }
+    await sendBillReminder(bill.tenant_id, bill.amount);
     res.status(200).json({ message: "מייל נשלח בהצלחה" });
   } catch (error) {
     res.status(400).json({ error: error.message });

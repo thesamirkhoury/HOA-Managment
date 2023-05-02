@@ -2,7 +2,7 @@ const Tenant = require("../models/tenants");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-const { sendSignupLink } = require("../util/email");
+const { sendSignupLink, sendResetLink } = require("../util/email");
 
 // JWT Create Token Function
 function createToken(_id) {
@@ -51,7 +51,12 @@ async function signup(req, res) {
     );
 
     //email the signup link to tenant
-    sendSignupLink(tenant.user.tenantEmail, tenant.user.username, tenant.token);
+    sendSignupLink(
+      tenant.user.tenantEmail,
+      tenant.user.firstName,
+      tenant.user.username,
+      tenant.token
+    );
 
     //return only the tenant data, without the pure token
     res.status(200).json(tenant.user);
@@ -157,8 +162,11 @@ async function forgotPassword(req, res) {
   try {
     const user = await Tenant.forgotPassword(username);
     //email the reset link
-    //TODO: use the email util to email the reset link with the token, temp log the token in console
-    console.log(user.email, user.username, user.token);
+    sendResetLink(
+      user.email,
+      user.firstName,
+      `${process.env.TENANTS_URL}/set-password/${user.token}`
+    );
 
     res.status(200).json({
       resetMessage:

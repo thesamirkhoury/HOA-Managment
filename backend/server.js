@@ -57,6 +57,8 @@ app.use((req, res, next) => {
 });
 
 //routes
+//* Logo Asset
+app.use("/logo", express.static("./assets/Logo.svg"));
 
 //* Authentication
 app.use("/api", authentication);

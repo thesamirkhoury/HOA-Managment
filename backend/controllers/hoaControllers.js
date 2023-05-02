@@ -1,6 +1,6 @@
 const HOA = require("../models/hoa");
 const jwt = require("jsonwebtoken");
-const { sendResetLinkManager } = require("../util/email");
+const { sendResetLink } = require("../util/email");
 
 // JWT Create Token Function
 function createToken(_id) {
@@ -62,7 +62,11 @@ async function forgotPassword(req, res) {
   try {
     const user = await HOA.forgotPassword(email);
     //email the reset link
-    sendResetLinkManager(user.email, user.firstName, user.token);
+    sendResetLink(
+      user.email,
+      user.firstName,
+      `${process.env.BOARD_URL}/set-password/${user.token}`
+    );
 
     res.status(200).json({
       resetMessage:
