@@ -16,9 +16,9 @@ import {
 
 function SignupTenant() {
   //!placeholder data
-  let firstName = "FIRSTNAME";
-  let username = "USERNAME";
-  let token = "TOKEN";
+  let firstName = "${firstName}";
+  let username = "${username}";
+  let token = "${token}";
 
   return (
     <Html lang="he" dir="rtl">
@@ -30,7 +30,7 @@ function SignupTenant() {
             {/* Logo Section */}
             <Section className="mt-[32px] grid justify-center">
               <Img
-                src={`http://localhost:4000/logo`}
+                src={"${process.env.LOGO_URL}"}
                 width="212"
                 height="88"
                 alt="logo"
@@ -61,14 +61,17 @@ function SignupTenant() {
                 pX={20}
                 pY={12}
                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
-                href={token}
+                href={"${process.env.TENANTS_URL}/set-password/${token}"}
               >
                 ליצירת סיסמה
               </Button>
               <Text className="text-black text-[14px] leading-[24px]">
                 או ללחוץ/להעתיק את הקישור הבא:
                 <br />
-                <Link href={token} className="text-blue-600 no-underline">
+                <Link
+                  href={"${process.env.TENANTS_URL}/set-password/${token}"}
+                  className="text-blue-600 no-underline"
+                >
                   {token}
                 </Link>
               </Text>
@@ -79,7 +82,10 @@ function SignupTenant() {
             <Section>
               <Text className="text-[#666666] text-center">
                 בעת השלמת ההרשמה למערכת, אתה מסקים
-                <Link href={"/terms"} className="text-blue-600 no-underline">
+                <Link
+                  href={"${process.env.TERMS_URL}"}
+                  className="text-blue-600 no-underline"
+                >
                   לתנאי השימוש.
                 </Link>
                 <br />
