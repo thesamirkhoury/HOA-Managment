@@ -487,190 +487,43 @@ async function sendCloseAccount(recipient, firstName) {
   let subject = "אישור סגירת חשבון";
   let html = `
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <html lang="he" dir="rtl">
-  <head data-id="__react-email-head">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  </head>
-  <div
-    id="__react-email-preview"
-    style="
-      display: none;
-      overflow: hidden;
-      line-height: 1px;
-      opacity: 0;
-      max-height: 0;
-      max-width: 0;
-    "
-  >
-    אישור סגירת חשבון
+
+  <head data-id="__react-email-head"></head>
+  <div id="__react-email-preview" style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0">אישור סגירת חשבון
   </div>
-  <body
-    data-id="__react-email-body"
-    style="
-      background-color: rgb(255, 255, 255);
-      margin-top: auto;
-      margin-bottom: auto;
-      margin-left: auto;
-      margin-right: auto;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
-        Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-    "
-  >
-    <table
-      align="center"
-      width="100%"
-      data-id="__react-email-container"
-      role="presentation"
-      cellspacing="0"
-      cellpadding="0"
-      border="0"
-      style="
-        max-width: 37.5em;
-        border-width: 1px;
-        border-style: solid;
-        border-color: rgb(234, 234, 234);
-        border-radius: 0.25rem;
-        margin-top: 40px;
-        margin-bottom: 40px;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 20px;
-        width: 465px;
-      "
-    >
+
+  <body data-id="__react-email-body" style="background-color:rgb(255,255,255);margin-top:auto;margin-bottom:auto;margin-left:auto;margin-right:auto;font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">
+    <table align="center" width="100%" data-id="__react-email-container" role="presentation" cellSpacing="0" cellPadding="0" border="0" style="max-width:37.5em;border-width:1px;border-style:solid;border-color:rgb(234,234,234);border-radius:0.25rem;margin-top:40px;margin-bottom:40px;margin-left:auto;margin-right:auto;padding:20px;width:465px">
       <tbody>
-        <tr style="width: 100%">
+        <tr style="width:100%">
           <td>
-            <table
-              align="center"
-              width="100%"
-              data-id="react-email-section"
-              border="0"
-              cellpadding="0"
-              cellspacing="0"
-              role="presentation"
-              style="margin-top: 32px"
-            >
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
+              <tbody>
+                <tr>
+                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                </tr>
+              </tbody>
+            </table>
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation">
               <tbody>
                 <tr>
                   <td>
-                    <img
-                      data-id="react-email-img"
-                      alt="logo"
-                      src="/static/logo.svg"
-                      width="212"
-                      height="88"
-                      style="
-                        display: block;
-                        outline: none;
-                        border: none;
-                        text-decoration: none;
-                      "
-                    />
+                    <h1 data-id="react-email-heading" style="color:rgb(0,0,0);text-align:center;font-weight:400;font-size:24px">אישור על סגירת חשבון הועד</h1>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">,שלום ${firstName}</p>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">.המייל הזה מאשר את סגירת החשבון שלך<br />
+                    .כל המידע השמור ימיחק במהלך הדקות הקרובות, כולל כל ההוצאות וההכנסות<br />.גישתך וגית כל הדיירים של הועד שלך תחסם במהלך הדקות הקרובות</p>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">הפעולה הינה סופית והמידע לא ניתן לשיחזור.<br />זה הינו אישור סופי, הודעה נוספת לא תשלח.</p>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <table
-              align="center"
-              width="100%"
-              data-id="react-email-section"
-              border="0"
-              cellpadding="0"
-              cellspacing="0"
-              role="presentation"
-            >
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation">
               <tbody>
                 <tr>
                   <td>
-                    <h1
-                      data-id="react-email-heading"
-                      style="
-                        color: rgb(0, 0, 0);
-                        text-align: center;
-                        font-weight: 400;
-                        font-size: 24px;
-                      "
-                    >
-                      אישור על סגירת חשבון הועד
-                    </h1>
-                    <p
-                      data-id="react-email-text"
-                      style="
-                        font-size: 18px;
-                        line-height: 24px;
-                        margin: 16px 0;
-                        color: rgb(0, 0, 0);
-                      "
-                    >
-                      שלום ${firstName},
-                    </p>
-                    <p
-                      data-id="react-email-text"
-                      style="
-                        font-size: 18px;
-                        line-height: 24px;
-                        margin: 16px 0;
-                        color: rgb(0, 0, 0);
-                      "
-                    >
-                      המייל הזה מאשר את סגירת החשבון שלך.
-                      <br />
-                      כל המידע ייחקבמהלך הדקות הקובות, כולל כל ההוצאות וההכנסות, ותחסם גישת
-                      הדיירים למערכת.
-                    </p>
-                    <p
-                      data-id="react-email-text"
-                      style="
-                        font-size: 14px;
-                        line-height: 24px;
-                        margin: 16px 0;
-                        color: rgb(0, 0, 0);
-                      "
-                    >
-                      הפעולה הינה סופית והידע לא ניתן לשיחזור.
-                      <br />
-                      זה הינו אישור סופי, הודעה נוספת לא תשלח.
-                    </p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table
-              align="center"
-              width="100%"
-              data-id="react-email-section"
-              border="0"
-              cellpadding="0"
-              cellspacing="0"
-              role="presentation"
-            >
-              <tbody>
-                <tr>
-                  <td>
-                    <p
-                      data-id="react-email-text"
-                      style="
-                        font-size: 14px;
-                        line-height: 24px;
-                        margin: 16px 0;
-                        color: rgb(102, 102, 102);
-                      "
-                    >
-                      ההודעה הזאת נשלחה באופן אוטומאטי.<br />כל מהשצוין לעיל
-                      הינו בהתאם<a
-                        href="${process.env.TERMS_URL}"
-                        data-id="react-email-link"
-                        target="_blank"
-                        style="
-                          color: rgb(37, 99, 235);
-                          text-decoration: none;
-                          text-decoration-line: none;
-                        "
-                        >לתנאי השימוש.</a
-                      ><br />
-                    </p>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">ההודעה הזאת נשלחה באופן אוטומאטי<br />כל מהשצוין לעיל הינו בהתאם<a href="${process.env.TERMS_URL}" data-id="react-email-link" target="_blank" style="color:rgb(37,99,235);text-decoration:none;text-decoration-line:none">לתנאי השימוש</a><br /></p>
                   </td>
                 </tr>
               </tbody>
@@ -680,8 +533,8 @@ async function sendCloseAccount(recipient, firstName) {
       </tbody>
     </table>
   </body>
-</html>
 
+</html>
   `;
 
   await sendMail(recipient, subject, html);
