@@ -60,8 +60,8 @@ async function sendSignupLink(receiver, firstName, username, token) {
                 <tr>
                   <td>
                     <h1 data-id="react-email-heading" style="color:rgb(0,0,0);text-align:center;font-weight:400;font-size:24px">הועד שלך רוצה לצרף אותך למערכת נהל.</h1>
-                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">שלום ${firstName},</p>
-                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">הועד שלך הוסיף אותך למערכת ניהול ועד הבית, להלן פרטי החשבון שלך.</p>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">,שלום ${firstName}</p>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">,הועד שלך הוסיף אותך למערכת ניהול ועד הבית <br/>.להלן פרטי החשבון שלך</p>
                   </td>
                 </tr>
               </tbody>
@@ -70,9 +70,9 @@ async function sendSignupLink(receiver, firstName, username, token) {
               <tbody>
                 <tr>
                   <td>
-                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">שם המשתמש שלך:<br /><strong>${username}</strong></p><a href="${process.env.TENANTS_URL}/set-password/${token}" data-id="react-email-button" target="_blank" style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:12px 20px;background-color:rgb(0,0,0);border-radius:0.25rem;color:rgb(255,255,255);font-size:12px;font-weight:600;text-decoration-line:none;text-align:center"><span></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">ליצירת סיסמה</span><span></span></a>
-                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(0,0,0)">או ללחוץ/להעתיק את הקישור הבא:<br /><a href="${process.env.TENANTS_URL}/set-password/${token}" data-id="react-email-link" target="_blank" style="color:rgb(37,99,235);text-decoration:none;text-decoration-line:none">${process.env.TENANTS_URL}/set-password/${token}</a></p>
-                    <p data-id="react-email-text" style="font-size:12px;line-height:24px;margin:16px 0">הקישור תקף ל-3 ימים בלבד.</p>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">:שם המשתמש שלך<br /><strong>${username}</strong></p><a href="${process.env.TENANTS_URL}/set-password/${token}" data-id="react-email-button" target="_blank" style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:12px 20px;background-color:rgb(0,0,0);border-radius:0.25rem;color:rgb(255,255,255);font-size:12px;font-weight:600;text-decoration-line:none;text-align:center"><span></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">ליצירת סיסמה</span><span></span></a>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(0,0,0)">:או ללחוץ/להעתיק את הקישור הבא<br /><a href="${process.env.TENANTS_URL}/set-password/${token}" data-id="react-email-link" target="_blank" style="color:rgb(37,99,235);text-decoration:none;text-decoration-line:none">${process.env.TENANTS_URL}/set-password/${token}</a></p>
+                    <p data-id="react-email-text" style="font-size:12px;line-height:24px;margin:16px 0">.הקישור תקף ל-3 ימים בלבד</p>
                   </td>
                 </tr>
               </tbody>
@@ -81,7 +81,7 @@ async function sendSignupLink(receiver, firstName, username, token) {
               <tbody>
                 <tr>
                   <td>
-                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">בעת השלמת ההרשמה למערכת, אתה מסקים<a href="${process.env.TERMS_URL}" data-id="react-email-link" target="_blank" style="color:rgb(37,99,235);text-decoration:none;text-decoration-line:none">לתנאי השימוש.</a><br />ההודעה הזאת נשלחה באופן אוטומאטי.</p>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">בעת השלמת ההרשמה למערכת, אתה מסקים<a href="${process.env.TERMS_URL}" data-id="react-email-link" target="_blank" style="color:rgb(37,99,235);text-decoration:none;text-decoration-line:none">לתנאי השימוש</a><br />ההודעה הזאת נשלחה באופן אוטומאטי</p>
                   </td>
                 </tr>
               </tbody>
@@ -127,8 +127,8 @@ async function sendMaintenanceStatus(tenant_id, requestSubject) {
                 <tr>
                   <td>
                     <h1 data-id="react-email-heading" style="color:rgb(0,0,0);text-align:center;font-weight:400;font-size:24px">עודכן סטטוס קריאת השירות שלך</h1>
-                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">שלום ${tenant.firstName},</p>
-                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">התעדכן הסטטוס לקריאת השירות שפתחת בנושה ${requestSubject}.<br />לפרטים נוספים יש להכנס למערכת הדיירים.</p>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">,שלום ${tenant.firstName}</p>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">.התעדכן הסטטוס לקריאת השירות שפתחת בנושה ${requestSubject}<br />.לפרטים נוספים יש להכנס למערכת הדיירים</p>
                   </td>
                 </tr>
               </tbody>
@@ -144,7 +144,7 @@ async function sendMaintenanceStatus(tenant_id, requestSubject) {
               <tbody>
                 <tr>
                   <td>
-                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">ההודעה הזאת נשלחה באופן אוטומאטי, כי המייל שלך מופיע במערכת ניהול ועד בית כדייר.</p>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">ההודעה הזאת נשלחה באופן אוטומאטי, כי המייל שלך מופיע במערכת ניהול ועד בית כדייר</p>
                   </td>
                 </tr>
               </tbody>
@@ -192,7 +192,7 @@ async function forwardToSupplier(recipient, description) {
                 <tr>
                   <td>
                     <h1 data-id="react-email-heading" style="color:rgb(0,0,0);text-align:center;font-weight:400;font-size:24px">פרטי קריאת שירות</h1>
-                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">להלן פרטי קריאת השירות:</p>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">:להלן פרטי קריאת השירות</p>
                     <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">${description}</p>
                   </td>
                 </tr>
@@ -202,7 +202,7 @@ async function forwardToSupplier(recipient, description) {
               <tbody>
                 <tr>
                   <td>
-                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">ההודעה הזאת נשלחה באופן אוטומאטי, כי ועד בית העביר לך פרטי הקריאה כספק.</p>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">ההודעה הזאת נשלחה באופן אוטומאטי, כי ועד בית העביר לך פרטי הקריאה כספק</p>
                   </td>
                 </tr>
               </tbody>
