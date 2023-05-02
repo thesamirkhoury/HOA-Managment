@@ -127,9 +127,8 @@ async function recordPayment(req, res) {
 //Send a payment reminder by mail
 async function sendReminder(req, res) {
   const { id } = req.params;
-
   try {
-    const bill = await Billing.find(id);
+    const bill = await Billing.findById(id);
     if (!bill) {
       return res.status(404).json({ error: "לא נמצאו חיובים" });
     }
