@@ -20,16 +20,16 @@ async function closeAccount(req, res) {
       error: "לא הצלחנו לסגור את החשבון שלך, נא להסות שוב או לפנות לתמיכה.",
     });
   }
-  await Announcement.deleteMany(hoa_id);
-  await Billing.deleteMany(hoa_id);
-  await Document.deleteMany(hoa_id);
-  await Expense.deleteMany(hoa_id);
-  await Inquirie.deleteMany(hoa_id);
-  await MaintenanceRequest.deleteMany(hoa_id);
-  await Reminder.deleteMany(hoa_id);
-  await Supplier.deleteMany(hoa_id);
+  await Announcement.deleteMany({ hoa_id });
+  await Billing.deleteMany({ hoa_id });
+  await Document.deleteMany({ hoa_id });
+  await Expense.deleteMany({ hoa_id });
+  await Inquirie.deleteMany({ hoa_id });
+  await MaintenanceRequest.deleteMany({ hoa_id });
+  await Reminder.deleteMany({ hoa_id });
+  await Supplier.deleteMany({ hoa_id });
   await Tenant.deleteMany({ hoa_id });
-  
+
   sendCloseAccount(hoa.email, hoa.firstName);
   res.status(200).json(hoa);
 }

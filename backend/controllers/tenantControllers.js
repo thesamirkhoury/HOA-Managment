@@ -31,7 +31,7 @@ async function signup(req, res) {
   // hoa id from auth
   const hoa_id = req.user._id;
 
-  let username = `${tenantEmail.split("@")[0]}@${req.user.fileNumber}`;
+  let username = `${tenantEmail.split("@")[0]}@${req.user.fileNumber}`.toLowerCase();
   try {
     const tenant = await Tenant.signup(
       hoa_id,
