@@ -13,7 +13,6 @@ function ForgotPassword() {
 
   const [email, setEmail] = useState("");
   const [showInstructions, setShowInstructions] = useState(false);
-  const [error, setError] = useState(null);
 
   // When clicking on redirect link scroll to the top of the page.
   function scrollToTop() {
@@ -23,7 +22,7 @@ function ForgotPassword() {
   async function handleForgetPassword(e) {
     e.preventDefault();
     //send forgot password request
-    const response = await fetch(
+     await fetch(
       `${process.env.REACT_APP_API_URL}/managers/forgot-password/`,
       {
         method: "POST",
@@ -31,14 +30,7 @@ function ForgotPassword() {
         body: JSON.stringify({ email }),
       }
     );
-    const json = await response.json();
-
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      setShowInstructions(true);
-    }
+    setShowInstructions(true);
 
     dispatch({ type: "LOADING", payload: false });
   }
@@ -80,7 +72,7 @@ function ForgotPassword() {
           </Button>
         </LinkContainer>
 
-        {error && <div className="error">{error}</div>}
+        {/* {error && <div className="error">{error}</div>} */}
       </Card.Body>
     </Card>
   );

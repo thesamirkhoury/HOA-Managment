@@ -22,26 +22,20 @@ function ForgotPassword() {
 
   async function handleForgetPassword(e) {
     e.preventDefault();
-    dispatch({ type: "LOADING", payload: true });
-    //send forgot password request
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/tenants/forgot-password/`,
-      {
+    if (!username.includes("@")) {
+      setError("שם המשתמש שהוזן אינו בפורמט תקין.");
+    } else {
+      dispatch({ type: "LOADING", payload: true });
+      //send forgot password request
+      await fetch(`${process.env.REACT_APP_API_URL}/tenants/forgot-password/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username }),
-      }
-    );
-    const json = await response.json();
-
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
+      });
       setShowInstructions(true);
+      setError(null);
+      dispatch({ type: "LOADING", payload: false });
     }
-
-    dispatch({ type: "LOADING", payload: false });
   }
 
   return (
