@@ -199,7 +199,6 @@ tenantSchema.statics.forgotPassword = async function (username) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(token, salt);
 
-  user.password = undefined;
   user.token = hash;
   user.tokenExpire = Date.now() + 10 * (60 * 1000); //link is valid for only 10 minutes
   await user.save();
