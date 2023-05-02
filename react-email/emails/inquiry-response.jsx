@@ -15,8 +15,8 @@ import {
 
 function InquiryResponse() {
   //!placeholder data
-  let firstName = "ישראל";
-  let subject = "בדיקת פנייה לועד";
+  let firstName = "${tenant.firstName}";
+  let subject = "${inqurySubject}";
 
   return (
     <Html lang="he" dir="rtl">
@@ -26,12 +26,13 @@ function InquiryResponse() {
         <Body className="bg-white my-auto mx-auto font-sans">
           <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
             {/* Logo Section */}
-            <Section className="mt-[32px]">
+            <Section className="mt-[32px]  grid justify-center">
               <Img
-                src={`/static/logo.svg`}
+                src={"${process.env.LOGO_URL}"}
                 width="212"
                 height="88"
                 alt="logo"
+                className="bg-white"
               />
             </Section>
 
@@ -40,10 +41,10 @@ function InquiryResponse() {
               <Heading className="text-black text-center font-normal text-[24px]">
                 התקבלה תשובה לפנייה שלך
               </Heading>
-              <Text className="text-black text-[18px] leading-[24px]">
+              <Text className="text-black text-center  text-[18px] leading-[24px]">
                 שלום {firstName},
               </Text>
-              <Text className="text-black text-[18px] leading-[24px]">
+              <Text className="text-black text-center  text-[18px] leading-[24px]">
                 התקבלה תשובה לפנייה שלך בנושה {subject}.
                 <br />
                 לפרטים נוספים יש להכנס למערכת הדיירים.
@@ -56,7 +57,7 @@ function InquiryResponse() {
                 pX={20}
                 pY={12}
                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
-                href={"http://localhost:3001/inquires"}
+                href={"${process.env.TENANTS_URL}/inquires"}
               >
                 כניסה למערכת
               </Button>
@@ -64,7 +65,7 @@ function InquiryResponse() {
 
             {/* Footer */}
             <Section>
-              <Text className="text-[#666666]">
+              <Text className="text-[#666666] text-center ">
                 ההודעה הזאת נשלחה באופן אוטומאטי, כי המייל שלך מופיע במערכת
                 ניהול ועד בית כדייר.
               </Text>
