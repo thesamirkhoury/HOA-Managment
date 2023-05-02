@@ -14,8 +14,7 @@ import {
 
 function ForwardSupplier() {
   //!placeholder data
-  let description =
-    "לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג אלית הועניב היושבב שערש שמחויט - שלושע ותלברו חשלו שעותלשך וחאית נובש ערששף";
+  let description = "${description}";
 
   return (
     <Html lang="he" dir="rtl">
@@ -25,12 +24,13 @@ function ForwardSupplier() {
         <Body className="bg-white my-auto mx-auto font-sans">
           <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
             {/* Logo Section */}
-            <Section className="mt-[32px]">
+            <Section className="mt-[32px] grid justify-center">
               <Img
-                src={`/static/logo.svg`}
+                src={"${process.env.LOGO_URL}"}
                 width="212"
                 height="88"
                 alt="logo"
+                className="bg-white"
               />
             </Section>
 
@@ -39,7 +39,7 @@ function ForwardSupplier() {
               <Heading className="text-black text-center font-normal text-[24px]">
                 פרטי קריאת שירות
               </Heading>
-              <Text className="text-black text-[18px] leading-[24px]">
+              <Text className="text-black text-center text-[18px] leading-[24px]">
                 להלן פרטי קריאת השירות:
               </Text>
               <Text className="text-black text-[18px] leading-[24px] text-center">
@@ -49,11 +49,11 @@ function ForwardSupplier() {
 
             {/* Footer */}
             <Section>
-              <Text className="text-[#666666]">
-                ההודעה הזאת נשלחה באופן אוטומאטי, כי ועד בית העביר לך פרטי הקריאה כספק.
+              <Text className="text-[#666666] text-center">
+                ההודעה הזאת נשלחה באופן אוטומאטי, כי ועד בית העביר לך פרטי
+                הקריאה כספק.
               </Text>
             </Section>
-
           </Container>
         </Body>
       </Tailwind>
