@@ -82,7 +82,7 @@ function Tenants() {
           {tenants &&
             tenants
               .filter((item) => {
-                //Search
+                //Search Logic
                 return search.toLowerCase() === ""
                   ? item
                   : item.firstName
