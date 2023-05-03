@@ -24,7 +24,8 @@ function Maintenance() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { tenants, suppliers, maintenance } = useDataContext();
-  const [tenantData, setTenantData] = useState();
+  const [searchOpen, setSearchOpen] = useState("");
+  const [searchClosed, setSearchClosed] = useState("");
   const [requestData, setRequestData] = useState();
   const [imageUrl, setImageUrl] = useState("");
 
@@ -69,6 +70,10 @@ function Maintenance() {
               type="search"
               placeholder="חפש קריאות פתוחות..."
               className="ms-3 ms-md-3"
+              value={searchOpen}
+              onChange={(e) => {
+                setSearchOpen(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -96,48 +101,68 @@ function Maintenance() {
         </thead>
         <tbody>
           {maintenance &&
-            maintenance.map((request) => {
-              if (
-                tenants &&
-                (request.status === "פתוח" || request.status === "בטיפול")
-              ) {
-                let tenant = getTenant(request.tenant_id);
-                return (
-                  <tr key={request._id}>
-                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
-                    <td>{request.subject}</td>
-                    <td>
-                      {format(new Date(request.createdAt), "HH:mm dd/MM/yyyy")}
-                    </td>
-                    <td>
-                      <Badge
-                        bg={request.status === "פתוח" ? "danger" : "warning"}
-                        className="fs-6"
-                      >
-                        {request.status}
-                      </Badge>
-                    </td>
-                    <td>
-                      <Button
-                        variant="outline-primary"
-                        className="me-md-1 mb-1 mb-md-0"
-                        onClick={() => {
-                          setTenantData(tenant);
-                          setRequestData(request);
-                          setImageUrl(request.picturePath);
-                          dispatch({
-                            type: "MAINTENANCE_DETAILS",
-                            payload: true,
-                          });
-                        }}
-                      >
-                        פרטים ולהשיב
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              } else return null;
-            })}
+            maintenance
+              .map((request) => {
+                if (tenants && maintenance) {
+                  let tenant = getTenant(request.tenant_id);
+                  return {
+                    ...tenant,
+                    ...request,
+                  };
+                }
+              })
+              .filter((item) => {
+                if (item) {
+                  let fullName = `${item.firstName} ${item.lastName}`;
+                  //Search Logic
+                  return searchOpen.toLowerCase() === ""
+                    ? item.status === "פתוח" || item.status === "בטיפול"
+                    : (fullName
+                        .toLowerCase()
+                        .includes(searchOpen.toLowerCase()) ||
+                        item.subject
+                          .toLowerCase()
+                          .includes(searchOpen.toLowerCase()) ||
+                        format(
+                          new Date(item.createdAt),
+                          "dd/MM/yyyy HH:mm"
+                        ).includes(searchOpen)) &&
+                        (item.status === "פתוח" || item.status === "בטיפול");
+                }
+              })
+              .map((request) => (
+                <tr key={request._id}>
+                  <td>{`${request.firstName} ${request.lastName}`}</td>
+                  <td>{request.subject}</td>
+                  <td>
+                    {format(new Date(request.createdAt), "HH:mm dd/MM/yyyy")}
+                  </td>
+                  <td>
+                    <Badge
+                      bg={request.status === "פתוח" ? "danger" : "warning"}
+                      className="fs-6"
+                    >
+                      {request.status}
+                    </Badge>
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setRequestData(request);
+                        setImageUrl(request.picturePath);
+                        dispatch({
+                          type: "MAINTENANCE_DETAILS",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      פרטים ולהשיב
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* Closed Requests */}
@@ -150,6 +175,10 @@ function Maintenance() {
               type="search"
               placeholder="חפש קריאות סגורות..."
               className="ms-3 ms-md-3"
+              value={searchClosed}
+              onChange={(e) => {
+                setSearchClosed(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -176,43 +205,63 @@ function Maintenance() {
         </thead>
         <tbody>
           {maintenance &&
-            maintenance.map((request) => {
-              if (tenants && request.status === "סגור") {
-                let tenant = getTenant(request.tenant_id);
-                return (
-                  <tr key={request._id}>
-                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
-                    <td>{request.subject}</td>
-                    <td>
-                      {format(new Date(request.updatedAt), "HH:mm dd/MM/yyyy")}
-                    </td>
-                    <td>
-                      <Button
-                        variant="outline-primary"
-                        className="me-md-1 mb-1 mb-md-0"
-                        onClick={() => {
-                          setTenantData(tenant);
-                          setRequestData(request);
-                          dispatch({
-                            type: "MAINTENANCE_DETAILS",
-                            payload: true,
-                          });
-                        }}
-                      >
-                        פרטים
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              } else return null;
-            })}
+            maintenance
+              .map((request) => {
+                if (tenants && maintenance) {
+                  let tenant = getTenant(request.tenant_id);
+                  return {
+                    ...tenant,
+                    ...request,
+                  };
+                }
+              })
+              .filter((item) => {
+                if (item) {
+                  let fullName = `${item.firstName} ${item.lastName}`;
+                  //Search Logic
+                  return searchClosed.toLowerCase() === ""
+                    ? item.status === "סגור"
+                    : (fullName
+                        .toLowerCase()
+                        .includes(searchClosed.toLowerCase()) ||
+                        item.subject
+                          .toLowerCase()
+                          .includes(searchClosed.toLowerCase()) ||
+                        format(
+                          new Date(item.updatedAt),
+                          "dd/MM/yyyy HH:mm"
+                        ).includes(searchClosed)) &&
+                        item.status === "סגור";
+                }
+              })
+              .map((request) => (
+                <tr key={request._id}>
+                  <td>{`${request.firstName} ${request.lastName}`}</td>
+                  <td>{request.subject}</td>
+                  <td>
+                    {format(new Date(request.updatedAt), "HH:mm dd/MM/yyyy")}
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setRequestData(request);
+                        dispatch({
+                          type: "MAINTENANCE_DETAILS",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      פרטים
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}
-      <MaintenanceManagement
-        tenantData={tenantData}
-        requestData={requestData}
-      />
+      <MaintenanceManagement requestData={requestData} />
       <MaintenanceImages url={imageUrl} />
       <ForwardMaintenance suppliers={suppliers} requestData={requestData} />
     </>
