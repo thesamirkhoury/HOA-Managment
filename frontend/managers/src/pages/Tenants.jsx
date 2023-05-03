@@ -82,15 +82,13 @@ function Tenants() {
           {tenants &&
             tenants
               .filter((item) => {
+                let fullName = `${item.firstName} ${item.lastName}`;
                 //Search Logic
                 return search.toLowerCase() === ""
                   ? item
-                  : item.firstName
+                  : fullName
                       .toLowerCase()
                       .includes(search.toLowerCase()) ||
-                      item.lastName
-                        .toLowerCase()
-                        .includes(search.toLowerCase()) ||
                       item.buildingNumber.includes(search) ||
                       item.apartmentNumber.includes(search) ||
                       item.tenantType

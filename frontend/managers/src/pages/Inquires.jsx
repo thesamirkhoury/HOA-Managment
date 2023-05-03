@@ -107,16 +107,14 @@ function Inquires() {
                 }
               })
               .filter((item) => {
-                //Search Logic
                 if (item) {
+                  let fullName = `${item.firstName} ${item.lastName}`;
+                  //Search Logic
                   return searchOpen.toLowerCase() === ""
                     ? item.status === "פתוח"
-                    : (item.firstName
+                    : (fullName
                         .toLowerCase()
                         .includes(searchOpen.toLowerCase()) ||
-                        item.lastName
-                          .toLowerCase()
-                          .includes(searchOpen.toLowerCase()) ||
                         item.subject
                           .toLowerCase()
                           .includes(searchOpen.toLowerCase()) ||
@@ -206,16 +204,14 @@ function Inquires() {
                 }
               })
               .filter((item) => {
-                //Search Logic
                 if (item) {
+                  let fullName = `${item.firstName} ${item.lastName}`;
+                  //Search Logic
                   return searchClosed.toLowerCase() === ""
                     ? item.status === "סגור"
-                    : (item.firstName
+                    : (fullName
                         .toLowerCase()
                         .includes(searchClosed.toLowerCase()) ||
-                        item.lastName
-                          .toLowerCase()
-                          .includes(searchClosed.toLowerCase()) ||
                         item.subject
                           .toLowerCase()
                           .includes(searchClosed.toLowerCase()) ||
@@ -238,7 +234,6 @@ function Inquires() {
                       variant="outline-primary"
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={() => {
-                        // setTenantData(tenant);
                         setInquiryData(inquiry);
                         dispatch({
                           type: "INQUIRY_DETAILS",
