@@ -102,6 +102,7 @@ function Maintenance() {
         <tbody>
           {maintenance &&
             maintenance
+              // map over each inquiry and add the tenant details
               .map((request) => {
                 if (tenants && maintenance) {
                   let tenant = getTenant(request.tenant_id);
@@ -206,6 +207,7 @@ function Maintenance() {
         <tbody>
           {maintenance &&
             maintenance
+              // map over each inquiry and add the tenant details
               .map((request) => {
                 if (tenants && maintenance) {
                   let tenant = getTenant(request.tenant_id);
