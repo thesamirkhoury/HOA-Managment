@@ -108,6 +108,8 @@ function Billing() {
                     ...tenant,
                     ...bill,
                   };
+                } else {
+                  return null;
                 }
               })
               .filter((item) => {
@@ -124,6 +126,8 @@ function Billing() {
                         format(new Date(item.dueDate), "dd/MM/yyyy").includes(
                           search
                         );
+                } else {
+                  return null;
                 }
               })
               .map((bill) => (

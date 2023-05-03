@@ -104,6 +104,8 @@ function Inquires() {
                     ...tenant,
                     ...inquiry,
                   };
+                } else {
+                  return null;
                 }
               })
               .filter((item) => {
@@ -123,6 +125,8 @@ function Inquires() {
                           "dd/MM/yyyy HH:mm"
                         ).includes(searchOpen)) &&
                         item.status === "פתוח";
+                } else {
+                  return null;
                 }
               })
               .map((inquiry) => (
@@ -201,6 +205,8 @@ function Inquires() {
                     ...tenant,
                     ...inquiry,
                   };
+                } else {
+                  return null;
                 }
               })
               .filter((item) => {
@@ -220,6 +226,8 @@ function Inquires() {
                           "dd/MM/yyyy HH:mm"
                         ).includes(searchClosed)) &&
                         item.status === "סגור";
+                } else {
+                  return null;
                 }
               })
               .map((inquiry) => (

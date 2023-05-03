@@ -110,6 +110,8 @@ function Maintenance() {
                     ...tenant,
                     ...request,
                   };
+                } else {
+                  return null;
                 }
               })
               .filter((item) => {
@@ -129,6 +131,8 @@ function Maintenance() {
                           "dd/MM/yyyy HH:mm"
                         ).includes(searchOpen)) &&
                         (item.status === "פתוח" || item.status === "בטיפול");
+                } else {
+                  return null;
                 }
               })
               .map((request) => (
@@ -215,6 +219,8 @@ function Maintenance() {
                     ...tenant,
                     ...request,
                   };
+                } else {
+                  return null;
                 }
               })
               .filter((item) => {
@@ -234,6 +240,8 @@ function Maintenance() {
                           "dd/MM/yyyy HH:mm"
                         ).includes(searchClosed)) &&
                         item.status === "סגור";
+                } else {
+                  return null;
                 }
               })
               .map((request) => (

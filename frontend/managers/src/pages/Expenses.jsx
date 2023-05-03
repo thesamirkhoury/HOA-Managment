@@ -107,6 +107,8 @@ function Expenses() {
                     ...supplier,
                     ...expense,
                   };
+                } else {
+                  return null;
                 }
               })
               .filter((item) => {
@@ -125,6 +127,8 @@ function Expenses() {
                           new Date(item.paymentDate),
                           "dd/MM/yyyy"
                         ).includes(search);
+                } else {
+                  return null;
                 }
               })
               .map((expense) => (
