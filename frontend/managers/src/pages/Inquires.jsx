@@ -21,7 +21,8 @@ function Inquires() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { tenants, inquires } = useDataContext();
-  const [tenantData, setTenantData] = useState();
+  const [searchOpen, setSearchOpen] = useState("");
+  const [searchClosed, setSearchClosed] = useState("");
   const [inquiryData, setInquiryData] = useState();
 
   function getTenant(id) {
@@ -63,6 +64,10 @@ function Inquires() {
               type="search"
               placeholder="חפש פניות פתוחות..."
               className="ms-3 ms-md-3"
+              value={searchOpen}
+              onChange={(e) => {
+                setSearchOpen(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -90,33 +95,62 @@ function Inquires() {
         </thead>
         <tbody>
           {inquires &&
-            inquires.map((inquiry) => {
-              if (tenants && inquiry.status === "פתוח") {
-                let tenant = getTenant(inquiry.tenant_id);
-                return (
-                  <tr key={inquiry._id}>
-                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
-                    <td>{inquiry.subject}</td>
-                    <td>
-                      {format(new Date(inquiry.createdAt), "HH:mm dd/MM/yyyy")}
-                    </td>
-                    <td>
-                      <Button
-                        variant="outline-primary"
-                        className="me-md-1 mb-1 mb-md-0"
-                        onClick={() => {
-                          setTenantData(tenant);
-                          setInquiryData(inquiry);
-                          dispatch({ type: "INQUIRY_DETAILS", payload: true });
-                        }}
-                      >
-                        פרטים ולהשיב
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              } else return null;
-            })}
+            inquires
+              // map over each inquiry and add the tenant details
+              .map((inquiry) => {
+                if (tenants && inquires) {
+                  let tenant = getTenant(inquiry.tenant_id);
+                  return {
+                    ...tenant,
+                    ...inquiry,
+                  };
+                }
+              })
+              .filter((item) => {
+                //Search Logic
+                if (item) {
+                  return searchOpen.toLowerCase() === ""
+                    ? item.status === "פתוח"
+                    : (item.firstName
+                        .toLowerCase()
+                        .includes(searchOpen.toLowerCase()) ||
+                        item.lastName
+                          .toLowerCase()
+                          .includes(searchOpen.toLowerCase()) ||
+                        item.subject
+                          .toLowerCase()
+                          .includes(searchOpen.toLowerCase()) ||
+                        format(
+                          new Date(item.createdAt),
+                          "dd/MM/yyyy HH:mm"
+                        ).includes(searchOpen)) &&
+                        item.status === "פתוח";
+                }
+              })
+              .map((inquiry) => (
+                <tr key={inquiry._id}>
+                  <td>{`${inquiry.firstName} ${inquiry.lastName}`}</td>
+                  <td>{inquiry.subject}</td>
+                  <td>
+                    {format(new Date(inquiry.createdAt), "HH:mm dd/MM/yyyy")}
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setInquiryData(inquiry);
+                        dispatch({
+                          type: "INQUIRY_DETAILS",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      פרטים ולהשיב
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
 
@@ -130,6 +164,10 @@ function Inquires() {
               type="search"
               placeholder="חפש פניות סגורות..."
               className="ms-3 ms-md-3"
+              value={searchClosed}
+              onChange={(e) => {
+                setSearchClosed(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -156,38 +194,67 @@ function Inquires() {
         </thead>
         <tbody>
           {inquires &&
-            inquires.map((inquiry) => {
-              if (tenants && inquiry.status === "סגור") {
-                let tenant = getTenant(inquiry.tenant_id);
-                return (
-                  <tr key={inquiry._id}>
-                    <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
-                    <td>{inquiry.subject}</td>
-
-                    <td>
-                      {format(new Date(inquiry.updatedAt), "HH:mm dd/MM/yyyy")}
-                    </td>
-                    <td>
-                      <Button
-                        variant="outline-primary"
-                        className="me-md-1 mb-1 mb-md-0"
-                        onClick={() => {
-                          setTenantData(tenant);
-                          setInquiryData(inquiry);
-                          dispatch({ type: "INQUIRY_DETAILS", payload: true });
-                        }}
-                      >
-                        פרטים
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              } else return null;
-            })}
+            inquires
+              // map over each inquiry and add the tenant details
+              .map((inquiry) => {
+                if (tenants && inquires) {
+                  let tenant = getTenant(inquiry.tenant_id);
+                  return {
+                    ...tenant,
+                    ...inquiry,
+                  };
+                }
+              })
+              .filter((item) => {
+                //Search Logic
+                if (item) {
+                  return searchClosed.toLowerCase() === ""
+                    ? item.status === "סגור"
+                    : (item.firstName
+                        .toLowerCase()
+                        .includes(searchClosed.toLowerCase()) ||
+                        item.lastName
+                          .toLowerCase()
+                          .includes(searchClosed.toLowerCase()) ||
+                        item.subject
+                          .toLowerCase()
+                          .includes(searchClosed.toLowerCase()) ||
+                        format(
+                          new Date(item.createdAt),
+                          "dd/MM/yyyy HH:mm"
+                        ).includes(searchClosed)) &&
+                        item.status === "סגור";
+                }
+              })
+              .map((inquiry) => (
+                <tr key={inquiry._id}>
+                  <td>{`${inquiry.firstName} ${inquiry.lastName}`}</td>
+                  <td>{inquiry.subject}</td>
+                  <td>
+                    {format(new Date(inquiry.updatedAt), "HH:mm dd/MM/yyyy")}
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        // setTenantData(tenant);
+                        setInquiryData(inquiry);
+                        dispatch({
+                          type: "INQUIRY_DETAILS",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      פרטים
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}
-      <InquiryDetails tenantData={tenantData} inquiryData={inquiryData} />
+      <InquiryDetails inquiryData={inquiryData} />
     </>
   );
 }
