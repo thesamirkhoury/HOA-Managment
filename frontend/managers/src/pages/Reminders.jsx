@@ -79,7 +79,7 @@ function Reminders() {
                 : item.title.toLowerCase().includes(search.toLowerCase()) ||
                     format(
                       new Date(item.dateAndTime),
-                      "HH:mm dd/MM/yyyy"
+                      "dd/MM/yyyy HH:mm"
                     ).includes(search) ||
                     item.body.toLowerCase().includes(search.toLowerCase());
             })
