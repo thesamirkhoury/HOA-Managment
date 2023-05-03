@@ -14,7 +14,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function RecordPayment({ editData, tenantData }) {
+function RecordPayment({ editData }) {
   const { recordPayment, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
 
@@ -120,7 +120,7 @@ function RecordPayment({ editData, tenantData }) {
       </Modal.Header>
       <Modal.Body>
         {/* Invoice Details */}
-        {tenantData && editData && (
+        {editData && (
           <Card>
             <Card.Header className="fs-4">פרטי דרישת התשלום</Card.Header>
             {/* Card Body */}
@@ -130,7 +130,7 @@ function RecordPayment({ editData, tenantData }) {
                   <Form.Label>שם הדייר</Form.Label>
                   <Form.Control
                     disabled
-                    defaultValue={`${tenantData.firstName} ${tenantData.lastName}`}
+                    defaultValue={`${editData.firstName} ${editData.lastName}`}
                   ></Form.Control>
                 </Form.Group>
 
