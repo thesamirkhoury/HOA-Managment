@@ -42,7 +42,7 @@ function Maintenance() {
       <h1 className="display-1">קריאות שירות</h1>
       {/* Search Bar */}
       <Row className="ms-md-2 mb-2">
-        <Col xs={6} md={6} lg={8}>
+        <Col xs={4} md={6} lg={8}>
           <Form>
             <Form.Control
               type="search"
@@ -55,14 +55,22 @@ function Maintenance() {
             ></Form.Control>
           </Form>
         </Col>
-        <Col xs={6} md={4} lg={3}>
+        <Col xs={8} md={6} lg={4}>
           <Button
-            className="ms-4 ms-md-5"
+            className="ms-1 ms-md-1 me-1"
             onClick={() => {
               dispatch({ type: "NEW_MAINTENANCE", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>קריאה חדשה
+          </Button>
+          <Button
+            variant="outline-secondary"
+            onClick={() => {
+              fetchData("maintenance", "SET_MAINTENANCE");
+            }}
+          >
+            <i className="bi bi-arrow-repeat"> </i>רענן
           </Button>
         </Col>
       </Row>
