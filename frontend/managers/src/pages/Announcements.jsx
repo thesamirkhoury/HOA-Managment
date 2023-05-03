@@ -26,6 +26,7 @@ function Announcements() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { announcements, details } = useDataContext();
+  const [search, setSearch] = useState("");
   const [buildingsCount, setBuildingsCount] = useState();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
@@ -56,8 +57,12 @@ function Announcements() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש הודעות..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -85,61 +90,73 @@ function Announcements() {
                 {/* Announcement Cards */}
                 <Row xs={1} md={2} lg={3} className="g-3 mt-1">
                   {announcements &&
-                    announcements.map(
-                      (announcement) =>
-                        // group announcements by building number
-                        announcement.buildingNumber === number && (
-                          <Col key={announcement._id}>
-                            <Card>
-                              <Card.Body>
-                                <Card.Title>{announcement.title}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">
-                                  {formatDistanceToNowStrict(
-                                    new Date(announcement.createdAt),
-                                    { addSuffix: true, locale: he }
-                                  )}
-                                </Card.Subtitle>
-                                <Card.Text>{announcement.body}</Card.Text>
+                    announcements
+                      .filter((item) => {
+                        //Search Logic
+                        return search.toLowerCase() === ""
+                          ? item
+                          : item.title
+                              .toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                              item.body
+                                .toLowerCase()
+                                .includes(search.toLowerCase());
+                      })
+                      .map(
+                        (announcement) =>
+                          // group announcements by building number
+                          announcement.buildingNumber === number && (
+                            <Col key={announcement._id}>
+                              <Card>
+                                <Card.Body>
+                                  <Card.Title>{announcement.title}</Card.Title>
+                                  <Card.Subtitle className="mb-2 text-muted">
+                                    {formatDistanceToNowStrict(
+                                      new Date(announcement.createdAt),
+                                      { addSuffix: true, locale: he }
+                                    )}
+                                  </Card.Subtitle>
+                                  <Card.Text>{announcement.body}</Card.Text>
 
-                                {/* Controll Buttons */}
-                                <div className="float-end">
-                                  <Button
-                                    variant="warning"
-                                    className="me-1"
-                                    onClick={() => {
-                                      setEditData(announcement);
-                                      dispatch({
-                                        type: "EDIT_ANNOUNCEMENT",
-                                        payload: true,
-                                      });
-                                    }}
-                                  >
-                                    עדכן
-                                  </Button>
+                                  {/* Control Buttons */}
+                                  <div className="float-end">
+                                    <Button
+                                      variant="warning"
+                                      className="me-1"
+                                      onClick={() => {
+                                        setEditData(announcement);
+                                        dispatch({
+                                          type: "EDIT_ANNOUNCEMENT",
+                                          payload: true,
+                                        });
+                                      }}
+                                    >
+                                      עדכן
+                                    </Button>
 
-                                  <Button
-                                    variant="outline-danger"
-                                    onClick={() => {
-                                      setDeleteData({
-                                        id: announcement._id,
-                                        displayName: announcement.title,
-                                        type: "DELETE_ANNOUNCEMENT",
-                                        suffix: "announcements",
-                                      });
-                                      dispatch({
-                                        type: "DELETE_CONFIRMATION",
-                                        payload: true,
-                                      });
-                                    }}
-                                  >
-                                    מחק
-                                  </Button>
-                                </div>
-                              </Card.Body>
-                            </Card>
-                          </Col>
-                        )
-                    )}
+                                    <Button
+                                      variant="outline-danger"
+                                      onClick={() => {
+                                        setDeleteData({
+                                          id: announcement._id,
+                                          displayName: announcement.title,
+                                          type: "DELETE_ANNOUNCEMENT",
+                                          suffix: "announcements",
+                                        });
+                                        dispatch({
+                                          type: "DELETE_CONFIRMATION",
+                                          payload: true,
+                                        });
+                                      }}
+                                    >
+                                      מחק
+                                    </Button>
+                                  </div>
+                                </Card.Body>
+                              </Card>
+                            </Col>
+                          )
+                      )}
                 </Row>
               </Accordion.Body>
             </Accordion.Item>
