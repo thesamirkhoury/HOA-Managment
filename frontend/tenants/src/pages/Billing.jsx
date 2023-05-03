@@ -22,6 +22,7 @@ function Billing() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { billings } = useDataContext();
+  const [search, setSearch] = useState("");
   const [details, setDetails] = useState();
 
   useEffect(() => {
@@ -34,18 +35,22 @@ function Billing() {
     <>
       {/* Document Title */}
       <Helmet>
-        <title>נהל - חיובים וחשבונות</title>
+        <title>נהל - חיובים וקבלות</title>
       </Helmet>
       {/* Page Name */}
-      <h1 className="display-1">חיובים וחשבונות</h1>
+      <h1 className="display-1">חיובים וקבלות</h1>
       {/* Search Bar */}
       <Row className="ms-md-2 mb-2">
         <Col xs={7} md={8} lg={8}>
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש חיובים..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -75,41 +80,60 @@ function Billing() {
         </thead>
         <tbody>
           {billings &&
-            billings.map((bill) => (
-              <tr key={bill._id}>
-                <td>{bill.paymentType}</td>
-                <td>{bill.amount}</td>
-                <td>{format(new Date(bill.createdAt), "dd/MM/yyyy")}</td>
-                <td>{format(new Date(bill.dueDate), "dd/MM/yyyy")}</td>
-                <td>
-                  <Badge
-                    bg={bill.paymentStatus === "שולם" ? "success" : "danger"}
-                    className="fs-6"
-                  >
-                    {bill.paymentStatus}
-                  </Badge>
-                </td>
-                <td>
-                  <Button
-                    variant="outline-primary"
-                    className="me-md-1 mb-1 mb-md-0"
-                    onClick={() => {
-                      setDetails(bill);
-                      dispatch({ type: "BILLING_DETAILS", payload: true });
-                    }}
-                  >
-                    פרטים
-                  </Button>
-                  {/* //TODO: Check if status is paid download Receipt, if ot paid download quote */}
-                  <Button
-                    variant="outline-secondary"
-                    className="me-md-1 mb-1 mb-md-0"
-                  >
-                    הורדה
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            billings
+              .filter((item) => {
+                //Search Logic
+                return search.toLowerCase() === ""
+                  ? item
+                  : item.paymentType
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                      item.amount.toString().includes(search) ||
+                      item.status
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                      format(new Date(item.createdAt), "dd/MM/yyyy").includes(
+                        search
+                      ) ||
+                      format(new Date(item.dueDate), "dd/MM/yyyy").includes(
+                        search
+                      );
+              })
+              .map((bill) => (
+                <tr key={bill._id}>
+                  <td>{bill.paymentType}</td>
+                  <td>{bill.amount}</td>
+                  <td>{format(new Date(bill.createdAt), "dd/MM/yyyy")}</td>
+                  <td>{format(new Date(bill.dueDate), "dd/MM/yyyy")}</td>
+                  <td>
+                    <Badge
+                      bg={bill.paymentStatus === "שולם" ? "success" : "danger"}
+                      className="fs-6"
+                    >
+                      {bill.paymentStatus}
+                    </Badge>
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setDetails(bill);
+                        dispatch({ type: "BILLING_DETAILS", payload: true });
+                      }}
+                    >
+                      פרטים
+                    </Button>
+                    {/* //TODO: Check if status is paid download Receipt, if ot paid download quote */}
+                    <Button
+                      variant="outline-secondary"
+                      className="me-md-1 mb-1 mb-md-0"
+                    >
+                      הורדה
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}
