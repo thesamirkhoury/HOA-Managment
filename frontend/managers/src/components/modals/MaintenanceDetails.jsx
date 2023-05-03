@@ -18,7 +18,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function MaintenanceManagement({ tenantData, requestData }) {
+function MaintenanceManagement({ requestData }) {
   const { maintenanceDetails, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
 
@@ -49,7 +49,7 @@ function MaintenanceManagement({ tenantData, requestData }) {
       </Modal.Header>
       <Modal.Body>
         {/* Tenant Details */}
-        {tenantData && (
+        {requestData && (
           <Card>
             <Card.Header className="fs-4">פרטי הדייר</Card.Header>
             {/* Card Body */}
@@ -61,7 +61,7 @@ function MaintenanceManagement({ tenantData, requestData }) {
                       <Form.Label>שם הדייר</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={`${tenantData.firstName} ${tenantData.lastName}`}
+                        defaultValue={`${requestData.firstName} ${requestData.lastName}`}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -70,7 +70,7 @@ function MaintenanceManagement({ tenantData, requestData }) {
                       <Form.Label>מספר בניין</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.buildingNumber}
+                        defaultValue={requestData.buildingNumber}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -80,7 +80,7 @@ function MaintenanceManagement({ tenantData, requestData }) {
                       <Form.Label>מספר דירה</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.apartmentNumber}
+                        defaultValue={requestData.apartmentNumber}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -91,7 +91,7 @@ function MaintenanceManagement({ tenantData, requestData }) {
                       <Form.Label>מספר טלפון</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.phoneNumber}
+                        defaultValue={requestData.phoneNumber}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -100,7 +100,7 @@ function MaintenanceManagement({ tenantData, requestData }) {
                       <Form.Label>מייל</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.tenantEmail}
+                        defaultValue={requestData.tenantEmail}
                       ></Form.Control>
                     </Form.Group>
                   </Col>

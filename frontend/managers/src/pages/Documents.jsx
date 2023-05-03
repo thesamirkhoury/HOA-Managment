@@ -24,6 +24,7 @@ function Documents() {
   const { dispatch } = useModalsContext();
   const { fetchData, fetchFile } = useDataHandler();
   const { documents } = useDataContext();
+  const [search, setSearch] = useState("");
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -48,8 +49,12 @@ function Documents() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש מסמך..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -76,56 +81,71 @@ function Documents() {
         </thead>
         <tbody>
           {documents &&
-            documents.map((document) => (
-              <tr key={document._id}>
-                <td>{document.fileName}</td>
-                <td>{document.fileDescription}</td>
-                <td>{format(new Date(document.createdAt), "dd/MM/yyyy")}</td>
-                <td>
-                  <Button
-                    variant="outline-primary"
-                    className="me-md-1 mb-1 mb-md-0"
-                    onClick={async () => {
-                      const response = await fetchFile(
-                        `documents/download/${document._id}`
+            documents
+              .filter((item) => {
+                //Search Logic
+                return search.toLowerCase() === ""
+                  ? item
+                  : item.fileName
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                      item.fileDescription
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                      format(new Date(item.createdAt), "dd/MM/yyyy").includes(
+                        search
                       );
-                      download(response, document.fileName);
-                    }}
-                  >
-                    הורדה
-                  </Button>
+              })
+              .map((document) => (
+                <tr key={document._id}>
+                  <td>{document.fileName}</td>
+                  <td>{document.fileDescription}</td>
+                  <td>{format(new Date(document.createdAt), "dd/MM/yyyy")}</td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={async () => {
+                        const response = await fetchFile(
+                          `documents/download/${document._id}`
+                        );
+                        download(response, document.fileName);
+                      }}
+                    >
+                      הורדה
+                    </Button>
 
-                  <Button
-                    variant="outline-warning"
-                    className="me-md-1 mb-1 mb-md-0"
-                    onClick={() => {
-                      setEditData(document);
-                      dispatch({ type: "EDIT_DOCUMENT", payload: true });
-                    }}
-                  >
-                    עדכן
-                  </Button>
+                    <Button
+                      variant="outline-warning"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setEditData(document);
+                        dispatch({ type: "EDIT_DOCUMENT", payload: true });
+                      }}
+                    >
+                      עדכן
+                    </Button>
 
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => {
-                      setDeleteData({
-                        id: document._id,
-                        displayName: document.fileName,
-                        type: "DELETE_DOCUMENT",
-                        suffix: "documents",
-                      });
-                      dispatch({
-                        type: "DELETE_CONFIRMATION",
-                        payload: true,
-                      });
-                    }}
-                  >
-                    מחק
-                  </Button>
-                </td>
-              </tr>
-            ))}
+                    <Button
+                      variant="outline-danger"
+                      onClick={() => {
+                        setDeleteData({
+                          id: document._id,
+                          displayName: document.fileName,
+                          type: "DELETE_DOCUMENT",
+                          suffix: "documents",
+                        });
+                        dispatch({
+                          type: "DELETE_CONFIRMATION",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      מחק
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}

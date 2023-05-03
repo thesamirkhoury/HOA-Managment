@@ -21,6 +21,7 @@ function Suppliers() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { suppliers } = useDataContext();
+  const [search, setSearch] = useState("");
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -44,8 +45,12 @@ function Suppliers() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש ספקים..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -74,59 +79,76 @@ function Suppliers() {
         </thead>
         <tbody>
           {suppliers &&
-            suppliers.map((supplier) => (
-              <tr key={supplier._id}>
-                <td>{supplier.supplierName}</td>
-                <td>{supplier.supplierCategory}</td>
-                <td>{supplier.supplierType}</td>
-                <td>
-                  <a
-                    href={`tel:+972${supplier.phoneNumber}`}
-                    className="text-decoration-none"
-                  >
-                    {supplier.phoneNumber}
-                  </a>
-                </td>
-                <td>
-                  <a
-                    href={`mailto:${supplier.email}`}
-                    className="text-decoration-none"
-                  >
-                    {supplier.email}
-                  </a>
-                </td>
-                <td>
-                  <Button
-                    variant="outline-primary"
-                    className="me-md-1 mb-1 mb-md-0"
-                    onClick={() => {
-                      setEditData(supplier);
-                      dispatch({ type: "EDIT_SUPPLIER", payload: true });
-                    }}
-                  >
-                    עדכן פרטים
-                  </Button>
+            suppliers
+              .filter((item) => {
+                //Search Logic
+                return search.toLowerCase() === ""
+                  ? item
+                  : item.supplierName
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                      item.supplierCategory
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                      item.supplierType
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                      item.phoneNumber.includes(search) ||
+                      item.email.toLowerCase().includes(search.toLowerCase());
+              })
+              .map((supplier) => (
+                <tr key={supplier._id}>
+                  <td>{supplier.supplierName}</td>
+                  <td>{supplier.supplierCategory}</td>
+                  <td>{supplier.supplierType}</td>
+                  <td>
+                    <a
+                      href={`tel:+972${supplier.phoneNumber}`}
+                      className="text-decoration-none"
+                    >
+                      {supplier.phoneNumber}
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href={`mailto:${supplier.email}`}
+                      className="text-decoration-none"
+                    >
+                      {supplier.email}
+                    </a>
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setEditData(supplier);
+                        dispatch({ type: "EDIT_SUPPLIER", payload: true });
+                      }}
+                    >
+                      עדכן פרטים
+                    </Button>
 
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => {
-                      setDeleteData({
-                        id: supplier._id,
-                        displayName: supplier.supplierName,
-                        type: "DELETE_SUPPLIER",
-                        suffix: "suppliers",
-                      });
-                      dispatch({
-                        type: "DELETE_CONFIRMATION",
-                        payload: true,
-                      });
-                    }}
-                  >
-                    מחק
-                  </Button>
-                </td>
-              </tr>
-            ))}
+                    <Button
+                      variant="outline-danger"
+                      onClick={() => {
+                        setDeleteData({
+                          id: supplier._id,
+                          displayName: supplier.supplierName,
+                          type: "DELETE_SUPPLIER",
+                          suffix: "suppliers",
+                        });
+                        dispatch({
+                          type: "DELETE_CONFIRMATION",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      מחק
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}

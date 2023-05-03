@@ -12,7 +12,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function InquiryDetails({ tenantData, inquiryData }) {
+function InquiryDetails({ inquiryData }) {
   const { inquiryDetails, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
   const [reply, setReply] = useState("");
@@ -25,7 +25,7 @@ function InquiryDetails({ tenantData, inquiryData }) {
   async function handleSubmit(e) {
     e.preventDefault();
     const response = { response: reply };
-
+    console.log(inquiryData);
     const errors = await sendData(
       `inquiries/${inquiryData._id}/response`,
       "POST",
@@ -49,7 +49,7 @@ function InquiryDetails({ tenantData, inquiryData }) {
       </Modal.Header>
       <Modal.Body>
         {/* Tenant Details */}
-        {tenantData && (
+        {inquiryData && (
           <Card>
             <Card.Header className="fs-4">פרטי הדייר</Card.Header>
             {/* Card Body */}
@@ -61,7 +61,7 @@ function InquiryDetails({ tenantData, inquiryData }) {
                       <Form.Label>שם הדייר</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={`${tenantData.firstName} ${tenantData.lastName}`}
+                        defaultValue={`${inquiryData.firstName} ${inquiryData.lastName}`}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -70,7 +70,7 @@ function InquiryDetails({ tenantData, inquiryData }) {
                       <Form.Label>מספר בניין</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.buildingNumber}
+                        defaultValue={inquiryData.buildingNumber}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -80,7 +80,7 @@ function InquiryDetails({ tenantData, inquiryData }) {
                       <Form.Label>מספר דירה</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.apartmentNumber}
+                        defaultValue={inquiryData.apartmentNumber}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -91,7 +91,7 @@ function InquiryDetails({ tenantData, inquiryData }) {
                       <Form.Label>מספר טלפון</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.phoneNumber}
+                        defaultValue={inquiryData.phoneNumber}
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -100,7 +100,7 @@ function InquiryDetails({ tenantData, inquiryData }) {
                       <Form.Label>מייל</Form.Label>
                       <Form.Control
                         disabled
-                        defaultValue={tenantData.tenantEmail}
+                        defaultValue={inquiryData.tenantEmail}
                       ></Form.Control>
                     </Form.Group>
                   </Col>

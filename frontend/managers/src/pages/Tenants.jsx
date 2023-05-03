@@ -21,6 +21,7 @@ function Tenants() {
   const { dispatch } = useModalsContext();
   const { tenants } = useDataContext();
   const { fetchData } = useDataHandler();
+  const [search, setSearch] = useState("");
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -45,8 +46,12 @@ function Tenants() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש דיירים..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -75,48 +80,67 @@ function Tenants() {
         </thead>
         <tbody>
           {tenants &&
-            tenants.map((tenant) => (
-              <tr key={tenant._id}>
-                <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
-                <td>{tenant.buildingNumber}</td>
-                <td>{tenant.apartmentNumber}</td>
-                <td>{tenant.tenantType}</td>
-                <td>
-                  <a
-                    href={`tel:+972${tenant.phoneNumber}`}
-                    className="text-decoration-none"
-                  >
-                    {tenant.phoneNumber}
-                  </a>
-                </td>
-                <td>
-                  <Button
-                    variant="outline-primary"
-                    className="me-md-1 mb-1 mb-md-0"
-                    onClick={() => {
-                      setEditData(tenant);
-                      dispatch({ type: "EDIT_TENANT", payload: true });
-                    }}
-                  >
-                    פרטים
-                  </Button>
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => {
-                      setDeleteData({
-                        id: tenant._id,
-                        displayName: `${tenant.firstName} ${tenant.lastName}`,
-                        type: "DELETE_TENANT",
-                        suffix: "tenants",
-                      });
-                      dispatch({ type: "DELETE_CONFIRMATION", payload: true });
-                    }}
-                  >
-                    מחק
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            tenants
+              .filter((item) => {
+                let fullName = `${item.firstName} ${item.lastName}`;
+                //Search Logic
+                return search.toLowerCase() === ""
+                  ? item
+                  : fullName
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                      item.buildingNumber.includes(search) ||
+                      item.apartmentNumber.includes(search) ||
+                      item.tenantType
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                      item.phoneNumber.includes(search);
+              })
+              .map((tenant) => (
+                <tr key={tenant._id}>
+                  <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
+                  <td>{tenant.buildingNumber}</td>
+                  <td>{tenant.apartmentNumber}</td>
+                  <td>{tenant.tenantType}</td>
+                  <td>
+                    <a
+                      href={`tel:+972${tenant.phoneNumber}`}
+                      className="text-decoration-none"
+                    >
+                      {tenant.phoneNumber}
+                    </a>
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setEditData(tenant);
+                        dispatch({ type: "EDIT_TENANT", payload: true });
+                      }}
+                    >
+                      פרטים
+                    </Button>
+                    <Button
+                      variant="outline-danger"
+                      onClick={() => {
+                        setDeleteData({
+                          id: tenant._id,
+                          displayName: `${tenant.firstName} ${tenant.lastName}`,
+                          type: "DELETE_TENANT",
+                          suffix: "tenants",
+                        });
+                        dispatch({
+                          type: "DELETE_CONFIRMATION",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      מחק
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}

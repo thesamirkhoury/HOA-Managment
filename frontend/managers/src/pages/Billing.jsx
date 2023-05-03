@@ -25,7 +25,7 @@ function Billing() {
   const { dispatch } = useModalsContext();
   const { fetchData, sendData } = useDataHandler();
   const { tenants, billings } = useDataContext();
-  const [tenantData, setTenantData] = useState();
+  const [search, setSearch] = useState("");
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -63,8 +63,12 @@ function Billing() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש חיובים..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -95,11 +99,36 @@ function Billing() {
         <tbody>
           {billings &&
             tenants &&
-            billings.map((bill) => {
-              let tenant = getTenant(bill.tenant_id);
-              return (
+            billings
+              // map over each inquiry and add the tenant details
+              .map((bill) => {
+                if (tenants && billings) {
+                  let tenant = getTenant(bill.tenant_id);
+                  return {
+                    ...tenant,
+                    ...bill,
+                  };
+                }
+              })
+              .filter((item) => {
+                if (item) {
+                  let fullName = `${item.firstName} ${item.lastName}`;
+                  //Search Logic
+                  return search.toLowerCase() === ""
+                    ? item
+                    : fullName.toLowerCase().includes(search.toLowerCase()) ||
+                        item.amount.toString().includes(search) ||
+                        format(new Date(item.createdAt), "dd/MM/yyyy").includes(
+                          search
+                        ) ||
+                        format(new Date(item.dueDate), "dd/MM/yyyy").includes(
+                          search
+                        );
+                }
+              })
+              .map((bill) => (
                 <tr key={bill._id}>
-                  <td>{`${tenant.firstName} ${tenant.lastName}`}</td>
+                  <td>{`${bill.firstName} ${bill.lastName}`}</td>
                   <td>{bill.amount}</td>
                   <td>{bill.paymentType}</td>
                   <td>{format(new Date(bill.createdAt), "dd/MM/yyyy")}</td>
@@ -118,7 +147,6 @@ function Billing() {
                       variant="outline-primary"
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={() => {
-                        setTenantData(tenant);
                         setEditData(bill);
                         dispatch({ type: "PAYMENT_RECORD", payload: true });
                       }}
@@ -147,7 +175,6 @@ function Billing() {
                       disabled={bill.paymentStatus === "שולם"}
                       className="me-md-1 mb-1 mb-md-0"
                       onClick={() => {
-                        setTenantData(tenant);
                         setEditData(bill);
                         dispatch({ type: "EDIT_BILL", payload: true });
                       }}
@@ -175,13 +202,12 @@ function Billing() {
                     </Button>
                   </td>
                 </tr>
-              );
-            })}
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}
       <NewBill tenants={tenants} />
-      <RecordPayment editData={editData} tenantData={tenantData} />
+      <RecordPayment editData={editData} />
       <EditBill editData={editData} tenants={tenants} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
