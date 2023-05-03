@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 //custom hooks
 import { useDataContext } from "../hooks/useDataContext";
@@ -19,6 +19,7 @@ import Col from "react-bootstrap/Col";
 function Announcements() {
   const { fetchData } = useDataHandler();
   const { announcements } = useDataContext();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (!announcements) {
@@ -40,8 +41,12 @@ function Announcements() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש הודעות..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -65,25 +70,37 @@ function Announcements() {
           <Accordion.Body>
             <Row xs={1} md={2} xl={3}>
               {announcements &&
-                announcements.map(
-                  (announcement) =>
-                    announcement.buildingNumber === 0 && (
-                      <Col key={announcement._id} className="mt-1">
-                        <Card>
-                          <Card.Body>
-                            <Card.Title>{announcement.title}</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">
-                              {formatDistanceToNowStrict(
-                                new Date(announcement.createdAt),
-                                { addSuffix: true, locale: he }
-                              )}
-                            </Card.Subtitle>
-                            <Card.Text>{announcement.body}</Card.Text>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    )
-                )}
+                announcements
+                  .filter((item) => {
+                    //Search Logic
+                    return search.toLowerCase() === ""
+                      ? item
+                      : item.title
+                          .toLowerCase()
+                          .includes(search.toLowerCase()) ||
+                          item.body
+                            .toLowerCase()
+                            .includes(search.toLowerCase());
+                  })
+                  .map(
+                    (announcement) =>
+                      announcement.buildingNumber === 0 && (
+                        <Col key={announcement._id} className="mt-1">
+                          <Card>
+                            <Card.Body>
+                              <Card.Title>{announcement.title}</Card.Title>
+                              <Card.Subtitle className="mb-2 text-muted">
+                                {formatDistanceToNowStrict(
+                                  new Date(announcement.createdAt),
+                                  { addSuffix: true, locale: he }
+                                )}
+                              </Card.Subtitle>
+                              <Card.Text>{announcement.body}</Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      )
+                  )}
             </Row>
           </Accordion.Body>
         </Accordion.Item>
