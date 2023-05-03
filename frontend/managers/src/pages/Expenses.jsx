@@ -23,6 +23,7 @@ function Expenses() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { suppliers, expenses } = useDataContext();
+  const [search, setSearch] = useState("");
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -63,8 +64,12 @@ function Expenses() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש הוצאות..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -86,7 +91,6 @@ function Expenses() {
             <th>שם ספק</th>
             <th>קטגוריה</th>
             <th>סכום</th>
-            {/* <th>פירוט</th> */}
             <th>סוג תשלום</th>
             <th>תאריך התשלום</th>
             <th>פעולות</th>
@@ -94,52 +98,74 @@ function Expenses() {
         </thead>
         <tbody>
           {expenses &&
-            expenses.map((expense) => {
-              if (suppliers) {
-                let supplier = getSupplier(expense.supplier_id);
-                return (
-                  <tr key={expense._id}>
-                    <td>{supplier.supplierName}</td>
-                    <td>{supplier.supplierCategory}</td>
-                    <td>{expense.amount}</td>
-                    <td>{expense.paymentType}</td>
-                    <td>
-                      {format(new Date(expense.paymentDate), "dd/MM/yyyy")}
-                    </td>
-                    <td>
-                      <Button
-                        variant="outline-primary"
-                        className="me-md-1 mb-1 mb-md-0"
-                        onClick={() => {
-                          setEditData(expense);
-                          dispatch({ type: "EDIT_EXPENSE", payload: true });
-                        }}
-                      >
-                        פרטים ועדכון
-                      </Button>
+            expenses
+              // map over each inquiry and add the tenant details
+              .map((expense) => {
+                if (suppliers && expenses) {
+                  let supplier = getSupplier(expense.supplier_id);
+                  return {
+                    ...supplier,
+                    ...expense,
+                  };
+                }
+              })
+              .filter((item) => {
+                if (item) {
+                  //Search Logic
+                  return search.toLowerCase() === ""
+                    ? item
+                    : item.supplierName
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                        item.supplierCategory
+                          .toLowerCase()
+                          .includes(search.toLowerCase()) ||
+                        item.amount.toString().includes(search) ||
+                        format(
+                          new Date(item.paymentDate),
+                          "dd/MM/yyyy"
+                        ).includes(search);
+                }
+              })
+              .map((expense) => (
+                <tr key={expense._id}>
+                  <td>{expense.supplierName}</td>
+                  <td>{expense.supplierCategory}</td>
+                  <td>{expense.amount}</td>
+                  <td>{expense.paymentType}</td>
+                  <td>{format(new Date(expense.paymentDate), "dd/MM/yyyy")}</td>
+                  <td>
+                    <Button
+                      variant="outline-primary"
+                      className="me-md-1 mb-1 mb-md-0"
+                      onClick={() => {
+                        setEditData(expense);
+                        dispatch({ type: "EDIT_EXPENSE", payload: true });
+                      }}
+                    >
+                      פרטים ועדכון
+                    </Button>
 
-                      <Button
-                        variant="outline-danger"
-                        onClick={() => {
-                          setDeleteData({
-                            id: expense._id,
-                            displayName: "ההוצאה",
-                            type: "DELETE_EXPENSE",
-                            suffix: "expenses",
-                          });
-                          dispatch({
-                            type: "DELETE_CONFIRMATION",
-                            payload: true,
-                          });
-                        }}
-                      >
-                        מחק
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              } else return null;
-            })}
+                    <Button
+                      variant="outline-danger"
+                      onClick={() => {
+                        setDeleteData({
+                          id: expense._id,
+                          displayName: "ההוצאה",
+                          type: "DELETE_EXPENSE",
+                          suffix: "expenses",
+                        });
+                        dispatch({
+                          type: "DELETE_CONFIRMATION",
+                          payload: true,
+                        });
+                      }}
+                    >
+                      מחק
+                    </Button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
       {/* //* Modals */}
