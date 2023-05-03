@@ -23,6 +23,7 @@ function Inquires() {
   const { dispatch } = useModalsContext();
   const { fetchData } = useDataHandler();
   const { inquires } = useDataContext();
+  const [search, setSearch] = useState("");
   const [details, setDetails] = useState();
 
   useEffect(() => {
@@ -45,8 +46,12 @@ function Inquires() {
           <Form>
             <Form.Control
               type="search"
-              placeholder="חפש..."
+              placeholder="חפש פניות..."
               className="ms-3 ms-md-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></Form.Control>
           </Form>
         </Col>
@@ -65,7 +70,16 @@ function Inquires() {
       {/* Inquires */}
       <Row xs={1} md={3} lg={4}>
         {inquires &&
-          inquires.map((inquiry) => (
+          inquires.filter((item)=>{
+            //Search Logic
+            return search.toLowerCase() === ""
+              ? item
+              : item.subject.toLowerCase().includes(search.toLowerCase()) ||
+                  item.status.toLowerCase().includes(search.toLowerCase()) ||
+                  format(new Date(item.createdAt), "dd/MM/yyyy HH:mm").includes(
+                    search
+                  );
+          }).map((inquiry) => (
             <Col className="mt-1" key={inquiry._id}>
               <Card>
                 <Card.Body>
