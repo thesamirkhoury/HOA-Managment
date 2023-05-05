@@ -149,7 +149,7 @@ function Billing() {
                   <td>
                     <Button
                       variant="outline-primary"
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-md-1 me-sm-1 mb-lg-0"
                       onClick={() => {
                         setEditData(bill);
                         dispatch({ type: "PAYMENT_RECORD", payload: true });
@@ -161,7 +161,7 @@ function Billing() {
                     <Button
                       variant="outline-secondary"
                       disabled={bill.paymentStatus === "שולם"}
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-md-0 me-sm-1"
                       onClick={async () => {
                         await sendData(
                           `billing/${bill._id}/reminder`,
@@ -177,7 +177,7 @@ function Billing() {
                     <Button
                       variant="outline-warning"
                       disabled={bill.paymentStatus === "שולם"}
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-sm-0 me-sm-1"
                       onClick={() => {
                         setEditData(bill);
                         dispatch({ type: "EDIT_BILL", payload: true });
@@ -185,10 +185,10 @@ function Billing() {
                     >
                       עדכן
                     </Button>
-
                     <Button
                       variant="outline-danger"
                       disabled={bill.paymentStatus === "שולם"}
+                      className="mt-md-1 mt-xl-0"
                       onClick={() => {
                         setDeleteData({
                           id: bill._id,
