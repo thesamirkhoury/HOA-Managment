@@ -163,12 +163,15 @@ function Billing() {
                       disabled={bill.paymentStatus === "שולם"}
                       className="me-md-1 mb-1 mb-md-0 me-sm-1"
                       onClick={async () => {
+                      dispatch({ type: "LOADING", payload: true });
                         await sendData(
                           `billing/${bill._id}/reminder`,
                           "POST",
                           {},
                           "NO_CHANGE"
                         );
+                      dispatch({ type: "LOADING", payload: false });
+
                       }}
                     >
                       שליחת תזכורת
