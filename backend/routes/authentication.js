@@ -26,6 +26,8 @@ router.post("/managers/login", loginBoard);
 router.post("/managers/forgot-password", forgotPasswordBoard);
 //create password as tenant
 router.put("/managers/reset-password/:resetToken", resetPasswordBoard);
+//reset tenant password
+router.post("/managers/reset-tenant-password", forgotPasswordTenants);
 
 //* Tenants
 //login as tenant

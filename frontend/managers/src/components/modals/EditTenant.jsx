@@ -34,13 +34,6 @@ function EditTenant({ editData }) {
 
   useEffect(() => {
     if (editData) {
-      if (editData.tenantType === "בעל בית") {
-        setIsOwner(true);
-      }
-      if (editData.tenantType === "שוכר") {
-        setIsOwner(false);
-      }
-
       // setting the useState
       setFirstName(editData.firstName);
       setLastName(editData.lastName);
@@ -49,18 +42,29 @@ function EditTenant({ editData }) {
       setParkingSpot(editData.parkingSpot);
       setPhoneNumber(editData.phoneNumber);
       setTenantEmail(editData.tenantEmail);
-      setOwnerFirstName(editData.ownerFirstName);
-      setOwnerLastName(editData.ownerLastName);
-      setOwnerPhoneNumber(editData.ownerPhoneNumber);
-      setOwnerEmail(editData.ownerEmail);
+
+      // update the owner and renter details
+      if (editData.tenantType === "בעל בית") {
+        setIsOwner(true);
+        setOwnerFirstName("");
+        setOwnerLastName("");
+        setOwnerPhoneNumber("");
+        setOwnerEmail("");
+      }
+      if (editData.tenantType === "שוכר") {
+        setIsOwner(false);
+        setOwnerFirstName(editData.ownerFirstName);
+        setOwnerLastName(editData.ownerLastName);
+        setOwnerPhoneNumber(editData.ownerPhoneNumber);
+        setOwnerEmail(editData.ownerEmail);
+      }
     }
   }, [editData]);
 
   function handleHide() {
     dispatch({ type: "EDIT_TENANT", payload: false });
     SetIsEditable(false);
-
-    //reset the input fields to default values from props
+    // setting the useState
     setFirstName(editData.firstName);
     setLastName(editData.lastName);
     setBuildingNumber(editData.buildingNumber);
@@ -68,17 +72,26 @@ function EditTenant({ editData }) {
     setParkingSpot(editData.parkingSpot);
     setPhoneNumber(editData.phoneNumber);
     setTenantEmail(editData.tenantEmail);
-    setOwnerFirstName(editData.ownerFirstName);
-    setOwnerLastName(editData.ownerLastName);
-    setOwnerPhoneNumber(editData.ownerPhoneNumber);
-    setOwnerEmail(editData.ownerEmail);
-    setIsOwner(true);
+    // update the owner and renter details
+    if (editData.tenantType === "בעל בית") {
+      setIsOwner(true);
+      setOwnerFirstName("");
+      setOwnerLastName("");
+      setOwnerPhoneNumber("");
+      setOwnerEmail("");
+    }
+    if (editData.tenantType === "שוכר") {
+      setIsOwner(false);
+      setOwnerFirstName(editData.ownerFirstName);
+      setOwnerLastName(editData.ownerLastName);
+      setOwnerPhoneNumber(editData.ownerPhoneNumber);
+      setOwnerEmail(editData.ownerEmail);
+    }
     setError(null);
   }
 
   async function handleEdit(e) {
     e.preventDefault();
-    const tenantType = `${isOwner ? "בעל בית" : "שוכר"}`;
     const tenant = {
       firstName,
       lastName,
@@ -87,11 +100,11 @@ function EditTenant({ editData }) {
       parkingSpot,
       phoneNumber,
       tenantEmail,
-      tenantType,
-      ownerFirstName,
-      ownerLastName,
-      ownerPhoneNumber,
-      ownerEmail,
+      tenantType: `${isOwner ? "בעל בית" : "שוכר"}`,
+      ownerFirstName: `${isOwner ? firstName : ownerFirstName}`,
+      ownerLastName: `${isOwner ? lastName : ownerLastName}`,
+      ownerPhoneNumber: `${isOwner ? phoneNumber : ownerPhoneNumber}`,
+      ownerEmail: `${isOwner ? tenantEmail : ownerEmail}`,
     };
     const errors = await sendData(
       `tenants/${editData._id}`,
@@ -124,9 +137,6 @@ function EditTenant({ editData }) {
                   value={firstName}
                   onChange={(e) => {
                     setFirstName(e.target.value);
-                    if (isOwner) {
-                      setOwnerFirstName(e.target.value);
-                    }
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -139,9 +149,6 @@ function EditTenant({ editData }) {
                   value={lastName}
                   onChange={(e) => {
                     setLastName(e.target.value);
-                     if (isOwner) {
-                       setOwnerLastName(e.target.value);
-                     }
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -200,9 +207,6 @@ function EditTenant({ editData }) {
                   value={phoneNumber}
                   onChange={(e) => {
                     setPhoneNumber(e.target.value);
-                    if (isOwner) {
-                      setOwnerPhoneNumber(e.target.value);
-                    }
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -214,10 +218,7 @@ function EditTenant({ editData }) {
                   type="email"
                   value={tenantEmail}
                   onChange={(e) => {
-                    setTenantEmail(e.target.value);
-                    if (isOwner) {
-                      setOwnerEmail(e.target.value);
-                    }
+                    setTenantEmail(e.target.value.toLowerCase());
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -245,60 +246,106 @@ function EditTenant({ editData }) {
                 }}
               />
             </Row>
-            <Row className={`mb-3 ${isOwner ? "d-none" : ""}`}>
-              <Form.Group as={Col} md="6">
-                <Form.Label>שם פרטי של בעל הדירה</Form.Label>
-                <Form.Control
-                  required={!isOwner}
-                  type="text"
-                  value={ownerFirstName}
-                  onChange={(e) => {
-                    setOwnerFirstName(e.target.value);
-                  }}
-                  disabled={!isEditable}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group as={Col} md="6">
-                <Form.Label>שם משפחה של בעל הדירה</Form.Label>
-                <Form.Control
-                  required={!isOwner}
-                  type="text"
-                  value={ownerLastName}
-                  onChange={(e) => {
-                    setOwnerLastName(e.target.value);
-                  }}
-                  disabled={!isEditable}
-                ></Form.Control>
-              </Form.Group>
-            </Row>
-            <Row className={`${isOwner ? "d-none" : ""}`}>
-              <Form.Group as={Col} md="6">
-                <Form.Label>מספר טלפון של בעל הדירה</Form.Label>
-                <Form.Control
-                  required={!isOwner}
-                  type="tel"
-                  value={ownerPhoneNumber}
-                  onChange={(e) => {
-                    setOwnerPhoneNumber(e.target.value);
-                  }}
-                  disabled={!isEditable}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group as={Col} md="6">
-                <Form.Label>מייל בעל הדירה</Form.Label>
-                <Form.Control
-                  required={!isOwner}
-                  type="email"
-                  value={ownerEmail}
-                  onChange={(e) => {
-                    setOwnerEmail(e.target.value);
-                  }}
-                  disabled={!isEditable}
-                ></Form.Control>
-              </Form.Group>
-            </Row>
+            {!isOwner && (
+              <>
+                <Row className="mb-3">
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>שם פרטי של בעל הדירה</Form.Label>
+                    <Form.Control
+                      required={!isOwner}
+                      type="text"
+                      value={ownerFirstName}
+                      onChange={(e) => {
+                        setOwnerFirstName(e.target.value);
+                      }}
+                      disabled={!isEditable}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>שם משפחה של בעל הדירה</Form.Label>
+                    <Form.Control
+                      required={!isOwner}
+                      type="text"
+                      value={ownerLastName}
+                      onChange={(e) => {
+                        setOwnerLastName(e.target.value);
+                      }}
+                      disabled={!isEditable}
+                    ></Form.Control>
+                  </Form.Group>
+                </Row>
+                <Row>
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>מספר טלפון של בעל הדירה</Form.Label>
+                    <Form.Control
+                      required={!isOwner}
+                      type="tel"
+                      value={ownerPhoneNumber}
+                      onChange={(e) => {
+                        setOwnerPhoneNumber(e.target.value);
+                      }}
+                      disabled={!isEditable}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group as={Col} md="6">
+                    <Form.Label>מייל בעל הדירה</Form.Label>
+                    <Form.Control
+                      required={!isOwner}
+                      type="email"
+                      value={ownerEmail}
+                      onChange={(e) => {
+                        setOwnerEmail(e.target.value.toLowerCase());
+                      }}
+                      disabled={!isEditable}
+                    ></Form.Control>
+                  </Form.Group>
+                </Row>
+              </>
+            )}
             {error && <div className="error">{error}</div>}
 
+            {/* Auth Actions buttons */}
+            {!isEditable && editData && (
+              <Row>
+                <Col>
+                  <Button
+                    variant="secondary"
+                    className="w-100"
+                    onClick={async () => {
+                      dispatch({ type: "LOADING", payload: true });
+                      await sendData(
+                        `tenants/email-username/${editData._id}`,
+                        "POST",
+                        {},
+                        "NO_CHANGE"
+                      );
+                      dispatch({ type: "LOADING", payload: false });
+                    }}
+                  >
+                    שלח שם המשתמש לדייר
+                  </Button>
+                </Col>
+
+                <Col xs={5} md={6}>
+                  <Button
+                    variant="outline-secondary"
+                    className="w-100 "
+                    onClick={async () => {
+                      dispatch({ type: "LOADING", payload: true });
+                      await sendData(
+                        "reset-tenant-password",
+                        "POST",
+                        { username: editData.username },
+                        "NO_CHANGE"
+                      );
+                      dispatch({ type: "LOADING", payload: false });
+                    }}
+                  >
+                    אפס סיסמת דייר
+                  </Button>
+                </Col>
+              </Row>
+            )}
             {!isEditable && (
               <div className="mt-3 float-end">
                 <Button

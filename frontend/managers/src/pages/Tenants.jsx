@@ -86,9 +86,7 @@ function Tenants() {
                 //Search Logic
                 return search.toLowerCase() === ""
                   ? item
-                  : fullName
-                      .toLowerCase()
-                      .includes(search.toLowerCase()) ||
+                  : fullName.toLowerCase().includes(search.toLowerCase()) ||
                       item.buildingNumber.includes(search) ||
                       item.apartmentNumber.includes(search) ||
                       item.tenantType
@@ -113,7 +111,7 @@ function Tenants() {
                   <td>
                     <Button
                       variant="outline-primary"
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-sm-0 me-sm-1"
                       onClick={() => {
                         setEditData(tenant);
                         dispatch({ type: "EDIT_TENANT", payload: true });

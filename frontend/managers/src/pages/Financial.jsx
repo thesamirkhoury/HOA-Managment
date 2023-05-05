@@ -83,7 +83,7 @@ function Financial() {
             </Form.Group>
           </Col>
           <Col xs={2} md={2} className="mt-md-4">
-            <Button type="submit">הצג מידע</Button>
+            <Button className="mt-2" type="submit">הצג מידע</Button>
           </Col>
         </Row>
       </Form>

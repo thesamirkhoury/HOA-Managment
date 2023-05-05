@@ -141,7 +141,7 @@ function Expenses() {
                   <td>
                     <Button
                       variant="outline-primary"
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-sm-0 me-sm-1"
                       onClick={() => {
                         setEditData(expense);
                         dispatch({ type: "EDIT_EXPENSE", payload: true });

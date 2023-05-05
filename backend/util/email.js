@@ -483,6 +483,68 @@ async function sendResetLink(recipient, firstName, url) {
   await sendMail(recipient, subject, html);
 }
 
+async function sendUsername(recipient, firstName, username) {
+  let subject = "שם המשתמש שלך";
+  let html = `
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<html lang="he" dir="rtl">
+
+  <head data-id="__react-email-head"></head>
+  <div id="__react-email-preview" style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0">תזכורת לשם המשתמש
+  </div>
+
+  <body data-id="__react-email-body" style="background-color:rgb(255,255,255);margin-top:auto;margin-bottom:auto;margin-left:auto;margin-right:auto;font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">
+    <table align="center" width="100%" data-id="__react-email-container" role="presentation" cellSpacing="0" cellPadding="0" border="0" style="max-width:37.5em;border-width:1px;border-style:solid;border-color:rgb(234,234,234);border-radius:0.25rem;margin-top:40px;margin-bottom:40px;margin-left:auto;margin-right:auto;padding:20px;width:465px">
+      <tbody>
+        <tr style="width:100%">
+          <td>
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
+              <tbody>
+                <tr>
+                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                </tr>
+              </tbody>
+            </table>
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+              <tbody>
+                <tr>
+                  <td>
+                    <h1 data-id="react-email-heading" style="color:rgb(0,0,0);text-align:center;font-weight:400;font-size:24px">שם המשתמש שלך למערכת הדיירים</h1>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">,שלום ${firstName}</p>
+                    <p data-id="react-email-text" style="font-size:18px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">הועד שלך שלח לך את שם המשתש למערכת ניהול ועד הבית כתזכורת, החשבון שלך כבר קיים במערכת.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="text-align:center;margin-top:10px;margin-bottom:32px">
+              <tbody>
+                <tr>
+                  <td>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(0,0,0);text-align:center">שם המשתמש שלך:<br /><strong>${username}</strong></p><a href="${process.env.TENANTS_URL}" data-id="react-email-button" target="_blank" style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:12px 20px;background-color:rgb(0,0,0);border-radius:0.25rem;color:rgb(255,255,255);font-size:12px;font-weight:600;text-decoration-line:none;text-align:center"><span></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">כניסה למערכת</span><span></span></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+              <tbody>
+                <tr>
+                  <td>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0;color:rgb(102,102,102);text-align:center">ההודעה הזאת נשלחה באופן אוטומאטי, כי המייל שלך מופיע במערכת ניהול ועד בית כדייר.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+  `;
+  await sendMail(recipient, subject, html);
+}
+
 async function sendCloseAccount(recipient, firstName) {
   let subject = "אישור סגירת חשבון";
   let html = `
@@ -548,5 +610,6 @@ module.exports = {
   sendNewBill,
   sendBillReminder,
   sendResetLink,
+  sendUsername,
   sendCloseAccount,
 };

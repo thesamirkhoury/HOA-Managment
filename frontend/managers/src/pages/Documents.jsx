@@ -104,7 +104,7 @@ function Documents() {
                   <td>
                     <Button
                       variant="outline-primary"
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-sm-0 me-sm-1"
                       onClick={async () => {
                         const response = await fetchFile(
                           `documents/download/${document._id}`
@@ -117,7 +117,7 @@ function Documents() {
 
                     <Button
                       variant="outline-warning"
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-sm-0 me-sm-1"
                       onClick={() => {
                         setEditData(document);
                         dispatch({ type: "EDIT_DOCUMENT", payload: true });

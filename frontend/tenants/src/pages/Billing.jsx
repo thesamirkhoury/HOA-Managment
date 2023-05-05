@@ -116,7 +116,7 @@ function Billing() {
                   <td>
                     <Button
                       variant="outline-primary"
-                      className="me-md-1 mb-1 mb-md-0"
+                      className="me-md-1 mb-1 mb-sm-0 me-sm-1"
                       onClick={() => {
                         setDetails(bill);
                         dispatch({ type: "BILLING_DETAILS", payload: true });
@@ -127,7 +127,6 @@ function Billing() {
                     {/* //TODO: Check if status is paid download Receipt, if ot paid download quote */}
                     <Button
                       variant="outline-secondary"
-                      className="me-md-1 mb-1 mb-md-0"
                     >
                       הורדה
                     </Button>
