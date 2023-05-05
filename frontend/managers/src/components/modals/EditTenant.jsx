@@ -32,40 +32,8 @@ function EditTenant({ editData }) {
   //error handling
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (editData) {
-      // setting the useState
-      setFirstName(editData.firstName);
-      setLastName(editData.lastName);
-      setBuildingNumber(editData.buildingNumber);
-      setApartmentNumber(editData.apartmentNumber);
-      setParkingSpot(editData.parkingSpot);
-      setPhoneNumber(editData.phoneNumber);
-      setTenantEmail(editData.tenantEmail);
-
-      // update the owner and renter details
-      if (editData.tenantType === "בעל בית") {
-        setIsOwner(true);
-        setOwnerFirstName("");
-        setOwnerLastName("");
-        setOwnerPhoneNumber("");
-        setOwnerEmail("");
-      }
-      if (editData.tenantType === "שוכר") {
-        setIsOwner(false);
-        setOwnerFirstName(editData.ownerFirstName);
-        setOwnerLastName(editData.ownerLastName);
-        setOwnerPhoneNumber(editData.ownerPhoneNumber);
-        setOwnerEmail(editData.ownerEmail);
-      }
-    }
-  }, [editData]);
-
-  function handleHide() {
-    dispatch({ type: "EDIT_TENANT", payload: false });
-    SetIsEditable(false);
-
-    //reset the input fields to default values from props
+  function setFormData() {
+    // setting the useState
     setFirstName(editData.firstName);
     setLastName(editData.lastName);
     setBuildingNumber(editData.buildingNumber);
@@ -73,20 +41,39 @@ function EditTenant({ editData }) {
     setParkingSpot(editData.parkingSpot);
     setPhoneNumber(editData.phoneNumber);
     setTenantEmail(editData.tenantEmail);
-    setOwnerFirstName(editData.ownerFirstName);
-    setOwnerLastName(editData.ownerLastName);
-    setOwnerPhoneNumber(editData.ownerPhoneNumber);
-    setOwnerEmail(editData.ownerEmail);
-    {
-      editData.tenantType === "בעל בית" ? setIsOwner(true) : setIsOwner(false);
+
+    // update the owner and renter details
+    if (editData.tenantType === "בעל בית") {
+      setIsOwner(true);
+      setOwnerFirstName("");
+      setOwnerLastName("");
+      setOwnerPhoneNumber("");
+      setOwnerEmail("");
     }
-    // setIsOwner(true);
+    if (editData.tenantType === "שוכר") {
+      setIsOwner(false);
+      setOwnerFirstName(editData.ownerFirstName);
+      setOwnerLastName(editData.ownerLastName);
+      setOwnerPhoneNumber(editData.ownerPhoneNumber);
+      setOwnerEmail(editData.ownerEmail);
+    }
+  }
+  
+  useEffect(() => {
+    if (editData) {
+      setFormData();
+    }
+  }, [editData]);
+
+  function handleHide() {
+    dispatch({ type: "EDIT_TENANT", payload: false });
+    SetIsEditable(false);
+    setFormData();
     setError(null);
   }
 
   async function handleEdit(e) {
     e.preventDefault();
-    // const tenantType = ;
     const tenant = {
       firstName,
       lastName,
