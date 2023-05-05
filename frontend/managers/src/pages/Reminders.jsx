@@ -57,14 +57,24 @@ function Reminders() {
             ></Form.Control>
           </Form>
         </Col>
-        <Col xs={6} md={4} lg={3}>
+        <Col xs={3} md={3} lg={2}>
           <Button
-            className="ms-4 ms-md-5"
             onClick={() => {
               dispatch({ type: "NEW_REMINDER", payload: true });
             }}
           >
             <i className="bi bi-plus-lg"> </i>תזכורת חדשה
+          </Button>
+        </Col>
+        <Col xs={3} md={3} lg={2}>
+          <Button
+            variant="outline-primary"
+            onClick={() => {
+              let today = Date.now();
+              setSearch(format(new Date(today), "dd/MM/yyyy"));
+            }}
+          >
+            <i className="bi bi-calendar2-event"> </i>תזכורות להיום
           </Button>
         </Col>
       </Row>
