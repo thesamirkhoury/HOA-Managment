@@ -2,7 +2,11 @@ const Tenant = require("../models/tenants");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-const { sendSignupLink, sendResetLink } = require("../util/email");
+const {
+  sendSignupLink,
+  sendResetLink,
+  sendUsername,
+} = require("../util/email");
 
 // JWT Create Token Function
 function createToken(_id) {
@@ -31,7 +35,9 @@ async function signup(req, res) {
   // hoa id from auth
   const hoa_id = req.user._id;
 
-  let username = `${tenantEmail.split("@")[0]}@${req.user.fileNumber}`.toLowerCase();
+  let username = `${tenantEmail.split("@")[0]}@${
+    req.user.fileNumber
+  }`.toLowerCase();
   try {
     const tenant = await Tenant.signup(
       hoa_id,
@@ -139,6 +145,18 @@ async function deleteTenant(req, res) {
     return res.status(404).json({ error: "הדייר אינו קיים במערכת." });
   }
   res.status(200).json(tenant);
+}
+
+//Send username reminder by mail
+async function emailUsername(req, res) {
+  const { id } = req.params;
+  const tenant = await Tenant.findById(id);
+  if (!tenant) {
+    return res.status(404).json({ error: "הדייר אינו קיים במערכת." });
+  }
+  //email the username
+  sendUsername(tenant.tenantEmail, tenant.firstName, tenant.username);
+  res.status(200).json({ message: "שם המשתמש נשלח למייל בהצלחה" });
 }
 
 //* Tenants
@@ -259,6 +277,7 @@ module.exports = {
   getTenants,
   editTenant,
   deleteTenant,
+  emailUsername,
   login,
   forgotPassword,
   resetPassword,

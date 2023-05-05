@@ -5,6 +5,7 @@ const {
   getTenants,
   editTenant,
   deleteTenant,
+  emailUsername,
 } = require("../../controllers/tenantControllers");
 //auth middleware
 const requireAuthManager = require("../../middleware/requireAuthManager");
@@ -25,5 +26,7 @@ router.delete("/:id", deleteTenant);
 
 //Create a new tenant (signup)
 router.post("/signup", signupTenant);
+
+router.post("/email-username/:id", emailUsername);
 
 module.exports = router;

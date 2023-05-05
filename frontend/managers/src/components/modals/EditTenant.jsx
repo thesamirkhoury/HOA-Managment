@@ -307,6 +307,25 @@ function EditTenant({ editData }) {
             {/* Auth Actions buttons */}
             {!isEditable && editData && (
               <Row>
+                <Col>
+                  <Button
+                    variant="secondary"
+                    className="w-100"
+                    onClick={async () => {
+                      dispatch({ type: "LOADING", payload: true });
+                      await sendData(
+                        `tenants/email-username/${editData._id}`,
+                        "POST",
+                        {},
+                        "NO_CHANGE"
+                      );
+                      dispatch({ type: "LOADING", payload: false });
+                    }}
+                  >
+                    שלח שם המשתמש לדייר
+                  </Button>
+                </Col>
+
                 <Col xs={5} md={6}>
                   <Button
                     variant="outline-secondary"
