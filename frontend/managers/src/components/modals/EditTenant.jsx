@@ -304,6 +304,29 @@ function EditTenant({ editData }) {
             )}
             {error && <div className="error">{error}</div>}
 
+            {/* Auth Actions buttons */}
+            {!isEditable && editData && (
+              <Row>
+                <Col xs={5} md={6}>
+                  <Button
+                    variant="outline-secondary"
+                    className="w-100 "
+                    onClick={async () => {
+                      dispatch({ type: "LOADING", payload: true });
+                      await sendData(
+                        "reset-tenant-password",
+                        "POST",
+                        { username: editData.username },
+                        "NO_CHANGE"
+                      );
+                      dispatch({ type: "LOADING", payload: false });
+                    }}
+                  >
+                    אפס סיסמת דייר
+                  </Button>
+                </Col>
+              </Row>
+            )}
             {!isEditable && (
               <div className="mt-3 float-end">
                 <Button
