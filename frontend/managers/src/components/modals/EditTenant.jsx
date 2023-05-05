@@ -77,7 +77,10 @@ function EditTenant({ editData }) {
     setOwnerLastName(editData.ownerLastName);
     setOwnerPhoneNumber(editData.ownerPhoneNumber);
     setOwnerEmail(editData.ownerEmail);
-    setIsOwner(true);
+    {
+      editData.tenantType === "בעל בית" ? setIsOwner(true) : setIsOwner(false);
+    }
+    // setIsOwner(true);
     setError(null);
   }
 
