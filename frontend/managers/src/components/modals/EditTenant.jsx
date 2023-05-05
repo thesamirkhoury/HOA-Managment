@@ -58,7 +58,7 @@ function EditTenant({ editData }) {
       setOwnerEmail(editData.ownerEmail);
     }
   }
-  
+
   useEffect(() => {
     if (editData) {
       setFormData();
@@ -200,7 +200,7 @@ function EditTenant({ editData }) {
                   type="email"
                   value={tenantEmail}
                   onChange={(e) => {
-                    setTenantEmail(e.target.value);
+                    setTenantEmail(e.target.value.toLowerCase());
                   }}
                   disabled={!isEditable}
                 ></Form.Control>
@@ -276,7 +276,7 @@ function EditTenant({ editData }) {
                       type="email"
                       value={ownerEmail}
                       onChange={(e) => {
-                        setOwnerEmail(e.target.value);
+                        setOwnerEmail(e.target.value.toLowerCase());
                       }}
                       disabled={!isEditable}
                     ></Form.Control>

@@ -171,7 +171,7 @@ function NewTenant() {
                 type="email"
                 value={tenantEmail}
                 onChange={(e) => {
-                  setTenantEmail(e.target.value);
+                  setTenantEmail(e.target.value.toLowerCase());
                 }}
               ></Form.Control>
             </Form.Group>
@@ -232,7 +232,7 @@ function NewTenant() {
                     type="email"
                     value={ownerEmail}
                     onChange={(e) => {
-                      setOwnerEmail(e.target.value);
+                      setOwnerEmail(e.target.value.toLowerCase());
                     }}
                   ></Form.Control>
                 </Form.Group>
