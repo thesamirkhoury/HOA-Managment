@@ -25,7 +25,6 @@ function Login() {
   }
 
   return (
-    // <div className="mt-1 mt-md-5 ms-2">
     <Card className="login-card">
       <Card.Body>
         <h1 className="display-1 text-center">התחבר</h1>
@@ -74,7 +73,6 @@ function Login() {
         </Form>
       </Card.Body>
     </Card>
-    // </div>
   );
 }
 
