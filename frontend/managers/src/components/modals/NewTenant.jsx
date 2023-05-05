@@ -51,7 +51,6 @@ function NewTenant() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const tenantType = `${isOwner ? "בעל בית" : "שוכר"}`;
     const tenant = {
       firstName,
       lastName,
@@ -60,11 +59,11 @@ function NewTenant() {
       parkingSpot,
       phoneNumber,
       tenantEmail,
-      tenantType,
-      ownerFirstName,
-      ownerLastName,
-      ownerPhoneNumber,
-      ownerEmail,
+      tenantType: `${isOwner ? "בעל בית" : "שוכר"}`,
+      ownerFirstName: `${isOwner ? firstName : ownerFirstName}`,
+      ownerLastName: `${isOwner ? lastName : ownerLastName}`,
+      ownerPhoneNumber: `${isOwner ? phoneNumber : ownerPhoneNumber}`,
+      ownerEmail: `${isOwner ? tenantEmail : ownerEmail}`,
     };
 
     const errors = await sendData(
@@ -97,9 +96,6 @@ function NewTenant() {
                 value={firstName}
                 onChange={(e) => {
                   setFirstName(e.target.value);
-                  if (isOwner) {
-                    setOwnerFirstName(e.target.value);
-                  }
                 }}
               ></Form.Control>
             </Form.Group>
@@ -111,9 +107,6 @@ function NewTenant() {
                 value={lastName}
                 onChange={(e) => {
                   setLastName(e.target.value);
-                  if (isOwner) {
-                    setOwnerLastName(e.target.value);
-                  }
                 }}
               ></Form.Control>
             </Form.Group>
@@ -168,9 +161,6 @@ function NewTenant() {
                 value={phoneNumber}
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
-                  if (isOwner) {
-                    setOwnerPhoneNumber(e.target.value);
-                  }
                 }}
               ></Form.Control>
             </Form.Group>
@@ -182,9 +172,6 @@ function NewTenant() {
                 value={tenantEmail}
                 onChange={(e) => {
                   setTenantEmail(e.target.value);
-                  if (isOwner) {
-                    setOwnerEmail(e.target.value);
-                  }
                 }}
               ></Form.Control>
             </Form.Group>
@@ -200,54 +187,58 @@ function NewTenant() {
               }}
             />
           </Row>
-          <Row className={`mb-3 ${isOwner ? "d-none" : ""}`}>
-            <Form.Group as={Col} md="6">
-              <Form.Label>שם פרטי של בעל הדירה</Form.Label>
-              <Form.Control
-                required={!isOwner}
-                type="text"
-                value={ownerFirstName}
-                onChange={(e) => {
-                  setOwnerFirstName(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group as={Col} md="6">
-              <Form.Label>שם משפחה של בעל הדירה</Form.Label>
-              <Form.Control
-                required={!isOwner}
-                type="text"
-                value={ownerLastName}
-                onChange={(e) => {
-                  setOwnerLastName(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
-          </Row>
-          <Row className={`${isOwner ? "d-none" : ""}`}>
-            <Form.Group as={Col} md="6">
-              <Form.Label>מספר טלפון של בעל הדירה</Form.Label>
-              <Form.Control
-                required={!isOwner}
-                type="tel"
-                value={ownerPhoneNumber}
-                onChange={(e) => {
-                  setOwnerPhoneNumber(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group as={Col} md="6">
-              <Form.Label>מייל בעל הדירה</Form.Label>
-              <Form.Control
-                required={!isOwner}
-                type="email"
-                value={ownerEmail}
-                onChange={(e) => {
-                  setOwnerEmail(e.target.value);
-                }}
-              ></Form.Control>
-            </Form.Group>
-          </Row>
+          {!isOwner && (
+            <>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="6">
+                  <Form.Label>שם פרטי של בעל הדירה</Form.Label>
+                  <Form.Control
+                    required={!isOwner}
+                    type="text"
+                    value={ownerFirstName}
+                    onChange={(e) => {
+                      setOwnerFirstName(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group as={Col} md="6">
+                  <Form.Label>שם משפחה של בעל הדירה</Form.Label>
+                  <Form.Control
+                    required={!isOwner}
+                    type="text"
+                    value={ownerLastName}
+                    onChange={(e) => {
+                      setOwnerLastName(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Row>
+              <Row>
+                <Form.Group as={Col} md="6">
+                  <Form.Label>מספר טלפון של בעל הדירה</Form.Label>
+                  <Form.Control
+                    required={!isOwner}
+                    type="tel"
+                    value={ownerPhoneNumber}
+                    onChange={(e) => {
+                      setOwnerPhoneNumber(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group as={Col} md="6">
+                  <Form.Label>מייל בעל הדירה</Form.Label>
+                  <Form.Control
+                    required={!isOwner}
+                    type="email"
+                    value={ownerEmail}
+                    onChange={(e) => {
+                      setOwnerEmail(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Row>
+            </>
+          )}
           {error && <div className="error">{error}</div>}
           <div className="mt-3 float-end">
             <Button variant="success" type="submit">
