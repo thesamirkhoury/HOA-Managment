@@ -32,7 +32,38 @@ function EditTenant({ editData }) {
   //error handling
   const [error, setError] = useState(null);
 
-  function setFormData() {
+  useEffect(() => {
+    if (editData) {
+      // setting the useState
+      setFirstName(editData.firstName);
+      setLastName(editData.lastName);
+      setBuildingNumber(editData.buildingNumber);
+      setApartmentNumber(editData.apartmentNumber);
+      setParkingSpot(editData.parkingSpot);
+      setPhoneNumber(editData.phoneNumber);
+      setTenantEmail(editData.tenantEmail);
+
+      // update the owner and renter details
+      if (editData.tenantType === "בעל בית") {
+        setIsOwner(true);
+        setOwnerFirstName("");
+        setOwnerLastName("");
+        setOwnerPhoneNumber("");
+        setOwnerEmail("");
+      }
+      if (editData.tenantType === "שוכר") {
+        setIsOwner(false);
+        setOwnerFirstName(editData.ownerFirstName);
+        setOwnerLastName(editData.ownerLastName);
+        setOwnerPhoneNumber(editData.ownerPhoneNumber);
+        setOwnerEmail(editData.ownerEmail);
+      }
+    }
+  }, [editData]);
+
+  function handleHide() {
+    dispatch({ type: "EDIT_TENANT", payload: false });
+    SetIsEditable(false);
     // setting the useState
     setFirstName(editData.firstName);
     setLastName(editData.lastName);
@@ -41,7 +72,6 @@ function EditTenant({ editData }) {
     setParkingSpot(editData.parkingSpot);
     setPhoneNumber(editData.phoneNumber);
     setTenantEmail(editData.tenantEmail);
-
     // update the owner and renter details
     if (editData.tenantType === "בעל בית") {
       setIsOwner(true);
@@ -57,18 +87,6 @@ function EditTenant({ editData }) {
       setOwnerPhoneNumber(editData.ownerPhoneNumber);
       setOwnerEmail(editData.ownerEmail);
     }
-  }
-
-  useEffect(() => {
-    if (editData) {
-      setFormData();
-    }
-  }, [editData]);
-
-  function handleHide() {
-    dispatch({ type: "EDIT_TENANT", payload: false });
-    SetIsEditable(false);
-    setFormData();
     setError(null);
   }
 
