@@ -230,7 +230,7 @@ tenantSchema.statics.resetPassword = async function (resetToken, password) {
   });
 
   if (!user) {
-    throw Error("הקישור שקבלת אינו תקין, נא לנסות לאפס את הסיסה שינית.");
+    throw Error("הקישור שקבלת אינו תקין, נא לנסות לאפס את הסיסמה שינית.");
   }
 
   // hash the password
