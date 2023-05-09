@@ -159,6 +159,15 @@ async function emailUsername(req, res) {
   res.status(200).json({ message: "שם המשתמש נשלח למייל בהצלחה" });
 }
 
+//Gets a tenant by id and returns the data for that tenant for further use in other functions
+async function getTenantById(id) {
+  const tenant = await Tenant.findById(id);
+  if (!tenant) {
+    return null;
+  }
+  return tenant;
+}
+
 //* Tenants
 
 //Login as a tenant
@@ -278,6 +287,7 @@ module.exports = {
   editTenant,
   deleteTenant,
   emailUsername,
+  getTenantById,
   login,
   forgotPassword,
   resetPassword,

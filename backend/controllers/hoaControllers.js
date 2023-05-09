@@ -172,6 +172,15 @@ async function deleteHoa(req, res) {
   res.status(200).json(hoa);
 }
 
+//Gets a hoa by id and returns the data for that hoa for further use in other functions
+async function getHoaById(id) {
+  const hoa = await HOA.findById(id);
+  if (!hoa) {
+    return null;
+  }
+  return hoa;
+}
+
 //* Tenants
 //Get the hoa info
 async function getInfo(req, res) {
@@ -197,5 +206,6 @@ module.exports = {
   changePassword,
   editHoa,
   deleteHoa,
+  getHoaById,
   getInfo,
 };
