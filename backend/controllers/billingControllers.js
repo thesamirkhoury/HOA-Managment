@@ -1,6 +1,9 @@
 const Billing = require("../models/billing");
 const mongoose = require("mongoose");
 const { sendNewBill, sendBillReminder } = require("../util/email");
+const { getTenantById } = require("./tenantControllers.js");
+const { getHoaById } = require("./hoaControllers");
+const { createInvoice, createQuote } = require("../util/pdf");
 
 //* Managers
 
@@ -173,6 +176,59 @@ async function getSumTenant(req, res) {
   }
 }
 
+//Create a pdf bill - invoice if the bill is paid, a quote if it is unpaid.
+async function generateInvoice(req, res) {
+  const { id } = req.params;
+  try {
+    const bill = await Billing.findById(id);
+    if (!bill) {
+      return res.status(404).json({ error: "לא נמצאו חיובים" });
+    }
+    const tenant = await getTenantById(bill.tenant_id);
+    const hoa = await getHoaById(bill.hoa_id);
+    let pdf;
+
+    if (bill.paymentStatus === "שולם") {
+      pdf = await createInvoice(
+        `${tenant.firstName} ${tenant.lastName}`,
+        tenant.tenantEmail,
+        tenant.phoneNumber,
+        bill.createdAt,
+        bill.dueDate,
+        bill.description,
+        bill.paymentType,
+        bill.amount,
+        bill.updatedAt,
+        bill.paymentDetails.paymentMethod,
+        `${hoa.firstName} ${hoa.lastName}`,
+        hoa.address
+      );
+    } else {
+      pdf = await createQuote(
+        `${tenant.firstName} ${tenant.lastName}`,
+        tenant.tenantEmail,
+        tenant.phoneNumber,
+        bill.createdAt,
+        bill.dueDate,
+        bill.description,
+        bill.paymentType,
+        bill.amount,
+        `${hoa.firstName} ${hoa.lastName}`,
+        hoa.address
+      );
+    }
+    // convert the pdf uint8 to blob
+    const blob = new Blob([pdf], {
+      type: "application/pdf;charset=utf-8",
+    });
+    // convert blob to array buffer
+    let buf = await blob.arrayBuffer();
+    res.send(Buffer.from(buf));
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createBill,
   getBills,
@@ -183,4 +239,5 @@ module.exports = {
   sendReminder,
   getUserBills,
   getSumTenant,
+  generateInvoice,
 };
