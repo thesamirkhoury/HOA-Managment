@@ -17,10 +17,11 @@ import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import BillingDetails from "../components/modals/BillingDetails";
+import { download } from "../util/fileDownload";
 
 function Billing() {
   const { dispatch } = useModalsContext();
-  const { fetchData } = useDataHandler();
+  const { fetchData, fetchFile } = useDataHandler();
   const { billings } = useDataContext();
   const [search, setSearch] = useState("");
   const [details, setDetails] = useState();
@@ -124,9 +125,20 @@ function Billing() {
                     >
                       פרטים
                     </Button>
-                    {/* //TODO: Check if status is paid download Receipt, if ot paid download quote */}
                     <Button
                       variant="outline-secondary"
+                      onClick={async () => {
+                        const response = await fetchFile(
+                          `billing/${bill._id}/invoice`
+                        );
+                        download(
+                          response,
+                          `חיוב ${format(
+                            new Date(bill.dueDate),
+                            "dd-MM-yyyy"
+                          )}.pdf`
+                        );
+                      }}
                     >
                       הורדה
                     </Button>

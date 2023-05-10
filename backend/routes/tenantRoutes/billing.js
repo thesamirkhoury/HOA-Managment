@@ -3,6 +3,7 @@ const express = require("express");
 const {
   getUserBills,
   getSumTenant,
+  generateInvoice,
 } = require("../../controllers/billingControllers");
 //auth middleware
 const requireAuthTenant = require("../../middleware/requireAuthTenant");
@@ -19,8 +20,6 @@ router.get("/", getUserBills);
 router.get("/sum/:from/:to", getSumTenant);
 
 //Get an invoice pdf based on bill _id
-router.get("/:id/invoice", (req, res) => {
-  res.json({ description: "Get an invoice pdf based on bill _id" });
-});
+router.get("/:id/invoice", generateInvoice);
 
 module.exports = router;
