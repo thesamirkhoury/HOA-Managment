@@ -7,7 +7,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //image asset
-import Placeholder_Hero from "../../assets/Placeholder_Hero.png";
+import Hero_Img from "../../assets/Hero_Section_Img.jpg";
 //helper function
 import { navigate } from "../../util/Navigate";
 
@@ -61,8 +61,8 @@ function Hero() {
 
         <Col className="mt-2 mt-md-1">
           <img
-            src={Placeholder_Hero}
-            alt="placeholder display"
+            src={Hero_Img}
+            alt="board dashboard demo screenshot"
             className="img-fluid"
           />
         </Col>
