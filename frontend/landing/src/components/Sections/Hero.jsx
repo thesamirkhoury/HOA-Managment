@@ -29,7 +29,7 @@ function Hero() {
               variant="light"
               className="w-75 text-center"
               onClick={() => {
-                navigate("http://localhost:3000/signup"); //!Placeholder URL
+                navigate(process.env.REACT_APP_BOARD_SIGNUP);
               }}
             >
               ליצור חישבון ועד חדש
@@ -41,7 +41,7 @@ function Hero() {
               variant="outline-light"
               className="w-50"
               onClick={() => {
-                navigate("http://localhost:3000/login"); //!Placeholder URL
+                navigate(process.env.REACT_APP_BOARD_LOGIN);
               }}
             >
               כניסת ועד
@@ -51,7 +51,7 @@ function Hero() {
               variant="outline-light"
               className="w-auto ms-2"
               onClick={() => {
-                navigate("http://localhost:3001/login"); //!Placeholder URL
+                navigate(process.env.REACT_APP_TENANTS_LOGIN);
               }}
             >
               כניסת דיירים

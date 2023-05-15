@@ -42,7 +42,7 @@ function Features() {
             variant="outline-light"
             className="w-100 text-center"
             onClick={() => {
-              navigate("http://localhost:3000/signup"); //!Placeholder URL
+              navigate(process.env.REACT_APP_BOARD_SIGNUP);
             }}
           >
             ליצור חישבון ועד חדש
