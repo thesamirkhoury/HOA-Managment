@@ -7,20 +7,50 @@ function Terms() {
   return (
     <div className="h-100">
       <SimpleNav />
-      <h1>Terms and conditions place holder</h1>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum ratione
-        asperiores error laudantium, eligendi sapiente aliquid rem odit sit hic.
-        Est perferendis ipsum ducimus veritatis quidem et reprehenderit vitae, a
-        totam ipsa illum harum, quam iusto. Eum totam eveniet quas dignissimos
-        perspiciatis sapiente possimus, debitis, error, necessitatibus aut
-        tempora! Mollitia inventore cumque rerum beatae aut consequatur
-        distinctio quas! Accusamus magni voluptatem dolore deserunt, temporibus
-        reiciendis non molestias, minus architecto deleniti amet velit eius modi
-        dolorum itaque voluptate quas repudiandae saepe? Nam, magni molestiae?
-        Veritatis animi ex nesciunt consequuntur cupiditate blanditiis labore
-        fugit, numquam voluptatum eligendi quisquam consequatur necessitatibus
-        ipsam laudantium!
+      <h1>תנאי שימוש במערכת נהל</h1>
+      <h5>שימוש במערכת או חלק ממנה מהווה הסקמה מוחלטת לתנאים המפורטים להלן.</h5>
+      <p className="ms-3">
+        <strong>1. הקדמה:</strong>
+        <br />
+        1. מערכת נהל (להלן: המערכת), היא חלק מפרויקט הגמר לבית הספר להנדסת
+        תוכנה, במככלת עזראילי מכללה אקדמית להנדסה ירושלים (להלן: המכללה), המערכת
+        נוצרה במטרה להציע פתרונות לניהול ותחזוקה של ועדי בתים, אך איננו (מיצר
+        המערכת, המכללה או מי שמטעמם) עומדים במערכת כמותג מסחרי או חברתי. <br />
+        2. בהמשך לסעיף 1, איננו אחראים על כל נזק שנגרם בצורה ישירה או עקיפה
+        מהשימוש במערכת, ואיננו אחראים על אובדן נתונים או בעיות טכניות שעשויות
+        להתרחש בזמן השימוש במערכת. <br />
+        אנחנו לא יכולים להתחייב כי המערכת תהיה זמינה בכל עת ובכל מקום, ואנחנו
+        רשאים להפסיק את השירותים ללא הודעה מראש. <br />
+      </p>
+
+      <p className="ms-3 mt-1">
+        <strong>2. פרטיות:</strong>
+        <br />
+        1. אנחנו לא נשתף או נמסור מידע אישי לצדדים שלישיים מבלי לקבל הסכמה כתובה
+        של המשתמש, למעט המקרים בהם נחויב לעשות זאת על פי צו בית משפט.
+      </p>
+
+      <p className="ms-3 mt-1">
+        <strong>3. שינויים בתנאים:</strong>
+        <br />
+        1. אנחנו שומרים את הזכות לשנות את התנאים המפורטים כאן בכל עת, וללא הודעה
+        מראש. כל שינוי יכנס לתוקפו מיידית לאחר פרסומו באתר. המשך השימוש במערכת
+        לאחר השינויים מהווה הסכמה מוחלטת לתנאים המעודכנים.
+      </p>
+
+      <p className="ms-3 mt-2">
+        <strong>
+          שימו לב ששימושכם במערכת מהווה הסכמה מוחלטת לתנאים המפורטים כאן. אם אתם
+          אינכם מסכימים לתנאים או אין לכם את הסמכות להסכים להם, אנא הימנעו
+          משימוש במערכת זאת.
+        </strong>
+        <br />
+        <br />
+        מערכת נהל.
+      </p>
+
+      <p className="ms-5 mt-2 text-decoration-underline">
+        עדכון אחרון: מאי,2023
       </p>
     </div>
   );
