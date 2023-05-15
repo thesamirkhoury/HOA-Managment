@@ -15,7 +15,7 @@ function Hero() {
   return (
     <Container className="hero-bg" id="hero">
       <Row className="mt-2">
-        <Col md={6} className="ms-2">
+        <Col xs={12} md={6} className="ms-md-2">
           <p className="display-1 mt-3">
             <span className="brand-typeface me-2">נהל</span>
             מערכת הניהול המתקדמת.
@@ -59,10 +59,8 @@ function Hero() {
           </div>
         </Col>
 
-        <Col className="mt-1">
-          {/*//TODO: replace placeholder image */}
+        <Col className="mt-2 mt-md-1">
           <img
-            //!Placeholder link
             src={Placeholder_Hero}
             alt="placeholder display"
             className="img-fluid"
