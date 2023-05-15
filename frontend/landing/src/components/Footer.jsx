@@ -4,6 +4,8 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+//import Router Nav Link
+import { LinkContainer } from "react-router-bootstrap";
 // import assets
 import Logo from "../assets/Logo.svg";
 
@@ -16,9 +18,9 @@ function Footer() {
             <img src={Logo} alt="nahel logo" width="50" />
           </Col>
           <Col className="mt-2">
-            <a href="/" className="brand-link">
-              תנאי שימוש
-            </a>
+            <LinkContainer to="/terms">
+              <a className="brand-link">תנאי שימוש</a>
+            </LinkContainer>
           </Col>
         </Row>
         <Row>
