@@ -34,6 +34,10 @@ function SetPassword() {
             }}
           ></Form.Control>
         </Form.Group>
+        <h6 className="text-muted">
+          בעת ההתחברות לחשבון, אתם מסכימים
+          <a href={process.env.REACT_APP_TERMS_URL}> לתאני השימוש </a>
+        </h6>
         <Button type="submit" className="w-100 mt-1">
           התחבר למערכת
         </Button>
