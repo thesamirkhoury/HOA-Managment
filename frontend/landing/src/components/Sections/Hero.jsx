@@ -35,28 +35,31 @@ function Hero() {
               ליצור חישבון ועד חדש
             </Button>
           </div>
-          <div className="text-center mt-1">
-            <p className="fs-5 text-decoration-underline">כבר יש לכם חשבון?</p>
-            <Button
-              variant="outline-light"
-              className="w-50"
-              onClick={() => {
-                navigate(process.env.REACT_APP_BOARD_LOGIN);
-              }}
-            >
-              כניסת ועד
-            </Button>
-
-            <Button
-              variant="outline-light"
-              className="w-auto ms-2"
-              onClick={() => {
-                navigate(process.env.REACT_APP_TENANTS_LOGIN);
-              }}
-            >
-              כניסת דיירים
-            </Button>
-          </div>
+          <Row className="text-center mt-1">
+            <p className="fs-4 text-decoration-underline">כבר יש לכם חשבון?</p>
+            <Col>
+              <Button
+                variant="outline-light"
+                className="ms-1 w-100"
+                onClick={() => {
+                  navigate(process.env.REACT_APP_BOARD_LOGIN);
+                }}
+              >
+                כניסת ועד
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                variant="outline-light"
+                className="w-100 me-1"
+                onClick={() => {
+                  navigate(process.env.REACT_APP_TENANTS_LOGIN);
+                }}
+              >
+                כניסת דיירים
+              </Button>
+            </Col>
+          </Row>
         </Col>
 
         <Col className="mt-2 mt-md-1">
