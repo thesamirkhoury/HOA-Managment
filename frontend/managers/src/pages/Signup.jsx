@@ -223,6 +223,10 @@ function Signup() {
 
             <Row>
               <Col className="text-center mt-2">
+                <h6 className="text-muted">
+                  בעת יצירת החשבון, אתם מסכימים
+                  <a href={process.env.REACT_APP_TERMS_URL}> לתאני השימוש </a>
+                </h6>
                 <Button type="submit" className="w-50">
                   צור חישבון חדש
                 </Button>
