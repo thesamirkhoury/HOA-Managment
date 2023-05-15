@@ -9,13 +9,7 @@ async function createSupplier(req, res) {
     req.body;
 
   //Validation
-  if (
-    !supplierName ||
-    !supplierType ||
-    !supplierCategory ||
-    !email ||
-    !phoneNumber
-  ) {
+  if (!supplierName || !supplierType || !supplierCategory) {
     return res.status(400).json({ error: "אחד או יותר מהפרטים חסרים." });
   }
 

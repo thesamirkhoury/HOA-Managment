@@ -20,14 +20,14 @@ const expenseRoutesManager = require("./routes/managerRoutes/expenses");
 const documentRoutesManager = require("./routes/managerRoutes/documents");
 
 //* Tenant routes
-const hoaRoutesTenant = require("./routes/TenantRoutes/hoa");
-const tenantRoutesTenant = require("./routes/TenantRoutes/tenants");
-const announcementRoutesTenant = require("./routes/TenantRoutes/announcements");
-const maintenanceRoutesTenant = require("./routes/TenantRoutes/maintenance");
-const inquiriesRoutesTenant = require("./routes/TenantRoutes/inquiries");
-const billingRoutesTenant = require("./routes/TenantRoutes/billing");
+const hoaRoutesTenant = require("./routes/tenantRoutes/hoa");
+const tenantRoutesTenant = require("./routes/tenantRoutes/tenants");
+const announcementRoutesTenant = require("./routes/tenantRoutes/announcements");
+const maintenanceRoutesTenant = require("./routes/tenantRoutes/maintenance");
+const inquiriesRoutesTenant = require("./routes/tenantRoutes/inquiries");
+const billingRoutesTenant = require("./routes/tenantRoutes/billing");
 const expenseRoutesTenant = require("./routes/tenantRoutes/expenses");
-const documentRoutesTenant = require("./routes/TenantRoutes/documents");
+const documentRoutesTenant = require("./routes/tenantRoutes/documents");
 
 //express app
 const app = express();
