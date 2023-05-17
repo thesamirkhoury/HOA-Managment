@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  backend:
+    image: hoa-backend-image
+    build: ./backend
+    container_name: backend
+    volumes:
+      - ./backend/uploads:/backend/uploads
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+    ports:
+      - 4000:4000
+
+  board:
+    image: hoa-board-image
+    build: ./frontend/managers
+    container_name: board_dashboard
+    env_file:
+      - ./frontend/managers/.env.production
+    restart: unless-stopped
+    ports:
+      - 3000:80
+
+  tenants:
+    image: hoa-tenants-image
+    build: ./frontend/tenants
+    container_name: tenants_dashboard
+    env_file:
+      - ./frontend/tenants/.env.production
+    restart: unless-stopped
+    ports:
+      - 3001:80
+
+  landing-page:
+    image: hoa-landing-image
+    build: ./frontend/landing
+    container_name: landing_page
+    env_file:
+      - ./frontend/landing/.env.production
+    restart: unless-stopped
+    ports:
+      - 3002:80
+
+# Link to NPM docker netwrok
+networks:
+  default:
+    external: true
+    name: nginx-network
