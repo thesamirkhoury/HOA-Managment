@@ -37,12 +37,7 @@ const port = 4000;
 const { ensureUploadPaths } = require("./middleware/upload");
 //CORS
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    process.env.LCL_IP_PORT1,
-    process.env.LCL_IP_PORT2,
-  ], //for the meantime only accept from localhost
+  origin: [process.env.BOARD_URL, process.env.TENANTS_URL],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
