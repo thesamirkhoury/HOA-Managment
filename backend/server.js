@@ -31,18 +31,13 @@ const documentRoutesTenant = require("./routes/tenantRoutes/documents");
 
 //express app
 const app = express();
-const port = 4000;
+const port = process.env.PORT;
 
 //middleware
 const { ensureUploadPaths } = require("./middleware/upload");
 //CORS
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    process.env.LCL_IP_PORT1,
-    process.env.LCL_IP_PORT2,
-  ], //for the meantime only accept from localhost
+  origin: [process.env.BOARD_URL, process.env.TENANTS_URL],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -61,32 +56,32 @@ app.use((req, res, next) => {
 app.use("/logo", express.static("./assets/Logo.svg"));
 
 //* Authentication
-app.use("/api", authentication);
+app.use("/", authentication);
 
 //* Managers
-app.use("/api/managers/details", hoaRoutesManager);
-app.use("/api/managers/tenants", tenantRoutesManager);
-app.use("/api/managers/suppliers", supplierRoutesManager);
-app.use("/api/managers/reminders", reminderRoutesManager);
-app.use("/api/managers/announcements", announcementRoutesManager);
-app.use("/api/managers/maintenance", maintenanceRoutesManager);
-app.use("/api/managers/inquiries", inquiriesRoutesManager);
-app.use("/api/managers/billing", billingRoutesManager);
-app.use("/api/managers/expenses", expenseRoutesManager);
-app.use("/api/managers/documents", documentRoutesManager);
+app.use("/managers/details", hoaRoutesManager);
+app.use("/managers/tenants", tenantRoutesManager);
+app.use("/managers/suppliers", supplierRoutesManager);
+app.use("/managers/reminders", reminderRoutesManager);
+app.use("/managers/announcements", announcementRoutesManager);
+app.use("/managers/maintenance", maintenanceRoutesManager);
+app.use("/managers/inquiries", inquiriesRoutesManager);
+app.use("/managers/billing", billingRoutesManager);
+app.use("/managers/expenses", expenseRoutesManager);
+app.use("/managers/documents", documentRoutesManager);
 
 //* Tenants
-app.use("/api/tenants/hoa", hoaRoutesTenant);
-app.use("/api/tenants/details", tenantRoutesTenant);
-app.use("/api/tenants/announcements", announcementRoutesTenant);
-app.use("/api/tenants/maintenance", maintenanceRoutesTenant);
-app.use("/api/tenants/inquiries", inquiriesRoutesTenant);
-app.use("/api/tenants/billing", billingRoutesTenant);
-app.use("/api/tenants/expenses", expenseRoutesTenant);
-app.use("/api/tenants/documents", documentRoutesTenant);
+app.use("/tenants/hoa", hoaRoutesTenant);
+app.use("/tenants/details", tenantRoutesTenant);
+app.use("/tenants/announcements", announcementRoutesTenant);
+app.use("/tenants/maintenance", maintenanceRoutesTenant);
+app.use("/tenants/inquiries", inquiriesRoutesTenant);
+app.use("/tenants/billing", billingRoutesTenant);
+app.use("/tenants/expenses", expenseRoutesTenant);
+app.use("/tenants/documents", documentRoutesTenant);
 
 //*API Details
-app.get("/api/ver", (req, res) => {
+app.get("/ver", (req, res) => {
   res.status(200).json({ version: "0.6" });
 });
 

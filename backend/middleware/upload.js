@@ -46,9 +46,9 @@ async function compressImage(path) {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // add document uploaded files to uploads/documents file
-    if (req.originalUrl === "/api/managers/documents") {
+    if (req.originalUrl === "/managers/documents") {
       cb(null, paths.documentsPath);
-    } else if (req.originalUrl === "/api/tenants/maintenance") {
+    } else if (req.originalUrl === "/tenants/maintenance") {
       cb(null, paths.maintenancePath);
     } else {
       cb("Unsupported upload path", null);
@@ -58,14 +58,14 @@ const storage = multer.diskStorage({
 
 // filter for allowed files to be uploaded
 const fileFilter = (req, file, cb) => {
-  if (req.originalUrl === "/api/tenants/maintenance") {
+  if (req.originalUrl === "/tenants/maintenance") {
     // for maintenance requests images, only allow jpeg and png file types
     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
       cb(null, true);
     } else {
       cb(null, false);
     }
-  } else if (req.originalUrl === "/api/managers/documents") {
+  } else if (req.originalUrl === "/managers/documents") {
     // allow all file types for the documents upload
     cb(null, true);
   } else {

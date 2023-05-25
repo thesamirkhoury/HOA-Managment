@@ -1,0 +1,84 @@
+version: "3.8"
+
+# Containers
+services:
+  mongo_db:
+    container_name: mongo_db
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+    networks:
+      - backend-network
+
+  backend:
+    image: hoa-backend-image
+    build: ./backend
+    container_name: backend
+    volumes:
+      - upload_files:/backend/uploads:rw
+    env_file:
+      - ./backend/.env.production
+    restart: unless-stopped
+    ports:
+      - 4000:4000
+    networks:
+      - nginx-network
+      - backend-network
+    depends_on:
+      - mongo_db
+
+  board:
+    image: hoa-board-image
+    build: ./frontend/managers
+    container_name: board_dashboard
+    env_file:
+      - ./frontend/managers/.env.production
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - 3000:80
+    networks:
+      - nginx-network
+
+  tenants:
+    image: hoa-tenants-image
+    build: ./frontend/tenants
+    container_name: tenants_dashboard
+    env_file:
+      - ./frontend/tenants/.env.production
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - 3001:80
+    networks:
+      - nginx-network
+
+  landing-page:
+    image: hoa-landing-image
+    build: ./frontend/landing
+    container_name: landing_page
+    env_file:
+      - ./frontend/landing/.env.production
+    restart: unless-stopped
+    ports:
+      - 3002:80
+    networks:
+      - nginx-network
+
+volumes:
+  # MongoDB data backup volume
+  mongo_db: {}
+  # Uploaded files backup volume
+  upload_files: {}
+
+networks:
+  # Link to NPM docker network
+  nginx-network:
+    external: true
+    name: nginx-network
+    # Backend and db link network
+  backend-network:
+    driver: bridge
