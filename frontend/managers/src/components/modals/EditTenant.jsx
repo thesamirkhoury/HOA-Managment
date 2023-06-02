@@ -274,7 +274,7 @@ function EditTenant({ editData }) {
                     ></Form.Control>
                   </Form.Group>
                 </Row>
-                <Row>
+                <Row className="mb-3">
                   <Form.Group as={Col} md="6">
                     <Form.Label>מספר טלפון של בעל הדירה</Form.Label>
                     <Form.Control
