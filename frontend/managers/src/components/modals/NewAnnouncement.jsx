@@ -98,7 +98,7 @@ function NewAnnouncement({ buildingsCount }) {
                   setBuildingNumber(e.target.value);
                 }}
               >
-                <option>בחר בניין</option>
+                <option value="">בחר בניין</option>
                 <option value={0}>כל הבנינים - כללי</option>
                 {/* Dynamically List All Available Buildings  */}
                 {range(buildingsCount).map((_, number) => (

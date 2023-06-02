@@ -97,13 +97,14 @@ function NewSupplier() {
             <Form.Group as={Col} md="4">
               <Form.Label>סוג ספק</Form.Label>
               <Form.Select
+                required
                 aria-label="Supplier type select"
                 value={supplierType}
                 onChange={(e) => {
                   setSupplierType(e.target.value);
                 }}
               >
-                <option>בחר סוג</option>
+                <option value="">בחר סוג</option>
                 <option value="חברה">חברה</option>
                 <option value="ספק פרטי">ספק פרטי</option>
               </Form.Select>
