@@ -6,9 +6,8 @@ import Hero from "../components/Sections/Hero";
 import SellingPoints from "../components/Sections/SellingPoints";
 import Features from "../components/Sections/Features";
 import About from "../components/Sections/About";
+import Support from "../components/Sections/Support";
 import Footer from "../components/Footer";
-
-
 
 function Home() {
   return (
@@ -18,6 +17,7 @@ function Home() {
       <SellingPoints />
       <Features />
       <About />
+      <Support />
       <Footer />
     </>
   );
