@@ -228,7 +228,7 @@ function Signup() {
                   <a href={process.env.REACT_APP_TERMS_URL}> לתאני השימוש </a>
                 </h6>
                 <Button type="submit" className="w-50">
-                  צור חישבון חדש
+                  צור חשבון חדש
                 </Button>
               </Col>
             </Row>

@@ -31,4 +31,4 @@ const requestSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("MaintenanceRequest", requestSchema);
+module.exports = mongoose.model("Request", requestSchema);

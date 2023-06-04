@@ -25,7 +25,7 @@ async function sendMail(receiverMail, subject, html) {
 
   //send the email
   transporter.sendMail({
-    from: `${process.env.MAIL_SENDER_NAME} <${process.env.MAIL_USER}>`,
+    from: `${process.env.MAIL_SENDER_NAME} <${process.env.MAIL_SENDER_EMAIL}>`,
     to: receiverMail,
     subject: subject,
     html: html,

@@ -34,6 +34,10 @@ function VerticalNav() {
             <Link to="about" offset={500}>
               <Nav.Link>אודות</Nav.Link>
             </Link>
+
+            <Link to="support" offset={500}>
+              <Nav.Link>תמיכה</Nav.Link>
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

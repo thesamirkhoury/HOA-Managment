@@ -17,8 +17,6 @@ function MaintenanceImages({ url }) {
     dispatch({ type: "MAINTENANCE_IMAGES", payload: false });
     //open back the details model
     dispatch({ type: "MAINTENANCE_DETAILS", payload: true });
-    // reset img data
-    setImgSrc();
   }
 
   useEffect(() => {
@@ -52,7 +50,7 @@ function MaintenanceImages({ url }) {
         <Modal.Title>תיעוד קריאת שירות</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {imgSrc ? (
+        {url ? (
           <img
             src={imgSrc}
             alt="maintenance request documentation"

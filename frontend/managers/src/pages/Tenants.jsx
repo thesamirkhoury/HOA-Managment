@@ -19,9 +19,10 @@ import DeleteConfirmation from "../components/modals/DeleteConfirmation";
 
 function Tenants() {
   const { dispatch } = useModalsContext();
-  const { tenants } = useDataContext();
+  const { tenants, details } = useDataContext();
   const { fetchData } = useDataHandler();
   const [search, setSearch] = useState("");
+  const [buildingsCount, setBuildingsCount] = useState();
   const [editData, setEditData] = useState();
   const [deleteData, setDeleteData] = useState();
 
@@ -30,7 +31,13 @@ function Tenants() {
     if (!tenants) {
       fetchData("tenants", "SET_TENANTS");
     }
-  }, []); //eslint-disable-line
+    if (!details) {
+      fetchData("details", "SET_DETAILS");
+    }
+    if (details) {
+      setBuildingsCount(details.buildingCount);
+    }
+  }, [details]); //eslint-disable-line
 
   return (
     <>
@@ -142,8 +149,8 @@ function Tenants() {
         </tbody>
       </Table>
       {/* //* Modals */}
-      <NewTenant />
-      <EditTenant editData={editData} />
+      <NewTenant buildingsCount={buildingsCount} />
+      <EditTenant editData={editData} buildingsCount={buildingsCount} />
       <DeleteConfirmation deleteData={deleteData} />
     </>
   );

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 //custom hooks
 import { useModalsContext } from "../../hooks/useModalsContext";
 import { useDataHandler } from "../../hooks/useDataHandler";
+//helper functions
+import { range } from "../../util/range";
 
 //bootstrap components
 import Modal from "react-bootstrap/Modal";
@@ -11,7 +13,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function EditTenant({ editData }) {
+function EditTenant({ editData, buildingsCount }) {
   const { editTenant, dispatch } = useModalsContext();
   const { sendData } = useDataHandler();
   //editable field toggler
@@ -157,17 +159,23 @@ function EditTenant({ editData }) {
             <Row className="mb-3">
               <Form.Group as={Col} md="4">
                 <Form.Label>מספר בניין</Form.Label>
-                <Form.Control
+                <Form.Select
                   required
-                  type="number"
-                  inputMode="numeric"
-                  min="1"
+                  aria-label="Building Number selector"
                   value={buildingNumber}
                   onChange={(e) => {
                     setBuildingNumber(e.target.value);
                   }}
                   disabled={!isEditable}
-                ></Form.Control>
+                >
+                  <option value="">בחר מספר בניין</option>
+                  {/* Dynamically List All Available Buildings  */}
+                  {range(buildingsCount).map((_, number) => (
+                    <option value={number + 1} key={number + 1}>
+                      {`בניין ${number + 1}`}
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
               <Form.Group as={Col} md="4">
                 <Form.Label>מספר דירה</Form.Label>
@@ -274,7 +282,7 @@ function EditTenant({ editData }) {
                     ></Form.Control>
                   </Form.Group>
                 </Row>
-                <Row>
+                <Row className="mb-3">
                   <Form.Group as={Col} md="6">
                     <Form.Label>מספר טלפון של בעל הדירה</Form.Label>
                     <Form.Control

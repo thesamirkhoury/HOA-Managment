@@ -71,7 +71,7 @@ function NewExpense({ suppliers }) {
                 setSupplierId(e.target.value);
               }}
             >
-              <option>בחר ספק</option>
+              <option value="">בחר ספק</option>
               {/* Dynamically List All tenants */}
               {suppliers &&
                 suppliers.map((supplier) => (
@@ -106,7 +106,7 @@ function NewExpense({ suppliers }) {
                   setPaymentMethod(e.target.value);
                 }}
               >
-                <option>בחר שיטת תשלום</option>
+                <option value="">בחר שיטת תשלום</option>
                 <option value="מזומן">מזומן</option>
                 <option value="העברה בנקאית">העברה בנקאית</option>
                 <option value="אשראי">כרטיס אשראי</option>
@@ -137,7 +137,7 @@ function NewExpense({ suppliers }) {
                   setPaymentType(e.target.value);
                 }}
               >
-                <option>בחר סוג תשלום</option>
+                <option value="">בחר סוג תשלום</option>
                 <option value="חודשי">חודשי</option>
                 <option value="חד פעמי">חד-פעמי</option>
               </Form.Select>

@@ -15,8 +15,6 @@ function MaintenanceImages({ url }) {
   function handleHide() {
     // close the images modal
     dispatch({ type: "MAINTENANCE_IMAGES", payload: false });
-    // reset img data
-    setImgSrc();
   }
 
   useEffect(() => {
@@ -50,7 +48,7 @@ function MaintenanceImages({ url }) {
         <Modal.Title>תיעוד קריאת השירות</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {imgSrc ? (
+        {url ? (
           <img
             src={imgSrc}
             alt="maintenance request documentation"

@@ -61,13 +61,14 @@ function NewBill({ tenants }) {
           <Form.Group>
             <Form.Label>בחר דייר</Form.Label>
             <Form.Select
+              required
               aria-label="Tenant Name selector"
               value={tenantId}
               onChange={(e) => {
                 setTenantId(e.target.value);
               }}
             >
-              <option>בחר שם דייר</option>
+              <option value="">בחר שם דייר</option>
               {/* Dynamically List All tenants */}
               {tenants &&
                 tenants.map((tenant) => (
@@ -95,13 +96,14 @@ function NewBill({ tenants }) {
             <Form.Group as={Col} md="6">
               <Form.Label>סוג התשלום</Form.Label>
               <Form.Select
+                required
                 aria-label="Payment type selector"
                 value={paymentType}
                 onChange={(e) => {
                   setPaymentType(e.target.value);
                 }}
               >
-                <option>בחר סוג תשלום</option>
+                <option value="">בחר סוג תשלום</option>
                 <option value="חודשי">חודשי</option>
                 <option value="חד פעמי">חד-פעמי</option>
               </Form.Select>
