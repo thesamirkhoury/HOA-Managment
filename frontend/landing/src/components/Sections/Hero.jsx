@@ -32,7 +32,7 @@ function Hero() {
                 navigate(process.env.REACT_APP_BOARD_SIGNUP);
               }}
             >
-              ליצור חישבון ועד חדש
+              ליצור חשבון ועד חדש
             </Button>
           </div>
           <Row className="text-center mt-1">
