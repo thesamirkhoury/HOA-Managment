@@ -82,7 +82,7 @@ app.use("/tenants/documents", documentRoutesTenant);
 
 //*API Details
 app.get("/ver", (req, res) => {
-  res.status(200).json({ version: "0.6" });
+  res.status(200).json({ version: "1.0" });
 });
 
 // Make the Queries Strict and Remove Deprecation Warning
