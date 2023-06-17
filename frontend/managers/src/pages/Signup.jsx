@@ -149,7 +149,7 @@ function Signup() {
             </Row>
 
             <hr />
-            <p className="fs-4 text-decoration-underline">פרטי הועד</p>
+            <p className="fs-4 text-decoration-underline">פרטי הוועד</p>
 
             <Row>
               <Col md={8} className="mb-2">
@@ -194,7 +194,7 @@ function Signup() {
                     inputMode="numeric"
                     min="1"
                     required
-                    placeholder="כמות הבניינים שמנהל הועד"
+                    placeholder="כמות הבניינים שמנהל הוועד"
                     value={buildingCount}
                     onChange={(e) => {
                       setBuildingCount(e.target.value);

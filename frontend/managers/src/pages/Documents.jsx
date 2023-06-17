@@ -39,10 +39,10 @@ function Documents() {
     <>
       {/* Document Title */}
       <Helmet>
-        <title>נהל - מרכז שיטוף מסמכים</title>
+        <title>נהל - מרכז שיתוף מסמכים</title>
       </Helmet>
       {/* Page Name */}
-      <h1 className="display-1">מרכז שיטוף מסמכים</h1>
+      <h1 className="display-1">מרכז שיתוף מסמכים</h1>
       {/* Search Bar */}
       <Row className="ms-md-2">
         <Col xs={6} md={6} lg={8}>
@@ -123,7 +123,7 @@ function Documents() {
                         dispatch({ type: "EDIT_DOCUMENT", payload: true });
                       }}
                     >
-                      עדכן
+                      עדכון
                     </Button>
 
                     <Button

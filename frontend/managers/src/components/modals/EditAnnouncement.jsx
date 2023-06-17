@@ -116,7 +116,7 @@ function EditAnnouncement({ editData, buildingsCount }) {
           {error && <div className="error">{error}</div>}
           <div className="mt-3 float-end">
             <Button variant="success" type="submit">
-              <i className="bi bi-plus-square"> </i>עדכן הודעה
+              <i className="bi bi-plus-square"> </i>עדכון הודעה
             </Button>
             <Button
               variant="outline-secondary"

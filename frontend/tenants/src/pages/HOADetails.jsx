@@ -23,10 +23,10 @@ function HOADetails() {
     <>
       {/* Document Title */}
       <Helmet>
-        <title>נהל - אודות הועד</title>
+        <title>נהל - אודות הוועד</title>
       </Helmet>
       {/* Page Name */}
-      <h1 className="display-1">אודות הועד</h1>
+      <h1 className="display-1">אודות הוועד</h1>
       {/* Details Card */}
       <Card>
         {hoa && (

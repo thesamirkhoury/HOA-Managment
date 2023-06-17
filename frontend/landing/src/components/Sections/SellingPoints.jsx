@@ -17,7 +17,7 @@ function SellingPoints() {
         <Col md={4}>
           <i className="fs-1 bi bi-cloud"></i>
           <p className="fs-5">
-            אפס התקנות, והתחלת שימוש מידית. המערכת מתנהלת בענן.
+            אפס התקנות, והתחילת שימוש מיידית. המערכת מתנהלת בענן.
           </p>
         </Col>
         <Col md={4}>

@@ -93,7 +93,7 @@ function EditDocument({ editData }) {
           {error && <div className="error">{error}</div>}
           <div className="mt-3 float-end">
             <Button variant="success" type="submit">
-              <i className="bi bi-pen"> </i>עדכן פרטי הקובץ
+              <i className="bi bi-pen"> </i>עדכון פרטי הקובץ
             </Button>
             <Button
               variant="outline-secondary"

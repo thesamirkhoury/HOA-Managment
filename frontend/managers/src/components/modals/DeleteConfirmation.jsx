@@ -12,7 +12,7 @@ function DeleteConfirmation({ deleteData }) {
   const { deleteConfirmation, dispatch } = useModalsContext();
   const { user } = useAuthContext();
   //Data Context
-  const { dispatch:dataDispatch } = useDataContext();
+  const { dispatch: dataDispatch } = useDataContext();
 
   async function handleDelete() {
     const response = await fetch(
@@ -45,7 +45,7 @@ function DeleteConfirmation({ deleteData }) {
           <i className="bi bi-x-circle text-danger display-1 mb-1"></i>
           <h2>{`למחוק את ${deleteData ? deleteData.displayName : ""}?`}</h2>
           <h5 className="text-muted">
-            שים לב שהפיעולה הזאת הינה סופית ולא ניתנת לשינוי
+            שים לב שהפעולה הזאת הינה סופית ולא ניתנת לשינוי
           </h5>
         </div>
       </Modal.Body>

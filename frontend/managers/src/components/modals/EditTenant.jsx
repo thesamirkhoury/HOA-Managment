@@ -362,7 +362,7 @@ function EditTenant({ editData, buildingsCount }) {
                     SetIsEditable(true);
                   }}
                 >
-                  <i className="bi bi-pen"> </i>עדכן פרטי דייר
+                  <i className="bi bi-pen"> </i>עדכון פרטי דייר
                 </Button>
                 <Button
                   variant="outline-secondary"
@@ -378,7 +378,7 @@ function EditTenant({ editData, buildingsCount }) {
             {isEditable && (
               <div className="mt-3 float-end">
                 <Button variant="outline-success" type="submit">
-                  עדכן פרטיים
+                  עדכון פרטים
                 </Button>
                 <Button
                   variant="outline-danger"

@@ -96,7 +96,7 @@ function ChangePassword() {
 
           <div className="mt-3 float-end">
             <Button variant="success" type="submit">
-              <i className="bi bi-check-lg"> </i>עדכן סיסמה
+              <i className="bi bi-check-lg"> </i>עדכון סיסמה
             </Button>
             <Button
               variant="outline-secondary"

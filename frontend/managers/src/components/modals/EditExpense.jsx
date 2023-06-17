@@ -193,7 +193,7 @@ function EditExpense({ editData, suppliers }) {
                   SetIsEditable(true);
                 }}
               >
-                <i className="bi bi-pen"> </i>עדכן פרטי ההוצאה
+                <i className="bi bi-pen"> </i>עדכון פרטי ההוצאה
               </Button>
               <Button
                 variant="outline-secondary"

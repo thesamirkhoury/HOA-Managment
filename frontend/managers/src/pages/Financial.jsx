@@ -73,10 +73,10 @@ function Financial() {
     <>
       {/* Document Title */}
       <Helmet>
-        <title>נהל - דאשבורד פיננסי</title>
+        <title>נהל - דשבורד פיננסי</title>
       </Helmet>
       {/* Page Name */}
-      <h1 className="display-1">דאשבורד פיננסי</h1>
+      <h1 className="display-1">דשבורד פיננסי</h1>
       {/* Date Selector */}
       <Form onSubmit={getData}>
         <Row className="ms-md-2">
@@ -96,7 +96,7 @@ function Financial() {
           </Col>
           <Col xs={5} md={4}>
             <Form.Group>
-              <Form.Label className="me-1">עד חודש</Form.Label>
+              <Form.Label className="me-1">ועד תאריך</Form.Label>
               <Form.Control
                 required
                 type="date"
@@ -143,7 +143,7 @@ function Financial() {
                 backgroundColor: "rgba(18, 246, 52, 0.5)",
               },
               {
-                label: "Expense",
+                label: "Expenses",
                 data: spendingData,
                 backgroundColor: "rgba(246, 18, 18, 0.5)",
               },

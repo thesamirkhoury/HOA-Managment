@@ -131,7 +131,7 @@ function Announcements() {
                                         });
                                       }}
                                     >
-                                      עדכן
+                                      עדכון
                                     </Button>
 
                                     <Button

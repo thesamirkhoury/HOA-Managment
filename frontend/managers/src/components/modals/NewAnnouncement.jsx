@@ -19,7 +19,6 @@ function NewAnnouncement({ buildingsCount }) {
   const [buildingNumber, setBuildingNumber] = useState();
   //error handling
   const [error, setError] = useState(null);
-
   function handleHide() {
     dispatch({ type: "NEW_ANNOUNCEMENT", payload: false });
     setTitle("");

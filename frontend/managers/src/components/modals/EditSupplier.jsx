@@ -148,7 +148,7 @@ function EditSupplier({ editData }) {
             {error && <div className="error">{error}</div>}
             <div className="mt-3 float-end">
               <Button variant="success" type="submit">
-                <i className="bi bi-pen"> </i>עדכן פרטי ספק
+                <i className="bi bi-pen"> </i>עדכון פרטי ספק
               </Button>
               <Button
                 variant="outline-secondary"
