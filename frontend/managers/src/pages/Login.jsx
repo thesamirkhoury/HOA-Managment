@@ -61,7 +61,7 @@ function Login() {
 
           <LinkContainer to="/forgot-password" onClick={scrollToTop}>
             <Button className="w-100 mt-1" variant="link">
-              שחכת את הסיסמה?
+              שכחת את הסיסמה?
             </Button>
           </LinkContainer>
 

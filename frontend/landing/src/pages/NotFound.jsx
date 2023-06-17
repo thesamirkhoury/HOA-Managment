@@ -12,7 +12,7 @@ function Notfound() {
     <div className="text-center mt-">
       <img src={Logo} alt="logo" width="150" className="logo mb-3 mt-3" />
       <h1 className="fs-huge">אופס 404!</h1>
-      <h2 className="fs-1">לא מצאנו את העמוד שחיפסת.</h2>
+      <h2 className="fs-1">לא מצאנו את העמוד שחיפשת.</h2>
       <LinkContainer to="/">
         <Button variant="light" className="w-50 mt-2" onClick={() => {}}>
           לעמוד הבית

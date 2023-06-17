@@ -56,7 +56,7 @@ function ForgotPassword() {
           )}
           {!showInstructions ? (
             <Button type="submit" className="w-100 mt-1">
-              אפס סיסמה
+              אפס את הסיסמה
             </Button>
           ) : (
             <div className="instructions fs-5">

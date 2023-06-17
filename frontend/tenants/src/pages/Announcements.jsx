@@ -34,7 +34,7 @@ function Announcements() {
         <title>נהל - הודעות</title>
       </Helmet>
       {/* Page Name */}
-      <h1 className="display-1">הודעות הועד</h1>
+      <h1 className="display-1">הודעות הוwועד</h1>
       {/* Search Bar */}
       <Row className="ms-md-2 mb-2">
         <Col xs={7} md={8} lg={8}>

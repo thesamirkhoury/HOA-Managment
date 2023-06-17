@@ -9,7 +9,7 @@ function Notfound() {
   return (
     <div className="text-center text-dark">
       <h1 className="fs-huge">404</h1>
-      <h2 className="fs-1">לא מצאנו את העמוד שחיפסת.</h2>
+      <h2 className="fs-1">לא מצאנו את העמוד שחיפשת.</h2>
       <LinkContainer to="/">
         <Button variant="dark" onClick={() => {}}>
           לעמוד הבית

@@ -203,7 +203,7 @@ function Maintenance() {
         <thead>
           <tr>
             <th>שם דייר</th>
-            <th>נושא הפנייה</th>
+            <th>נושא הקריאה</th>
             <th>תאריך סגירה</th>
             <th>פעולות</th>
           </tr>

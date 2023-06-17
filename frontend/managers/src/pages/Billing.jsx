@@ -186,7 +186,7 @@ function Billing() {
                         dispatch({ type: "EDIT_BILL", payload: true });
                       }}
                     >
-                      עדכן
+                      עדכון
                     </Button>
                     <Button
                       variant="outline-danger"

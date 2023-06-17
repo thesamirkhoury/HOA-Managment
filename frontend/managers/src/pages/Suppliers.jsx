@@ -126,7 +126,7 @@ function Suppliers() {
                         dispatch({ type: "EDIT_SUPPLIER", payload: true });
                       }}
                     >
-                      עדכן פרטים
+                      עדכון פרטים
                     </Button>
 
                     <Button

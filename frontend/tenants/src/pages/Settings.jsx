@@ -205,7 +205,7 @@ function Settings() {
                         SetIsEditable(true);
                       }}
                     >
-                      עדכן פרטיים
+                      עדכון פרטים
                     </Button>
                   </Col>
 
@@ -238,12 +238,12 @@ function Settings() {
               {isEditable && (
                 <>
                   <Card.Subtitle className="m-2 text-muted">
-                    לא ניתן לעדכן חלק מהפרטיים האשיים, אם יש מידע שגוי נא לפנות
+                    לא ניתן לעדכן חלק מהפרטים האשיים, אם יש מידע שגוי נא לפנות
                     לועד.
                   </Card.Subtitle>
                   <div className="mt-3 float-end">
                     <Button variant="outline-success" type="submit">
-                      עדכן פרטיים
+                      עדכון פרטים
                     </Button>
                     <Button
                       variant="outline-danger"

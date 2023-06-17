@@ -97,7 +97,7 @@ function ChangeEmail({ currentMail }) {
           {error && <div className="error">{error}</div>}
           <div className="mt-5 float-end">
             <Button variant="success" type="submit">
-              <i className="bi bi-check-lg"> </i>עדכן מייל
+              <i className="bi bi-check-lg"> </i>עדכון מייל
             </Button>
             <Button
               variant="outline-secondary"

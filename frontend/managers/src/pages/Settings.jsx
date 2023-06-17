@@ -105,7 +105,7 @@ function Settings() {
 
       {/* HOA Details */}
       <Card>
-        <Card.Header className="fs-3">פרטי הועד</Card.Header>
+        <Card.Header className="fs-3">פרטי הוועד</Card.Header>
         {/* Card Body */}
         <Card.Body>
           {details && (
@@ -145,7 +145,7 @@ function Settings() {
 
                 <Col md={4}>
                   <Form.Group>
-                    <Form.Label className="fs-5">דמי ועד חושיים</Form.Label>
+                    <Form.Label className="fs-5">דמי ועד חודשיים</Form.Label>
                     <Form.Control
                       required
                       type="number"
@@ -191,7 +191,7 @@ function Settings() {
                         SetIsEditableHOA(true);
                       }}
                     >
-                      עדכן פרטיים
+                      עדכון פרטים
                     </Button>
                   </Col>
                 </Row>
@@ -201,7 +201,7 @@ function Settings() {
               {isEditableHOA && (
                 <div className="mt-3 float-end">
                   <Button variant="outline-success" type="submit">
-                    עדכן פרטיים
+                    עדכון פרטים
                   </Button>
                   <Button
                     variant="outline-danger"
@@ -221,7 +221,7 @@ function Settings() {
 
       {/* Personal Data */}
       <Card className="mt-2">
-        <Card.Header className="fs-3">פרטיים אישיים</Card.Header>
+        <Card.Header className="fs-3">פרטים אישיים</Card.Header>
         {/* Card Body */}
         <Card.Body>
           {details && (
@@ -299,7 +299,7 @@ function Settings() {
                         SetIsEditablePersonal(true);
                       }}
                     >
-                      עדכן פרטיים
+                      עדכון פרטים
                     </Button>
                   </Col>
 
@@ -332,7 +332,7 @@ function Settings() {
               {isEditablePersonal && (
                 <div className="mt-3 float-end">
                   <Button variant="outline-success" type="submit">
-                    עדכן פרטיים
+                    עדכון פרטים
                   </Button>
                   <Button
                     variant="outline-danger"
@@ -355,7 +355,7 @@ function Settings() {
         <Card.Header className="fs-3">סגירת חשבון</Card.Header>
         {/* Card Body */}
         <Card.Body className="text-center">
-          <Card.Text>לסגור את חשבון הועד ולמחוק את כל המידע?</Card.Text>
+          <Card.Text>לסגור את חשבון הוועד ולמחוק את כל המידע?</Card.Text>
           <Button
             variant="danger"
             className="w-75"
@@ -370,7 +370,6 @@ function Settings() {
       {/* //* Modals */}
       <ChangeEmail currentMail={email} />
       <ChangePassword />
-      {/* //TODO: Implement a full wipe down of all data */}
       <CloseAccount />
     </>
   );

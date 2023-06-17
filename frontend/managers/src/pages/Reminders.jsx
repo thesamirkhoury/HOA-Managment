@@ -114,7 +114,7 @@ function Reminders() {
                           dispatch({ type: "EDIT_REMINDER", payload: true });
                         }}
                       >
-                        עדכן
+                        עדכון
                       </Button>
                       <Button
                         variant="outline-danger"

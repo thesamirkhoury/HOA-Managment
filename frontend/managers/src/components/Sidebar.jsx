@@ -117,7 +117,7 @@ function Sidebar() {
           <LinkContainer to="/financial" onClick={scrollToTop}>
             <Nav.Link>
               <i className="bi bi-bar-chart-line-fill me-1"></i>
-              דאשבורד פיננסי
+              דשבורד פיננסי
             </Nav.Link>
           </LinkContainer>
           <hr />
