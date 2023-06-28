@@ -10,6 +10,8 @@ services:
       - mongo_db:/data/db
     networks:
       - backend-network
+    environment:
+      TZ: "Asia/Jerusalem"
 
   backend:
     image: hoa-backend-image
@@ -27,6 +29,8 @@ services:
       - backend-network
     depends_on:
       - mongo_db
+    environment:
+      TZ: "Asia/Jerusalem"
 
   board:
     image: hoa-board-image
@@ -41,6 +45,8 @@ services:
       - 3000:80
     networks:
       - nginx-network
+    environment:
+      TZ: "Asia/Jerusalem"
 
   tenants:
     image: hoa-tenants-image
@@ -55,6 +61,8 @@ services:
       - 3001:80
     networks:
       - nginx-network
+    environment:
+      TZ: "Asia/Jerusalem"
 
   landing-page:
     image: hoa-landing-image
@@ -67,6 +75,8 @@ services:
       - 3002:80
     networks:
       - nginx-network
+    environment:
+      TZ: "Asia/Jerusalem"
 
 volumes:
   # MongoDB data backup volume
