@@ -614,5 +614,4 @@ module.exports = {
   sendResetLink,
   sendUsername,
   sendCloseAccount,
-  test64,
 };
