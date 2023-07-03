@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 const Tenant = require("../models/tenants");
+//Logo Asset in Base64 format
+const { logoBase64 } = require("../assets/LogoBase64");
 
 //helper function
 async function findTenant(id) {
@@ -51,7 +53,7 @@ async function sendSignupLink(receiver, firstName, username, token) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -118,7 +120,7 @@ async function sendMaintenanceStatus(tenant_id, requestSubject) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -183,7 +185,7 @@ async function forwardToSupplier(recipient, description) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -239,7 +241,7 @@ async function sendInquiryResponse(tenant_id, inqurySubject) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -304,7 +306,7 @@ async function sendNewBill(tenant_id, amount) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -370,7 +372,7 @@ async function sendBillReminder(tenant_id, amount) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -436,7 +438,7 @@ async function sendResetLink(recipient, firstName, url) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -502,7 +504,7 @@ async function sendUsername(recipient, firstName, username) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
@@ -564,7 +566,7 @@ async function sendCloseAccount(recipient, firstName) {
             <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="margin-top:32px;display:grid;justify-content:center">
               <tbody>
                 <tr>
-                  <td><img data-id="react-email-img" alt="logo" src="${process.env.LOGO_URL}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
+                  <td><img data-id="react-email-img" alt="logo" src="${logoBase64}" width="212" height="88" style="display:block;outline:none;border:none;text-decoration:none;background-color:rgb(255,255,255)" /></td>
                 </tr>
               </tbody>
             </table>
