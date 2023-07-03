@@ -1,18 +1,20 @@
 
-![Logo](https://api.nahel.online/logo)
+<p align="center">
+  <img src="https://github.com/thesamirkhoury/HOA-Managment/assets/96683609/a8ede929-4347-45ec-9fcb-bf426b124348" width="600">
+</p>
 
 
 # Nahel - HOA Management System
 
-The HOA in general handles the collection of monthly fees, manages faults with coordination with suppliers, general maintenance of the buildings etc., the HOA also sends relevant messages and notifications to the residents.
+The HOA in general handles the collection of monthly fees, manages faults with coordination with suppliers, and general maintenance of the buildings etc., the HOA also sends relevant messages and notifications to the residents.
 The HOAs, by law (in Israel), are required to publish financial reports at least once a year, and therefore HOAs need to keep a very precise book for them to publish these reports.
 
-This project deals with creating a system that helps HOA to manage the building simpler and more efficient, and for tenants to keep track and in some situations to contact their HOA.
+This project deals with creating a system that helps HOA to manage the building more simpler and more efficiently, and for tenants to keep track and in some situations contact their HOA.
 
-Today, there are only few specific solutions for that problem, especially solutions that give all the tools required and that is available from anywhere at any time.
-This projects aims to fill this void, by providing an easy to use cloud-based Webapp.
+Today, there are only a few specific solutions for that problem, especially solutions that give all the tools required and that are available from anywhere at any time.
+This project aims to fill this void, by providing an easy-to-use cloud-based web app.
 
-The solution that was developed in the course of this project is a two-piece web-based solution, a dashboard for tenants and a dashboard for the HOA board, the cloud-based web-apps are also available for self-hosting, and was built using standard modern web frameworks.
+The solution that was developed in the course of this project is a two-piece web-based solution, a dashboard for tenants and a dashboard for the HOA board, the cloud-based web apps are also available for self-hosting and were built using standard modern web frameworks.
 
 
 
@@ -21,12 +23,12 @@ The solution that was developed in the course of this project is a two-piece web
 
 The MERN Stack was used for this project.
 
-- ReactJS - front end framework
+- ReactJS - front-end
 - NodeJS - backend
 - ExpressJS - backend framework
-- MongoDB - Nosql Database
+- MongoDB - NoSQL Database
 
-the deployed version of this webapp was deplyed on ubuntu server using docker and cdocker compose.
+the deployed version of this web app was deployed on an Ubuntu server using docker and docker compose.
 
 
 ## Usage
@@ -61,7 +63,7 @@ Install dependencies
   npm install
 ```
 
-Make sure that all the enviorment variables in the `.env.exmaple` file and the frontend are filled propoerliy and rename the file to `.env`
+Make sure that all the environment variables in the `.env.example file and the frontend are filled properly and rename the file to `.env`
 
 Start the server
 
@@ -86,7 +88,7 @@ Install dependencies
   npm install
 ```
 
-Make sure that all the enviorment variables in the `.env.exmaple` file and the frontend are filled propoerliy and rename the file to `.env.local`
+Make sure that all the environment variables in the `.env.example file and the frontend are filled properly and rename the file to `.env.local`
 
 Start the server
 
@@ -94,7 +96,7 @@ Start the server
   npm start
 ```
 
-2. The tenants dashboard
+2. The tenants' dashboard
 ```bash
   cd HOA-Managment/frontend/tenants
 ```
@@ -104,7 +106,7 @@ Install dependencies
   npm install
 ```
 
-Make sure that all the enviorment variables in the `.env.exmaple` file and the frontend are filled propoerliy and rename the file to `.env.local`
+Make sure that all the environment variables in the `.env.example file and the frontend are filled properly and rename the file to `.env.local`
 
 Start the server
 
@@ -113,7 +115,7 @@ Start the server
 ```
 ## Deployment
 
-To deploy and self host this project first clone this repo
+To deploy and self-host this project first clone this repo
 
 ```bash
   git clone https://github.com/thesamirkhoury/HOA-Managment.git
@@ -126,7 +128,7 @@ Go to the project directory
 ```bash
   cd HOA-Managment
 ```
-Make sure that all the enviorment variables in the `.env.exmaple` files both in the backend and the frontend are filled propoerliy and rename these file to `.env.production`
+Make sure that all the environment variables in the `.env.example files both in the backend and the frontend are filled properly and rename these files to `.env.production`
 
 
 Start the docker containers
@@ -141,7 +143,7 @@ For support, email support@nahel.online
 
 ## Used By
 
-This project is was developed as a graduation project of the bachlor degree in software engennering, Azrieli,Jerusalem College of Engineering (JCE).
+This project was developed as a graduation project for the bachelor's degree in software engineering, Azrieli, Jerusalem College of Engineering (JCE).
 
 terms of service posted on the website https://www.nahel.online/terms
 
