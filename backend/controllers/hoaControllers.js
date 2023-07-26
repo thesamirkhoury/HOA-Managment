@@ -18,6 +18,7 @@ async function signup(req, res) {
     password,
     address,
     membersMonthlyFee,
+    feeType,
     buildingCount,
     fileNumber,
   } = req.body;
@@ -32,6 +33,7 @@ async function signup(req, res) {
       password,
       address,
       membersMonthlyFee,
+      feeType,
       buildingCount,
       fileNumber
     );
@@ -117,7 +119,7 @@ async function getAllDetails(req, res) {
   const hoa_id = req.user._id;
 
   const hoa = await HOA.findById(hoa_id).select(
-    "firstName lastName phoneNumber email address membersMonthlyFee buildingCount fileNumber"
+    "firstName lastName phoneNumber email address membersMonthlyFee feeType buildingCount fileNumber"
   );
   if (!hoa) {
     return res
@@ -136,6 +138,7 @@ async function editHoa(req, res) {
     email,
     address,
     membersMonthlyFee,
+    feeType,
     buildingCount,
     fileNumber,
   } = req.body;
@@ -149,6 +152,7 @@ async function editHoa(req, res) {
     email,
     address,
     membersMonthlyFee,
+    feeType,
     buildingCount,
     fileNumber,
   };
@@ -188,7 +192,7 @@ async function getInfo(req, res) {
   const hoa_id = req.user.hoa_id;
 
   const hoa = await HOA.findById(hoa_id).select(
-    "firstName lastName address membersMonthlyFee fileNumber"
+    "firstName lastName address membersMonthlyFee feeType fileNumber"
   );
 
   if (!hoa) {

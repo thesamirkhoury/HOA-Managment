@@ -68,6 +68,15 @@ function HOADetails() {
                 defaultValue={`${hoa.membersMonthlyFee} ₪`}
               ></Form.Control>
             </Form.Group>
+
+            <Form.Group>
+              <Form.Label className="fs-2">סוג דמי ועד</Form.Label>
+              <Form.Control
+                readOnly
+                disabled
+                defaultValue={hoa.feeType}
+              ></Form.Control>
+            </Form.Group>
           </Form>
         )}
       </Card>

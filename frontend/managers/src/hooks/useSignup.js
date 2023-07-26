@@ -17,6 +17,7 @@ export function useSignup() {
     confirmPassword,
     address,
     membersMonthlyFee,
+    feeType,
     buildingCount,
     fileNumber
   ) {
@@ -39,6 +40,7 @@ export function useSignup() {
             password,
             address,
             membersMonthlyFee,
+            feeType,
             buildingCount,
             fileNumber,
           }),

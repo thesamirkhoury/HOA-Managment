@@ -21,6 +21,7 @@ function Signup() {
   const [address, setAddress] = useState("");
   const [fileNumber, setFileNumber] = useState("");
   const [membersMonthlyFee, setMembersMonthlyFee] = useState("");
+  const [feeType, setFeeType] = useState("");
   const [buildingCount, setBuildingCount] = useState("");
 
   const { signup, error } = useSignup();
@@ -42,6 +43,7 @@ function Signup() {
       confirmPassword,
       address,
       membersMonthlyFee,
+      feeType,
       buildingCount,
       fileNumber
     );
@@ -186,7 +188,7 @@ function Signup() {
             </Row>
 
             <Row>
-              <Col md={6} className="mb-2">
+              <Col md={3} className="mb-2">
                 <Form.Group>
                   <Form.Label>כמות הבניינים</Form.Label>
                   <Form.Control
@@ -202,7 +204,7 @@ function Signup() {
                   ></Form.Control>
                 </Form.Group>
               </Col>
-              <Col className="mb-2">
+              <Col md={4} className="mb-2">
                 <Form.Group>
                   <Form.Label>דמי ועד חודשיים</Form.Label>
                   <Form.Control
@@ -217,6 +219,24 @@ function Signup() {
                       setMembersMonthlyFee(e.target.value);
                     }}
                   ></Form.Control>
+                </Form.Group>
+              </Col>
+
+              <Col className="mb-2">
+                <Form.Group>
+                  <Form.Label>סוג דמי ועד</Form.Label>
+                  <Form.Select
+                    required
+                    aria-label="Monthly Fee Type selector"
+                    value={feeType}
+                    onChange={(e) => {
+                      setFeeType(e.target.value);
+                    }}
+                  >
+                    <option value="">בחר סוג דמי הועד</option>
+                    <option value="קבוע">קבוע</option>
+                    <option value="לפי מטר רבוע">לפי מטר רבוע</option>
+                  </Form.Select>
                 </Form.Group>
               </Col>
             </Row>

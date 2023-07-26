@@ -29,6 +29,7 @@ function Settings() {
   const [address, setAddress] = useState("");
   const [buildingCount, setBuildingCount] = useState("");
   const [monthlyFee, setMonthlyFee] = useState("");
+  const [feeType, setFeeType] = useState("");
   const [fileNumber, setFileNumber] = useState("");
   //personal details
   const [firstName, setFirstName] = useState("");
@@ -45,6 +46,7 @@ function Settings() {
       address,
       buildingCount,
       membersMonthlyFee: monthlyFee,
+      feeType,
       fileNumber,
     };
     const errors = await sendData("details", "PATCH", hoa, "SET_DETAILS");
@@ -85,6 +87,7 @@ function Settings() {
       setAddress(details.address);
       setBuildingCount(details.buildingCount);
       setMonthlyFee(details.membersMonthlyFee);
+      setFeeType(details.feeType);
       setFileNumber(details.fileNumber);
       // Personal Details
       setFirstName(details.firstName);
@@ -111,22 +114,22 @@ function Settings() {
           {details && (
             <Form className="m-2" onSubmit={editHoa}>
               <Row>
-                <Form.Group>
-                  <Form.Label className="fs-5">כתובת</Form.Label>
-                  <Form.Control
-                    required
-                    type="text"
-                    value={address}
-                    onChange={(e) => {
-                      setAddress(e.target.value);
-                    }}
-                    disabled={!isEditableHOA}
-                  ></Form.Control>
-                </Form.Group>
-              </Row>
+                <Col>
+                  <Form.Group>
+                    <Form.Label className="fs-5">כתובת</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                      }}
+                      disabled={!isEditableHOA}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
 
-              <Row>
-                <Col md={4}>
+                <Col md={2}>
                   <Form.Group>
                     <Form.Label className="fs-5">מספר בניינים</Form.Label>
                     <Form.Control
@@ -139,6 +142,25 @@ function Settings() {
                         setBuildingCount(e.target.value);
                       }}
                       disabled={!isEditableHOA}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col md={4}>
+                  <Form.Group>
+                    <Form.Label className="fs-5">מספר תיק</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={fileNumber}
+                      onChange={(e) => {
+                        setFileNumber(e.target.value);
+                      }}
+                      disabled
                     ></Form.Control>
                   </Form.Group>
                 </Col>
@@ -160,20 +182,22 @@ function Settings() {
                   </Form.Group>
                 </Col>
 
-                <Col md={4}>
+                <Col className="mb-2">
                   <Form.Group>
-                    <Form.Label className="fs-5">מספר תיק</Form.Label>
-                    <Form.Control
+                    <Form.Label>סוג דמי ועד</Form.Label>
+                    <Form.Select
                       required
-                      type="number"
-                      inputMode="numeric"
-                      min="1"
-                      value={fileNumber}
+                      aria-label="Monthly Fee Type selector"
+                      value={feeType}
                       onChange={(e) => {
-                        setFileNumber(e.target.value);
+                        setFeeType(e.target.value);
                       }}
-                      disabled
-                    ></Form.Control>
+                      disabled={!isEditableHOA}
+                    >
+                      <option value="">בחר סוג דמי הועד</option>
+                      <option value="קבוע">קבוע</option>
+                      <option value="לפי מטר רבוע">לפי מטר רבוע</option>
+                    </Form.Select>
                   </Form.Group>
                 </Col>
               </Row>

@@ -36,6 +36,10 @@ const hoaSchema = new Schema(
       type: String,
       required: [true, "דמי ועד חודשיים הינו שדה חובה"],
     },
+    feeType: {
+      type: String,
+      required: [true, "סוג דמי ועד הינו שדה חובה"],
+    },
     buildingCount: {
       type: Number,
       required: [true, "ספר הבניינים הינו שדה חובה"],
@@ -64,6 +68,7 @@ hoaSchema.statics.signup = async function (
   password,
   address,
   membersMonthlyFee,
+  feeType,
   buildingCount,
   fileNumber
 ) {
@@ -75,6 +80,7 @@ hoaSchema.statics.signup = async function (
     !password ||
     !address ||
     !membersMonthlyFee ||
+    !feeType ||
     !buildingCount ||
     !fileNumber
   ) {
@@ -108,6 +114,7 @@ hoaSchema.statics.signup = async function (
     password: hash,
     address,
     membersMonthlyFee,
+    feeType,
     buildingCount,
     fileNumber,
   });

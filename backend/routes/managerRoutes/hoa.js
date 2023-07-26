@@ -5,7 +5,6 @@ const {
   getAllDetails,
   editHoa,
   changePassword,
-  deleteHoa,
 } = require("../../controllers/hoaControllers");
 const { closeAccount } = require("../../controllers/closeAccount");
 
