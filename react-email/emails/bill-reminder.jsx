@@ -58,7 +58,7 @@ function BillReminder() {
                 pX={20}
                 pY={12}
                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center center"
-                href={"${process.env.TENANTS_URL}/billing"}
+                href={"${process.env.TENANTS_URL}/billings"}
               >
                 כניסה למערכת
               </Button>
