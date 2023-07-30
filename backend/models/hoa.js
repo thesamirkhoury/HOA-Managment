@@ -49,6 +49,14 @@ const hoaSchema = new Schema(
       required: [true, "מספר תיק הינו שדה חובה"],
       unique: true,
     },
+    block: {
+      type: String,
+      required: [true, "מספר גוש הינו שדה חובה"],
+    },
+    parcel: {
+      type: String,
+      required: [true, "מספר חלקה הינו שדה חובה"],
+    },
     token: {
       type: String,
     },
@@ -70,7 +78,9 @@ hoaSchema.statics.signup = async function (
   membersMonthlyFee,
   feeType,
   buildingCount,
-  fileNumber
+  fileNumber,
+  block,
+  parcel
 ) {
   // validation
   if (
@@ -82,7 +92,9 @@ hoaSchema.statics.signup = async function (
     !membersMonthlyFee ||
     !feeType ||
     !buildingCount ||
-    !fileNumber
+    !fileNumber ||
+    !block ||
+    !parcel
   ) {
     throw Error("אחד או יותר מפרטי הועד החובה חסרים.");
   }
@@ -117,6 +129,8 @@ hoaSchema.statics.signup = async function (
     feeType,
     buildingCount,
     fileNumber,
+    block,
+    parcel,
   });
   return user;
 };

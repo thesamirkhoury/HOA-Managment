@@ -21,6 +21,8 @@ async function signup(req, res) {
     feeType,
     buildingCount,
     fileNumber,
+    block,
+    parcel,
   } = req.body;
 
   // sign up user
@@ -35,7 +37,9 @@ async function signup(req, res) {
       membersMonthlyFee,
       feeType,
       buildingCount,
-      fileNumber
+      fileNumber,
+      block,
+      parcel
     );
     // create JWT
     const token = createToken(newHoa._id);
@@ -119,7 +123,7 @@ async function getAllDetails(req, res) {
   const hoa_id = req.user._id;
 
   const hoa = await HOA.findById(hoa_id).select(
-    "firstName lastName phoneNumber email address membersMonthlyFee feeType buildingCount fileNumber"
+    "firstName lastName phoneNumber email address membersMonthlyFee feeType buildingCount fileNumber block parcel"
   );
   if (!hoa) {
     return res
@@ -141,6 +145,8 @@ async function editHoa(req, res) {
     feeType,
     buildingCount,
     fileNumber,
+    block,
+    parcel,
   } = req.body;
   // hoa id from auth
   const hoa_id = req.user._id;
@@ -155,6 +161,8 @@ async function editHoa(req, res) {
     feeType,
     buildingCount,
     fileNumber,
+    block,
+    parcel,
   };
 
   const hoa = await HOA.findByIdAndUpdate(hoa_id, updated, { new: true });
@@ -192,7 +200,7 @@ async function getInfo(req, res) {
   const hoa_id = req.user.hoa_id;
 
   const hoa = await HOA.findById(hoa_id).select(
-    "firstName lastName address membersMonthlyFee feeType fileNumber"
+    "firstName lastName address membersMonthlyFee feeType fileNumber block parcel"
   );
 
   if (!hoa) {

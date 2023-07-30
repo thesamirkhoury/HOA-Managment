@@ -19,7 +19,9 @@ export function useSignup() {
     membersMonthlyFee,
     feeType,
     buildingCount,
-    fileNumber
+    fileNumber,
+    block,
+    parcel
   ) {
     modalsDispatch({ type: "LOADING", payload: true });
     setError(null);
@@ -43,6 +45,8 @@ export function useSignup() {
             feeType,
             buildingCount,
             fileNumber,
+            block,
+            parcel,
           }),
         }
       );

@@ -61,6 +61,24 @@ function HOADetails() {
             </Form.Group>
 
             <Form.Group>
+              <Form.Label className="fs-2">גוש</Form.Label>
+              <Form.Control
+                readOnly
+                disabled
+                defaultValue={hoa.block}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label className="fs-2">חלקה</Form.Label>
+              <Form.Control
+                readOnly
+                disabled
+                defaultValue={hoa.parcel}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group>
               <Form.Label className="fs-2">דמי ועד חודשיים</Form.Label>
               <Form.Control
                 readOnly

@@ -31,6 +31,8 @@ function Settings() {
   const [monthlyFee, setMonthlyFee] = useState("");
   const [feeType, setFeeType] = useState("");
   const [fileNumber, setFileNumber] = useState("");
+  const [block, setBlock] = useState("");
+  const [parcel, setParcel] = useState("");
   //personal details
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -48,6 +50,8 @@ function Settings() {
       membersMonthlyFee: monthlyFee,
       feeType,
       fileNumber,
+      block,
+      parcel,
     };
     const errors = await sendData("details", "PATCH", hoa, "SET_DETAILS");
     if (!errors) {
@@ -89,6 +93,8 @@ function Settings() {
       setMonthlyFee(details.membersMonthlyFee);
       setFeeType(details.feeType);
       setFileNumber(details.fileNumber);
+      setBlock(details.block);
+      setParcel(details.parcel)
       // Personal Details
       setFirstName(details.firstName);
       setLastName(details.lastName);
@@ -165,6 +171,42 @@ function Settings() {
                   </Form.Group>
                 </Col>
 
+                <Col md={4} className="mb-2">
+                  <Form.Group>
+                    <Form.Label>גוש</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={block}
+                      onChange={(e) => {
+                        setBlock(e.target.value);
+                      }}
+                      disabled={!isEditableHOA}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col md={4} className="mb-2">
+                  <Form.Group>
+                    <Form.Label>חלקה</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={parcel}
+                      onChange={(e) => {
+                        setParcel(e.target.value);
+                      }}
+                      disabled={!isEditableHOA}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
                 <Col md={4}>
                   <Form.Group>
                     <Form.Label className="fs-5">דמי ועד חודשיים</Form.Label>

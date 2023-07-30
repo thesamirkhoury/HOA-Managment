@@ -20,6 +20,8 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
   const [fileNumber, setFileNumber] = useState("");
+  const [block, setBlock] = useState("");
+  const [parcel, setParcel] = useState("");
   const [membersMonthlyFee, setMembersMonthlyFee] = useState("");
   const [feeType, setFeeType] = useState("");
   const [buildingCount, setBuildingCount] = useState("");
@@ -45,7 +47,9 @@ function Signup() {
       membersMonthlyFee,
       feeType,
       buildingCount,
-      fileNumber
+      fileNumber,
+      block,
+      parcel
     );
   }
 
@@ -154,7 +158,7 @@ function Signup() {
             <p className="fs-4 text-decoration-underline">פרטי הוועד</p>
 
             <Row>
-              <Col md={8} className="mb-2">
+              <Col md={9} className="mb-2">
                 <Form.Group>
                   <Form.Label>כתובת מלאה</Form.Label>
                   <Form.Control
@@ -169,6 +173,25 @@ function Signup() {
                 </Form.Group>
               </Col>
               <Col className="mb-2">
+                <Form.Group>
+                  <Form.Label>כמות הבניינים</Form.Label>
+                  <Form.Control
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    required
+                    placeholder="כמות הבניינים שמנהל הוועד"
+                    value={buildingCount}
+                    onChange={(e) => {
+                      setBuildingCount(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={4} className="mb-2">
                 <Form.Group>
                   <Form.Label>מספר תיק</Form.Label>
                   <Form.Control
@@ -185,25 +208,43 @@ function Signup() {
                   ></Form.Control>
                 </Form.Group>
               </Col>
-            </Row>
 
-            <Row>
-              <Col md={3} className="mb-2">
+              <Col md={4} className="mb-2">
                 <Form.Group>
-                  <Form.Label>כמות הבניינים</Form.Label>
+                  <Form.Label>גוש</Form.Label>
                   <Form.Control
                     type="number"
                     inputMode="numeric"
                     min="1"
                     required
-                    placeholder="כמות הבניינים שמנהל הוועד"
-                    value={buildingCount}
+                    placeholder="מספר גוש"
+                    value={block}
                     onChange={(e) => {
-                      setBuildingCount(e.target.value);
+                      setBlock(e.target.value);
                     }}
                   ></Form.Control>
                 </Form.Group>
               </Col>
+
+              <Col md={4} className="mb-2">
+                <Form.Group>
+                  <Form.Label>חלקה</Form.Label>
+                  <Form.Control
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    required
+                    placeholder="מספר חלקה"
+                    value={parcel}
+                    onChange={(e) => {
+                      setParcel(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
               <Col md={4} className="mb-2">
                 <Form.Group>
                   <Form.Label>דמי ועד חודשיים</Form.Label>
