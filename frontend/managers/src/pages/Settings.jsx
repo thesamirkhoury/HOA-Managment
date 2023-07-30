@@ -184,7 +184,7 @@ function Settings() {
 
                 <Col className="mb-2">
                   <Form.Group>
-                    <Form.Label>סוג דמי ועד</Form.Label>
+                    <Form.Label className="fs-5">סוג דמי ועד</Form.Label>
                     <Form.Select
                       required
                       aria-label="Monthly Fee Type selector"
